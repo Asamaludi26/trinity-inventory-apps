@@ -1,17 +1,13 @@
-import type { FC, ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuthStore } from '../../store/useAuthStore';
+import type { FC } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuthStore } from '@/store/useAuthStore';
 
-interface AuthGuardProps {
-  children: ReactNode;
-}
-
-export const AuthGuard: FC<AuthGuardProps> = ({ children }) => {
+export const AuthGuard: FC = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  return <>{children}</>;
+  return <Outlet />;
 };

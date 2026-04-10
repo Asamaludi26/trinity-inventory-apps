@@ -1,27 +1,21 @@
-import { RouterProvider } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Toaster } from './components/ui/sonner';
-import { router } from './routes';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { AuthGuard } from '@/components/guard/AuthGuard';
+import { protectedRoutes } from '@/routes/protected';
+import { publicRoutes } from '@/routes/public';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000,
-      retry: 1,
-      refetchOnWindowFocus: false,
-    },
+const router = createBrowserRouter([
+  // Public routes (login, etc.)
+  ...publicRoutes,
+
+  // Protected routes (wrapped in AuthGuard)
+  {
+    element: <AuthGuard />,
+    children: protectedRoutes,
   },
-});
+]);
 
 function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <Toaster richColors position="top-right" />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

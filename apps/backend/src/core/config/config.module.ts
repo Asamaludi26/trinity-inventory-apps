@@ -18,8 +18,8 @@ const envSchema = z.object({
   CORS_ORIGIN: z.string().default('http://localhost:5173'),
   SWAGGER_ENABLED: z
     .string()
-    .transform((val) => val === 'true')
-    .default('true'),
+    .default('true')
+    .transform((val) => val === 'true'),
   UPLOAD_DIR: z.string().default('./uploads'),
 });
 

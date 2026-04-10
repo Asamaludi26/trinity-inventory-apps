@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuthStore } from '../../store/useAuthStore';
-import type { UserRole } from '../../types';
+import { useAuthStore } from '@/store/useAuthStore';
+import type { UserRole } from '@/types';
 
 interface RoleProtectedRouteProps {
   children: ReactNode;
