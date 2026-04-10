@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "skills": {
+    "shadcn": {
+      "source": "shadcn/ui",
+      "sourceType": "github",
+      "computedHash": "77faba608ea949351d1757e29e6cb726f6ec5937f7595be0593038a7d2d76bb9"
+    }
+  },
+  "agents": {
+    "backend": {
+      "source": ".github/agents/backend",
+      "sourceType": "local",
+      "skill": ".github/skills/agents/backend/SKILL.md",
+      "config": ".github/agents/backend/openai.yml"
+    },
+    "frontend": {
+      "source": ".github/agents/frontend",
+      "sourceType": "local",
+      "skill": ".github/skills/agents/frontend/SKILL.md",
+      "config": ".github/agents/frontend/openai.yml"
+    },
+    "database": {
+      "source": ".github/agents/database",
+      "sourceType": "local",
+      "skill": ".github/skills/agents/database/SKILL.md",
+      "config": ".github/agents/database/openai.yml"
+    },
+    "testing": {
+      "source": ".github/agents/testing",
+      "sourceType": "local",
+      "skill": ".github/skills/agents/testing/SKILL.md",
+      "config": ".github/agents/testing/openai.yml"
+    },
+    "devops": {
+      "source": ".github/agents/devops",
+      "sourceType": "local",
+      "skill": ".github/skills/agents/devops/SKILL.md",
+      "config": ".github/agents/devops/openai.yml"
+    },
+    "ui-ux": {
+      "source": ".github/agents/ui-ux",
+      "sourceType": "local",
+      "skill": ".github/skills/agents/ui-ux/SKILL.md",
+      "config": ".github/agents/ui-ux/openai.yml"
+    },
+    "documentation": {
+      "source": ".github/agents/documentation",
+      "sourceType": "local",
+      "skill": null,
+      "config": ".github/agents/documentation/openai.yml"
+    }
+  }
+}

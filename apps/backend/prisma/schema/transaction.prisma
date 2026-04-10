@@ -1,0 +1,177 @@
+// =============================================
+// TRANSACTION SCHEMA — Request, Loan, Return, Handover
+// Domain: Modul Transaksi (F-04)
+// Ref: SDD 4.1, PRD 5.1 D, PRD 6.3
+// =============================================
+
+model Request {
+  id           String            @id @default(uuid())
+  code         String            @unique @db.VarChar(20)
+  title        String            @db.VarChar(255)
+  description  String?           @db.Text
+  status       TransactionStatus @default(PENDING)
+  priority     String            @default("NORMAL") @db.VarChar(20)
+  projectId    String?           @map("project_id")
+  createdById  Int               @map("created_by_id")
+  approvalChain Json?            @map("approval_chain") @db.JsonB
+  rejectionReason String?        @map("rejection_reason") @db.Text
+  isDeleted    Boolean           @default(false) @map("is_deleted")
+  version      Int               @default(1)
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+
+  createdBy           User                @relation("RequestCreatedBy", fields: [createdById], references: [id])
+  project             InfraProject?       @relation(fields: [projectId], references: [id])
+  items               RequestItem[]
+  assetRegistrations  AssetRegistration[]
+
+  @@index([status])
+  @@index([createdById])
+  @@index([code])
+  @@index([createdAt])
+  @@map("requests")
+}
+
+model RequestItem {
+  id          Int    @id @default(autoincrement())
+  requestId   String @map("request_id")
+  modelId     Int?   @map("model_id")
+  description String @db.VarChar(255)
+  quantity    Int
+  note        String? @db.Text
+
+  request Request @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@index([requestId])
+  @@map("request_items")
+}
+
+model LoanRequest {
+  id              String            @id @default(uuid())
+  code            String            @unique @db.VarChar(20)
+  purpose         String            @db.Text
+  status          TransactionStatus @default(PENDING)
+  expectedReturn  DateTime?         @map("expected_return") @db.Date
+  createdById     Int               @map("created_by_id")
+  approvalChain   Json?             @map("approval_chain") @db.JsonB
+  rejectionReason String?           @map("rejection_reason") @db.Text
+  isDeleted       Boolean           @default(false) @map("is_deleted")
+  version         Int               @default(1)
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+
+  createdBy          User                  @relation("LoanRequestCreatedBy", fields: [createdById], references: [id])
+  items              LoanItem[]
+  assetAssignments   LoanAssetAssignment[]
+  returns            AssetReturn[]
+
+  @@index([status])
+  @@index([createdById])
+  @@index([code])
+  @@map("loan_requests")
+}
+
+model LoanItem {
+  id            Int    @id @default(autoincrement())
+  loanRequestId String @map("loan_request_id")
+  modelId       Int?   @map("model_id")
+  description   String @db.VarChar(255)
+  quantity      Int
+
+  loanRequest LoanRequest @relation(fields: [loanRequestId], references: [id], onDelete: Cascade)
+
+  @@index([loanRequestId])
+  @@map("loan_items")
+}
+
+model LoanAssetAssignment {
+  id            Int      @id @default(autoincrement())
+  loanRequestId String   @map("loan_request_id")
+  assetId       String   @map("asset_id")
+  assignedAt    DateTime @default(now()) @map("assigned_at")
+
+  loanRequest LoanRequest @relation(fields: [loanRequestId], references: [id], onDelete: Cascade)
+  asset       Asset       @relation(fields: [assetId], references: [id], onDelete: Restrict)
+
+  @@unique([loanRequestId, assetId])
+  @@index([assetId])
+  @@map("loan_asset_assignments")
+}
+
+model AssetReturn {
+  id              String            @id @default(uuid())
+  code            String            @unique @db.VarChar(20)
+  loanRequestId   String            @map("loan_request_id")
+  status          TransactionStatus @default(PENDING)
+  note            String?           @db.Text
+  createdById     Int               @map("created_by_id")
+  isDeleted       Boolean           @default(false) @map("is_deleted")
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+
+  loanRequest LoanRequest       @relation(fields: [loanRequestId], references: [id], onDelete: Restrict)
+  createdBy   User              @relation("AssetReturnCreatedBy", fields: [createdById], references: [id])
+  items       AssetReturnItem[]
+
+  @@index([loanRequestId])
+  @@index([status])
+  @@index([code])
+  @@map("asset_returns")
+}
+
+model AssetReturnItem {
+  id              Int            @id @default(autoincrement())
+  returnId        String         @map("return_id")
+  assetId         String         @map("asset_id")
+  conditionBefore AssetCondition @map("condition_before")
+  conditionAfter  AssetCondition @map("condition_after")
+  note            String?        @db.Text
+
+  assetReturn AssetReturn @relation(fields: [returnId], references: [id], onDelete: Cascade)
+  asset       Asset       @relation(fields: [assetId], references: [id], onDelete: Restrict)
+
+  @@index([returnId])
+  @@index([assetId])
+  @@map("asset_return_items")
+}
+
+model Handover {
+  id              String            @id @default(uuid())
+  code            String            @unique @db.VarChar(20)
+  status          TransactionStatus @default(PENDING)
+  fromUserId      Int               @map("from_user_id")
+  toUserId        Int               @map("to_user_id")
+  witnessUserId   Int?              @map("witness_user_id")
+  note            String?           @db.Text
+  approvalChain   Json?             @map("approval_chain") @db.JsonB
+  rejectionReason String?           @map("rejection_reason") @db.Text
+  isDeleted       Boolean           @default(false) @map("is_deleted")
+  version         Int               @default(1)
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+
+  fromUser    User           @relation("HandoverFrom", fields: [fromUserId], references: [id])
+  toUser      User           @relation("HandoverTo", fields: [toUserId], references: [id])
+  witnessUser User?          @relation("HandoverWitness", fields: [witnessUserId], references: [id])
+  items       HandoverItem[]
+
+  @@index([status])
+  @@index([fromUserId])
+  @@index([toUserId])
+  @@index([code])
+  @@map("handovers")
+}
+
+model HandoverItem {
+  id         Int    @id @default(autoincrement())
+  handoverId String @map("handover_id")
+  assetId    String @map("asset_id")
+  note       String? @db.Text
+
+  handover Handover @relation(fields: [handoverId], references: [id], onDelete: Cascade)
+  asset    Asset    @relation(fields: [assetId], references: [id], onDelete: Restrict)
+
+  @@index([handoverId])
+  @@index([assetId])
+  @@map("handover_items")
+}

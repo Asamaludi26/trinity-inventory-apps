@@ -1,0 +1,80 @@
+// =============================================
+// PROJECT SCHEMA — InfraProject, Tasks, Materials, TeamMembers
+// Domain: Proyek Infrastruktur (F-04)
+// Ref: SDD 4.1, PRD 5.1 D
+// =============================================
+
+model InfraProject {
+  id           String            @id @default(uuid())
+  code         String            @unique @db.VarChar(20)
+  name         String            @db.VarChar(255)
+  description  String?           @db.Text
+  status       TransactionStatus @default(PENDING)
+  startDate    DateTime?         @map("start_date") @db.Date
+  endDate      DateTime?         @map("end_date") @db.Date
+  location     String?           @db.VarChar(500)
+  customerId   Int?              @map("customer_id")
+  createdById  Int               @map("created_by_id")
+  isDeleted    Boolean           @default(false) @map("is_deleted")
+  version      Int               @default(1)
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+
+  customer  Customer?              @relation(fields: [customerId], references: [id])
+  tasks     InfraProjectTask[]
+  materials InfraProjectMaterial[]
+  team      InfraProjectTeamMember[]
+  requests  Request[]
+
+  @@index([status])
+  @@index([customerId])
+  @@index([code])
+  @@map("infra_projects")
+}
+
+model InfraProjectTask {
+  id          Int               @id @default(autoincrement())
+  projectId   String            @map("project_id")
+  title       String            @db.VarChar(255)
+  description String?           @db.Text
+  status      String            @default("TODO") @db.VarChar(20)
+  assigneeId  Int?              @map("assignee_id")
+  dueDate     DateTime?         @map("due_date") @db.Date
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+
+  project InfraProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([status])
+  @@map("infra_project_tasks")
+}
+
+model InfraProjectMaterial {
+  id          Int      @id @default(autoincrement())
+  projectId   String   @map("project_id")
+  modelId     Int?     @map("model_id")
+  description String   @db.VarChar(255)
+  quantity    Int
+  note        String?  @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  project InfraProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@map("infra_project_materials")
+}
+
+model InfraProjectTeamMember {
+  id        Int      @id @default(autoincrement())
+  projectId String   @map("project_id")
+  userId    Int      @map("user_id")
+  role      String   @db.VarChar(50)
+  joinedAt  DateTime @default(now()) @map("joined_at")
+
+  project InfraProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@index([userId])
+  @@map("infra_project_team_members")
+}

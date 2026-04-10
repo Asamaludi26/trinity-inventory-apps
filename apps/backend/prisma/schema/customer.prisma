@@ -1,0 +1,138 @@
+// =============================================
+// CUSTOMER SCHEMA — Customer, Installation, Maintenance, Dismantle
+// Domain: Manajemen Pelanggan (F-05)
+// Ref: SDD 4.1, PRD 5.1 E
+// =============================================
+
+model Customer {
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique @default(uuid())
+  code        String   @unique @db.VarChar(20)
+  name        String   @db.VarChar(255)
+  address     String?  @db.Text
+  phone       String?  @db.VarChar(20)
+  email       String?  @db.VarChar(255)
+  picName     String?  @map("pic_name") @db.VarChar(255)
+  picPhone    String?  @map("pic_phone") @db.VarChar(20)
+  isActive    Boolean  @default(true) @map("is_active")
+  isDeleted   Boolean  @default(false) @map("is_deleted")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  installations Installation[]
+  maintenances  Maintenance[]
+  dismantles    Dismantle[]
+  projects      InfraProject[]
+
+  @@index([code])
+  @@index([name])
+  @@map("customers")
+}
+
+model Installation {
+  id           Int               @id @default(autoincrement())
+  code         String            @unique @db.VarChar(20)
+  customerId   Int               @map("customer_id")
+  status       TransactionStatus @default(PENDING)
+  scheduledAt  DateTime?         @map("scheduled_at")
+  completedAt  DateTime?         @map("completed_at")
+  location     String?           @db.Text
+  note         String?           @db.Text
+  createdById  Int               @map("created_by_id")
+  isDeleted    Boolean           @default(false) @map("is_deleted")
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+
+  customer  Customer               @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  materials InstallationMaterial[]
+
+  @@index([customerId])
+  @@index([status])
+  @@index([code])
+  @@map("installations")
+}
+
+model InstallationMaterial {
+  id              Int    @id @default(autoincrement())
+  installationId  Int    @map("installation_id")
+  description     String @db.VarChar(255)
+  quantity        Int
+  note            String? @db.Text
+
+  installation Installation @relation(fields: [installationId], references: [id], onDelete: Cascade)
+
+  @@index([installationId])
+  @@map("installation_materials")
+}
+
+model Maintenance {
+  id           Int               @id @default(autoincrement())
+  code         String            @unique @db.VarChar(20)
+  customerId   Int               @map("customer_id")
+  status       TransactionStatus @default(PENDING)
+  scheduledAt  DateTime?         @map("scheduled_at")
+  completedAt  DateTime?         @map("completed_at")
+  issueReport  String?           @map("issue_report") @db.Text
+  resolution   String?           @db.Text
+  createdById  Int               @map("created_by_id")
+  isDeleted    Boolean           @default(false) @map("is_deleted")
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+
+  customer     Customer                  @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  materials    MaintenanceMaterial[]
+  replacements MaintenanceReplacement[]
+
+  @@index([customerId])
+  @@index([status])
+  @@index([code])
+  @@map("maintenances")
+}
+
+model MaintenanceMaterial {
+  id             Int    @id @default(autoincrement())
+  maintenanceId  Int    @map("maintenance_id")
+  description    String @db.VarChar(255)
+  quantity       Int
+  note           String? @db.Text
+
+  maintenance Maintenance @relation(fields: [maintenanceId], references: [id], onDelete: Cascade)
+
+  @@index([maintenanceId])
+  @@map("maintenance_materials")
+}
+
+model MaintenanceReplacement {
+  id             Int    @id @default(autoincrement())
+  maintenanceId  Int    @map("maintenance_id")
+  oldAssetDesc   String @map("old_asset_desc") @db.VarChar(255)
+  newAssetDesc   String @map("new_asset_desc") @db.VarChar(255)
+  note           String? @db.Text
+
+  maintenance Maintenance @relation(fields: [maintenanceId], references: [id], onDelete: Cascade)
+
+  @@index([maintenanceId])
+  @@map("maintenance_replacements")
+}
+
+model Dismantle {
+  id           Int               @id @default(autoincrement())
+  code         String            @unique @db.VarChar(20)
+  customerId   Int               @map("customer_id")
+  status       TransactionStatus @default(PENDING)
+  scheduledAt  DateTime?         @map("scheduled_at")
+  completedAt  DateTime?         @map("completed_at")
+  reason       String?           @db.Text
+  note         String?           @db.Text
+  createdById  Int               @map("created_by_id")
+  isDeleted    Boolean           @default(false) @map("is_deleted")
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Restrict)
+
+  @@index([customerId])
+  @@index([status])
+  @@index([code])
+  @@map("dismantles")
+}

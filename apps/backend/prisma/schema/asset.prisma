@@ -1,0 +1,121 @@
+// =============================================
+// ASSET SCHEMA — AssetCategory, AssetType, AssetModel, Asset, AssetRegistration
+// Domain: Manajemen Aset (F-02)
+// Ref: SDD 4.1, SDD 4.2, PRD 5.1 B
+// =============================================
+
+model AssetCategory {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(255)
+  isDeleted Boolean  @default(false) @map("is_deleted")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  types  AssetType[]
+  assets Asset[]
+
+  @@map("asset_categories")
+}
+
+model AssetType {
+  id         Int      @id @default(autoincrement())
+  categoryId Int      @map("category_id")
+  name       String   @db.VarChar(255)
+  isDeleted  Boolean  @default(false) @map("is_deleted")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  category AssetCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  models   AssetModel[]
+  assets   Asset[]
+
+  @@unique([categoryId, name])
+  @@index([name])
+  @@map("asset_types")
+}
+
+model AssetModel {
+  id        Int      @id @default(autoincrement())
+  typeId    Int      @map("type_id")
+  name      String   @db.VarChar(255)
+  brand     String   @db.VarChar(255)
+  isDeleted Boolean  @default(false) @map("is_deleted")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  type               AssetType           @relation(fields: [typeId], references: [id], onDelete: Restrict)
+  purchaseMasterData PurchaseMasterData?
+  stockThreshold     StockThreshold?
+  assets             Asset[]
+
+  @@unique([typeId, name, brand])
+  @@index([brand])
+  @@index([name])
+  @@map("asset_models")
+}
+
+model Asset {
+  id           String         @id @default(cuid())
+  code         String         @unique @db.VarChar(50)
+  name         String         @db.VarChar(255)
+  categoryId   Int            @map("category_id")
+  typeId       Int?           @map("type_id")
+  modelId      Int?           @map("model_id")
+  brand        String         @db.VarChar(255)
+  serialNumber String?        @map("serial_number") @db.VarChar(255)
+
+  // Purchase snapshot (denormalized for historical accuracy)
+  purchasePrice      Decimal?            @map("purchase_price") @db.Decimal(15, 2)
+  purchaseDate       DateTime?           @map("purchase_date") @db.Date
+
+  // Depreciation snapshot
+  depreciationMethod DepreciationMethod? @map("depreciation_method")
+  usefulLifeYears    Int?                @map("useful_life_years")
+  salvageValue       Decimal?            @map("salvage_value") @db.Decimal(15, 2)
+
+  // Status & Location (→ PRD 6.2 BR-07)
+  status        AssetStatus    @default(IN_STORAGE)
+  condition     AssetCondition @default(NEW)
+  currentUserId Int?           @map("current_user_id")
+
+  // Audit
+  recordedById Int      @map("recorded_by_id")
+  isDeleted    Boolean  @default(false) @map("is_deleted")
+  version      Int      @default(1)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  category    AssetCategory @relation(fields: [categoryId], references: [id])
+  type        AssetType?    @relation(fields: [typeId], references: [id])
+  model       AssetModel?   @relation(fields: [modelId], references: [id])
+  currentUser User?         @relation("AssetCurrentUser", fields: [currentUserId], references: [id])
+  recordedBy  User          @relation("AssetRecordedBy", fields: [recordedById], references: [id])
+
+  // Reverse relations
+  stockMovements       StockMovement[]
+  loanAssetAssignments LoanAssetAssignment[]
+  assetReturnItems     AssetReturnItem[]
+  handoverItems        HandoverItem[]
+
+  @@index([status, categoryId])
+  @@index([serialNumber])
+  @@index([currentUserId])
+  @@index([code])
+  @@index([version])
+  @@map("assets")
+}
+
+model AssetRegistration {
+  id          Int      @id @default(autoincrement())
+  requestId   String   @map("request_id")
+  quantity    Int
+  note        String?  @db.Text
+  registeredById Int   @map("registered_by_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  request Request @relation(fields: [requestId], references: [id], onDelete: Restrict)
+
+  @@index([requestId])
+  @@map("asset_registrations")
+}
