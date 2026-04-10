@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AuthGuard } from '@/components/guard/AuthGuard';
+import { AppLayout } from '@/components/layout/AppLayout';
 import { protectedRoutes } from '@/routes/protected';
 import { publicRoutes } from '@/routes/public';
 
@@ -7,10 +8,15 @@ const router = createBrowserRouter([
   // Public routes (login, etc.)
   ...publicRoutes,
 
-  // Protected routes (wrapped in AuthGuard)
+  // Protected routes (wrapped in AuthGuard → AppLayout)
   {
     element: <AuthGuard />,
-    children: protectedRoutes,
+    children: [
+      {
+        element: <AppLayout />,
+        children: protectedRoutes,
+      },
+    ],
   },
 ]);
 

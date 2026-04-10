@@ -1,17 +1,31 @@
 import {
   LayoutDashboard,
   Package,
-  ShoppingCart,
-  ArrowRightLeft,
+  BarChart3,
+  ClipboardList,
+  Handshake,
+  Wrench,
   Users,
+  Zap,
   Settings,
+  User,
+  UsersRound,
+  Tags,
+  ShoppingCart,
+  HardHat,
+  FileText,
+  ArrowLeftRight,
+  Cable,
   type LucideIcon,
 } from 'lucide-react';
+
+export type NavGroup = 'MANAJEMEN' | 'PROYEK' | 'SISTEM';
 
 export interface NavItem {
   title: string;
   href: string;
   icon: LucideIcon;
+  group?: NavGroup;
   roles?: string[];
   children?: NavItem[];
 }
@@ -22,65 +36,105 @@ export const NAV_ITEMS: NavItem[] = [
     href: '/dashboard',
     icon: LayoutDashboard,
   },
+  // ── MANAJEMEN ──
   {
-    title: 'Aset',
+    title: 'Pusat Aset',
     href: '/assets',
     icon: Package,
+    group: 'MANAJEMEN',
     children: [
-      { title: 'Daftar Aset', href: '/assets', icon: Package },
-      { title: 'Stok Aset', href: '/assets/stock', icon: Package },
-      { title: 'Kategori', href: '/assets/categories', icon: Package },
-      { title: 'Tipe', href: '/assets/types', icon: Package },
-      { title: 'Model', href: '/assets/models', icon: Package },
       {
-        title: 'Pembelian',
-        href: '/assets/purchases',
-        icon: ShoppingCart,
-        roles: ['SUPERADMIN', 'ADMIN_PURCHASE'],
+        title: 'Catat Aset',
+        href: '/assets',
+        icon: FileText,
+        roles: ['SUPERADMIN', 'ADMIN_LOGISTIK'],
       },
       {
-        title: 'Depresiasi',
-        href: '/assets/depreciation',
-        icon: ShoppingCart,
-        roles: ['SUPERADMIN', 'ADMIN_PURCHASE'],
+        title: 'Stok Aset',
+        href: '/assets/stock',
+        icon: BarChart3,
+      },
+      {
+        title: 'Request Aset',
+        href: '/requests',
+        icon: ClipboardList,
+        children: [
+          { title: 'Request Baru', href: '/requests', icon: ClipboardList },
+          { title: 'Request Pinjam', href: '/loans', icon: ArrowLeftRight },
+        ],
+      },
+      {
+        title: 'Handover Aset',
+        href: '/handovers',
+        icon: Handshake,
+        roles: ['SUPERADMIN', 'ADMIN_LOGISTIK'],
+      },
+      {
+        title: 'Perbaikan Aset',
+        href: '/repairs',
+        icon: Wrench,
+        roles: ['SUPERADMIN', 'ADMIN_LOGISTIK'],
       },
     ],
   },
   {
-    title: 'Transaksi',
-    href: '/requests',
-    icon: ArrowRightLeft,
-    children: [
-      { title: 'Permintaan Baru', href: '/requests', icon: ArrowRightLeft },
-      { title: 'Peminjaman', href: '/loans', icon: ArrowRightLeft },
-      { title: 'Pengembalian', href: '/returns', icon: ArrowRightLeft },
-      { title: 'Serah Terima', href: '/handovers', icon: ArrowRightLeft },
-      { title: 'Lapor Rusak', href: '/repairs', icon: ArrowRightLeft },
-      { title: 'Proyek', href: '/projects', icon: ArrowRightLeft },
-    ],
-  },
-  {
-    title: 'Pelanggan',
+    title: 'Manajemen Pelanggan',
     href: '/customers',
     icon: Users,
+    group: 'MANAJEMEN',
     children: [
       { title: 'Daftar Pelanggan', href: '/customers', icon: Users },
-      { title: 'Instalasi', href: '/installation', icon: Users },
-      { title: 'Maintenance', href: '/maintenance', icon: Users },
-      { title: 'Dismantle', href: '/dismantle', icon: Users },
+      {
+        title: 'Manajemen Instalasi',
+        href: '/installations',
+        icon: Zap,
+        roles: ['SUPERADMIN', 'ADMIN_LOGISTIK'],
+      },
+      {
+        title: 'Manajemen Maintenance',
+        href: '/maintenance',
+        icon: Wrench,
+      },
+      {
+        title: 'Data Dismantle',
+        href: '/dismantles',
+        icon: Cable,
+        roles: ['SUPERADMIN', 'ADMIN_LOGISTIK'],
+      },
     ],
   },
+  // ── PROYEK ──
+  {
+    title: 'Proyek Infrastruktur',
+    href: '/projects',
+    icon: HardHat,
+    group: 'PROYEK',
+  },
+  // ── SISTEM ──
   {
     title: 'Pengaturan',
     href: '/settings',
     icon: Settings,
+    group: 'SISTEM',
     children: [
-      { title: 'Profil', href: '/settings/profile', icon: Settings },
+      { title: 'Kelola Akun', href: '/settings/profile', icon: User },
       {
         title: 'Akun & Divisi',
         href: '/settings/users-divisions',
-        icon: Settings,
+        icon: UsersRound,
         roles: ['SUPERADMIN'],
+      },
+      {
+        title: 'Kategori & Model',
+        href: '/assets/categories',
+        icon: Tags,
+        roles: ['SUPERADMIN', 'ADMIN_LOGISTIK'],
+      },
+      {
+        title: 'Data Pembelian',
+        href: '/assets/purchases',
+        icon: ShoppingCart,
+        roles: ['SUPERADMIN', 'ADMIN_PURCHASE'],
       },
     ],
   },

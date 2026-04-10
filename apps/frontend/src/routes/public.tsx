@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import type { RouteObject } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 
