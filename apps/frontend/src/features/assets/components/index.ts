@@ -1,2 +1,3 @@
-// Asset components barrel export
-// Components will be added during feature implementation
+export { CategoriesTab } from './CategoriesTab';
+export { TypesTab } from './TypesTab';
+export { ModelsTab } from './ModelsTab';

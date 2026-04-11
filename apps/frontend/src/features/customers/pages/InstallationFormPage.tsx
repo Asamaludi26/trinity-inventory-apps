@@ -35,7 +35,7 @@ export function InstallationFormPage() {
       {
         onSuccess: () => {
           toast.success('Instalasi berhasil dijadwalkan');
-          navigate('/installations');
+          navigate('/installation');
         },
         onError: () => toast.error('Gagal menjadwalkan instalasi'),
       },
@@ -47,7 +47,7 @@ export function InstallationFormPage() {
       title="Jadwalkan Instalasi"
       description="Buat jadwal instalasi baru"
       actions={
-        <Button variant="outline" onClick={() => navigate('/installations')}>
+        <Button variant="outline" onClick={() => navigate('/installation')}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           Kembali
         </Button>
@@ -78,7 +78,7 @@ export function InstallationFormPage() {
         </Card>
 
         <div className="flex justify-end gap-2">
-          <Button type="button" variant="outline" onClick={() => navigate('/installations')}>
+          <Button type="button" variant="outline" onClick={() => navigate('/installation')}>
             Batal
           </Button>
           <Button type="submit" disabled={createInstallation.isPending}>

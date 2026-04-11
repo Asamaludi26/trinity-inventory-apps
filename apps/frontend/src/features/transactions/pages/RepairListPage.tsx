@@ -130,7 +130,7 @@ export function RepairListPage() {
                   <TableRow
                     key={repair.id as string}
                     className="cursor-pointer hover:bg-muted/50"
-                    onClick={() => navigate(`/repairs/${repair.id as string}`)}
+                    onClick={() => navigate(`/repairs/${repair.uuid as string}`)}
                   >
                     <TableCell className="font-mono text-xs">
                       {(repair.code as string) ?? '-'}

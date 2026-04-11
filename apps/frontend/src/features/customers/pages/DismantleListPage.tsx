@@ -54,7 +54,7 @@ export function DismantleListPage() {
       title="Data Dismantle"
       description="Kelola pembongkaran dan penarikan perangkat pelanggan"
       actions={
-        <Button onClick={() => navigate('/dismantles/new')}>
+        <Button onClick={() => navigate('/dismantle/new')}>
           <Plus className="mr-2 h-4 w-4" />
           Buat Dismantle
         </Button>
@@ -131,7 +131,7 @@ export function DismantleListPage() {
                 <TableRow
                   key={d.id}
                   className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => navigate(`/dismantles/${d.id}`)}
+                  onClick={() => navigate(`/dismantle/${d.id}`)}
                 >
                   <TableCell className="font-mono text-xs">{d.code}</TableCell>
                   <TableCell className="font-medium">{d.customer?.name ?? '-'}</TableCell>

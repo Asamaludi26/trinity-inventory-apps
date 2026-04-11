@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Search, TrendingDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Plus, Search, TrendingDown } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -49,6 +50,7 @@ function formatDate(date: string | null) {
 }
 
 export function DepreciationPage() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [methodFilter, setMethodFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
@@ -65,6 +67,12 @@ export function DepreciationPage() {
     <PageContainer
       title="Depresiasi Aset"
       description="Perhitungan dan pencatatan nilai penyusutan aset"
+      actions={
+        <Button onClick={() => navigate('/assets/depreciation/new')}>
+          <Plus className="mr-2 h-4 w-4" />
+          Tambah Depresiasi
+        </Button>
+      }
     >
       {/* Toolbar */}
       <div className="flex items-center gap-2">
@@ -138,7 +146,11 @@ export function DepreciationPage() {
               </TableRow>
             ) : (
               data.data.map((item) => (
-                <TableRow key={item.id}>
+                <TableRow
+                  key={item.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/assets/depreciation/${item.uuid}`)}
+                >
                   <TableCell className="font-medium">{item.purchase?.model?.name ?? '-'}</TableCell>
                   <TableCell>{item.purchase?.supplier ?? '-'}</TableCell>
                   <TableCell>

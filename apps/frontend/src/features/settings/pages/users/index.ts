@@ -1,2 +1,2 @@
-// User pages: /settings/users/new, /settings/users/:uuid
-// Detail and form pages will be added during feature implementation
+export { UserFormPage } from '../UserFormPage';
+export { UserDetailPage } from '../UserDetailPage';

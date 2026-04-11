@@ -133,7 +133,7 @@ export function LoanListPage() {
                 <TableRow
                   key={loan.id}
                   className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => navigate(`/loans/${loan.id}`)}
+                  onClick={() => navigate(`/loans/${loan.uuid}`)}
                 >
                   <TableCell className="font-mono text-xs">{loan.code}</TableCell>
                   <TableCell className="font-medium max-w-[300px] truncate">

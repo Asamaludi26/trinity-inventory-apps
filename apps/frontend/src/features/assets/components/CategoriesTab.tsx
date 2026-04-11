@@ -1,15 +1,12 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { Plus, Search, Pencil, Trash2, Layers } from 'lucide-react';
 import { toast } from 'sonner';
-import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Table,
   TableBody,
@@ -28,9 +25,7 @@ import {
 import { useCategories, useCreateCategory, useUpdateCategory, useDeleteCategory } from '../hooks';
 import type { AssetCategory } from '../types';
 
-export function CategoriesPage() {
-  const navigate = useNavigate();
-  const location = useLocation();
+export function CategoriesTab() {
   const [search, setSearch] = useState('');
   const [formOpen, setFormOpen] = useState(false);
   const [editItem, setEditItem] = useState<AssetCategory | null>(null);
@@ -94,27 +89,9 @@ export function CategoriesPage() {
   const isSubmitting = createCategory.isPending || updateCategory.isPending;
 
   return (
-    <PageContainer
-      title="Kategori Aset"
-      description="Kelola kategori untuk klasifikasi aset"
-      actions={
-        <Button onClick={handleAdd}>
-          <Plus className="mr-2 h-4 w-4" />
-          Tambah Kategori
-        </Button>
-      }
-    >
-      {/* Sub-navigation */}
-      <Tabs value={location.pathname} onValueChange={(val) => navigate(val)}>
-        <TabsList>
-          <TabsTrigger value="/assets/categories">Kategori</TabsTrigger>
-          <TabsTrigger value="/assets/types">Tipe Aset</TabsTrigger>
-          <TabsTrigger value="/assets/models">Model Aset</TabsTrigger>
-        </TabsList>
-      </Tabs>
-
-      {/* Search */}
-      <div className="flex items-center gap-2">
+    <div className="space-y-4">
+      {/* Toolbar */}
+      <div className="flex items-center justify-between gap-2">
         <div className="relative max-w-sm flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -124,6 +101,10 @@ export function CategoriesPage() {
             className="pl-9"
           />
         </div>
+        <Button onClick={handleAdd}>
+          <Plus className="mr-2 h-4 w-4" />
+          Tambah Kategori
+        </Button>
       </div>
 
       {/* Table */}
@@ -243,9 +224,6 @@ export function CategoriesPage() {
         loading={deleteCategory.isPending}
         onConfirm={handleDelete}
       />
-    </PageContainer>
+    </div>
   );
 }
-
-export default CategoriesPage;
-export const Component = CategoriesPage;

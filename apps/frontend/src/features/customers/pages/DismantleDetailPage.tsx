@@ -38,7 +38,7 @@ export function DismantleDetailPage() {
   if (!dismantle) {
     return (
       <PageContainer title="Data Tidak Ditemukan">
-        <Button variant="outline" onClick={() => navigate('/dismantles')}>
+        <Button variant="outline" onClick={() => navigate('/dismantle')}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           Kembali ke Daftar
         </Button>
@@ -50,7 +50,7 @@ export function DismantleDetailPage() {
     <PageContainer
       title={`Pembongkaran ${dismantle.code}`}
       actions={
-        <Button variant="outline" onClick={() => navigate('/dismantles')}>
+        <Button variant="outline" onClick={() => navigate('/dismantle')}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           Kembali
         </Button>

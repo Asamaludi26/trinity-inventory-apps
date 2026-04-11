@@ -54,7 +54,7 @@ export function InstallationListPage() {
       title="Manajemen Instalasi"
       description="Kelola instalasi pelanggan"
       actions={
-        <Button onClick={() => navigate('/installations/new')}>
+        <Button onClick={() => navigate('/installation/new')}>
           <Plus className="mr-2 h-4 w-4" />
           Buat Instalasi
         </Button>
@@ -132,7 +132,7 @@ export function InstallationListPage() {
                 <TableRow
                   key={inst.id}
                   className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => navigate(`/installations/${inst.id}`)}
+                  onClick={() => navigate(`/installation/${inst.id}`)}
                 >
                   <TableCell className="font-mono text-xs">{inst.code}</TableCell>
                   <TableCell className="font-medium">{inst.customer?.name ?? '-'}</TableCell>

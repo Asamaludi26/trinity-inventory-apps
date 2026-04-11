@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import { PageContainer } from '../../../components/layout/PageContainer';
 import { useAuthStore } from '@/store/useAuthStore';
 import type { UserRole } from '@/types';
@@ -7,10 +8,13 @@ import { OperationsDashboard } from './OperationsDashboard';
 import { DivisionDashboard } from './DivisionDashboard';
 import { PersonalDashboard } from './PersonalDashboard';
 
-const DASHBOARD_CONFIG: Record<
-  UserRole,
-  { title: string; description: string; component: React.ComponentType }
-> = {
+interface DashboardConfig {
+  title: string;
+  description: string;
+  component: React.ComponentType;
+}
+
+const ROLE_DASHBOARD: Record<UserRole, DashboardConfig> = {
   SUPERADMIN: {
     title: 'Dashboard Utama',
     description: 'Overview seluruh sistem inventaris',
@@ -38,10 +42,21 @@ const DASHBOARD_CONFIG: Record<
   },
 };
 
+const PATH_DASHBOARD: Record<string, DashboardConfig> = {
+  '/dashboard/finance': ROLE_DASHBOARD.ADMIN_PURCHASE,
+  '/dashboard/operations': ROLE_DASHBOARD.ADMIN_LOGISTIK,
+  '/dashboard/division': ROLE_DASHBOARD.LEADER,
+  '/dashboard/personal': ROLE_DASHBOARD.STAFF,
+};
+
 export function DashboardPage() {
   const user = useAuthStore((state) => state.user);
+  const { pathname } = useLocation();
   const role = (user?.role as UserRole) ?? 'STAFF';
-  const config = DASHBOARD_CONFIG[role] ?? DASHBOARD_CONFIG.STAFF;
+
+  // Jika URL spesifik (/dashboard/finance, dll), tampilkan dashboard sesuai URL
+  // Jika URL root (/dashboard), tampilkan dashboard sesuai role user
+  const config = PATH_DASHBOARD[pathname] ?? ROLE_DASHBOARD[role] ?? ROLE_DASHBOARD.STAFF;
   const DashboardComponent = config.component;
 
   return (

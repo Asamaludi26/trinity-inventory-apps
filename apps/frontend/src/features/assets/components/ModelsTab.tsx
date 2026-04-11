@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { Plus, Search, Pencil, Trash2, Box } from 'lucide-react';
 import { toast } from 'sonner';
-import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,7 +8,6 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Table,
   TableBody,
@@ -43,9 +40,7 @@ import {
 } from '../hooks';
 import type { AssetModel } from '../types';
 
-export function ModelsPage() {
-  const navigate = useNavigate();
-  const location = useLocation();
+export function ModelsTab() {
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [typeFilter, setTypeFilter] = useState<string>('all');
@@ -132,68 +127,56 @@ export function ModelsPage() {
   const isSubmitting = createModel.isPending || updateModel.isPending;
 
   return (
-    <PageContainer
-      title="Model Aset"
-      description="Kelola model aset per tipe"
-      actions={
+    <div className="space-y-4">
+      {/* Toolbar */}
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <div className="flex items-center gap-2 flex-1 flex-wrap">
+          <div className="relative max-w-sm flex-1 min-w-[200px]">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Cari model atau brand..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+          <Select
+            value={categoryFilter}
+            onValueChange={(val) => {
+              setCategoryFilter(val);
+              setTypeFilter('all');
+            }}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Semua Kategori" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Kategori</SelectItem>
+              {categories?.map((cat) => (
+                <SelectItem key={cat.id} value={String(cat.id)}>
+                  {cat.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={typeFilter} onValueChange={setTypeFilter}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Semua Tipe" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Tipe</SelectItem>
+              {typesForFilter?.map((t) => (
+                <SelectItem key={t.id} value={String(t.id)}>
+                  {t.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
         <Button onClick={handleAdd}>
           <Plus className="mr-2 h-4 w-4" />
           Tambah Model
         </Button>
-      }
-    >
-      {/* Sub-navigation */}
-      <Tabs value={location.pathname} onValueChange={(val) => navigate(val)}>
-        <TabsList>
-          <TabsTrigger value="/assets/categories">Kategori</TabsTrigger>
-          <TabsTrigger value="/assets/types">Tipe Aset</TabsTrigger>
-          <TabsTrigger value="/assets/models">Model Aset</TabsTrigger>
-        </TabsList>
-      </Tabs>
-
-      {/* Toolbar */}
-      <div className="flex items-center gap-2 flex-wrap">
-        <div className="relative max-w-sm flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder="Cari model atau brand..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-9"
-          />
-        </div>
-        <Select
-          value={categoryFilter}
-          onValueChange={(val) => {
-            setCategoryFilter(val);
-            setTypeFilter('all');
-          }}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Semua Kategori" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Semua Kategori</SelectItem>
-            {categories?.map((cat) => (
-              <SelectItem key={cat.id} value={String(cat.id)}>
-                {cat.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select value={typeFilter} onValueChange={setTypeFilter}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Semua Tipe" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Semua Tipe</SelectItem>
-            {typesForFilter?.map((t) => (
-              <SelectItem key={t.id} value={String(t.id)}>
-                {t.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
       </div>
 
       {/* Table */}
@@ -343,9 +326,6 @@ export function ModelsPage() {
         loading={deleteModel.isPending}
         onConfirm={handleDelete}
       />
-    </PageContainer>
+    </div>
   );
 }
-
-export default ModelsPage;
-export const Component = ModelsPage;

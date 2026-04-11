@@ -16,6 +16,8 @@ import {
   FileText,
   ArrowLeftRight,
   Cable,
+  RotateCcw,
+  TrendingDown,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -61,6 +63,7 @@ export const NAV_ITEMS: NavItem[] = [
         children: [
           { title: 'Request Baru', href: '/requests', icon: ClipboardList },
           { title: 'Request Pinjam', href: '/loans', icon: ArrowLeftRight },
+          { title: 'Pengembalian', href: '/returns', icon: RotateCcw },
         ],
       },
       {
@@ -86,7 +89,7 @@ export const NAV_ITEMS: NavItem[] = [
       { title: 'Daftar Pelanggan', href: '/customers', icon: Users },
       {
         title: 'Manajemen Instalasi',
-        href: '/installations',
+        href: '/installation',
         icon: Zap,
         roles: ['SUPERADMIN', 'ADMIN_LOGISTIK'],
       },
@@ -97,7 +100,7 @@ export const NAV_ITEMS: NavItem[] = [
       },
       {
         title: 'Data Dismantle',
-        href: '/dismantles',
+        href: '/dismantle',
         icon: Cable,
         roles: ['SUPERADMIN', 'ADMIN_LOGISTIK'],
       },
@@ -134,6 +137,12 @@ export const NAV_ITEMS: NavItem[] = [
         title: 'Data Pembelian',
         href: '/assets/purchases',
         icon: ShoppingCart,
+        roles: ['SUPERADMIN', 'ADMIN_PURCHASE'],
+      },
+      {
+        title: 'Data Depresiasi',
+        href: '/assets/depreciation',
+        icon: TrendingDown,
         roles: ['SUPERADMIN', 'ADMIN_PURCHASE'],
       },
     ],

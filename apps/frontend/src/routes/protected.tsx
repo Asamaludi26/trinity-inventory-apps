@@ -50,15 +50,7 @@ export const protectedRoutes: RouteObject[] = [
       },
       {
         path: 'categories',
-        lazy: () => import('../features/assets/pages/CategoriesPage'),
-      },
-      {
-        path: 'types',
-        lazy: () => import('../features/assets/pages/TypesPage'),
-      },
-      {
-        path: 'models',
-        lazy: () => import('../features/assets/pages/ModelsPage'),
+        lazy: () => import('../features/assets/pages/CategoriesModelsPage'),
       },
       {
         path: 'purchases',
@@ -210,7 +202,7 @@ export const protectedRoutes: RouteObject[] = [
     ],
   },
   {
-    path: '/installations',
+    path: '/installation',
     children: [
       {
         index: true,
@@ -244,7 +236,7 @@ export const protectedRoutes: RouteObject[] = [
     ],
   },
   {
-    path: '/dismantles',
+    path: '/dismantle',
     children: [
       {
         index: true,
@@ -272,6 +264,22 @@ export const protectedRoutes: RouteObject[] = [
       {
         path: 'users-divisions',
         lazy: () => import('../features/settings/pages/UsersDivisionsPage'),
+      },
+      {
+        path: 'users/new',
+        lazy: () => import('../features/settings/pages/UserFormPage'),
+      },
+      {
+        path: 'users/:uuid',
+        lazy: () => import('../features/settings/pages/UserDetailPage'),
+      },
+      {
+        path: 'divisions/new',
+        lazy: () => import('../features/settings/pages/DivisionFormPage'),
+      },
+      {
+        path: 'divisions/:uuid',
+        lazy: () => import('../features/settings/pages/DivisionDetailPage'),
       },
     ],
   },

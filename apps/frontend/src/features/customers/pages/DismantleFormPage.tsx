@@ -35,7 +35,7 @@ export function DismantleFormPage() {
       {
         onSuccess: () => {
           toast.success('Pembongkaran berhasil dijadwalkan');
-          navigate('/dismantles');
+          navigate('/dismantle');
         },
         onError: () => toast.error('Gagal menjadwalkan pembongkaran'),
       },
@@ -47,7 +47,7 @@ export function DismantleFormPage() {
       title="Jadwalkan Pembongkaran"
       description="Buat jadwal pembongkaran baru"
       actions={
-        <Button variant="outline" onClick={() => navigate('/dismantles')}>
+        <Button variant="outline" onClick={() => navigate('/dismantle')}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           Kembali
         </Button>
@@ -85,7 +85,7 @@ export function DismantleFormPage() {
         </Card>
 
         <div className="flex justify-end gap-2">
-          <Button type="button" variant="outline" onClick={() => navigate('/dismantles')}>
+          <Button type="button" variant="outline" onClick={() => navigate('/dismantle')}>
             Batal
           </Button>
           <Button type="submit" disabled={createDismantle.isPending}>

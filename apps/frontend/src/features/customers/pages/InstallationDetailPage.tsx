@@ -46,7 +46,7 @@ export function InstallationDetailPage() {
   if (!installation) {
     return (
       <PageContainer title="Data Tidak Ditemukan">
-        <Button variant="outline" onClick={() => navigate('/installations')}>
+        <Button variant="outline" onClick={() => navigate('/installation')}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           Kembali ke Daftar
         </Button>
@@ -58,7 +58,7 @@ export function InstallationDetailPage() {
     <PageContainer
       title={`Instalasi ${installation.code}`}
       actions={
-        <Button variant="outline" onClick={() => navigate('/installations')}>
+        <Button variant="outline" onClick={() => navigate('/installation')}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           Kembali
         </Button>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, RotateCcw } from 'lucide-react';
+import { Plus, Search, RotateCcw } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -49,7 +49,16 @@ export function ReturnListPage() {
   });
 
   return (
-    <PageContainer title="Daftar Pengembalian" description="Kelola pengembalian aset">
+    <PageContainer
+      title="Daftar Pengembalian"
+      description="Kelola pengembalian aset"
+      actions={
+        <Button onClick={() => navigate('/returns/new')}>
+          <Plus className="mr-2 h-4 w-4" />
+          Buat Pengembalian
+        </Button>
+      }
+    >
       <div className="flex items-center gap-2 flex-wrap">
         <div className="relative max-w-sm flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -120,7 +129,7 @@ export function ReturnListPage() {
                 <TableRow
                   key={ret.id}
                   className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => navigate(`/returns/${ret.id}`)}
+                  onClick={() => navigate(`/returns/${ret.uuid}`)}
                 >
                   <TableCell className="font-mono text-xs">{ret.code}</TableCell>
                   <TableCell className="font-mono text-xs text-muted-foreground">

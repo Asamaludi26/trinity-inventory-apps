@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Search, ShoppingCart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Plus, Search, ShoppingCart } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -35,6 +36,7 @@ function formatDate(date: string | null) {
 }
 
 export function PurchasesPage() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const debouncedSearch = useDebounce(search, 300);
@@ -46,7 +48,16 @@ export function PurchasesPage() {
   });
 
   return (
-    <PageContainer title="Data Pembelian" description="Kelola data pembelian per model aset">
+    <PageContainer
+      title="Data Pembelian"
+      description="Kelola data pembelian per model aset"
+      actions={
+        <Button onClick={() => navigate('/assets/purchases/new')}>
+          <Plus className="mr-2 h-4 w-4" />
+          Tambah Pembelian
+        </Button>
+      }
+    >
       {/* Toolbar */}
       <div className="flex items-center gap-2">
         <div className="relative max-w-sm flex-1">
@@ -102,7 +113,11 @@ export function PurchasesPage() {
               </TableRow>
             ) : (
               data.data.map((item) => (
-                <TableRow key={item.id}>
+                <TableRow
+                  key={item.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/assets/purchases/${item.uuid}`)}
+                >
                   <TableCell className="font-medium">{item.model?.name ?? '-'}</TableCell>
                   <TableCell>{item.supplier}</TableCell>
                   <TableCell className="text-right font-mono text-xs">
