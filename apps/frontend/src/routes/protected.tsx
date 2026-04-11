@@ -4,7 +4,28 @@ export const protectedRoutes: RouteObject[] = [
   // F-01: Dashboard
   {
     path: '/dashboard',
-    lazy: () => import('../features/dashboard/pages/DashboardPage'),
+    children: [
+      {
+        index: true,
+        lazy: () => import('../features/dashboard/pages/DashboardPage'),
+      },
+      {
+        path: 'finance',
+        lazy: () => import('../features/dashboard/pages/DashboardPage'),
+      },
+      {
+        path: 'operations',
+        lazy: () => import('../features/dashboard/pages/DashboardPage'),
+      },
+      {
+        path: 'division',
+        lazy: () => import('../features/dashboard/pages/DashboardPage'),
+      },
+      {
+        path: 'personal',
+        lazy: () => import('../features/dashboard/pages/DashboardPage'),
+      },
+    ],
   },
 
   // F-02: Manajemen Aset

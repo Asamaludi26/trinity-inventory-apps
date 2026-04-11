@@ -59,6 +59,19 @@ export type TransactionStatus =
   | 'IN_PROGRESS'
   | 'COMPLETED';
 
+export type AssetCondition = 'NEW' | 'GOOD' | 'FAIR' | 'POOR' | 'BROKEN';
+
+export type DepreciationMethod = 'STRAIGHT_LINE' | 'DECLINING_BALANCE';
+
+export type MovementType = 'IN' | 'OUT' | 'TRANSFER' | 'ADJUSTMENT';
+
+export type NotificationType =
+  | 'INFO'
+  | 'WARNING'
+  | 'APPROVAL_REQUIRED'
+  | 'STATUS_CHANGE'
+  | 'REMINDER';
+
 // ================================
 // Settings Types
 // ================================
