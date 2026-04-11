@@ -4,8 +4,8 @@ import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import { EmptyState } from '@/components/ui/EmptyState';
-import { StatusBadge } from '@/components/ui/StatusBadge';
+import { EmptyState } from '@/components/ui/empty-state';
+import { StatusBadge } from '@/components/ui/status-badge';
 import {
   Table,
   TableBody,

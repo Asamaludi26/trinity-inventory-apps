@@ -4,7 +4,7 @@ import { PageContainer } from '@/components/layout/PageContainer';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { EmptyState } from '@/components/ui/EmptyState';
+import { EmptyState } from '@/components/ui/empty-state';
 import {
   Table,
   TableBody,

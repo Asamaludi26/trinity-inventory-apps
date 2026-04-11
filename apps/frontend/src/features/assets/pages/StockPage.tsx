@@ -5,7 +5,7 @@ import { PageContainer } from '@/components/layout/PageContainer';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
-import { EmptyState } from '@/components/ui/EmptyState';
+import { EmptyState } from '@/components/ui/empty-state';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import {
   Table,
