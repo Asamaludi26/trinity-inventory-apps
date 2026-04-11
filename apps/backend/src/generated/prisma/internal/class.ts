@@ -11,7 +11,7 @@
  */
 
 import * as runtime from '@prisma/client/runtime/client';
-import type * as Prisma from './prismaNamespace.js';
+import type * as Prisma from './prismaNamespace';
 
 const config: runtime.GetPrismaClientConfig = {
   previewFeatures: [],
@@ -52,11 +52,11 @@ async function decodeBase64AsWasm(
 
 config.compilerWasm = {
   getRuntime: async () =>
-    await import('@prisma/client/runtime/query_compiler_fast_bg.postgresql.mjs'),
+    await import('@prisma/client/runtime/query_compiler_fast_bg.postgresql.js'),
 
   getQueryCompilerWasmModule: async () => {
     const { wasm } =
-      await import('@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.mjs');
+      await import('@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.js');
     return await decodeBase64AsWasm(wasm);
   },
 

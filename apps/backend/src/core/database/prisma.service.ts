@@ -7,7 +7,23 @@ import {
 import { PrismaClient } from '../../generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+function resolveConnectionString(): string {
+  const url = process.env.DATABASE_URL ?? '';
+  if (url.startsWith('prisma+postgres://')) {
+    const apiKey = new URL(
+      url.replace('prisma+postgres://', 'http://'),
+    ).searchParams.get('api_key');
+    if (apiKey) {
+      const decoded = JSON.parse(
+        Buffer.from(apiKey, 'base64').toString('utf-8'),
+      );
+      return decoded.databaseUrl;
+    }
+  }
+  return url;
+}
+
+const adapter = new PrismaPg({ connectionString: resolveConnectionString() });
 
 @Injectable()
 export class PrismaService

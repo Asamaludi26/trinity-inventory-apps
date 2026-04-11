@@ -58,3 +58,58 @@ export type TransactionStatus =
   | 'AWAITING_HANDOVER'
   | 'IN_PROGRESS'
   | 'COMPLETED';
+
+// ================================
+// Settings Types
+// ================================
+
+export interface Division {
+  id: number;
+  uuid: string;
+  name: string;
+  code: string;
+  description: string | null;
+  canDoFieldwork: boolean;
+  isActive: boolean;
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  userCount?: number;
+  users?: UserSummary[];
+}
+
+export interface DivisionSummary {
+  id: number;
+  uuid: string;
+  name: string;
+  code: string;
+}
+
+export interface UserSummary {
+  id: number;
+  uuid: string;
+  fullName: string;
+  email: string;
+  role: UserRole;
+}
+
+export interface User {
+  id: number;
+  uuid: string;
+  employeeId: string;
+  fullName: string;
+  email: string;
+  role: UserRole;
+  phone: string | null;
+  avatarUrl: string | null;
+  isActive: boolean;
+  lastLoginAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  division: DivisionSummary | null;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  meta: PaginationMeta;
+}

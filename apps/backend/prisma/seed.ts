@@ -2,7 +2,24 @@ import { PrismaClient, UserRole } from '../src/generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import * as bcrypt from 'bcrypt';
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+function getDatabaseUrl(): string {
+  const url = process.env.DATABASE_URL ?? '';
+  // If using prisma+postgres proxy URL, extract the raw PostgreSQL URL from the API key
+  if (url.startsWith('prisma+postgres://')) {
+    const apiKey = new URL(
+      url.replace('prisma+postgres://', 'http://'),
+    ).searchParams.get('api_key');
+    if (apiKey) {
+      const decoded = JSON.parse(
+        Buffer.from(apiKey, 'base64').toString('utf-8'),
+      );
+      return decoded.databaseUrl;
+    }
+  }
+  return url;
+}
+
+const adapter = new PrismaPg({ connectionString: getDatabaseUrl() });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {

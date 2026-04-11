@@ -5,7 +5,7 @@ import { Roles, CurrentUser } from '../../common/decorators';
 import { UserRole } from '../../generated/prisma/client';
 import { CreateAssetDto } from './dto/create-asset.dto';
 
-@Controller('api/v1/assets')
+@Controller('assets')
 export class AssetController {
   constructor(private readonly assetService: AssetService) {}
 
