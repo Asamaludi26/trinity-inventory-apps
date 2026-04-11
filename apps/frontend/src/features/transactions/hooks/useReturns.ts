@@ -1,0 +1,42 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { returnApi } from '../api/transactions.api';
+import type { TransactionFilterParams } from '../types';
+
+const RETURNS_KEY = ['transactions', 'returns'];
+
+export function useReturns(params?: TransactionFilterParams) {
+  return useQuery({
+    queryKey: [...RETURNS_KEY, params],
+    queryFn: () => returnApi.getAll(params).then((res) => res.data.data),
+  });
+}
+
+export function useReturn(uuid: string | undefined) {
+  return useQuery({
+    queryKey: [...RETURNS_KEY, uuid],
+    queryFn: () => returnApi.getById(uuid!).then((res) => res.data.data),
+    enabled: !!uuid,
+  });
+}
+
+export function useCreateReturn() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: Record<string, unknown>) =>
+      returnApi.create(data).then((res) => res.data.data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: RETURNS_KEY });
+    },
+  });
+}
+
+export function useVerifyReturn() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, data }: { uuid: string; data: Record<string, unknown> }) =>
+      returnApi.verify(uuid, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: RETURNS_KEY });
+    },
+  });
+}
