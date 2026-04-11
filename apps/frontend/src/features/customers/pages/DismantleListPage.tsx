@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Search, Unplug } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -35,6 +36,7 @@ function formatDate(date: string | null) {
 }
 
 export function DismantleListPage() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
@@ -52,7 +54,7 @@ export function DismantleListPage() {
       title="Data Dismantle"
       description="Kelola pembongkaran dan penarikan perangkat pelanggan"
       actions={
-        <Button>
+        <Button onClick={() => navigate('/dismantles/new')}>
           <Plus className="mr-2 h-4 w-4" />
           Buat Dismantle
         </Button>
@@ -126,7 +128,11 @@ export function DismantleListPage() {
               </TableRow>
             ) : (
               data.data.map((d) => (
-                <TableRow key={d.id} className="cursor-pointer hover:bg-muted/50">
+                <TableRow
+                  key={d.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/dismantles/${d.id}`)}
+                >
                   <TableCell className="font-mono text-xs">{d.code}</TableCell>
                   <TableCell className="font-medium">{d.customer?.name ?? '-'}</TableCell>
                   <TableCell className="text-muted-foreground max-w-[300px] truncate">

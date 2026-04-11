@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Bell, LogOut, Moon, Sun, User } from 'lucide-react';
 
@@ -94,14 +95,19 @@ export function AppHeader() {
             const isLast = index === pathSegments.length - 1;
 
             return (
-              <BreadcrumbItem key={path}>
+              // ✅ Menggunakan Fragment agar Separator dan Item sejajar
+              <Fragment key={path}>
+                {/* Separator dipanggil sebelum Item (kecuali elemen pertama) */}
                 {index > 0 && <BreadcrumbSeparator />}
-                {isLast ? (
-                  <BreadcrumbPage>{label}</BreadcrumbPage>
-                ) : (
-                  <BreadcrumbLink href={path}>{label}</BreadcrumbLink>
-                )}
-              </BreadcrumbItem>
+
+                <BreadcrumbItem>
+                  {isLast ? (
+                    <BreadcrumbPage>{label}</BreadcrumbPage>
+                  ) : (
+                    <BreadcrumbLink href={path}>{label}</BreadcrumbLink>
+                  )}
+                </BreadcrumbItem>
+              </Fragment>
             );
           })}
         </BreadcrumbList>

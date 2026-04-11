@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Search, Settings } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -35,6 +36,7 @@ function formatDate(date: string | null) {
 }
 
 export function MaintenanceListPage() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
@@ -52,7 +54,7 @@ export function MaintenanceListPage() {
       title="Manajemen Maintenance"
       description="Kelola maintenance dan pemeliharaan pelanggan"
       actions={
-        <Button>
+        <Button onClick={() => navigate('/maintenance/new')}>
           <Plus className="mr-2 h-4 w-4" />
           Buat Maintenance
         </Button>
@@ -126,7 +128,11 @@ export function MaintenanceListPage() {
               </TableRow>
             ) : (
               data.data.map((m) => (
-                <TableRow key={m.id} className="cursor-pointer hover:bg-muted/50">
+                <TableRow
+                  key={m.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/maintenance/${m.id}`)}
+                >
                   <TableCell className="font-mono text-xs">{m.code}</TableCell>
                   <TableCell className="font-medium">{m.customer?.name ?? '-'}</TableCell>
                   <TableCell className="text-muted-foreground max-w-[300px] truncate">

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Search, Plug } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -35,6 +36,7 @@ function formatDate(date: string | null) {
 }
 
 export function InstallationListPage() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
@@ -52,7 +54,7 @@ export function InstallationListPage() {
       title="Manajemen Instalasi"
       description="Kelola instalasi pelanggan"
       actions={
-        <Button>
+        <Button onClick={() => navigate('/installations/new')}>
           <Plus className="mr-2 h-4 w-4" />
           Buat Instalasi
         </Button>
@@ -127,7 +129,11 @@ export function InstallationListPage() {
               </TableRow>
             ) : (
               data.data.map((inst) => (
-                <TableRow key={inst.id} className="cursor-pointer hover:bg-muted/50">
+                <TableRow
+                  key={inst.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/installations/${inst.id}`)}
+                >
                   <TableCell className="font-mono text-xs">{inst.code}</TableCell>
                   <TableCell className="font-medium">{inst.customer?.name ?? '-'}</TableCell>
                   <TableCell className="text-muted-foreground">{inst.location || '-'}</TableCell>

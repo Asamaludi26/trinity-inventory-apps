@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, RotateCcw } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -34,6 +35,7 @@ function formatDate(date: string) {
 }
 
 export function ReturnListPage() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
@@ -115,7 +117,11 @@ export function ReturnListPage() {
               </TableRow>
             ) : (
               data.data.map((ret) => (
-                <TableRow key={ret.id} className="cursor-pointer hover:bg-muted/50">
+                <TableRow
+                  key={ret.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/returns/${ret.id}`)}
+                >
                   <TableCell className="font-mono text-xs">{ret.code}</TableCell>
                   <TableCell className="font-mono text-xs text-muted-foreground">
                     {ret.loanRequest?.code ?? '-'}

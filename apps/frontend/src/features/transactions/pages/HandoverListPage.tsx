@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Search, Repeat } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -34,6 +35,7 @@ function formatDate(date: string) {
 }
 
 export function HandoverListPage() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
@@ -51,7 +53,7 @@ export function HandoverListPage() {
       title="Serah Terima"
       description="Kelola proses serah terima aset antar pengguna"
       actions={
-        <Button>
+        <Button onClick={() => navigate('/handovers/new')}>
           <Plus className="mr-2 h-4 w-4" />
           Buat Serah Terima
         </Button>
@@ -126,7 +128,11 @@ export function HandoverListPage() {
               </TableRow>
             ) : (
               data.data.map((ho) => (
-                <TableRow key={ho.id} className="cursor-pointer hover:bg-muted/50">
+                <TableRow
+                  key={ho.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/handovers/${ho.id}`)}
+                >
                   <TableCell className="font-mono text-xs">{ho.code}</TableCell>
                   <TableCell>{ho.fromUser?.fullName ?? '-'}</TableCell>
                   <TableCell>{ho.toUser?.fullName ?? '-'}</TableCell>

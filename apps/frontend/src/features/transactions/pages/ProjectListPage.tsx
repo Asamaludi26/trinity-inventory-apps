@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Search, HardHat } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -35,6 +36,7 @@ function formatDate(date: string | null) {
 }
 
 export function ProjectListPage() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
@@ -52,7 +54,7 @@ export function ProjectListPage() {
       title="Proyek Infrastruktur"
       description="Kelola proyek infrastruktur dan material"
       actions={
-        <Button>
+        <Button onClick={() => navigate('/projects/new')}>
           <Plus className="mr-2 h-4 w-4" />
           Buat Proyek
         </Button>
@@ -127,7 +129,11 @@ export function ProjectListPage() {
               </TableRow>
             ) : (
               data.data.map((proj) => (
-                <TableRow key={proj.id} className="cursor-pointer hover:bg-muted/50">
+                <TableRow
+                  key={proj.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/projects/${proj.id}`)}
+                >
                   <TableCell className="font-mono text-xs">{proj.code}</TableCell>
                   <TableCell className="font-medium">{proj.name}</TableCell>
                   <TableCell className="text-muted-foreground">{proj.location || '-'}</TableCell>

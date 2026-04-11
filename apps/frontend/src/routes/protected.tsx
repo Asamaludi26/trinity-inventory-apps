@@ -37,6 +37,14 @@ export const protectedRoutes: RouteObject[] = [
         lazy: () => import('../features/assets/pages/AssetListPage'),
       },
       {
+        path: 'new',
+        lazy: () => import('../features/assets/pages/AssetFormPage'),
+      },
+      {
+        path: ':uuid',
+        lazy: () => import('../features/assets/pages/AssetDetailPage'),
+      },
+      {
         path: 'stock',
         lazy: () => import('../features/assets/pages/StockPage'),
       },
@@ -57,8 +65,24 @@ export const protectedRoutes: RouteObject[] = [
         lazy: () => import('../features/assets/pages/PurchasesPage'),
       },
       {
+        path: 'purchases/new',
+        lazy: () => import('../features/assets/pages/PurchaseFormPage'),
+      },
+      {
+        path: 'purchases/:uuid',
+        lazy: () => import('../features/assets/pages/PurchaseDetailPage'),
+      },
+      {
         path: 'depreciation',
         lazy: () => import('../features/assets/pages/DepreciationPage'),
+      },
+      {
+        path: 'depreciation/new',
+        lazy: () => import('../features/assets/pages/DepreciationFormPage'),
+      },
+      {
+        path: 'depreciation/:uuid',
+        lazy: () => import('../features/assets/pages/DepreciationDetailPage'),
       },
     ],
   },
@@ -71,6 +95,14 @@ export const protectedRoutes: RouteObject[] = [
         index: true,
         lazy: () => import('../features/transactions/pages/RequestListPage'),
       },
+      {
+        path: 'new',
+        lazy: () => import('../features/transactions/pages/RequestFormPage'),
+      },
+      {
+        path: ':uuid',
+        lazy: () => import('../features/transactions/pages/RequestDetailPage'),
+      },
     ],
   },
   {
@@ -79,6 +111,14 @@ export const protectedRoutes: RouteObject[] = [
       {
         index: true,
         lazy: () => import('../features/transactions/pages/LoanListPage'),
+      },
+      {
+        path: 'new',
+        lazy: () => import('../features/transactions/pages/LoanFormPage'),
+      },
+      {
+        path: ':uuid',
+        lazy: () => import('../features/transactions/pages/LoanDetailPage'),
       },
     ],
   },
@@ -89,6 +129,14 @@ export const protectedRoutes: RouteObject[] = [
         index: true,
         lazy: () => import('../features/transactions/pages/ReturnListPage'),
       },
+      {
+        path: 'new',
+        lazy: () => import('../features/transactions/pages/ReturnFormPage'),
+      },
+      {
+        path: ':uuid',
+        lazy: () => import('../features/transactions/pages/ReturnDetailPage'),
+      },
     ],
   },
   {
@@ -97,6 +145,14 @@ export const protectedRoutes: RouteObject[] = [
       {
         index: true,
         lazy: () => import('../features/transactions/pages/HandoverListPage'),
+      },
+      {
+        path: 'new',
+        lazy: () => import('../features/transactions/pages/HandoverFormPage'),
+      },
+      {
+        path: ':uuid',
+        lazy: () => import('../features/transactions/pages/HandoverDetailPage'),
       },
     ],
   },
@@ -107,6 +163,14 @@ export const protectedRoutes: RouteObject[] = [
         index: true,
         lazy: () => import('../features/transactions/pages/RepairListPage'),
       },
+      {
+        path: 'new',
+        lazy: () => import('../features/transactions/pages/RepairFormPage'),
+      },
+      {
+        path: ':uuid',
+        lazy: () => import('../features/transactions/pages/RepairDetailPage'),
+      },
     ],
   },
   {
@@ -115,6 +179,14 @@ export const protectedRoutes: RouteObject[] = [
       {
         index: true,
         lazy: () => import('../features/transactions/pages/ProjectListPage'),
+      },
+      {
+        path: 'new',
+        lazy: () => import('../features/transactions/pages/ProjectFormPage'),
+      },
+      {
+        path: ':uuid',
+        lazy: () => import('../features/transactions/pages/ProjectDetailPage'),
       },
     ],
   },
@@ -127,6 +199,14 @@ export const protectedRoutes: RouteObject[] = [
         index: true,
         lazy: () => import('../features/customers/pages/CustomerListPage'),
       },
+      {
+        path: 'new',
+        lazy: () => import('../features/customers/pages/CustomerFormPage'),
+      },
+      {
+        path: ':uuid',
+        lazy: () => import('../features/customers/pages/CustomerDetailPage'),
+      },
     ],
   },
   {
@@ -135,6 +215,14 @@ export const protectedRoutes: RouteObject[] = [
       {
         index: true,
         lazy: () => import('../features/customers/pages/InstallationListPage'),
+      },
+      {
+        path: 'new',
+        lazy: () => import('../features/customers/pages/InstallationFormPage'),
+      },
+      {
+        path: ':id',
+        lazy: () => import('../features/customers/pages/InstallationDetailPage'),
       },
     ],
   },
@@ -145,6 +233,14 @@ export const protectedRoutes: RouteObject[] = [
         index: true,
         lazy: () => import('../features/customers/pages/MaintenanceListPage'),
       },
+      {
+        path: 'new',
+        lazy: () => import('../features/customers/pages/MaintenanceFormPage'),
+      },
+      {
+        path: ':id',
+        lazy: () => import('../features/customers/pages/MaintenanceDetailPage'),
+      },
     ],
   },
   {
@@ -153,6 +249,14 @@ export const protectedRoutes: RouteObject[] = [
       {
         index: true,
         lazy: () => import('../features/customers/pages/DismantleListPage'),
+      },
+      {
+        path: 'new',
+        lazy: () => import('../features/customers/pages/DismantleFormPage'),
+      },
+      {
+        path: ':id',
+        lazy: () => import('../features/customers/pages/DismantleDetailPage'),
       },
     ],
   },

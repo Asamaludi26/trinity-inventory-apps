@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Search, Package, RotateCcw } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -54,6 +55,7 @@ const CONDITION_COLORS: Record<AssetCondition, string> = {
 };
 
 export function AssetListPage() {
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const {
     categoryId,
@@ -86,7 +88,7 @@ export function AssetListPage() {
       title="Daftar Aset"
       description="Kelola semua aset inventaris"
       actions={
-        <Button>
+        <Button onClick={() => navigate('/assets/new')}>
           <Plus className="mr-2 h-4 w-4" />
           Catat Aset Baru
         </Button>
@@ -204,9 +206,9 @@ export function AssetListPage() {
                   ))}
                 </TableRow>
               ))
-            ) : !data?.data.length ? (
+            ) : !data?.data?.length ? (
               <TableRow>
-                <TableCell colSpan={8}>
+                <TableCell colSpan={10}>
                   <EmptyState
                     icon={<Package className="h-12 w-12" />}
                     title="Belum ada data aset"
@@ -238,7 +240,11 @@ export function AssetListPage() {
               </TableRow>
             ) : (
               data.data.map((asset) => (
-                <TableRow key={asset.id} className="cursor-pointer hover:bg-muted/50">
+                <TableRow
+                  key={asset.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/assets/${asset.id}`)}
+                >
                   <TableCell className="font-mono text-xs">{asset.code}</TableCell>
                   <TableCell className="font-medium">{asset.name}</TableCell>
                   <TableCell className="text-muted-foreground">

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Search, ArrowRightLeft } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -35,6 +36,7 @@ function formatDate(date: string | null) {
 }
 
 export function LoanListPage() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
@@ -52,7 +54,7 @@ export function LoanListPage() {
       title="Daftar Peminjaman"
       description="Kelola peminjaman aset"
       actions={
-        <Button>
+        <Button onClick={() => navigate('/loans/new')}>
           <Plus className="mr-2 h-4 w-4" />
           Ajukan Peminjaman
         </Button>
@@ -128,7 +130,11 @@ export function LoanListPage() {
               </TableRow>
             ) : (
               data.data.map((loan) => (
-                <TableRow key={loan.id} className="cursor-pointer hover:bg-muted/50">
+                <TableRow
+                  key={loan.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/loans/${loan.id}`)}
+                >
                   <TableCell className="font-mono text-xs">{loan.code}</TableCell>
                   <TableCell className="font-medium max-w-[300px] truncate">
                     {loan.purpose}

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Search, ClipboardList } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -47,6 +48,7 @@ function formatDate(date: string) {
 }
 
 export function RequestListPage() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
@@ -64,7 +66,7 @@ export function RequestListPage() {
       title="Daftar Permintaan"
       description="Kelola permintaan pengadaan aset"
       actions={
-        <Button>
+        <Button onClick={() => navigate('/requests/new')}>
           <Plus className="mr-2 h-4 w-4" />
           Buat Permintaan
         </Button>
@@ -148,7 +150,11 @@ export function RequestListPage() {
               </TableRow>
             ) : (
               data.data.map((req) => (
-                <TableRow key={req.id} className="cursor-pointer hover:bg-muted/50">
+                <TableRow
+                  key={req.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/requests/${req.id}`)}
+                >
                   <TableCell className="font-mono text-xs">{req.code}</TableCell>
                   <TableCell className="font-medium">{req.title}</TableCell>
                   <TableCell>

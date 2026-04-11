@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Search, Users, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -41,6 +42,7 @@ import { useDebounce } from '@/hooks/use-debounce';
 import type { Customer } from '../types';
 
 export function CustomerListPage() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
@@ -67,12 +69,6 @@ export function CustomerListPage() {
   const createMutation = useCreateCustomer();
   const updateMutation = useUpdateCustomer();
   const deleteMutation = useDeleteCustomer();
-
-  function openCreate() {
-    setEditingCustomer(null);
-    setFormData({ name: '', address: '', phone: '', email: '', picName: '', picPhone: '' });
-    setDialogOpen(true);
-  }
 
   function openEdit(customer: Customer) {
     setEditingCustomer(customer);
@@ -110,7 +106,7 @@ export function CustomerListPage() {
       title="Daftar Pelanggan"
       description="Kelola data pelanggan"
       actions={
-        <Button onClick={openCreate}>
+        <Button onClick={() => navigate('/customers/new')}>
           <Plus className="mr-2 h-4 w-4" />
           Tambah Pelanggan
         </Button>
@@ -183,7 +179,11 @@ export function CustomerListPage() {
               </TableRow>
             ) : (
               data.data.map((c) => (
-                <TableRow key={c.uuid}>
+                <TableRow
+                  key={c.uuid}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => navigate(`/customers/${c.uuid}`)}
+                >
                   <TableCell className="font-mono text-xs">{c.code}</TableCell>
                   <TableCell className="font-medium">{c.name}</TableCell>
                   <TableCell className="text-muted-foreground">

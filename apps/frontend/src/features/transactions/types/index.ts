@@ -178,6 +178,29 @@ export interface InfraProjectTeamMember {
 }
 
 // ================================
+// Repair (Lapor Rusak)
+// ================================
+
+export interface Repair {
+  id: string;
+  code: string;
+  assetId: string;
+  status: TransactionStatus;
+  issueDescription: string;
+  repairAction: string | null;
+  repairCost: string | null;
+  repairVendor: string | null;
+  startedAt: string | null;
+  completedAt: string | null;
+  createdById: number;
+  isDeleted: boolean;
+  version: number;
+  createdAt: string;
+  updatedAt: string;
+  createdBy?: UserSummary;
+}
+
+// ================================
 // Approval Chain (Shared)
 // ================================
 

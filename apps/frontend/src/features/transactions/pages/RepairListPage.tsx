@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Search, Wrench } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -34,6 +35,7 @@ function formatDate(date: string) {
 }
 
 export function RepairListPage() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
@@ -51,7 +53,7 @@ export function RepairListPage() {
       title="Perbaikan Aset"
       description="Kelola laporan kerusakan dan perbaikan aset"
       actions={
-        <Button>
+        <Button onClick={() => navigate('/repairs/new')}>
           <Plus className="mr-2 h-4 w-4" />
           Lapor Kerusakan
         </Button>
@@ -125,7 +127,11 @@ export function RepairListPage() {
               data.data.map((item) => {
                 const repair = item as Record<string, unknown>;
                 return (
-                  <TableRow key={repair.id as string} className="cursor-pointer hover:bg-muted/50">
+                  <TableRow
+                    key={repair.id as string}
+                    className="cursor-pointer hover:bg-muted/50"
+                    onClick={() => navigate(`/repairs/${repair.id as string}`)}
+                  >
                     <TableCell className="font-mono text-xs">
                       {(repair.code as string) ?? '-'}
                     </TableCell>
