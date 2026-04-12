@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../core/database/prisma.service';
-import { AssetStatus, TransactionStatus } from '../../generated/prisma/client';
+import {
+  AssetCondition,
+  AssetStatus,
+  TransactionStatus,
+} from '../../generated/prisma/client';
 
 // Status sets for reusable filtering
 const ACTIVE_TRANSACTION_STATUSES: TransactionStatus[] = [
@@ -21,393 +25,299 @@ const PENDING_APPROVAL_STATUSES: TransactionStatus[] = [
   TransactionStatus.AWAITING_CEO_APPROVAL,
 ];
 
+// Color palette for category distribution chart
+const CHART_COLORS = [
+  'hsl(var(--chart-1))',
+  'hsl(var(--chart-2))',
+  'hsl(var(--chart-3))',
+  'hsl(var(--chart-4))',
+  'hsl(var(--chart-5))',
+  'hsl(210, 70%, 55%)',
+  'hsl(280, 60%, 55%)',
+  'hsl(30, 80%, 55%)',
+];
+
 @Injectable()
 export class DashboardService {
   constructor(private readonly prisma: PrismaService) {}
 
-  /**
-   * GET /dashboard/main — Superadmin
-   * Overview seluruh sistem: total aset, user, transaksi, distribusi, recent activity
-   */
-  async getMainDashboard(): Promise<Record<string, unknown>> {
-    const [
+  // ──────────────── Superadmin Dashboard ────────────────
+
+  async getStats() {
+    const [totalAssets, pendingRequests, activeLoans, damagedAssets] =
+      await Promise.all([
+        this.prisma.asset.count({ where: { isDeleted: false } }),
+        this.prisma.request.count({
+          where: {
+            isDeleted: false,
+            status: { in: PENDING_APPROVAL_STATUSES },
+          },
+        }),
+        this.prisma.loanRequest.count({
+          where: {
+            isDeleted: false,
+            status: { in: ACTIVE_TRANSACTION_STATUSES },
+          },
+        }),
+        this.prisma.asset.count({
+          where: {
+            isDeleted: false,
+            condition: { in: [AssetCondition.BROKEN, AssetCondition.POOR] },
+          },
+        }),
+      ]);
+
+    const lowStockAlerts = await this.getLowStockAlertCount();
+
+    return {
       totalAssets,
-      assetsByStatus,
-      assetsByCategory,
-      totalUsers,
-      activeUsers,
-      totalDivisions,
-      activeRequests,
+      pendingRequests,
       activeLoans,
-      pendingApprovals,
-      recentActivity,
+      damagedAssets,
       lowStockAlerts,
-    ] = await Promise.all([
-      // Total aset aktif
-      this.prisma.asset.count({
-        where: { isDeleted: false },
-      }),
+    };
+  }
 
-      // Distribusi aset per status
-      this.prisma.asset.groupBy({
-        by: ['status'],
-        where: { isDeleted: false },
-        _count: { id: true },
-      }),
+  async getRecentActivity(limit: number) {
+    const logs = await this.prisma.activityLog.findMany({
+      take: limit,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        user: { select: { fullName: true, role: true } },
+      },
+    });
 
-      // Distribusi aset per kategori
-      this.prisma.asset.groupBy({
-        by: ['categoryId'],
-        where: { isDeleted: false },
-        _count: { id: true },
-      }),
+    return logs.map((log) => ({
+      id: String(log.id),
+      type: this.mapEntityTypeToActivityType(log.entityType),
+      documentNo: log.entityId,
+      description: `${log.action} ${log.entityType}`,
+      userName: log.user.fullName,
+      userRole: log.user.role,
+      status: log.action,
+      createdAt: log.createdAt.toISOString(),
+    }));
+  }
 
-      // Total users
-      this.prisma.user.count({
-        where: { isDeleted: false },
-      }),
+  async getAssetTrend(months: number) {
+    const now = new Date();
+    const results: Array<{
+      month: string;
+      total: number;
+      added: number;
+      removed: number;
+    }> = [];
 
-      // Active users
-      this.prisma.user.count({
-        where: { isActive: true, isDeleted: false },
-      }),
+    for (let i = months - 1; i >= 0; i--) {
+      const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const endDate = new Date(
+        now.getFullYear(),
+        now.getMonth() - i + 1,
+        0,
+        23,
+        59,
+        59,
+      );
+      const monthLabel = date.toLocaleDateString('id-ID', {
+        month: 'short',
+        year: 'numeric',
+      });
 
-      // Total divisi
-      this.prisma.division.count({
-        where: { isDeleted: false },
-      }),
+      const [added, removed, total] = await Promise.all([
+        this.prisma.asset.count({
+          where: {
+            isDeleted: false,
+            createdAt: { gte: date, lte: endDate },
+          },
+        }),
+        this.prisma.asset.count({
+          where: {
+            isDeleted: true,
+            updatedAt: { gte: date, lte: endDate },
+          },
+        }),
+        this.prisma.asset.count({
+          where: {
+            isDeleted: false,
+            createdAt: { lte: endDate },
+          },
+        }),
+      ]);
 
-      // Transaksi request aktif
-      this.prisma.request.count({
-        where: {
-          isDeleted: false,
-          status: { in: ACTIVE_TRANSACTION_STATUSES },
-        },
-      }),
+      results.push({ month: monthLabel, total, added, removed });
+    }
 
-      // Peminjaman aktif
-      this.prisma.loanRequest.count({
-        where: {
-          isDeleted: false,
-          status: { in: ACTIVE_TRANSACTION_STATUSES },
-        },
-      }),
+    return results;
+  }
 
-      // Pending approvals (requests + loans + handovers)
-      this.countPendingApprovals(),
+  async getCategoryDistribution() {
+    const groups = await this.prisma.asset.groupBy({
+      by: ['categoryId'],
+      where: { isDeleted: false },
+      _count: { id: true },
+    });
 
-      // Recent activity (last 10)
-      this.prisma.activityLog.findMany({
-        take: 10,
-        orderBy: { createdAt: 'desc' },
-        include: {
-          user: { select: { id: true, fullName: true, role: true } },
-        },
-      }),
-
-      // Low stock alerts
-      this.getLowStockAlerts(),
-    ]);
-
-    // Resolve category names
-    const categoryIds = assetsByCategory.map((c) => c.categoryId);
+    const categoryIds = groups.map((g) => g.categoryId);
     const categories = await this.prisma.assetCategory.findMany({
       where: { id: { in: categoryIds } },
       select: { id: true, name: true },
     });
     const categoryMap = new Map(categories.map((c) => [c.id, c.name]));
 
-    return {
-      summary: {
-        totalAssets,
-        totalUsers,
-        activeUsers,
-        totalDivisions,
-        activeRequests,
-        activeLoans,
-        pendingApprovals,
-      },
-      assetsByStatus: assetsByStatus.map((s) => ({
-        status: s.status,
-        count: s._count.id,
-      })),
-      assetsByCategory: assetsByCategory.map((c) => ({
-        categoryId: c.categoryId,
-        categoryName: categoryMap.get(c.categoryId) ?? 'Unknown',
-        count: c._count.id,
-      })),
-      recentActivity,
-      lowStockAlerts,
-    };
+    return groups.map((g, idx) => ({
+      category: categoryMap.get(g.categoryId) ?? 'Unknown',
+      count: g._count.id,
+      fill: CHART_COLORS[idx % CHART_COLORS.length],
+    }));
   }
 
-  /**
-   * GET /dashboard/finance — Admin Purchase
-   * Ringkasan pembelian & depresiasi
-   */
-  async getFinanceDashboard(): Promise<Record<string, unknown>> {
-    const [
+  // ──────────────── Finance Dashboard ────────────────
+
+  async getFinanceStats() {
+    const now = new Date();
+
+    const [totalPurchases, depreciations, pendingApprovals] = await Promise.all(
+      [
+        this.prisma.purchaseMasterData.count({ where: { isDeleted: false } }),
+        this.prisma.depreciation.findMany({
+          where: {
+            startDate: { lte: now },
+          },
+          include: {
+            purchase: { select: { totalPrice: true } },
+          },
+        }),
+        this.countPendingApprovals(),
+      ],
+    );
+
+    // Calculate monthly depreciation (straight-line simplified)
+    let monthlyDepreciation = 0;
+    for (const dep of depreciations) {
+      if (dep.usefulLifeYears > 0) {
+        const totalPrice = Number(dep.purchase.totalPrice);
+        const salvageValue = Number(dep.salvageValue);
+        const monthly =
+          (totalPrice - salvageValue) / (dep.usefulLifeYears * 12);
+        monthlyDepreciation += monthly;
+      }
+    }
+
+    return {
       totalPurchases,
-      purchaseValueAgg,
-      totalDepreciations,
-      recentPurchases,
-      assetsByCondition,
-    ] = await Promise.all([
-      // Total data pembelian
-      this.prisma.purchaseMasterData.count({
-        where: { isDeleted: false },
-      }),
-
-      // Aggregate purchase value
-      this.prisma.purchaseMasterData.aggregate({
-        where: { isDeleted: false },
-        _sum: { totalPrice: true },
-        _avg: { unitPrice: true },
-        _count: { id: true },
-      }),
-
-      // Total depresiasi terdaftar
-      this.prisma.depreciation.count(),
-
-      // Recent purchases (last 10)
-      this.prisma.purchaseMasterData.findMany({
-        where: { isDeleted: false },
-        take: 10,
-        orderBy: { createdAt: 'desc' },
-        include: {
-          model: { select: { id: true, name: true, brand: true } },
-          createdBy: { select: { id: true, fullName: true } },
-        },
-      }),
-
-      // Aset per kondisi
-      this.prisma.asset.groupBy({
-        by: ['condition'],
-        where: { isDeleted: false },
-        _count: { id: true },
-      }),
-    ]);
-
-    return {
-      summary: {
-        totalPurchases,
-        totalPurchaseValue: purchaseValueAgg._sum.totalPrice,
-        averageUnitPrice: purchaseValueAgg._avg.unitPrice,
-        totalDepreciations,
-      },
-      assetsByCondition: assetsByCondition.map((c) => ({
-        condition: c.condition,
-        count: c._count.id,
-      })),
-      recentPurchases,
-    };
-  }
-
-  /**
-   * GET /dashboard/operations — Admin Logistik
-   * Stok, transaksi aktif, low stock alerts
-   */
-  async getOperationsDashboard(): Promise<Record<string, unknown>> {
-    const [
-      totalAssetsInStorage,
-      totalAssetsInUse,
-      totalAssetsUnderRepair,
-      activeRequests,
-      activeLoans,
-      activeHandovers,
+      monthlyDepreciation: Math.round(monthlyDepreciation),
+      remainingBudget: 0, // Budget management not yet implemented
       pendingApprovals,
-      recentMovements,
-      lowStockAlerts,
-    ] = await Promise.all([
-      this.prisma.asset.count({
-        where: { isDeleted: false, status: AssetStatus.IN_STORAGE },
-      }),
-      this.prisma.asset.count({
-        where: { isDeleted: false, status: AssetStatus.IN_USE },
-      }),
-      this.prisma.asset.count({
-        where: { isDeleted: false, status: AssetStatus.UNDER_REPAIR },
-      }),
-
-      // Request aktif
-      this.prisma.request.count({
-        where: {
-          isDeleted: false,
-          status: { in: ACTIVE_TRANSACTION_STATUSES },
-        },
-      }),
-
-      // Loan aktif
-      this.prisma.loanRequest.count({
-        where: {
-          isDeleted: false,
-          status: { in: ACTIVE_TRANSACTION_STATUSES },
-        },
-      }),
-
-      // Handover aktif
-      this.prisma.handover.count({
-        where: {
-          isDeleted: false,
-          status: { in: ACTIVE_TRANSACTION_STATUSES },
-        },
-      }),
-
-      // Pending approvals
-      this.countPendingApprovals(),
-
-      // Recent stock movements (last 10)
-      this.prisma.stockMovement.findMany({
-        take: 10,
-        orderBy: { createdAt: 'desc' },
-        include: {
-          asset: { select: { id: true, code: true, name: true } },
-          createdBy: { select: { id: true, fullName: true } },
-        },
-      }),
-
-      // Low stock alerts
-      this.getLowStockAlerts(),
-    ]);
-
-    return {
-      summary: {
-        totalAssetsInStorage,
-        totalAssetsInUse,
-        totalAssetsUnderRepair,
-        activeRequests,
-        activeLoans,
-        activeHandovers,
-        pendingApprovals,
-      },
-      recentMovements,
-      lowStockAlerts,
     };
   }
 
-  /**
-   * GET /dashboard/division — Leader
-   * Data aset & transaksi khusus divisi user
-   */
-  async getDivisionDashboard(
-    userId: number,
-    divisionId: number | null,
-  ): Promise<Record<string, unknown>> {
-    // Dapatkan semua member divisi
-    const divisionMembers = divisionId
-      ? await this.prisma.user.findMany({
-          where: { divisionId, isActive: true, isDeleted: false },
-          select: { id: true, fullName: true, role: true },
-        })
-      : [];
+  // ──────────────── Operations Dashboard ────────────────
 
-    const memberIds = divisionMembers.map((m) => m.id);
+  async getOperationsStats() {
+    const now = new Date();
 
-    const [
-      divisionAssets,
-      divisionAssetsByStatus,
-      divisionActiveRequests,
-      divisionActiveLoans,
-      divisionPendingApprovals,
-    ] = await Promise.all([
-      // Aset yang dipegang member divisi
+    const [totalAssets, underRepair, overdueLoans, criticalStock] =
+      await Promise.all([
+        this.prisma.asset.count({ where: { isDeleted: false } }),
+        this.prisma.asset.count({
+          where: { isDeleted: false, status: AssetStatus.UNDER_REPAIR },
+        }),
+        this.prisma.loanRequest.count({
+          where: {
+            isDeleted: false,
+            status: { in: ACTIVE_TRANSACTION_STATUSES },
+            expectedReturn: { lt: now },
+          },
+        }),
+        this.getLowStockAlertCount(),
+      ]);
+
+    return { totalAssets, criticalStock, overdueLoans, underRepair };
+  }
+
+  async getStockAlerts() {
+    const alerts = await this.getLowStockAlerts();
+    return alerts.map((alert) => ({
+      id: alert.modelId,
+      modelName: alert.modelName,
+      brand: alert.brand,
+      currentStock: alert.currentStock,
+      threshold: alert.minQuantity,
+      status: this.getStockAlertStatus(alert.currentStock, alert.minQuantity),
+    }));
+  }
+
+  // ──────────────── Division Dashboard ────────────────
+
+  async getDivisionStats(userId: number, divisionId: number) {
+    const members = await this.prisma.user.findMany({
+      where: { divisionId, isActive: true, isDeleted: false },
+      select: { id: true },
+    });
+    const memberIds = members.map((m) => m.id);
+
+    const [divisionAssets, pendingRequests, teamLoans] = await Promise.all([
       this.prisma.asset.count({
         where: {
           isDeleted: false,
           currentUserId: { in: memberIds },
         },
       }),
-
-      // Distribusi per status
-      this.prisma.asset.groupBy({
-        by: ['status'],
-        where: {
-          isDeleted: false,
-          currentUserId: { in: memberIds },
-        },
-        _count: { id: true },
-      }),
-
-      // Request aktif divisi
       this.prisma.request.count({
         where: {
           isDeleted: false,
           createdById: { in: memberIds },
-          status: { in: ACTIVE_TRANSACTION_STATUSES },
-        },
-      }),
-
-      // Loan aktif divisi
-      this.prisma.loanRequest.count({
-        where: {
-          isDeleted: false,
-          createdById: { in: memberIds },
-          status: { in: ACTIVE_TRANSACTION_STATUSES },
-        },
-      }),
-
-      // Pending approval (yang perlu di-approve oleh leader ini)
-      this.prisma.request.count({
-        where: {
-          isDeleted: false,
-          createdById: { in: memberIds, not: userId },
           status: { in: PENDING_APPROVAL_STATUSES },
         },
       }),
-    ]);
-
-    return {
-      summary: {
-        totalMembers: divisionMembers.length,
-        divisionAssets,
-        divisionActiveRequests,
-        divisionActiveLoans,
-        divisionPendingApprovals,
-      },
-      assetsByStatus: divisionAssetsByStatus.map((s) => ({
-        status: s.status,
-        count: s._count.id,
-      })),
-      members: divisionMembers,
-    };
-  }
-
-  /**
-   * GET /dashboard/personal — Staff
-   * Aset pribadi, pinjaman aktif, riwayat transaksi
-   */
-  async getPersonalDashboard(userId: number): Promise<Record<string, unknown>> {
-    const [
-      myAssets,
-      myAssetsByStatus,
-      myActiveRequests,
-      myActiveLoans,
-      myRecentRequests,
-      myRecentLoans,
-      unreadNotifications,
-    ] = await Promise.all([
-      // Aset yang saya pegang
-      this.prisma.asset.count({
-        where: { isDeleted: false, currentUserId: userId },
-      }),
-
-      // Distribusi per status
-      this.prisma.asset.groupBy({
-        by: ['status'],
-        where: { isDeleted: false, currentUserId: userId },
-        _count: { id: true },
-      }),
-
-      // Request aktif saya
-      this.prisma.request.count({
+      this.prisma.loanRequest.count({
         where: {
           isDeleted: false,
-          createdById: userId,
+          createdById: { in: memberIds },
           status: { in: ACTIVE_TRANSACTION_STATUSES },
         },
       }),
+    ]);
 
-      // Loan aktif saya
+    return {
+      divisionAssets,
+      pendingRequests,
+      activeMembers: members.length,
+      teamLoans,
+    };
+  }
+
+  async getDivisionMembers(divisionId: number) {
+    const members = await this.prisma.user.findMany({
+      where: { divisionId, isActive: true, isDeleted: false },
+      select: {
+        id: true,
+        fullName: true,
+        role: true,
+        currentAssets: {
+          where: { isDeleted: false },
+          select: { id: true, name: true },
+          orderBy: { updatedAt: 'desc' },
+        },
+      },
+    });
+
+    return members.map((m) => ({
+      id: m.id,
+      fullName: m.fullName,
+      role: m.role,
+      assetCount: m.currentAssets.length,
+      lastAsset: m.currentAssets[0]?.name ?? '-',
+    }));
+  }
+
+  // ──────────────── Personal Dashboard ────────────────
+
+  async getPersonalStats(userId: number) {
+    const [myAssets, activeLoans, pendingReturns] = await Promise.all([
+      this.prisma.asset.count({
+        where: { isDeleted: false, currentUserId: userId },
+      }),
       this.prisma.loanRequest.count({
         where: {
           isDeleted: false,
@@ -415,55 +325,71 @@ export class DashboardService {
           status: { in: ACTIVE_TRANSACTION_STATUSES },
         },
       }),
-
-      // 5 request terbaru
-      this.prisma.request.findMany({
-        where: { createdById: userId, isDeleted: false },
-        take: 5,
-        orderBy: { createdAt: 'desc' },
-        select: {
-          id: true,
-          code: true,
-          title: true,
-          status: true,
-          createdAt: true,
+      this.prisma.loanRequest.count({
+        where: {
+          isDeleted: false,
+          createdById: userId,
+          status: TransactionStatus.APPROVED,
+          expectedReturn: { not: null },
         },
-      }),
-
-      // 5 loan terbaru
-      this.prisma.loanRequest.findMany({
-        where: { createdById: userId, isDeleted: false },
-        take: 5,
-        orderBy: { createdAt: 'desc' },
-        select: {
-          id: true,
-          code: true,
-          purpose: true,
-          status: true,
-          createdAt: true,
-        },
-      }),
-
-      // Unread notifications
-      this.prisma.notification.count({
-        where: { userId, isRead: false },
       }),
     ]);
 
-    return {
-      summary: {
-        myAssets,
-        myActiveRequests,
-        myActiveLoans,
-        unreadNotifications,
+    return { myAssets, activeLoans, pendingReturns };
+  }
+
+  async getPersonalAssets(userId: number) {
+    const assets = await this.prisma.asset.findMany({
+      where: { isDeleted: false, currentUserId: userId },
+      select: {
+        id: true,
+        name: true,
+        condition: true,
+        updatedAt: true,
+        category: { select: { name: true } },
       },
-      assetsByStatus: myAssetsByStatus.map((s) => ({
-        status: s.status,
-        count: s._count.id,
-      })),
-      recentRequests: myRecentRequests,
-      recentLoans: myRecentLoans,
-    };
+      orderBy: { updatedAt: 'desc' },
+    });
+
+    return assets.map((a) => ({
+      id: a.id,
+      name: a.name,
+      category: a.category.name,
+      condition: a.condition,
+      assignedAt: a.updatedAt.toISOString(),
+    }));
+  }
+
+  async getPersonalPendingReturns(userId: number) {
+    const now = new Date();
+    const loans = await this.prisma.loanRequest.findMany({
+      where: {
+        isDeleted: false,
+        createdById: userId,
+        status: { in: ACTIVE_TRANSACTION_STATUSES },
+        expectedReturn: { not: null },
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        expectedReturn: true,
+        assetAssignments: {
+          select: {
+            asset: { select: { name: true } },
+          },
+          take: 1,
+        },
+      },
+      orderBy: { expectedReturn: 'asc' },
+    });
+
+    return loans.map((loan) => ({
+      id: loan.id,
+      assetName: loan.assetAssignments[0]?.asset.name ?? '-',
+      loanDate: loan.createdAt.toISOString(),
+      dueDate: loan.expectedReturn!.toISOString(),
+      isOverdue: loan.expectedReturn! < now,
+    }));
   }
 
   // ──────────────── Private Helpers ────────────────
@@ -537,5 +463,37 @@ export class DashboardService {
     }
 
     return alerts;
+  }
+
+  private async getLowStockAlertCount(): Promise<number> {
+    const alerts = await this.getLowStockAlerts();
+    return alerts.length;
+  }
+
+  private getStockAlertStatus(
+    currentStock: number,
+    minQuantity: number,
+  ): 'CRITICAL' | 'WARNING' | 'SAFE' {
+    const ratio = currentStock / minQuantity;
+    if (ratio === 0) return 'CRITICAL';
+    if (ratio < 0.5) return 'CRITICAL';
+    if (ratio < 1) return 'WARNING';
+    return 'SAFE';
+  }
+
+  private mapEntityTypeToActivityType(
+    entityType: string,
+  ): 'request' | 'loan' | 'handover' | 'repair' | 'return' {
+    const map: Record<
+      string,
+      'request' | 'loan' | 'handover' | 'repair' | 'return'
+    > = {
+      Request: 'request',
+      LoanRequest: 'loan',
+      Handover: 'handover',
+      AssetReturn: 'return',
+      RepairReport: 'repair',
+    };
+    return map[entityType] ?? 'request';
   }
 }
