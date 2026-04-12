@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { StatusBadge } from '@/components/ui/status-badge';
+import { ExportButton, ImportDialog } from '@/components/form';
+import { useExportAssets } from '@/hooks/use-export-import';
 import {
   Table,
   TableBody,
@@ -71,6 +73,7 @@ export function AssetListPage() {
 
   const debouncedSearch = useDebounce(search, 300);
   const { data: categories } = useCategories();
+  const exportAssets = useExportAssets();
 
   const { data, isLoading } = useAssets({
     page,
@@ -88,10 +91,25 @@ export function AssetListPage() {
       title="Daftar Aset"
       description="Kelola semua aset inventaris"
       actions={
-        <Button onClick={() => navigate('/assets/new')}>
-          <Plus className="mr-2 h-4 w-4" />
-          Catat Aset Baru
-        </Button>
+        <div className="flex items-center gap-2">
+          <ImportDialog />
+          <ExportButton
+            onExport={(format) =>
+              exportAssets.mutate({
+                format,
+                search: debouncedSearch || undefined,
+                status,
+                condition,
+                categoryId,
+              })
+            }
+            isLoading={exportAssets.isPending}
+          />
+          <Button onClick={() => navigate('/assets/new')}>
+            <Plus className="mr-2 h-4 w-4" />
+            Catat Aset Baru
+          </Button>
+        </div>
       }
     >
       {/* Toolbar */}
@@ -120,7 +138,7 @@ export function AssetListPage() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Semua Kategori</SelectItem>
-            {categories?.map((cat) => (
+            {categories?.data?.map((cat) => (
               <SelectItem key={cat.id} value={String(cat.id)}>
                 {cat.name}
               </SelectItem>

@@ -25,6 +25,8 @@ import {
 } from '@/components/ui/select';
 import { useRequests } from '../hooks';
 import { useDebounce } from '@/hooks/use-debounce';
+import { ExportButton } from '@/components/form';
+import { useExportRequests } from '@/hooks/use-export-import';
 import type { TransactionStatus } from '@/types';
 
 const PRIORITY_LABELS: Record<string, string> = {
@@ -53,6 +55,7 @@ export function RequestListPage() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
   const debouncedSearch = useDebounce(search, 300);
+  const exportRequests = useExportRequests();
 
   const { data, isLoading } = useRequests({
     page,
@@ -66,10 +69,22 @@ export function RequestListPage() {
       title="Daftar Permintaan"
       description="Kelola permintaan pengadaan aset"
       actions={
-        <Button onClick={() => navigate('/requests/new')}>
-          <Plus className="mr-2 h-4 w-4" />
-          Buat Permintaan
-        </Button>
+        <div className="flex items-center gap-2">
+          <ExportButton
+            onExport={(format) =>
+              exportRequests.mutate({
+                format,
+                search: debouncedSearch || undefined,
+                status: statusFilter !== 'all' ? statusFilter : undefined,
+              })
+            }
+            isLoading={exportRequests.isPending}
+          />
+          <Button onClick={() => navigate('/requests/new')}>
+            <Plus className="mr-2 h-4 w-4" />
+            Buat Permintaan
+          </Button>
+        </div>
       }
     >
       {/* Toolbar */}

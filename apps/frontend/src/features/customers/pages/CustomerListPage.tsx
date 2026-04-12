@@ -39,6 +39,8 @@ import {
 import { Label } from '@/components/ui/label';
 import { useCustomers, useCreateCustomer, useUpdateCustomer, useDeleteCustomer } from '../hooks';
 import { useDebounce } from '@/hooks/use-debounce';
+import { ExportButton } from '@/components/form';
+import { useExportCustomers } from '@/hooks/use-export-import';
 import type { Customer } from '../types';
 
 export function CustomerListPage() {
@@ -69,6 +71,7 @@ export function CustomerListPage() {
   const createMutation = useCreateCustomer();
   const updateMutation = useUpdateCustomer();
   const deleteMutation = useDeleteCustomer();
+  const exportCustomers = useExportCustomers();
 
   function openEdit(customer: Customer) {
     setEditingCustomer(customer);
@@ -106,10 +109,22 @@ export function CustomerListPage() {
       title="Daftar Pelanggan"
       description="Kelola data pelanggan"
       actions={
-        <Button onClick={() => navigate('/customers/new')}>
-          <Plus className="mr-2 h-4 w-4" />
-          Tambah Pelanggan
-        </Button>
+        <div className="flex items-center gap-2">
+          <ExportButton
+            onExport={(format) =>
+              exportCustomers.mutate({
+                format,
+                search: debouncedSearch || undefined,
+                isActive: activeFilter !== 'all' ? activeFilter : undefined,
+              })
+            }
+            isLoading={exportCustomers.isPending}
+          />
+          <Button onClick={() => navigate('/customers/new')}>
+            <Plus className="mr-2 h-4 w-4" />
+            Tambah Pelanggan
+          </Button>
+        </div>
       }
     >
       <div className="flex items-center gap-2 flex-wrap">

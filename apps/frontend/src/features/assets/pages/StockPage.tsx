@@ -129,7 +129,7 @@ export function StockPage() {
                       ))}
                     </TableRow>
                   ))
-                ) : !data?.data.length ? (
+                ) : !data?.data?.length ? (
                   <TableRow>
                     <TableCell colSpan={10}>
                       <EmptyState

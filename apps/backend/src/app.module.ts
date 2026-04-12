@@ -17,6 +17,9 @@ import { TransactionModule } from './modules/transactions/transaction.module';
 import { CustomerModule } from './modules/customers/customer.module';
 import { SettingsModule } from './modules/settings/settings.module';
 import { UploadModule } from './modules/uploads/upload.module';
+import { ExportModule } from './modules/exports/export.module';
+import { ImportModule } from './modules/imports/import.module';
+import { QrCodeModule } from './modules/qrcode/qrcode.module';
 
 // Guards
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
@@ -45,6 +48,9 @@ import { AuditTrailInterceptor } from './common/interceptors/audit-trail.interce
     CustomerModule,
     SettingsModule,
     UploadModule,
+    ExportModule,
+    ImportModule,
+    QrCodeModule,
   ],
   controllers: [AppController],
   providers: [

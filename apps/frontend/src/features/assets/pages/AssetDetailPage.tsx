@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { Separator } from '@/components/ui/separator';
 import { useAsset } from '../hooks';
-import { AttachmentSection } from '@/components/form';
+import { AttachmentSection, QrCodeSection } from '@/components/form';
 
 const CONDITION_LABELS: Record<string, string> = {
   NEW: 'Baru',
@@ -196,6 +196,9 @@ export function AssetDetailPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* QR Code */}
+      {id && <QrCodeSection assetId={id} assetCode={asset.code} />}
 
       {/* Lampiran */}
       <AttachmentSection entityType="Asset" entityId={id} />

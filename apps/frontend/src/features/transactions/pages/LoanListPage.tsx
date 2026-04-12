@@ -24,6 +24,8 @@ import {
 } from '@/components/ui/select';
 import { useLoans } from '../hooks';
 import { useDebounce } from '@/hooks/use-debounce';
+import { ExportButton } from '@/components/form';
+import { useExportLoans } from '@/hooks/use-export-import';
 import type { TransactionStatus } from '@/types';
 
 function formatDate(date: string | null) {
@@ -41,6 +43,7 @@ export function LoanListPage() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
   const debouncedSearch = useDebounce(search, 300);
+  const exportLoans = useExportLoans();
 
   const { data, isLoading } = useLoans({
     page,
@@ -54,10 +57,22 @@ export function LoanListPage() {
       title="Daftar Peminjaman"
       description="Kelola peminjaman aset"
       actions={
-        <Button onClick={() => navigate('/loans/new')}>
-          <Plus className="mr-2 h-4 w-4" />
-          Ajukan Peminjaman
-        </Button>
+        <div className="flex items-center gap-2">
+          <ExportButton
+            onExport={(format) =>
+              exportLoans.mutate({
+                format,
+                search: debouncedSearch || undefined,
+                status: statusFilter !== 'all' ? statusFilter : undefined,
+              })
+            }
+            isLoading={exportLoans.isPending}
+          />
+          <Button onClick={() => navigate('/loans/new')}>
+            <Plus className="mr-2 h-4 w-4" />
+            Ajukan Peminjaman
+          </Button>
+        </div>
       }
     >
       <div className="flex items-center gap-2 flex-wrap">

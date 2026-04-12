@@ -90,14 +90,14 @@ export function AssetFormPage() {
               name="categoryId"
               label="Kategori"
               placeholder="Pilih kategori"
-              options={categories?.map((c) => ({ value: String(c.id), label: c.name })) ?? []}
+              options={categories?.data?.map((c) => ({ value: String(c.id), label: c.name })) ?? []}
             />
             <FormSelect
               form={form}
               name="typeId"
               label="Tipe"
               placeholder="Pilih tipe"
-              options={types?.map((t) => ({ value: String(t.id), label: t.name })) ?? []}
+              options={types?.data?.map((t) => ({ value: String(t.id), label: t.name })) ?? []}
               disabled={!selectedCategoryId}
             />
             <FormSelect
@@ -105,7 +105,7 @@ export function AssetFormPage() {
               name="modelId"
               label="Model"
               placeholder="Pilih model"
-              options={models?.map((m) => ({ value: String(m.id), label: m.name })) ?? []}
+              options={models?.data?.map((m) => ({ value: String(m.id), label: m.name })) ?? []}
               disabled={!selectedTypeId}
             />
             <FormInput

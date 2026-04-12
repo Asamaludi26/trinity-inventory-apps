@@ -203,12 +203,66 @@ export class DashboardService {
       }
     }
 
+    // Calculate remaining budget from purchase data
+    const remainingBudget = await this.calculateRemainingBudget();
+
     return {
       totalPurchases,
       monthlyDepreciation: Math.round(monthlyDepreciation),
-      remainingBudget: 0, // Budget management not yet implemented
+      remainingBudget,
       pendingApprovals,
     };
+  }
+
+  private async calculateRemainingBudget(): Promise<number> {
+    const currentYear = new Date().getFullYear();
+    const startOfYear = new Date(currentYear, 0, 1);
+    const endOfYear = new Date(currentYear, 11, 31, 23, 59, 59);
+
+    // Total value of all purchases this fiscal year
+    const yearlyPurchases = await this.prisma.purchaseMasterData.aggregate({
+      where: {
+        isDeleted: false,
+        purchaseDate: { gte: startOfYear, lte: endOfYear },
+      },
+      _sum: { totalPrice: true },
+    });
+
+    // Total value of all asset purchases (lifetime)
+    const totalAssetValue = await this.prisma.purchaseMasterData.aggregate({
+      where: { isDeleted: false },
+      _sum: { totalPrice: true },
+    });
+
+    const yearlySpent = Number(yearlyPurchases._sum.totalPrice ?? 0);
+    const totalValue = Number(totalAssetValue._sum.totalPrice ?? 0);
+
+    // Estimated annual budget based on total asset value (configurable)
+    // Default: use historical average × 1.1 as estimated budget
+    const purchaseCount = await this.prisma.purchaseMasterData.count({
+      where: { isDeleted: false },
+    });
+
+    if (purchaseCount === 0) return 0;
+
+    // Simple estimation: total value / years of data * 1.1 factor
+    const firstPurchase = await this.prisma.purchaseMasterData.findFirst({
+      where: { isDeleted: false },
+      orderBy: { purchaseDate: 'asc' },
+      select: { purchaseDate: true },
+    });
+
+    if (!firstPurchase) return 0;
+
+    const yearsOfData = Math.max(
+      1,
+      (Date.now() - firstPurchase.purchaseDate.getTime()) /
+        (365.25 * 24 * 60 * 60 * 1000),
+    );
+    const annualAverage = totalValue / yearsOfData;
+    const estimatedBudget = Math.round(annualAverage * 1.1);
+
+    return Math.max(0, estimatedBudget - yearlySpent);
   }
 
   // ──────────────── Operations Dashboard ────────────────
