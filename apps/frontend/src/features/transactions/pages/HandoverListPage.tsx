@@ -131,7 +131,7 @@ export function HandoverListPage() {
                 <TableRow
                   key={ho.id}
                   className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => navigate(`/handovers/${ho.uuid}`)}
+                  onClick={() => navigate(`/handovers/${ho.id}`)}
                 >
                   <TableCell className="font-mono text-xs">{ho.code}</TableCell>
                   <TableCell>{ho.fromUser?.fullName ?? '-'}</TableCell>

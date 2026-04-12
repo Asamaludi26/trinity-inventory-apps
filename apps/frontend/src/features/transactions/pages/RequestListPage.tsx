@@ -168,7 +168,7 @@ export function RequestListPage() {
                 <TableRow
                   key={req.id}
                   className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => navigate(`/requests/${req.uuid}`)}
+                  onClick={() => navigate(`/requests/${req.id}`)}
                 >
                   <TableCell className="font-mono text-xs">{req.code}</TableCell>
                   <TableCell className="font-medium">{req.title}</TableCell>

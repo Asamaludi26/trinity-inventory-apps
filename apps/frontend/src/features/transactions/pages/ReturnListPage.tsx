@@ -129,7 +129,7 @@ export function ReturnListPage() {
                 <TableRow
                   key={ret.id}
                   className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => navigate(`/returns/${ret.uuid}`)}
+                  onClick={() => navigate(`/returns/${ret.id}`)}
                 >
                   <TableCell className="font-mono text-xs">{ret.code}</TableCell>
                   <TableCell className="font-mono text-xs text-muted-foreground">

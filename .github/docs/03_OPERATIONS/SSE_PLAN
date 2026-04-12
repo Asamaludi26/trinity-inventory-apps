@@ -1,0 +1,27 @@
+1. 02_STANDARDS_AND_PROCEDURES/TECH_STACK_AND_ADR.md (Prioritas Utama)
+   Di sinilah Anda mencatat mengapa keputusan ini diambil. Tambahkan satu entri ADR (Architecture Decision Record) baru:
+
+- Judul: ADR - Penanganan Konkurensi & Sinkronisasi Real-time pada Aksi Admin.
+- Konteks: Menjelaskan potensi Race Condition saat dua admin memproses Request yang sama.
+- Keputusan: Menggunakan SSE untuk real-time UI update (satu arah, hemat resource, ramah WAF) dan Optimistic Locking (kolom version di Prisma/PostgreSQL) untuk pengamanan di level database.
+- Konsekuensi: Frontend tidak perlu WebSockets, namun harus melakukan pengecekan HTTP 409 Conflict.
+
+2. 02_STANDARDS_AND_PROCEDURES/API_CONTRACT.md
+   Kontrak komunikasi antara NestJS dan React harus diperbarui:
+
+- Endpoint Baru (SSE): Dokumentasikan endpoint baru, misalnya GET /api/v1/events/requests, yang mengembalikan stream tipe text/event-stream. Jelaskan struktur payload event-nya (misal: event: request_updated, data: { id: 'REQ-001', status: 'APPROVED' }).
+- Update Endpoint Mutasi: Pada endpoint persetujuan (misal PUT /api/v1/requests/:id/approve), wajibkan frontend untuk mengirim payload version saat ini.
+
+3. 02_STANDARDS_AND_PROCEDURES/ERROR_HANDLING.md
+   Tambahkan standardisasi penanganan error baru:
+
+- HTTP Status 409 (Conflict): Jelaskan bahwa jika server mengembalikan status 409 (karena version tidak cocok), frontend (React) harus menangkap error ini dan menampilkan toast/alert yang ramah (UX), seperti: "Mohon maaf, permintaan ini baru saja diproses oleh Admin lain. Memuat ulang data...", lalu men-trigger refetch data.
+
+4. 01_BUSINESS_LOGIC/SDD.md (System Design Document)
+   Karena ada perubahan skema database dan alur logika, perbarui dokumen desain sistem:
+
+- Database Schema: Tambahkan keterangan bahwa tabel InventoryRequest (atau tabel terkait) kini memiliki kolom version (tipe Int, default 1) untuk keperluan Optimistic Locking.
+- Sequence Diagram / Flow: Jika Anda memiliki diagram alur persetujuan, tambahkan langkah di mana server mengecek versi, meng-update versi (+1), dan men-trigger SSE ke klien lain.
+
+5. 01_BUSINESS_LOGIC/USER_SYSTEM_FLOW.md & UIUX_DESIGN_DOCUMENT.md
+   -Tambahkan skenario UX: Apa yang terjadi secara visual pada Admin B ketika Admin A menyetujui request? (Misal: Tombol di layar Admin B seketika berubah menjadi disabled abu-abu dan label berubah menjadi "Telah Disetujui").

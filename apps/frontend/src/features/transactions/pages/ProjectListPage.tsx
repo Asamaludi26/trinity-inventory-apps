@@ -132,7 +132,7 @@ export function ProjectListPage() {
                 <TableRow
                   key={proj.id}
                   className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => navigate(`/projects/${proj.uuid}`)}
+                  onClick={() => navigate(`/projects/${proj.id}`)}
                 >
                   <TableCell className="font-mono text-xs">{proj.code}</TableCell>
                   <TableCell className="font-medium">{proj.name}</TableCell>
