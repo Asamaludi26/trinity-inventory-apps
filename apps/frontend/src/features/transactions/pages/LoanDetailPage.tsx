@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, CheckCircle, XCircle, Ban } from 'lucide-react';
+import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,7 +16,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useLoan } from '../hooks';
+import { useLoan, useApproveLoan, useRejectLoan, useCancelLoan } from '../hooks';
+import { RejectDialog } from '../components';
+import { AttachmentSection } from '@/components/form';
 
 function formatDate(date: string | null) {
   if (!date) return '-';
@@ -29,6 +33,43 @@ export function LoanDetailPage() {
   const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
   const { data: loan, isLoading } = useLoan(uuid);
+  const approveLoan = useApproveLoan();
+  const rejectLoan = useRejectLoan();
+  const cancelLoan = useCancelLoan();
+  const [rejectOpen, setRejectOpen] = useState(false);
+
+  const handleApprove = () => {
+    if (!uuid) return;
+    approveLoan.mutate(
+      { uuid },
+      {
+        onSuccess: () => toast.success('Peminjaman berhasil disetujui'),
+        onError: () => toast.error('Gagal menyetujui peminjaman'),
+      },
+    );
+  };
+
+  const handleReject = (reason: string) => {
+    if (!uuid) return;
+    rejectLoan.mutate(
+      { uuid, reason },
+      {
+        onSuccess: () => {
+          toast.success('Peminjaman berhasil ditolak');
+          setRejectOpen(false);
+        },
+        onError: () => toast.error('Gagal menolak peminjaman'),
+      },
+    );
+  };
+
+  const handleCancel = () => {
+    if (!uuid) return;
+    cancelLoan.mutate(uuid, {
+      onSuccess: () => toast.success('Peminjaman berhasil dibatalkan'),
+      onError: () => toast.error('Gagal membatalkan peminjaman'),
+    });
+  };
 
   if (isLoading) {
     return (
@@ -72,17 +113,17 @@ export function LoanDetailPage() {
           </Button>
           {isPending && (
             <>
-              <Button variant="default">
+              <Button variant="default" onClick={handleApprove} disabled={approveLoan.isPending}>
                 <CheckCircle className="mr-2 h-4 w-4" />
-                Approve
+                {approveLoan.isPending ? 'Menyetujui...' : 'Approve'}
               </Button>
-              <Button variant="destructive">
+              <Button variant="destructive" onClick={() => setRejectOpen(true)}>
                 <XCircle className="mr-2 h-4 w-4" />
                 Reject
               </Button>
-              <Button variant="outline">
+              <Button variant="outline" onClick={handleCancel} disabled={cancelLoan.isPending}>
                 <Ban className="mr-2 h-4 w-4" />
-                Batalkan
+                {cancelLoan.isPending ? 'Membatalkan...' : 'Batalkan'}
               </Button>
             </>
           )}
@@ -179,10 +220,19 @@ export function LoanDetailPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Lampiran */}
+        <AttachmentSection entityType="LoanRequest" entityId={uuid} />
       </div>
+
+      <RejectDialog
+        open={rejectOpen}
+        onOpenChange={setRejectOpen}
+        onConfirm={handleReject}
+        isPending={rejectLoan.isPending}
+        title="Tolak Peminjaman"
+      />
     </PageContainer>
   );
 }
-
-export default LoanDetailPage;
 export const Component = LoanDetailPage;

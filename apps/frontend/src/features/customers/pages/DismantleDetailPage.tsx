@@ -7,6 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { Separator } from '@/components/ui/separator';
 import { useDismantle } from '../hooks';
+import { AttachmentSection } from '@/components/form';
 
 function formatDate(date: string | null) {
   if (!date) return '-';
@@ -111,6 +112,9 @@ export function DismantleDetailPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Lampiran */}
+      <AttachmentSection entityType="Dismantle" entityId={id} />
     </PageContainer>
   );
 }

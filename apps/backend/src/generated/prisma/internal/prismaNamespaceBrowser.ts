@@ -88,6 +88,7 @@ export const ModelName = {
   AssetReturnItem: 'AssetReturnItem',
   Handover: 'Handover',
   HandoverItem: 'HandoverItem',
+  Repair: 'Repair',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -617,6 +618,31 @@ export const HandoverItemScalarFieldEnum = {
 
 export type HandoverItemScalarFieldEnum =
   (typeof HandoverItemScalarFieldEnum)[keyof typeof HandoverItemScalarFieldEnum];
+
+export const RepairScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  assetId: 'assetId',
+  issueDescription: 'issueDescription',
+  condition: 'condition',
+  status: 'status',
+  repairAction: 'repairAction',
+  repairVendor: 'repairVendor',
+  repairCost: 'repairCost',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  note: 'note',
+  createdById: 'createdById',
+  approvalChain: 'approvalChain',
+  rejectionReason: 'rejectionReason',
+  isDeleted: 'isDeleted',
+  version: 'version',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+} as const;
+
+export type RepairScalarFieldEnum =
+  (typeof RepairScalarFieldEnum)[keyof typeof RepairScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',

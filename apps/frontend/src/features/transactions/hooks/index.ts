@@ -22,7 +22,16 @@ export {
   useApproveHandover,
   useRejectHandover,
 } from './useHandovers';
-export { useRepairs, useRepair, useCreateRepair, useUpdateRepairStatus } from './useRepairs';
+export {
+  useRepairs,
+  useRepair,
+  useCreateRepair,
+  useApproveRepair,
+  useRejectRepair,
+  useExecuteRepair,
+  useCompleteRepair,
+  useCancelRepair,
+} from './useRepairs';
 export {
   useProjects,
   useProject,

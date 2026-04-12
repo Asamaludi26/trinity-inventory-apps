@@ -50,6 +50,7 @@ model User {
   handoversWitness      Handover[]           @relation("HandoverWitness")
   createdDepreciations  Depreciation[]       @relation("DepreciationCreatedBy")
   createdPurchases      PurchaseMasterData[] @relation("PurchaseCreatedBy")
+  createdRepairs        Repair[]             @relation("RepairCreatedBy")
 
   @@index([role])
   @@index([divisionId])

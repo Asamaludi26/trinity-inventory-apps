@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,7 +16,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useReturn } from '../hooks';
+import { useReturn, useVerifyReturn } from '../hooks';
+import { AttachmentSection } from '@/components/form';
 
 const CONDITION_LABELS: Record<string, string> = {
   NEW: 'Baru',
@@ -37,6 +39,18 @@ export function ReturnDetailPage() {
   const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
   const { data: ret, isLoading } = useReturn(uuid);
+  const verifyReturn = useVerifyReturn();
+
+  const handleVerify = () => {
+    if (!uuid) return;
+    verifyReturn.mutate(
+      { uuid, data: {} },
+      {
+        onSuccess: () => toast.success('Pengembalian berhasil diverifikasi'),
+        onError: () => toast.error('Gagal memverifikasi pengembalian'),
+      },
+    );
+  };
 
   if (isLoading) {
     return (
@@ -73,9 +87,9 @@ export function ReturnDetailPage() {
             Kembali
           </Button>
           {ret.status === 'PENDING' && (
-            <Button variant="default">
+            <Button variant="default" onClick={handleVerify} disabled={verifyReturn.isPending}>
               <CheckCircle className="mr-2 h-4 w-4" />
-              Verifikasi
+              {verifyReturn.isPending ? 'Memverifikasi...' : 'Verifikasi'}
             </Button>
           )}
         </div>
@@ -177,6 +191,9 @@ export function ReturnDetailPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Lampiran */}
+        <AttachmentSection entityType="AssetReturn" entityId={uuid} />
       </div>
     </PageContainer>
   );

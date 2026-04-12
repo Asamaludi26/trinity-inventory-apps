@@ -4,6 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
+import { NotificationService } from '../../../core/notifications/notification.service';
 import { CreateLoanDto } from './dto/create-loan.dto';
 import { UpdateLoanDto } from './dto/update-loan.dto';
 import { FilterLoanDto } from './dto/filter-loan.dto';
@@ -19,6 +20,7 @@ export class LoanService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly approvalService: ApprovalService,
+    private readonly notificationService: NotificationService,
   ) {}
 
   private async generateCode(): Promise<string> {
@@ -179,10 +181,22 @@ export class LoanService {
         ? TransactionStatus.LOGISTIC_APPROVED
         : TransactionStatus.APPROVED;
 
-    return this.prisma.loanRequest.update({
+    const result = await this.prisma.loanRequest.update({
       where: { id },
       data: { status: nextStatus, version: { increment: 1 } },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Peminjaman',
+        transactionCode: existing.code,
+        action: 'APPROVED',
+        link: `/transactions/loans/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async reject(id: string, reason: string) {
@@ -193,7 +207,7 @@ export class LoanService {
     ) {
       throw new BadRequestException('Peminjaman sudah ditolak atau dibatalkan');
     }
-    return this.prisma.loanRequest.update({
+    const result = await this.prisma.loanRequest.update({
       where: { id },
       data: {
         status: TransactionStatus.REJECTED,
@@ -201,6 +215,19 @@ export class LoanService {
         version: { increment: 1 },
       },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Peminjaman',
+        transactionCode: existing.code,
+        action: 'REJECTED',
+        link: `/transactions/loans/${id}`,
+        reason,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async execute(id: string) {
@@ -210,13 +237,25 @@ export class LoanService {
         'Hanya peminjaman yang sudah di-approve yang dapat dieksekusi',
       );
     }
-    return this.prisma.loanRequest.update({
+    const result = await this.prisma.loanRequest.update({
       where: { id },
       data: {
         status: TransactionStatus.IN_PROGRESS,
         version: { increment: 1 },
       },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Peminjaman',
+        transactionCode: existing.code,
+        action: 'EXECUTED',
+        link: `/transactions/loans/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async cancel(id: string, userId: number) {

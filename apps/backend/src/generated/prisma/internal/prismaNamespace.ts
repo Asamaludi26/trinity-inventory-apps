@@ -446,6 +446,7 @@ export const ModelName = {
   AssetReturnItem: 'AssetReturnItem',
   Handover: 'Handover',
   HandoverItem: 'HandoverItem',
+  Repair: 'Repair',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -501,7 +502,8 @@ export type TypeMap<
       | 'assetReturn'
       | 'assetReturnItem'
       | 'handover'
-      | 'handoverItem';
+      | 'handoverItem'
+      | 'repair';
     txIsolationLevel: TransactionIsolationLevel;
   };
   model: {
@@ -3089,6 +3091,82 @@ export type TypeMap<
         };
       };
     };
+    Repair: {
+      payload: Prisma.$RepairPayload<ExtArgs>;
+      fields: Prisma.RepairFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.RepairFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RepairPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.RepairFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RepairPayload>;
+        };
+        findFirst: {
+          args: Prisma.RepairFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RepairPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.RepairFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RepairPayload>;
+        };
+        findMany: {
+          args: Prisma.RepairFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RepairPayload>[];
+        };
+        create: {
+          args: Prisma.RepairCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RepairPayload>;
+        };
+        createMany: {
+          args: Prisma.RepairCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.RepairCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RepairPayload>[];
+        };
+        delete: {
+          args: Prisma.RepairDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RepairPayload>;
+        };
+        update: {
+          args: Prisma.RepairUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RepairPayload>;
+        };
+        deleteMany: {
+          args: Prisma.RepairDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.RepairUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.RepairUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RepairPayload>[];
+        };
+        upsert: {
+          args: Prisma.RepairUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RepairPayload>;
+        };
+        aggregate: {
+          args: Prisma.RepairAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRepair>;
+        };
+        groupBy: {
+          args: Prisma.RepairGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.RepairGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.RepairCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.RepairCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
   };
 } & {
   other: {
@@ -3640,6 +3718,31 @@ export const HandoverItemScalarFieldEnum = {
 export type HandoverItemScalarFieldEnum =
   (typeof HandoverItemScalarFieldEnum)[keyof typeof HandoverItemScalarFieldEnum];
 
+export const RepairScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  assetId: 'assetId',
+  issueDescription: 'issueDescription',
+  condition: 'condition',
+  status: 'status',
+  repairAction: 'repairAction',
+  repairVendor: 'repairVendor',
+  repairCost: 'repairCost',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  note: 'note',
+  createdById: 'createdById',
+  approvalChain: 'approvalChain',
+  rejectionReason: 'rejectionReason',
+  isDeleted: 'isDeleted',
+  version: 'version',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+} as const;
+
+export type RepairScalarFieldEnum =
+  (typeof RepairScalarFieldEnum)[keyof typeof RepairScalarFieldEnum];
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc',
@@ -4023,6 +4126,7 @@ export type GlobalOmitConfig = {
   assetReturnItem?: Prisma.AssetReturnItemOmit;
   handover?: Prisma.HandoverOmit;
   handoverItem?: Prisma.HandoverItemOmit;
+  repair?: Prisma.RepairOmit;
 };
 
 /* Types for Logging */

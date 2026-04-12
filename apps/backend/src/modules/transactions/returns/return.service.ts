@@ -4,6 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
+import { NotificationService } from '../../../core/notifications/notification.service';
 import { CreateReturnDto } from './dto/create-return.dto';
 import { UpdateReturnDto } from './dto/update-return.dto';
 import { FilterReturnDto } from './dto/filter-return.dto';
@@ -15,7 +16,10 @@ import {
 
 @Injectable()
 export class ReturnService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly notificationService: NotificationService,
+  ) {}
 
   private async generateCode(): Promise<string> {
     const today = new Date();
@@ -151,10 +155,22 @@ export class ReturnService {
         'Pengembalian tidak dalam status yang dapat di-approve',
       );
     }
-    return this.prisma.assetReturn.update({
+    const result = await this.prisma.assetReturn.update({
       where: { id },
       data: { status: TransactionStatus.APPROVED },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Pengembalian',
+        transactionCode: existing.code,
+        action: 'APPROVED',
+        link: `/transactions/returns/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async reject(id: string, _reason: string) {
@@ -167,10 +183,23 @@ export class ReturnService {
         'Pengembalian sudah ditolak atau dibatalkan',
       );
     }
-    return this.prisma.assetReturn.update({
+    const result = await this.prisma.assetReturn.update({
       where: { id },
       data: { status: TransactionStatus.REJECTED },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Pengembalian',
+        transactionCode: existing.code,
+        action: 'REJECTED',
+        link: `/transactions/returns/${id}`,
+        reason: _reason,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async execute(id: string) {
@@ -180,10 +209,22 @@ export class ReturnService {
         'Hanya pengembalian yang sudah di-approve yang dapat dieksekusi',
       );
     }
-    return this.prisma.assetReturn.update({
+    const result = await this.prisma.assetReturn.update({
       where: { id },
       data: { status: TransactionStatus.COMPLETED },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Pengembalian',
+        transactionCode: existing.code,
+        action: 'COMPLETED',
+        link: `/transactions/returns/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async cancel(id: string, userId: number) {

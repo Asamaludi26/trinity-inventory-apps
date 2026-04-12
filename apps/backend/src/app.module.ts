@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -16,10 +16,14 @@ import { AssetModule } from './modules/assets/asset.module';
 import { TransactionModule } from './modules/transactions/transaction.module';
 import { CustomerModule } from './modules/customers/customer.module';
 import { SettingsModule } from './modules/settings/settings.module';
+import { UploadModule } from './modules/uploads/upload.module';
 
 // Guards
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
+
+// Interceptors
+import { AuditTrailInterceptor } from './common/interceptors/audit-trail.interceptor';
 
 @Module({
   imports: [
@@ -40,6 +44,7 @@ import { RolesGuard } from './common/guards/roles.guard';
     TransactionModule,
     CustomerModule,
     SettingsModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [
@@ -50,6 +55,8 @@ import { RolesGuard } from './common/guards/roles.guard';
     { provide: APP_GUARD, useClass: RolesGuard },
     // Global rate limiting
     { provide: APP_GUARD, useClass: ThrottlerGuard },
+    // Global audit trail — auto-logs all CUD operations
+    { provide: APP_INTERCEPTOR, useClass: AuditTrailInterceptor },
   ],
 })
 export class AppModule {}

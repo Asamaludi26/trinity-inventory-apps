@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuthStore } from '@/store/useAuthStore';
-import { usersApi } from '../api';
+import { authApi } from '@/features/auth/api/auth.api';
 import { toast } from 'sonner';
 
 const ROLE_LABELS: Record<string, string> = {
@@ -47,11 +47,17 @@ export function ProfilePage() {
       toast.error('Password minimal 8 karakter');
       return;
     }
+    if (!passwordForm.currentPassword) {
+      toast.error('Password saat ini wajib diisi');
+      return;
+    }
     setSaving(true);
     try {
-      await usersApi.update(user!.uuid, {
-        password: passwordForm.newPassword,
-      } as Parameters<typeof usersApi.update>[1]);
+      await authApi.changePassword({
+        currentPassword: passwordForm.currentPassword,
+        newPassword: passwordForm.newPassword,
+        confirmPassword: passwordForm.confirmPassword,
+      });
       toast.success('Password berhasil diubah');
       setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch {
@@ -174,7 +180,12 @@ export function ProfilePage() {
               </div>
               <Button
                 onClick={handlePasswordChange}
-                disabled={saving || !passwordForm.newPassword || !passwordForm.confirmPassword}
+                disabled={
+                  saving ||
+                  !passwordForm.currentPassword ||
+                  !passwordForm.newPassword ||
+                  !passwordForm.confirmPassword
+                }
               >
                 {saving ? 'Menyimpan...' : 'Ubah Password'}
               </Button>

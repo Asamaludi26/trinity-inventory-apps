@@ -186,3 +186,8 @@ export type Handover = Prisma.HandoverModel;
  *
  */
 export type HandoverItem = Prisma.HandoverItemModel;
+/**
+ * Model Repair
+ *
+ */
+export type Repair = Prisma.RepairModel;

@@ -6,6 +6,7 @@ import type {
   AssetReturn,
   Handover,
   InfraProject,
+  Repair,
   RequestFilterParams,
   LoanFilterParams,
   TransactionFilterParams,
@@ -98,15 +99,29 @@ export const handoverApi = {
 
 export const repairApi = {
   getAll: (params?: TransactionFilterParams) =>
-    api.get<ApiResponse<PaginatedResponse<Record<string, unknown>>>>('/repairs', { params }),
+    api.get<ApiResponse<PaginatedResponse<Repair>>>('/repairs', { params }),
 
-  getById: (uuid: string) => api.get<ApiResponse<Record<string, unknown>>>(`/repairs/${uuid}`),
+  getById: (uuid: string) => api.get<ApiResponse<Repair>>(`/repairs/${uuid}`),
 
-  create: (data: Record<string, unknown>) =>
-    api.post<ApiResponse<Record<string, unknown>>>('/repairs', data),
+  create: (data: Record<string, unknown>) => api.post<ApiResponse<Repair>>('/repairs', data),
 
-  updateStatus: (uuid: string, data: Record<string, unknown>) =>
-    api.patch<ApiResponse<void>>(`/repairs/${uuid}/status`, data),
+  update: (uuid: string, data: Record<string, unknown>) =>
+    api.patch<ApiResponse<Repair>>(`/repairs/${uuid}`, data),
+
+  approve: (uuid: string, data?: { note?: string }) =>
+    api.patch<ApiResponse<void>>(`/repairs/${uuid}/approve`, data),
+
+  reject: (uuid: string, data: { reason: string }) =>
+    api.patch<ApiResponse<void>>(`/repairs/${uuid}/reject`, data),
+
+  execute: (uuid: string) => api.patch<ApiResponse<void>>(`/repairs/${uuid}/execute`),
+
+  complete: (
+    uuid: string,
+    data: { repairAction?: string; repairVendor?: string; repairCost?: number },
+  ) => api.patch<ApiResponse<void>>(`/repairs/${uuid}/complete`, data),
+
+  cancel: (uuid: string) => api.patch<ApiResponse<void>>(`/repairs/${uuid}/cancel`),
 };
 
 // ================================

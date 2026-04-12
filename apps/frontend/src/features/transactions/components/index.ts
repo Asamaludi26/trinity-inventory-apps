@@ -1,2 +1,1 @@
-// Transaction components barrel export
-// Components will be added during feature implementation
+export { RejectDialog } from './RejectDialog';

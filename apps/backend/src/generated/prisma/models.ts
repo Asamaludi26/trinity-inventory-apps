@@ -41,4 +41,5 @@ export type * from './models/AssetReturn';
 export type * from './models/AssetReturnItem';
 export type * from './models/Handover';
 export type * from './models/HandoverItem';
+export type * from './models/Repair';
 export type * from './commonInputTypes';

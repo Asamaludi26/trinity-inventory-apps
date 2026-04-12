@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AuthGuard } from '@/components/guard/AuthGuard';
 import { AppLayout } from '@/components/layout/AppLayout';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { protectedRoutes } from '@/routes/protected';
 import { publicRoutes } from '@/routes/public';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -28,16 +29,33 @@ const router = createBrowserRouter([
         children: [
           {
             element: <AppLayout />,
-            children: protectedRoutes,
+            children: [
+              ...protectedRoutes,
+              // Catch-all 404 inside protected area
+              {
+                path: '*',
+                lazy: () => import('./features/auth/pages/NotFoundPage'),
+              },
+            ],
           },
         ],
+      },
+
+      // Catch-all 404 outside protected area
+      {
+        path: '*',
+        lazy: () => import('./features/auth/pages/NotFoundPage'),
       },
     ],
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ErrorBoundary>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
+  );
 }
 
 export default App;

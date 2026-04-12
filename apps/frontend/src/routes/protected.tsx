@@ -1,7 +1,8 @@
 import type { RouteObject } from 'react-router-dom';
+import { RoleProtectedRoute } from '@/components/guard/RoleProtectedRoute';
 
 export const protectedRoutes: RouteObject[] = [
-  // F-01: Dashboard
+  // F-01: Dashboard — accessible by all roles
   {
     path: '/dashboard',
     children: [
@@ -28,9 +29,12 @@ export const protectedRoutes: RouteObject[] = [
     ],
   },
 
-  // F-02: Manajemen Aset
+  // F-02: Manajemen Aset — SA, AL, AP (read), SA+AL (write)
   {
     path: '/assets',
+    element: (
+      <RoleProtectedRoute allowedRoles={['SUPERADMIN', 'ADMIN_LOGISTIK', 'ADMIN_PURCHASE']} />
+    ),
     children: [
       {
         index: true,
@@ -79,7 +83,7 @@ export const protectedRoutes: RouteObject[] = [
     ],
   },
 
-  // F-04: Transaksi
+  // F-04: Transaksi — all roles can create/view
   {
     path: '/requests',
     children: [
@@ -183,9 +187,12 @@ export const protectedRoutes: RouteObject[] = [
     ],
   },
 
-  // F-05: Pelanggan
+  // F-05: Pelanggan — SA, AL, Leader (divisi), Staff (divisi)
   {
     path: '/customers',
+    element: (
+      <RoleProtectedRoute allowedRoles={['SUPERADMIN', 'ADMIN_LOGISTIK', 'LEADER', 'STAFF']} />
+    ),
     children: [
       {
         index: true,
@@ -203,6 +210,9 @@ export const protectedRoutes: RouteObject[] = [
   },
   {
     path: '/installation',
+    element: (
+      <RoleProtectedRoute allowedRoles={['SUPERADMIN', 'ADMIN_LOGISTIK', 'LEADER', 'STAFF']} />
+    ),
     children: [
       {
         index: true,
@@ -220,6 +230,9 @@ export const protectedRoutes: RouteObject[] = [
   },
   {
     path: '/maintenance',
+    element: (
+      <RoleProtectedRoute allowedRoles={['SUPERADMIN', 'ADMIN_LOGISTIK', 'LEADER', 'STAFF']} />
+    ),
     children: [
       {
         index: true,
@@ -237,6 +250,7 @@ export const protectedRoutes: RouteObject[] = [
   },
   {
     path: '/dismantle',
+    element: <RoleProtectedRoute allowedRoles={['SUPERADMIN', 'ADMIN_LOGISTIK']} />,
     children: [
       {
         index: true,
@@ -262,24 +276,55 @@ export const protectedRoutes: RouteObject[] = [
         lazy: () => import('../features/settings/pages/ProfilePage'),
       },
       {
+        // Users & Divisions — SUPERADMIN only
         path: 'users-divisions',
-        lazy: () => import('../features/settings/pages/UsersDivisionsPage'),
+        element: <RoleProtectedRoute allowedRoles={['SUPERADMIN']} />,
+        children: [
+          {
+            index: true,
+            lazy: () => import('../features/settings/pages/UsersDivisionsPage'),
+          },
+        ],
       },
       {
         path: 'users/new',
-        lazy: () => import('../features/settings/pages/UserFormPage'),
+        element: <RoleProtectedRoute allowedRoles={['SUPERADMIN']} />,
+        children: [
+          {
+            index: true,
+            lazy: () => import('../features/settings/pages/UserFormPage'),
+          },
+        ],
       },
       {
         path: 'users/:uuid',
-        lazy: () => import('../features/settings/pages/UserDetailPage'),
+        element: <RoleProtectedRoute allowedRoles={['SUPERADMIN']} />,
+        children: [
+          {
+            index: true,
+            lazy: () => import('../features/settings/pages/UserDetailPage'),
+          },
+        ],
       },
       {
         path: 'divisions/new',
-        lazy: () => import('../features/settings/pages/DivisionFormPage'),
+        element: <RoleProtectedRoute allowedRoles={['SUPERADMIN']} />,
+        children: [
+          {
+            index: true,
+            lazy: () => import('../features/settings/pages/DivisionFormPage'),
+          },
+        ],
       },
       {
         path: 'divisions/:uuid',
-        lazy: () => import('../features/settings/pages/DivisionDetailPage'),
+        element: <RoleProtectedRoute allowedRoles={['SUPERADMIN']} />,
+        children: [
+          {
+            index: true,
+            lazy: () => import('../features/settings/pages/DivisionDetailPage'),
+          },
+        ],
       },
     ],
   },

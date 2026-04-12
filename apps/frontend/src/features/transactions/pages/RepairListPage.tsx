@@ -25,6 +25,7 @@ import {
 import { useRepairs } from '../hooks';
 import { useDebounce } from '@/hooks/use-debounce';
 import type { TransactionStatus } from '@/types';
+import type { Repair } from '../types';
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('id-ID', {
@@ -124,28 +125,25 @@ export function RepairListPage() {
                 </TableCell>
               </TableRow>
             ) : (
-              data.data.map((item) => {
-                const repair = item as Record<string, unknown>;
+              data.data.map((item: Repair) => {
                 return (
                   <TableRow
-                    key={repair.id as string}
+                    key={item.id}
                     className="cursor-pointer hover:bg-muted/50"
-                    onClick={() => navigate(`/repairs/${repair.uuid as string}`)}
+                    onClick={() => navigate(`/repairs/${item.id}`)}
                   >
-                    <TableCell className="font-mono text-xs">
-                      {(repair.code as string) ?? '-'}
-                    </TableCell>
+                    <TableCell className="font-mono text-xs">{item.code ?? '-'}</TableCell>
                     <TableCell className="font-medium max-w-[300px] truncate">
-                      {(repair.description as string) ?? '-'}
+                      {item.issueDescription ?? '-'}
                     </TableCell>
                     <TableCell className="text-muted-foreground">
-                      {(repair.createdBy as Record<string, string> | undefined)?.fullName ?? '-'}
+                      {item.createdBy?.fullName ?? '-'}
                     </TableCell>
                     <TableCell>
-                      <StatusBadge status={(repair.status as string) ?? 'PENDING'} />
+                      <StatusBadge status={item.status ?? 'PENDING'} />
                     </TableCell>
                     <TableCell className="text-muted-foreground">
-                      {formatDate(repair.createdAt as string)}
+                      {formatDate(item.createdAt)}
                     </TableCell>
                   </TableRow>
                 );

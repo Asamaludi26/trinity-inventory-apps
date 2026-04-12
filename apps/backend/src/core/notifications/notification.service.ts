@@ -64,4 +64,80 @@ export class NotificationService {
       where: { userId, isRead: false },
     });
   }
+
+  async notifyTransactionStatusChange(params: {
+    recipientUserId: number;
+    transactionType: string;
+    transactionCode: string;
+    action: 'APPROVED' | 'REJECTED' | 'EXECUTED' | 'CANCELLED' | 'COMPLETED';
+    link: string;
+    reason?: string;
+  }) {
+    const {
+      recipientUserId,
+      transactionType,
+      transactionCode,
+      action,
+      link,
+      reason,
+    } = params;
+
+    const actionLabels: Record<
+      string,
+      { title: string; message: string; type: NotificationType }
+    > = {
+      APPROVED: {
+        title: `${transactionType} Disetujui`,
+        message: `${transactionType} ${transactionCode} telah disetujui.`,
+        type: NotificationType.STATUS_CHANGE,
+      },
+      REJECTED: {
+        title: `${transactionType} Ditolak`,
+        message: `${transactionType} ${transactionCode} ditolak${reason ? `: ${reason}` : '.'}`,
+        type: NotificationType.STATUS_CHANGE,
+      },
+      EXECUTED: {
+        title: `${transactionType} Dieksekusi`,
+        message: `${transactionType} ${transactionCode} sedang diproses.`,
+        type: NotificationType.STATUS_CHANGE,
+      },
+      CANCELLED: {
+        title: `${transactionType} Dibatalkan`,
+        message: `${transactionType} ${transactionCode} telah dibatalkan.`,
+        type: NotificationType.STATUS_CHANGE,
+      },
+      COMPLETED: {
+        title: `${transactionType} Selesai`,
+        message: `${transactionType} ${transactionCode} telah selesai.`,
+        type: NotificationType.STATUS_CHANGE,
+      },
+    };
+
+    const config = actionLabels[action];
+    if (!config) return;
+
+    return this.create({
+      userId: recipientUserId,
+      type: config.type,
+      title: config.title,
+      message: config.message,
+      link,
+    });
+  }
+
+  async notifyApprovalRequired(params: {
+    recipientUserId: number;
+    transactionType: string;
+    transactionCode: string;
+    requesterName: string;
+    link: string;
+  }) {
+    return this.create({
+      userId: params.recipientUserId,
+      type: NotificationType.APPROVAL_REQUIRED,
+      title: `Persetujuan Diperlukan`,
+      message: `${params.transactionType} ${params.transactionCode} dari ${params.requesterName} menunggu persetujuan Anda.`,
+      link: params.link,
+    });
+  }
 }

@@ -175,3 +175,39 @@ model HandoverItem {
   @@index([assetId])
   @@map("handover_items")
 }
+
+// =============================================
+// REPAIR (Lapor Rusak / Perbaikan Aset) — F-04e
+// =============================================
+
+model Repair {
+  id                String            @id @default(uuid())
+  code              String            @unique @db.VarChar(20)
+  assetId           String            @map("asset_id")
+  issueDescription  String            @map("issue_description") @db.Text
+  condition         AssetCondition
+  status            TransactionStatus @default(PENDING)
+  repairAction      String?           @map("repair_action") @db.Text
+  repairVendor      String?           @map("repair_vendor") @db.VarChar(255)
+  repairCost        Decimal?          @map("repair_cost") @db.Decimal(15, 2)
+  startedAt         DateTime?         @map("started_at")
+  completedAt       DateTime?         @map("completed_at")
+  note              String?           @db.Text
+  createdById       Int               @map("created_by_id")
+  approvalChain     Json?             @map("approval_chain") @db.JsonB
+  rejectionReason   String?           @map("rejection_reason") @db.Text
+  isDeleted         Boolean           @default(false) @map("is_deleted")
+  version           Int               @default(1)
+  createdAt         DateTime          @default(now()) @map("created_at")
+  updatedAt         DateTime          @updatedAt @map("updated_at")
+
+  asset     Asset @relation(fields: [assetId], references: [id], onDelete: Restrict)
+  createdBy User  @relation("RepairCreatedBy", fields: [createdById], references: [id])
+
+  @@index([status])
+  @@index([assetId])
+  @@index([createdById])
+  @@index([code])
+  @@index([createdAt])
+  @@map("repairs")
+}

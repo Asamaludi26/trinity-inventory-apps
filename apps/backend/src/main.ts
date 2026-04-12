@@ -2,8 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import helmet from 'helmet';
 import compression from 'compression';
+import * as path from 'path';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { PrismaExceptionFilter } from './common/filters/prisma-exception.filter';
@@ -11,7 +13,7 @@ import { ResponseTransformInterceptor } from './common/interceptors/response-tra
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
 
   // Global prefix
@@ -46,6 +48,12 @@ async function bootstrap() {
 
   // Global Response Transform Interceptor
   app.useGlobalInterceptors(new ResponseTransformInterceptor());
+
+  // Static file serving — uploads directory
+  const uploadDir = configService.get<string>('UPLOAD_DIR', './uploads');
+  app.useStaticAssets(path.resolve(uploadDir), {
+    prefix: '/uploads/',
+  });
 
   // Swagger / OpenAPI (conditional)
   const swaggerEnabled = configService.get<boolean>('SWAGGER_ENABLED', true);

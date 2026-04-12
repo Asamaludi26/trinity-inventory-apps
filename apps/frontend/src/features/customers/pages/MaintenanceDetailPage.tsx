@@ -15,6 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useMaintenanceDetail } from '../hooks';
+import { AttachmentSection } from '@/components/form';
 
 function formatDate(date: string | null) {
   if (!date) return '-';
@@ -191,6 +192,9 @@ export function MaintenanceDetailPage() {
             </CardContent>
           </Card>
         )}
+
+        {/* Lampiran */}
+        <AttachmentSection entityType="Maintenance" entityId={id} />
       </div>
     </PageContainer>
   );

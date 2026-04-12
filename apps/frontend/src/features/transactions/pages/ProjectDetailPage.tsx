@@ -16,6 +16,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useProject } from '../hooks';
+import { AttachmentSection } from '@/components/form';
 
 function formatDate(date: string | null) {
   if (!date) return '-';
@@ -204,6 +205,9 @@ export function ProjectDetailPage() {
             </CardContent>
           </Card>
         )}
+
+        {/* Lampiran */}
+        <AttachmentSection entityType="InfraProject" entityId={uuid} />
       </div>
     </PageContainer>
   );

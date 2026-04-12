@@ -15,6 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useInstallation } from '../hooks';
+import { AttachmentSection } from '@/components/form';
 
 function formatDate(date: string | null) {
   if (!date) return '-';
@@ -160,6 +161,9 @@ export function InstallationDetailPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Lampiran */}
+        <AttachmentSection entityType="Installation" entityId={id} />
       </div>
     </PageContainer>
   );

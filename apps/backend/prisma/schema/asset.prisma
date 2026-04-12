@@ -97,6 +97,7 @@ model Asset {
   loanAssetAssignments LoanAssetAssignment[]
   assetReturnItems     AssetReturnItem[]
   handoverItems        HandoverItem[]
+  repairs              Repair[]
 
   @@index([status, categoryId])
   @@index([serialNumber])

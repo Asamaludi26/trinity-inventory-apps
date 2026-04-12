@@ -16,6 +16,12 @@ export interface LoginResponse {
   refreshToken: string;
 }
 
+export interface ChangePasswordPayload {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 export const authApi = {
   login: (data: LoginFormData) =>
     api.post<{ success: boolean; data: LoginResponse }>('/auth/login', data),
@@ -27,4 +33,7 @@ export const authApi = {
     ),
 
   logout: () => api.post('/auth/logout'),
+
+  changePassword: (data: ChangePasswordPayload) =>
+    api.patch<{ success: boolean; message: string }>('/auth/change-password', data),
 };

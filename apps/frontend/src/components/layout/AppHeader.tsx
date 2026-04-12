@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Bell, LogOut, Moon, Sun, User } from 'lucide-react';
+import { LogOut, Moon, Sun, User } from 'lucide-react';
 
 import { useAuthStore } from '@/store/useAuthStore';
 import { useUIStore } from '@/store/useUIStore';
@@ -24,6 +24,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { NotificationDropdown } from './NotificationDropdown';
 
 const ROLE_LABELS: Record<string, string> = {
   SUPERADMIN: 'Super Admin',
@@ -121,9 +122,7 @@ export function AppHeader() {
         </Button>
 
         {/* Notifications */}
-        <Button variant="ghost" size="icon" aria-label="Notifikasi">
-          <Bell className="size-4" />
-        </Button>
+        <NotificationDropdown />
 
         {/* User menu */}
         <DropdownMenu>

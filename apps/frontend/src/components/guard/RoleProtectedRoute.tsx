@@ -1,10 +1,10 @@
 import type { FC, ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from '@/store/useAuthStore';
 import type { UserRole } from '@/types';
 
 interface RoleProtectedRouteProps {
-  children: ReactNode;
+  children?: ReactNode;
   allowedRoles: UserRole[];
 }
 
@@ -19,5 +19,5 @@ export const RoleProtectedRoute: FC<RoleProtectedRouteProps> = ({ children, allo
     return <Navigate to="/dashboard" replace />;
   }
 
-  return <>{children}</>;
+  return <>{children ?? <Outlet />}</>;
 };

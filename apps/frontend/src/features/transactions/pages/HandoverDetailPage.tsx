@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, CheckCircle, XCircle } from 'lucide-react';
+import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,7 +16,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useHandover } from '../hooks';
+import { useHandover, useApproveHandover, useRejectHandover } from '../hooks';
+import { RejectDialog } from '../components';
+import { AttachmentSection } from '@/components/form';
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('id-ID', {
@@ -28,6 +32,34 @@ export function HandoverDetailPage() {
   const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
   const { data: handover, isLoading } = useHandover(uuid);
+  const approveHandover = useApproveHandover();
+  const rejectHandover = useRejectHandover();
+  const [rejectOpen, setRejectOpen] = useState(false);
+
+  const handleApprove = () => {
+    if (!uuid) return;
+    approveHandover.mutate(
+      { uuid },
+      {
+        onSuccess: () => toast.success('Serah terima berhasil disetujui'),
+        onError: () => toast.error('Gagal menyetujui serah terima'),
+      },
+    );
+  };
+
+  const handleReject = (reason: string) => {
+    if (!uuid) return;
+    rejectHandover.mutate(
+      { uuid, reason },
+      {
+        onSuccess: () => {
+          toast.success('Serah terima berhasil ditolak');
+          setRejectOpen(false);
+        },
+        onError: () => toast.error('Gagal menolak serah terima'),
+      },
+    );
+  };
 
   if (isLoading) {
     return (
@@ -66,11 +98,15 @@ export function HandoverDetailPage() {
           </Button>
           {isPending && (
             <>
-              <Button variant="default">
+              <Button
+                variant="default"
+                onClick={handleApprove}
+                disabled={approveHandover.isPending}
+              >
                 <CheckCircle className="mr-2 h-4 w-4" />
-                Approve
+                {approveHandover.isPending ? 'Menyetujui...' : 'Approve'}
               </Button>
-              <Button variant="destructive">
+              <Button variant="destructive" onClick={() => setRejectOpen(true)}>
                 <XCircle className="mr-2 h-4 w-4" />
                 Reject
               </Button>
@@ -166,10 +202,19 @@ export function HandoverDetailPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Lampiran */}
+        <AttachmentSection entityType="Handover" entityId={uuid} />
       </div>
+
+      <RejectDialog
+        open={rejectOpen}
+        onOpenChange={setRejectOpen}
+        onConfirm={handleReject}
+        isPending={rejectHandover.isPending}
+        title="Tolak Serah Terima"
+      />
     </PageContainer>
   );
 }
-
-export default HandoverDetailPage;
 export const Component = HandoverDetailPage;

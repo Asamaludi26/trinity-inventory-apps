@@ -4,6 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
+import { NotificationService } from '../../../core/notifications/notification.service';
 import { CreateHandoverDto } from './dto/create-handover.dto';
 import { UpdateHandoverDto } from './dto/update-handover.dto';
 import { FilterHandoverDto } from './dto/filter-handover.dto';
@@ -19,6 +20,7 @@ export class HandoverService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly approvalService: ApprovalService,
+    private readonly notificationService: NotificationService,
   ) {}
 
   private async generateCode(): Promise<string> {
@@ -169,10 +171,22 @@ export class HandoverService {
         ? TransactionStatus.LOGISTIC_APPROVED
         : TransactionStatus.APPROVED;
 
-    return this.prisma.handover.update({
+    const result = await this.prisma.handover.update({
       where: { id },
       data: { status: nextStatus, version: { increment: 1 } },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.fromUserId,
+        transactionType: 'Serah Terima',
+        transactionCode: existing.code,
+        action: 'APPROVED',
+        link: `/transactions/handovers/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async reject(id: string, reason: string) {
@@ -185,7 +199,7 @@ export class HandoverService {
         'Serah terima sudah ditolak atau dibatalkan',
       );
     }
-    return this.prisma.handover.update({
+    const result = await this.prisma.handover.update({
       where: { id },
       data: {
         status: TransactionStatus.REJECTED,
@@ -193,6 +207,19 @@ export class HandoverService {
         version: { increment: 1 },
       },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.fromUserId,
+        transactionType: 'Serah Terima',
+        transactionCode: existing.code,
+        action: 'REJECTED',
+        link: `/transactions/handovers/${id}`,
+        reason,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async execute(id: string) {
@@ -202,10 +229,22 @@ export class HandoverService {
         'Hanya serah terima yang sudah di-approve yang dapat dieksekusi',
       );
     }
-    return this.prisma.handover.update({
+    const result = await this.prisma.handover.update({
       where: { id },
       data: { status: TransactionStatus.COMPLETED, version: { increment: 1 } },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.fromUserId,
+        transactionType: 'Serah Terima',
+        transactionCode: existing.code,
+        action: 'COMPLETED',
+        link: `/transactions/handovers/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async cancel(id: string, userId: number) {

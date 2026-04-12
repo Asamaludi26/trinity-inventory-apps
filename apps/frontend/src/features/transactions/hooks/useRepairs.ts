@@ -30,11 +30,57 @@ export function useCreateRepair() {
   });
 }
 
-export function useUpdateRepairStatus() {
+export function useApproveRepair() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ uuid, data }: { uuid: string; data: Record<string, unknown> }) =>
-      repairApi.updateStatus(uuid, data),
+    mutationFn: (uuid: string) => repairApi.approve(uuid),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: REPAIRS_KEY });
+    },
+  });
+}
+
+export function useRejectRepair() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, reason }: { uuid: string; reason: string }) =>
+      repairApi.reject(uuid, { reason }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: REPAIRS_KEY });
+    },
+  });
+}
+
+export function useExecuteRepair() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (uuid: string) => repairApi.execute(uuid),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: REPAIRS_KEY });
+    },
+  });
+}
+
+export function useCompleteRepair() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      uuid,
+      data,
+    }: {
+      uuid: string;
+      data: { repairAction?: string; repairVendor?: string; repairCost?: number };
+    }) => repairApi.complete(uuid, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: REPAIRS_KEY });
+    },
+  });
+}
+
+export function useCancelRepair() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (uuid: string) => repairApi.cancel(uuid),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: REPAIRS_KEY });
     },

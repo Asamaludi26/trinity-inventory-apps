@@ -126,3 +126,35 @@ export interface PaginatedResponse<T> {
   data: T[];
   meta: PaginationMeta;
 }
+
+// ================================
+// Notification Types
+// ================================
+
+export interface Notification {
+  id: number;
+  userId: number;
+  type: NotificationType;
+  title: string;
+  message: string;
+  isRead: boolean;
+  link: string | null;
+  createdAt: string;
+}
+
+// ================================
+// Attachment Types
+// ================================
+
+export interface Attachment {
+  id: number;
+  fileName: string;
+  fileUrl: string;
+  fileType: string;
+  fileSize: number;
+  entityType: string;
+  entityId: string;
+  uploadedById: number;
+  createdAt: string;
+  uploadedBy?: { id: number; fullName: string };
+}

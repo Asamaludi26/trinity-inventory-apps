@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, CheckCircle, XCircle, Ban } from 'lucide-react';
+import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,7 +17,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useRequest } from '../hooks';
+import { useRequest, useApproveRequest, useRejectRequest, useCancelRequest } from '../hooks';
+import { RejectDialog } from '../components';
+import { AttachmentSection } from '@/components/form';
 
 const PRIORITY_LABELS: Record<string, string> = {
   REGULAR: 'Regular',
@@ -37,6 +41,43 @@ export function RequestDetailPage() {
   const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
   const { data: request, isLoading } = useRequest(uuid);
+  const approveRequest = useApproveRequest();
+  const rejectRequest = useRejectRequest();
+  const cancelRequest = useCancelRequest();
+  const [rejectOpen, setRejectOpen] = useState(false);
+
+  const handleApprove = () => {
+    if (!uuid) return;
+    approveRequest.mutate(
+      { uuid },
+      {
+        onSuccess: () => toast.success('Permintaan berhasil disetujui'),
+        onError: () => toast.error('Gagal menyetujui permintaan'),
+      },
+    );
+  };
+
+  const handleReject = (reason: string) => {
+    if (!uuid) return;
+    rejectRequest.mutate(
+      { uuid, reason },
+      {
+        onSuccess: () => {
+          toast.success('Permintaan berhasil ditolak');
+          setRejectOpen(false);
+        },
+        onError: () => toast.error('Gagal menolak permintaan'),
+      },
+    );
+  };
+
+  const handleCancel = () => {
+    if (!uuid) return;
+    cancelRequest.mutate(uuid, {
+      onSuccess: () => toast.success('Permintaan berhasil dibatalkan'),
+      onError: () => toast.error('Gagal membatalkan permintaan'),
+    });
+  };
 
   if (isLoading) {
     return (
@@ -80,17 +121,17 @@ export function RequestDetailPage() {
           </Button>
           {isPending && (
             <>
-              <Button variant="default">
+              <Button variant="default" onClick={handleApprove} disabled={approveRequest.isPending}>
                 <CheckCircle className="mr-2 h-4 w-4" />
-                Approve
+                {approveRequest.isPending ? 'Menyetujui...' : 'Approve'}
               </Button>
-              <Button variant="destructive">
+              <Button variant="destructive" onClick={() => setRejectOpen(true)}>
                 <XCircle className="mr-2 h-4 w-4" />
                 Reject
               </Button>
-              <Button variant="outline">
+              <Button variant="outline" onClick={handleCancel} disabled={cancelRequest.isPending}>
                 <Ban className="mr-2 h-4 w-4" />
-                Batalkan
+                {cancelRequest.isPending ? 'Membatalkan...' : 'Batalkan'}
               </Button>
             </>
           )}
@@ -228,7 +269,18 @@ export function RequestDetailPage() {
             </CardContent>
           </Card>
         )}
+
+        {/* Lampiran */}
+        <AttachmentSection entityType="Request" entityId={uuid} />
       </div>
+
+      <RejectDialog
+        open={rejectOpen}
+        onOpenChange={setRejectOpen}
+        onConfirm={handleReject}
+        isPending={rejectRequest.isPending}
+        title="Tolak Permintaan"
+      />
     </PageContainer>
   );
 }

@@ -187,17 +187,22 @@ export interface Repair {
   assetId: string;
   status: TransactionStatus;
   issueDescription: string;
+  condition: AssetCondition;
   repairAction: string | null;
   repairCost: string | null;
   repairVendor: string | null;
   startedAt: string | null;
   completedAt: string | null;
+  note: string | null;
   createdById: number;
+  approvalChain: ApprovalStep[] | null;
+  rejectionReason: string | null;
   isDeleted: boolean;
   version: number;
   createdAt: string;
   updatedAt: string;
   createdBy?: UserSummary;
+  asset?: { id: string; code: string; name: string; status?: string; condition?: string };
 }
 
 // ================================

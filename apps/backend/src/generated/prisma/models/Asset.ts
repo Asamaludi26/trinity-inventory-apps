@@ -419,6 +419,7 @@ export type AssetWhereInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentListRelationFilter;
   assetReturnItems?: Prisma.AssetReturnItemListRelationFilter;
   handoverItems?: Prisma.HandoverItemListRelationFilter;
+  repairs?: Prisma.RepairListRelationFilter;
 };
 
 export type AssetOrderByWithRelationInput = {
@@ -452,6 +453,7 @@ export type AssetOrderByWithRelationInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentOrderByRelationAggregateInput;
   assetReturnItems?: Prisma.AssetReturnItemOrderByRelationAggregateInput;
   handoverItems?: Prisma.HandoverItemOrderByRelationAggregateInput;
+  repairs?: Prisma.RepairOrderByRelationAggregateInput;
 };
 
 export type AssetWhereUniqueInput = Prisma.AtLeast<
@@ -525,6 +527,7 @@ export type AssetWhereUniqueInput = Prisma.AtLeast<
     loanAssetAssignments?: Prisma.LoanAssetAssignmentListRelationFilter;
     assetReturnItems?: Prisma.AssetReturnItemListRelationFilter;
     handoverItems?: Prisma.HandoverItemListRelationFilter;
+    repairs?: Prisma.RepairListRelationFilter;
   },
   'id' | 'code'
 >;
@@ -657,6 +660,7 @@ export type AssetCreateInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetUncheckedCreateInput = {
@@ -695,6 +699,7 @@ export type AssetUncheckedCreateInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairUncheckedCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetUpdateInput = {
@@ -752,6 +757,7 @@ export type AssetUpdateInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateInput = {
@@ -809,6 +815,7 @@ export type AssetUncheckedUpdateInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUncheckedUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetCreateManyInput = {
@@ -1627,6 +1634,32 @@ export type AssetUpdateOneRequiredWithoutHandoverItemsNestedInput = {
   >;
 };
 
+export type AssetCreateNestedOneWithoutRepairsInput = {
+  create?: Prisma.XOR<
+    Prisma.AssetCreateWithoutRepairsInput,
+    Prisma.AssetUncheckedCreateWithoutRepairsInput
+  >;
+  connectOrCreate?: Prisma.AssetCreateOrConnectWithoutRepairsInput;
+  connect?: Prisma.AssetWhereUniqueInput;
+};
+
+export type AssetUpdateOneRequiredWithoutRepairsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.AssetCreateWithoutRepairsInput,
+    Prisma.AssetUncheckedCreateWithoutRepairsInput
+  >;
+  connectOrCreate?: Prisma.AssetCreateOrConnectWithoutRepairsInput;
+  upsert?: Prisma.AssetUpsertWithoutRepairsInput;
+  connect?: Prisma.AssetWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.AssetUpdateToOneWithWhereWithoutRepairsInput,
+      Prisma.AssetUpdateWithoutRepairsInput
+    >,
+    Prisma.AssetUncheckedUpdateWithoutRepairsInput
+  >;
+};
+
 export type AssetCreateWithoutCategoryInput = {
   id?: string;
   code: string;
@@ -1662,6 +1695,7 @@ export type AssetCreateWithoutCategoryInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetUncheckedCreateWithoutCategoryInput = {
@@ -1699,6 +1733,7 @@ export type AssetUncheckedCreateWithoutCategoryInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairUncheckedCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetCreateOrConnectWithoutCategoryInput = {
@@ -1821,6 +1856,7 @@ export type AssetCreateWithoutTypeInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetUncheckedCreateWithoutTypeInput = {
@@ -1858,6 +1894,7 @@ export type AssetUncheckedCreateWithoutTypeInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairUncheckedCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetCreateOrConnectWithoutTypeInput = {
@@ -1936,6 +1973,7 @@ export type AssetCreateWithoutModelInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetUncheckedCreateWithoutModelInput = {
@@ -1973,6 +2011,7 @@ export type AssetUncheckedCreateWithoutModelInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairUncheckedCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetCreateOrConnectWithoutModelInput = {
@@ -2051,6 +2090,7 @@ export type AssetCreateWithoutRecordedByInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetUncheckedCreateWithoutRecordedByInput = {
@@ -2088,6 +2128,7 @@ export type AssetUncheckedCreateWithoutRecordedByInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairUncheckedCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetCreateOrConnectWithoutRecordedByInput = {
@@ -2140,6 +2181,7 @@ export type AssetCreateWithoutCurrentUserInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetUncheckedCreateWithoutCurrentUserInput = {
@@ -2177,6 +2219,7 @@ export type AssetUncheckedCreateWithoutCurrentUserInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairUncheckedCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetCreateOrConnectWithoutCurrentUserInput = {
@@ -2285,6 +2328,7 @@ export type AssetCreateWithoutStockMovementsInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetUncheckedCreateWithoutStockMovementsInput = {
@@ -2322,6 +2366,7 @@ export type AssetUncheckedCreateWithoutStockMovementsInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairUncheckedCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetCreateOrConnectWithoutStockMovementsInput = {
@@ -2406,6 +2451,7 @@ export type AssetUpdateWithoutStockMovementsInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateWithoutStockMovementsInput = {
@@ -2462,6 +2508,7 @@ export type AssetUncheckedUpdateWithoutStockMovementsInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUncheckedUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetCreateWithoutLoanAssetAssignmentsInput = {
@@ -2499,6 +2546,7 @@ export type AssetCreateWithoutLoanAssetAssignmentsInput = {
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetUncheckedCreateWithoutLoanAssetAssignmentsInput = {
@@ -2536,6 +2584,7 @@ export type AssetUncheckedCreateWithoutLoanAssetAssignmentsInput = {
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairUncheckedCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetCreateOrConnectWithoutLoanAssetAssignmentsInput = {
@@ -2620,6 +2669,7 @@ export type AssetUpdateWithoutLoanAssetAssignmentsInput = {
   stockMovements?: Prisma.StockMovementUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateWithoutLoanAssetAssignmentsInput = {
@@ -2676,6 +2726,7 @@ export type AssetUncheckedUpdateWithoutLoanAssetAssignmentsInput = {
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUncheckedUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetCreateWithoutAssetReturnItemsInput = {
@@ -2713,6 +2764,7 @@ export type AssetCreateWithoutAssetReturnItemsInput = {
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetUncheckedCreateWithoutAssetReturnItemsInput = {
@@ -2750,6 +2802,7 @@ export type AssetUncheckedCreateWithoutAssetReturnItemsInput = {
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairUncheckedCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetCreateOrConnectWithoutAssetReturnItemsInput = {
@@ -2834,6 +2887,7 @@ export type AssetUpdateWithoutAssetReturnItemsInput = {
   stockMovements?: Prisma.StockMovementUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateWithoutAssetReturnItemsInput = {
@@ -2890,6 +2944,7 @@ export type AssetUncheckedUpdateWithoutAssetReturnItemsInput = {
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUncheckedUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetCreateWithoutHandoverItemsInput = {
@@ -2927,6 +2982,7 @@ export type AssetCreateWithoutHandoverItemsInput = {
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetUncheckedCreateWithoutHandoverItemsInput = {
@@ -2964,6 +3020,7 @@ export type AssetUncheckedCreateWithoutHandoverItemsInput = {
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  repairs?: Prisma.RepairUncheckedCreateNestedManyWithoutAssetInput;
 };
 
 export type AssetCreateOrConnectWithoutHandoverItemsInput = {
@@ -3048,6 +3105,7 @@ export type AssetUpdateWithoutHandoverItemsInput = {
   stockMovements?: Prisma.StockMovementUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateWithoutHandoverItemsInput = {
@@ -3104,6 +3162,225 @@ export type AssetUncheckedUpdateWithoutHandoverItemsInput = {
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUncheckedUpdateManyWithoutAssetNestedInput;
+};
+
+export type AssetCreateWithoutRepairsInput = {
+  id?: string;
+  code: string;
+  name: string;
+  brand: string;
+  serialNumber?: string | null;
+  purchasePrice?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchaseDate?: Date | string | null;
+  depreciationMethod?: $Enums.DepreciationMethod | null;
+  usefulLifeYears?: number | null;
+  salvageValue?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  status?: $Enums.AssetStatus;
+  condition?: $Enums.AssetCondition;
+  isDeleted?: boolean;
+  version?: number;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
+  type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
+  recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutAssetInput;
+  loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
+  assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
+  handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
+};
+
+export type AssetUncheckedCreateWithoutRepairsInput = {
+  id?: string;
+  code: string;
+  name: string;
+  categoryId: number;
+  typeId?: number | null;
+  modelId?: number | null;
+  brand: string;
+  serialNumber?: string | null;
+  purchasePrice?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchaseDate?: Date | string | null;
+  depreciationMethod?: $Enums.DepreciationMethod | null;
+  usefulLifeYears?: number | null;
+  salvageValue?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  status?: $Enums.AssetStatus;
+  condition?: $Enums.AssetCondition;
+  currentUserId?: number | null;
+  recordedById: number;
+  isDeleted?: boolean;
+  version?: number;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutAssetInput;
+  loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
+  assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
+};
+
+export type AssetCreateOrConnectWithoutRepairsInput = {
+  where: Prisma.AssetWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.AssetCreateWithoutRepairsInput,
+    Prisma.AssetUncheckedCreateWithoutRepairsInput
+  >;
+};
+
+export type AssetUpsertWithoutRepairsInput = {
+  update: Prisma.XOR<
+    Prisma.AssetUpdateWithoutRepairsInput,
+    Prisma.AssetUncheckedUpdateWithoutRepairsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.AssetCreateWithoutRepairsInput,
+    Prisma.AssetUncheckedCreateWithoutRepairsInput
+  >;
+  where?: Prisma.AssetWhereInput;
+};
+
+export type AssetUpdateToOneWithWhereWithoutRepairsInput = {
+  where?: Prisma.AssetWhereInput;
+  data: Prisma.XOR<
+    Prisma.AssetUpdateWithoutRepairsInput,
+    Prisma.AssetUncheckedUpdateWithoutRepairsInput
+  >;
+};
+
+export type AssetUpdateWithoutRepairsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  code?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  serialNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  purchasePrice?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchaseDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  depreciationMethod?:
+    | Prisma.NullableEnumDepreciationMethodFieldUpdateOperationsInput
+    | $Enums.DepreciationMethod
+    | null;
+  usefulLifeYears?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  salvageValue?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  status?:
+    | Prisma.EnumAssetStatusFieldUpdateOperationsInput
+    | $Enums.AssetStatus;
+  condition?:
+    | Prisma.EnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
+  type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
+  recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutAssetNestedInput;
+  loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
+  assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
+  handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
+};
+
+export type AssetUncheckedUpdateWithoutRepairsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  code?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  categoryId?: Prisma.IntFieldUpdateOperationsInput | number;
+  typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  serialNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  purchasePrice?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchaseDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  depreciationMethod?:
+    | Prisma.NullableEnumDepreciationMethodFieldUpdateOperationsInput
+    | $Enums.DepreciationMethod
+    | null;
+  usefulLifeYears?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  salvageValue?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  status?:
+    | Prisma.EnumAssetStatusFieldUpdateOperationsInput
+    | $Enums.AssetStatus;
+  condition?:
+    | Prisma.EnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition;
+  currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutAssetNestedInput;
+  loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
+  assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetCreateManyCategoryInput = {
@@ -3193,6 +3470,7 @@ export type AssetUpdateWithoutCategoryInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateWithoutCategoryInput = {
@@ -3249,6 +3527,7 @@ export type AssetUncheckedUpdateWithoutCategoryInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUncheckedUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateManyWithoutCategoryInput = {
@@ -3390,6 +3669,7 @@ export type AssetUpdateWithoutTypeInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateWithoutTypeInput = {
@@ -3446,6 +3726,7 @@ export type AssetUncheckedUpdateWithoutTypeInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUncheckedUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateManyWithoutTypeInput = {
@@ -3587,6 +3868,7 @@ export type AssetUpdateWithoutModelInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateWithoutModelInput = {
@@ -3643,6 +3925,7 @@ export type AssetUncheckedUpdateWithoutModelInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUncheckedUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateManyWithoutModelInput = {
@@ -3817,6 +4100,7 @@ export type AssetUpdateWithoutRecordedByInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateWithoutRecordedByInput = {
@@ -3873,6 +4157,7 @@ export type AssetUncheckedUpdateWithoutRecordedByInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUncheckedUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateManyWithoutRecordedByInput = {
@@ -3981,6 +4266,7 @@ export type AssetUpdateWithoutCurrentUserInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateWithoutCurrentUserInput = {
@@ -4037,6 +4323,7 @@ export type AssetUncheckedUpdateWithoutCurrentUserInput = {
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
+  repairs?: Prisma.RepairUncheckedUpdateManyWithoutAssetNestedInput;
 };
 
 export type AssetUncheckedUpdateManyWithoutCurrentUserInput = {
@@ -4100,6 +4387,7 @@ export type AssetCountOutputType = {
   loanAssetAssignments: number;
   assetReturnItems: number;
   handoverItems: number;
+  repairs: number;
 };
 
 export type AssetCountOutputTypeSelect<
@@ -4112,6 +4400,7 @@ export type AssetCountOutputTypeSelect<
     | AssetCountOutputTypeCountLoanAssetAssignmentsArgs;
   assetReturnItems?: boolean | AssetCountOutputTypeCountAssetReturnItemsArgs;
   handoverItems?: boolean | AssetCountOutputTypeCountHandoverItemsArgs;
+  repairs?: boolean | AssetCountOutputTypeCountRepairsArgs;
 };
 
 /**
@@ -4167,6 +4456,16 @@ export type AssetCountOutputTypeCountHandoverItemsArgs<
   where?: Prisma.HandoverItemWhereInput;
 };
 
+/**
+ * AssetCountOutputType without action
+ */
+export type AssetCountOutputTypeCountRepairsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.RepairWhereInput;
+};
+
 export type AssetSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -4204,6 +4503,7 @@ export type AssetSelect<
       | Prisma.Asset$loanAssetAssignmentsArgs<ExtArgs>;
     assetReturnItems?: boolean | Prisma.Asset$assetReturnItemsArgs<ExtArgs>;
     handoverItems?: boolean | Prisma.Asset$handoverItemsArgs<ExtArgs>;
+    repairs?: boolean | Prisma.Asset$repairsArgs<ExtArgs>;
     _count?: boolean | Prisma.AssetCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['asset']
@@ -4345,6 +4645,7 @@ export type AssetInclude<
     | Prisma.Asset$loanAssetAssignmentsArgs<ExtArgs>;
   assetReturnItems?: boolean | Prisma.Asset$assetReturnItemsArgs<ExtArgs>;
   handoverItems?: boolean | Prisma.Asset$handoverItemsArgs<ExtArgs>;
+  repairs?: boolean | Prisma.Asset$repairsArgs<ExtArgs>;
   _count?: boolean | Prisma.AssetCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type AssetIncludeCreateManyAndReturn<
@@ -4383,6 +4684,7 @@ export type $AssetPayload<
     loanAssetAssignments: Prisma.$LoanAssetAssignmentPayload<ExtArgs>[];
     assetReturnItems: Prisma.$AssetReturnItemPayload<ExtArgs>[];
     handoverItems: Prisma.$HandoverItemPayload<ExtArgs>[];
+    repairs: Prisma.$RepairPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -5064,6 +5366,17 @@ export interface Prisma__AssetClient<
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
         Prisma.$HandoverItemPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  repairs<T extends Prisma.Asset$repairsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Asset$repairsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$RepairPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -5774,6 +6087,35 @@ export type Asset$handoverItemsArgs<
   distinct?:
     | Prisma.HandoverItemScalarFieldEnum
     | Prisma.HandoverItemScalarFieldEnum[];
+};
+
+/**
+ * Asset.repairs
+ */
+export type Asset$repairsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Repair
+   */
+  select?: Prisma.RepairSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Repair
+   */
+  omit?: Prisma.RepairOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RepairInclude<ExtArgs> | null;
+  where?: Prisma.RepairWhereInput;
+  orderBy?:
+    | Prisma.RepairOrderByWithRelationInput
+    | Prisma.RepairOrderByWithRelationInput[];
+  cursor?: Prisma.RepairWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.RepairScalarFieldEnum | Prisma.RepairScalarFieldEnum[];
 };
 
 /**

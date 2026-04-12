@@ -339,6 +339,7 @@ export type UserWhereInput = {
   handoversWitness?: Prisma.HandoverListRelationFilter;
   createdDepreciations?: Prisma.DepreciationListRelationFilter;
   createdPurchases?: Prisma.PurchaseMasterDataListRelationFilter;
+  createdRepairs?: Prisma.RepairListRelationFilter;
 };
 
 export type UserOrderByWithRelationInput = {
@@ -375,6 +376,7 @@ export type UserOrderByWithRelationInput = {
   handoversWitness?: Prisma.HandoverOrderByRelationAggregateInput;
   createdDepreciations?: Prisma.DepreciationOrderByRelationAggregateInput;
   createdPurchases?: Prisma.PurchaseMasterDataOrderByRelationAggregateInput;
+  createdRepairs?: Prisma.RepairOrderByRelationAggregateInput;
 };
 
 export type UserWhereUniqueInput = Prisma.AtLeast<
@@ -418,6 +420,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     handoversWitness?: Prisma.HandoverListRelationFilter;
     createdDepreciations?: Prisma.DepreciationListRelationFilter;
     createdPurchases?: Prisma.PurchaseMasterDataListRelationFilter;
+    createdRepairs?: Prisma.RepairListRelationFilter;
   },
   'id' | 'uuid' | 'employeeId' | 'email'
 >;
@@ -510,6 +513,7 @@ export type UserCreateInput = {
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateInput = {
@@ -545,6 +549,7 @@ export type UserUncheckedCreateInput = {
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUpdateInput = {
@@ -583,6 +588,7 @@ export type UserUpdateInput = {
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateInput = {
@@ -622,6 +628,7 @@ export type UserUncheckedUpdateInput = {
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateManyInput = {
@@ -1264,6 +1271,32 @@ export type UserUpdateOneWithoutHandoversWitnessNestedInput = {
   >;
 };
 
+export type UserCreateNestedOneWithoutCreatedRepairsInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutCreatedRepairsInput,
+    Prisma.UserUncheckedCreateWithoutCreatedRepairsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedRepairsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutCreatedRepairsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutCreatedRepairsInput,
+    Prisma.UserUncheckedCreateWithoutCreatedRepairsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedRepairsInput;
+  upsert?: Prisma.UserUpsertWithoutCreatedRepairsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutCreatedRepairsInput,
+      Prisma.UserUpdateWithoutCreatedRepairsInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutCreatedRepairsInput
+  >;
+};
+
 export type UserCreateWithoutCurrentAssetsInput = {
   uuid?: string;
   employeeId: string;
@@ -1295,6 +1328,7 @@ export type UserCreateWithoutCurrentAssetsInput = {
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutCurrentAssetsInput = {
@@ -1329,6 +1363,7 @@ export type UserUncheckedCreateWithoutCurrentAssetsInput = {
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutCurrentAssetsInput = {
@@ -1370,6 +1405,7 @@ export type UserCreateWithoutRecordedAssetsInput = {
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutRecordedAssetsInput = {
@@ -1404,6 +1440,7 @@ export type UserUncheckedCreateWithoutRecordedAssetsInput = {
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutRecordedAssetsInput = {
@@ -1469,6 +1506,7 @@ export type UserUpdateWithoutCurrentAssetsInput = {
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCurrentAssetsInput = {
@@ -1507,6 +1545,7 @@ export type UserUncheckedUpdateWithoutCurrentAssetsInput = {
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUpsertWithoutRecordedAssetsInput = {
@@ -1564,6 +1603,7 @@ export type UserUpdateWithoutRecordedAssetsInput = {
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutRecordedAssetsInput = {
@@ -1602,6 +1642,7 @@ export type UserUncheckedUpdateWithoutRecordedAssetsInput = {
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutDivisionInput = {
@@ -1635,6 +1676,7 @@ export type UserCreateWithoutDivisionInput = {
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutDivisionInput = {
@@ -1669,6 +1711,7 @@ export type UserUncheckedCreateWithoutDivisionInput = {
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutDivisionInput = {
@@ -1768,6 +1811,7 @@ export type UserCreateWithoutCreatedPurchasesInput = {
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutCreatedPurchasesInput = {
@@ -1802,6 +1846,7 @@ export type UserUncheckedCreateWithoutCreatedPurchasesInput = {
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedPurchasesInput = {
@@ -1867,6 +1912,7 @@ export type UserUpdateWithoutCreatedPurchasesInput = {
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCreatedPurchasesInput = {
@@ -1905,6 +1951,7 @@ export type UserUncheckedUpdateWithoutCreatedPurchasesInput = {
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutCreatedDepreciationsInput = {
@@ -1938,6 +1985,7 @@ export type UserCreateWithoutCreatedDepreciationsInput = {
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutCreatedDepreciationsInput = {
@@ -1972,6 +2020,7 @@ export type UserUncheckedCreateWithoutCreatedDepreciationsInput = {
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedDepreciationsInput = {
@@ -2037,6 +2086,7 @@ export type UserUpdateWithoutCreatedDepreciationsInput = {
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCreatedDepreciationsInput = {
@@ -2075,6 +2125,7 @@ export type UserUncheckedUpdateWithoutCreatedDepreciationsInput = {
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutStockThresholdsInput = {
@@ -2108,6 +2159,7 @@ export type UserCreateWithoutStockThresholdsInput = {
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutStockThresholdsInput = {
@@ -2142,6 +2194,7 @@ export type UserUncheckedCreateWithoutStockThresholdsInput = {
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutStockThresholdsInput = {
@@ -2207,6 +2260,7 @@ export type UserUpdateWithoutStockThresholdsInput = {
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutStockThresholdsInput = {
@@ -2245,6 +2299,7 @@ export type UserUncheckedUpdateWithoutStockThresholdsInput = {
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutStockMovementsInput = {
@@ -2278,6 +2333,7 @@ export type UserCreateWithoutStockMovementsInput = {
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutStockMovementsInput = {
@@ -2312,6 +2368,7 @@ export type UserUncheckedCreateWithoutStockMovementsInput = {
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutStockMovementsInput = {
@@ -2377,6 +2434,7 @@ export type UserUpdateWithoutStockMovementsInput = {
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutStockMovementsInput = {
@@ -2415,6 +2473,7 @@ export type UserUncheckedUpdateWithoutStockMovementsInput = {
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutAttachmentsInput = {
@@ -2448,6 +2507,7 @@ export type UserCreateWithoutAttachmentsInput = {
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutAttachmentsInput = {
@@ -2482,6 +2542,7 @@ export type UserUncheckedCreateWithoutAttachmentsInput = {
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutAttachmentsInput = {
@@ -2547,6 +2608,7 @@ export type UserUpdateWithoutAttachmentsInput = {
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutAttachmentsInput = {
@@ -2585,6 +2647,7 @@ export type UserUncheckedUpdateWithoutAttachmentsInput = {
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutActivityLogsInput = {
@@ -2618,6 +2681,7 @@ export type UserCreateWithoutActivityLogsInput = {
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutActivityLogsInput = {
@@ -2652,6 +2716,7 @@ export type UserUncheckedCreateWithoutActivityLogsInput = {
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutActivityLogsInput = {
@@ -2717,6 +2782,7 @@ export type UserUpdateWithoutActivityLogsInput = {
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutActivityLogsInput = {
@@ -2755,6 +2821,7 @@ export type UserUncheckedUpdateWithoutActivityLogsInput = {
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutNotificationsInput = {
@@ -2788,6 +2855,7 @@ export type UserCreateWithoutNotificationsInput = {
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -2822,6 +2890,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -2887,6 +2956,7 @@ export type UserUpdateWithoutNotificationsInput = {
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -2925,6 +2995,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutCreatedRequestsInput = {
@@ -2958,6 +3029,7 @@ export type UserCreateWithoutCreatedRequestsInput = {
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutCreatedRequestsInput = {
@@ -2992,6 +3064,7 @@ export type UserUncheckedCreateWithoutCreatedRequestsInput = {
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedRequestsInput = {
@@ -3057,6 +3130,7 @@ export type UserUpdateWithoutCreatedRequestsInput = {
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCreatedRequestsInput = {
@@ -3095,6 +3169,7 @@ export type UserUncheckedUpdateWithoutCreatedRequestsInput = {
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutCreatedLoanRequestsInput = {
@@ -3128,6 +3203,7 @@ export type UserCreateWithoutCreatedLoanRequestsInput = {
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutCreatedLoanRequestsInput = {
@@ -3162,6 +3238,7 @@ export type UserUncheckedCreateWithoutCreatedLoanRequestsInput = {
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedLoanRequestsInput = {
@@ -3227,6 +3304,7 @@ export type UserUpdateWithoutCreatedLoanRequestsInput = {
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCreatedLoanRequestsInput = {
@@ -3265,6 +3343,7 @@ export type UserUncheckedUpdateWithoutCreatedLoanRequestsInput = {
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutCreatedAssetReturnsInput = {
@@ -3298,6 +3377,7 @@ export type UserCreateWithoutCreatedAssetReturnsInput = {
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutCreatedAssetReturnsInput = {
@@ -3332,6 +3412,7 @@ export type UserUncheckedCreateWithoutCreatedAssetReturnsInput = {
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedAssetReturnsInput = {
@@ -3397,6 +3478,7 @@ export type UserUpdateWithoutCreatedAssetReturnsInput = {
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCreatedAssetReturnsInput = {
@@ -3435,6 +3517,7 @@ export type UserUncheckedUpdateWithoutCreatedAssetReturnsInput = {
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutHandoversFromInput = {
@@ -3468,6 +3551,7 @@ export type UserCreateWithoutHandoversFromInput = {
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutHandoversFromInput = {
@@ -3502,6 +3586,7 @@ export type UserUncheckedCreateWithoutHandoversFromInput = {
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutHandoversFromInput = {
@@ -3543,6 +3628,7 @@ export type UserCreateWithoutHandoversToInput = {
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutHandoversToInput = {
@@ -3577,6 +3663,7 @@ export type UserUncheckedCreateWithoutHandoversToInput = {
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutHandoversToInput = {
@@ -3618,6 +3705,7 @@ export type UserCreateWithoutHandoversWitnessInput = {
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutHandoversWitnessInput = {
@@ -3652,6 +3740,7 @@ export type UserUncheckedCreateWithoutHandoversWitnessInput = {
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutHandoversWitnessInput = {
@@ -3717,6 +3806,7 @@ export type UserUpdateWithoutHandoversFromInput = {
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutHandoversFromInput = {
@@ -3755,6 +3845,7 @@ export type UserUncheckedUpdateWithoutHandoversFromInput = {
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUpsertWithoutHandoversToInput = {
@@ -3812,6 +3903,7 @@ export type UserUpdateWithoutHandoversToInput = {
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutHandoversToInput = {
@@ -3850,6 +3942,7 @@ export type UserUncheckedUpdateWithoutHandoversToInput = {
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUpsertWithoutHandoversWitnessInput = {
@@ -3907,6 +4000,7 @@ export type UserUpdateWithoutHandoversWitnessInput = {
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutHandoversWitnessInput = {
@@ -3943,6 +4037,181 @@ export type UserUncheckedUpdateWithoutHandoversWitnessInput = {
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+};
+
+export type UserCreateWithoutCreatedRepairsInput = {
+  uuid?: string;
+  employeeId: string;
+  fullName: string;
+  email: string;
+  password: string;
+  role?: $Enums.UserRole;
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  phone?: string | null;
+  avatarUrl?: string | null;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  tokenVersion?: number;
+  lastLoginAt?: Date | string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
+  handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
+  handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+};
+
+export type UserUncheckedCreateWithoutCreatedRepairsInput = {
+  id?: number;
+  uuid?: string;
+  employeeId: string;
+  fullName: string;
+  email: string;
+  password: string;
+  role?: $Enums.UserRole;
+  divisionId?: number | null;
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  phone?: string | null;
+  avatarUrl?: string | null;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  tokenVersion?: number;
+  lastLoginAt?: Date | string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
+  handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
+  handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+};
+
+export type UserCreateOrConnectWithoutCreatedRepairsInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutCreatedRepairsInput,
+    Prisma.UserUncheckedCreateWithoutCreatedRepairsInput
+  >;
+};
+
+export type UserUpsertWithoutCreatedRepairsInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutCreatedRepairsInput,
+    Prisma.UserUncheckedUpdateWithoutCreatedRepairsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutCreatedRepairsInput,
+    Prisma.UserUncheckedCreateWithoutCreatedRepairsInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutCreatedRepairsInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutCreatedRepairsInput,
+    Prisma.UserUncheckedUpdateWithoutCreatedRepairsInput
+  >;
+};
+
+export type UserUpdateWithoutCreatedRepairsInput = {
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string;
+  employeeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.StringFieldUpdateOperationsInput | string;
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
+  lastLoginAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
+  handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
+  handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutCreatedRepairsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string;
+  employeeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.StringFieldUpdateOperationsInput | string;
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+  divisionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
+  lastLoginAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
+  handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
+  handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
@@ -4001,6 +4270,7 @@ export type UserUpdateWithoutDivisionInput = {
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutDivisionInput = {
@@ -4039,6 +4309,7 @@ export type UserUncheckedUpdateWithoutDivisionInput = {
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
   createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateManyWithoutDivisionInput = {
@@ -4084,6 +4355,7 @@ export type UserCountOutputType = {
   handoversWitness: number;
   createdDepreciations: number;
   createdPurchases: number;
+  createdRepairs: number;
 };
 
 export type UserCountOutputTypeSelect<
@@ -4111,6 +4383,7 @@ export type UserCountOutputTypeSelect<
     | boolean
     | UserCountOutputTypeCountCreatedDepreciationsArgs;
   createdPurchases?: boolean | UserCountOutputTypeCountCreatedPurchasesArgs;
+  createdRepairs?: boolean | UserCountOutputTypeCountCreatedRepairsArgs;
 };
 
 /**
@@ -4276,6 +4549,16 @@ export type UserCountOutputTypeCountCreatedPurchasesArgs<
   where?: Prisma.PurchaseMasterDataWhereInput;
 };
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCreatedRepairsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.RepairWhereInput;
+};
+
 export type UserSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -4320,6 +4603,7 @@ export type UserSelect<
       | boolean
       | Prisma.User$createdDepreciationsArgs<ExtArgs>;
     createdPurchases?: boolean | Prisma.User$createdPurchasesArgs<ExtArgs>;
+    createdRepairs?: boolean | Prisma.User$createdRepairsArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['user']
@@ -4444,6 +4728,7 @@ export type UserInclude<
     | boolean
     | Prisma.User$createdDepreciationsArgs<ExtArgs>;
   createdPurchases?: boolean | Prisma.User$createdPurchasesArgs<ExtArgs>;
+  createdRepairs?: boolean | Prisma.User$createdRepairsArgs<ExtArgs>;
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<
@@ -4481,6 +4766,7 @@ export type $UserPayload<
     handoversWitness: Prisma.$HandoverPayload<ExtArgs>[];
     createdDepreciations: Prisma.$DepreciationPayload<ExtArgs>[];
     createdPurchases: Prisma.$PurchaseMasterDataPayload<ExtArgs>[];
+    createdRepairs: Prisma.$RepairPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -5229,6 +5515,17 @@ export interface Prisma__UserClient<
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
         Prisma.$PurchaseMasterDataPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  createdRepairs<T extends Prisma.User$createdRepairsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$createdRepairsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$RepairPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -6220,6 +6517,35 @@ export type User$createdPurchasesArgs<
   distinct?:
     | Prisma.PurchaseMasterDataScalarFieldEnum
     | Prisma.PurchaseMasterDataScalarFieldEnum[];
+};
+
+/**
+ * User.createdRepairs
+ */
+export type User$createdRepairsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Repair
+   */
+  select?: Prisma.RepairSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Repair
+   */
+  omit?: Prisma.RepairOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RepairInclude<ExtArgs> | null;
+  where?: Prisma.RepairWhereInput;
+  orderBy?:
+    | Prisma.RepairOrderByWithRelationInput
+    | Prisma.RepairOrderByWithRelationInput[];
+  cursor?: Prisma.RepairWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.RepairScalarFieldEnum | Prisma.RepairScalarFieldEnum[];
 };
 
 /**

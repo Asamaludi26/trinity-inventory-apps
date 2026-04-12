@@ -4,6 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
+import { NotificationService } from '../../../core/notifications/notification.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { FilterRequestDto } from './dto/filter-request.dto';
@@ -19,6 +20,7 @@ export class RequestService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly approvalService: ApprovalService,
+    private readonly notificationService: NotificationService,
   ) {}
 
   private async generateCode(): Promise<string> {
@@ -173,10 +175,22 @@ export class RequestService {
         ? TransactionStatus.LOGISTIC_APPROVED
         : TransactionStatus.APPROVED;
 
-    return this.prisma.request.update({
+    const result = await this.prisma.request.update({
       where: { id },
       data: { status: nextStatus, version: { increment: 1 } },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Permintaan',
+        transactionCode: existing.code,
+        action: 'APPROVED',
+        link: `/transactions/requests/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async reject(id: string, reason: string) {
@@ -187,7 +201,7 @@ export class RequestService {
     ) {
       throw new BadRequestException('Request sudah ditolak atau dibatalkan');
     }
-    return this.prisma.request.update({
+    const result = await this.prisma.request.update({
       where: { id },
       data: {
         status: TransactionStatus.REJECTED,
@@ -195,6 +209,19 @@ export class RequestService {
         version: { increment: 1 },
       },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Permintaan',
+        transactionCode: existing.code,
+        action: 'REJECTED',
+        link: `/transactions/requests/${id}`,
+        reason,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async execute(id: string) {
@@ -204,10 +231,22 @@ export class RequestService {
         'Hanya request yang sudah di-approve yang dapat dieksekusi',
       );
     }
-    return this.prisma.request.update({
+    const result = await this.prisma.request.update({
       where: { id },
       data: { status: TransactionStatus.COMPLETED, version: { increment: 1 } },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Permintaan',
+        transactionCode: existing.code,
+        action: 'COMPLETED',
+        link: `/transactions/requests/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async cancel(id: string, userId: number) {

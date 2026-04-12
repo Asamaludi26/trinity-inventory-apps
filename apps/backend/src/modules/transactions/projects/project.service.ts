@@ -4,6 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
+import { NotificationService } from '../../../core/notifications/notification.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { FilterProjectDto } from './dto/filter-project.dto';
@@ -15,7 +16,10 @@ import {
 
 @Injectable()
 export class ProjectService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly notificationService: NotificationService,
+  ) {}
 
   private async generateCode(): Promise<string> {
     const today = new Date();
@@ -194,10 +198,22 @@ export class ProjectService {
         'Proyek tidak dalam status yang dapat di-approve',
       );
     }
-    return this.prisma.infraProject.update({
+    const result = await this.prisma.infraProject.update({
       where: { id },
       data: { status: TransactionStatus.APPROVED, version: { increment: 1 } },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Proyek',
+        transactionCode: existing.code,
+        action: 'APPROVED',
+        link: `/transactions/projects/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async reject(id: string, _reason: string) {
@@ -208,10 +224,23 @@ export class ProjectService {
     ) {
       throw new BadRequestException('Proyek sudah ditolak atau dibatalkan');
     }
-    return this.prisma.infraProject.update({
+    const result = await this.prisma.infraProject.update({
       where: { id },
       data: { status: TransactionStatus.REJECTED, version: { increment: 1 } },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Proyek',
+        transactionCode: existing.code,
+        action: 'REJECTED',
+        link: `/transactions/projects/${id}`,
+        reason: _reason,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async execute(id: string) {
@@ -221,13 +250,25 @@ export class ProjectService {
         'Hanya proyek yang sudah di-approve yang dapat dieksekusi',
       );
     }
-    return this.prisma.infraProject.update({
+    const result = await this.prisma.infraProject.update({
       where: { id },
       data: {
         status: TransactionStatus.IN_PROGRESS,
         version: { increment: 1 },
       },
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Proyek',
+        transactionCode: existing.code,
+        action: 'EXECUTED',
+        link: `/transactions/projects/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
   }
 
   async cancel(id: string, userId: number) {
