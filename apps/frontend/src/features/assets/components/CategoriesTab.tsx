@@ -32,12 +32,18 @@ export function CategoriesTab() {
   const [deleteTarget, setDeleteTarget] = useState<AssetCategory | null>(null);
   const [formName, setFormName] = useState('');
 
-  const { data: categories, isLoading } = useCategories();
+  const { data: categories = [], isLoading } = useCategories();
   const createCategory = useCreateCategory();
   const updateCategory = useUpdateCategory();
   const deleteCategory = useDeleteCategory();
 
-  const filtered = categories?.filter((c) => c.name.toLowerCase().includes(search.toLowerCase()));
+  const validCategories: AssetCategory[] = Array.isArray(categories)
+    ? categories
+    : (categories as { data?: AssetCategory[] })?.data || [];
+
+  const filtered = validCategories.filter((c) =>
+    c.name.toLowerCase().includes(search.toLowerCase()),
+  );
 
   const handleAdd = () => {
     setEditItem(null);

@@ -31,7 +31,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useCategories, useTypes, useCreateType, useUpdateType, useDeleteType } from '../hooks';
-import type { AssetType } from '../types';
+import type { AssetType, AssetCategory } from '../types';
 
 export function TypesTab() {
   const [search, setSearch] = useState('');
@@ -42,14 +42,24 @@ export function TypesTab() {
   const [formName, setFormName] = useState('');
   const [formCategoryId, setFormCategoryId] = useState<string>('');
 
-  const { data: categories } = useCategories();
+  const { data: rawCategories = [] } = useCategories();
+  const validCategories: AssetCategory[] = Array.isArray(rawCategories)
+    ? rawCategories
+    : (rawCategories as { data?: AssetCategory[] })?.data || [];
+
   const catIdParam = categoryFilter !== 'all' ? Number(categoryFilter) : undefined;
-  const { data: types, isLoading } = useTypes(catIdParam);
+
+  const { data: rawTypes = [], isLoading } = useTypes(catIdParam);
+  const validTypes: AssetType[] = Array.isArray(rawTypes)
+    ? rawTypes
+    : (rawTypes as { data?: AssetType[] })?.data || [];
+
   const createType = useCreateType();
   const updateType = useUpdateType();
   const deleteType = useDeleteType();
 
-  const filtered = types?.filter((t) => t.name.toLowerCase().includes(search.toLowerCase()));
+  // Gunakan 'validTypes' untuk filter
+  const filtered = validTypes.filter((t) => t.name.toLowerCase().includes(search.toLowerCase()));
 
   const handleAdd = () => {
     setEditItem(null);
@@ -124,7 +134,7 @@ export function TypesTab() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Semua Kategori</SelectItem>
-              {categories?.map((cat) => (
+              {validCategories.map((cat) => (
                 <SelectItem key={cat.id} value={String(cat.id)}>
                   {cat.name}
                 </SelectItem>
@@ -226,7 +236,7 @@ export function TypesTab() {
                     <SelectValue placeholder="Pilih kategori" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories?.map((cat) => (
+                    {validCategories.map((cat) => (
                       <SelectItem key={cat.id} value={String(cat.id)}>
                         {cat.name}
                       </SelectItem>

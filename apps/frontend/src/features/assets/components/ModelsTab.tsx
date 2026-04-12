@@ -38,7 +38,7 @@ import {
   useUpdateModel,
   useDeleteModel,
 } from '../hooks';
-import type { AssetModel } from '../types';
+import type { AssetType, AssetCategory, AssetModel } from '../types';
 
 export function ModelsTab() {
   const [search, setSearch] = useState('');
@@ -51,17 +51,36 @@ export function ModelsTab() {
   const [formBrand, setFormBrand] = useState('');
   const [formTypeId, setFormTypeId] = useState<string>('');
 
-  const { data: categories } = useCategories();
+  const { data: rawCategories = [] } = useCategories();
+  const validCategories: AssetCategory[] = Array.isArray(rawCategories)
+    ? rawCategories
+    : (rawCategories as { data?: AssetCategory[] })?.data || [];
+
   const catIdForTypes = categoryFilter !== 'all' ? Number(categoryFilter) : undefined;
-  const { data: typesForFilter } = useTypes(catIdForTypes);
-  const { data: typesForForm } = useTypes();
+
+  const { data: rawTypesForFilter = [] } = useTypes(catIdForTypes);
+  const validTypesForFilter: AssetType[] = Array.isArray(rawTypesForFilter)
+    ? rawTypesForFilter
+    : (rawTypesForFilter as { data?: AssetType[] })?.data || [];
+
+  const { data: rawTypesForForm = [] } = useTypes();
+  const validTypesForForm: AssetType[] = Array.isArray(rawTypesForForm)
+    ? rawTypesForForm
+    : (rawTypesForForm as { data?: AssetType[] })?.data || [];
+
   const typeIdParam = typeFilter !== 'all' ? Number(typeFilter) : undefined;
-  const { data: models, isLoading } = useModels(typeIdParam);
+
+  const { data: rawModels = [], isLoading } = useModels(typeIdParam);
+  const validModels: AssetModel[] = Array.isArray(rawModels)
+    ? rawModels
+    : (rawModels as { data?: AssetModel[] })?.data || [];
+
   const createModel = useCreateModel();
   const updateModel = useUpdateModel();
   const deleteModel = useDeleteModel();
 
-  const filtered = models?.filter(
+  // Gunakan validModels untuk pencarian
+  const filtered = validModels.filter(
     (m) =>
       m.name.toLowerCase().includes(search.toLowerCase()) ||
       m.brand.toLowerCase().includes(search.toLowerCase()),
@@ -152,7 +171,7 @@ export function ModelsTab() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Semua Kategori</SelectItem>
-              {categories?.map((cat) => (
+              {validCategories.map((cat) => (
                 <SelectItem key={cat.id} value={String(cat.id)}>
                   {cat.name}
                 </SelectItem>
@@ -165,7 +184,7 @@ export function ModelsTab() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Semua Tipe</SelectItem>
-              {typesForFilter?.map((t) => (
+              {validTypesForFilter.map((t) => (
                 <SelectItem key={t.id} value={String(t.id)}>
                   {t.name}
                 </SelectItem>
@@ -271,7 +290,7 @@ export function ModelsTab() {
                     <SelectValue placeholder="Pilih tipe aset" />
                   </SelectTrigger>
                   <SelectContent>
-                    {typesForForm?.map((t) => (
+                    {validTypesForForm.map((t) => (
                       <SelectItem key={t.id} value={String(t.id)}>
                         {t.category?.name} — {t.name}
                       </SelectItem>
