@@ -764,6 +764,15 @@ stateDiagram-v2
     CANCELLED --> [*]
 ```
 
+> **Design Decision (Sprint 6 Remediation, 14 April 2026):**
+> Implementasi backend saat ini menyederhanakan fase awal proyek dengan menggunakan status `PENDING` sebagai representasi gabungan dari fungsi `DRAFT` + `PLANNING`.
+> Secara operasional:
+>
+> - `PENDING` = proyek sudah dibuat dan berada pada fase perencanaan/menunggu approval
+> - transisi berikutnya tetap mengikuti alur `APPROVED -> IN_PROGRESS -> ON_HOLD/COMPLETED/CANCELLED`
+>
+> Diagram di atas mempertahankan model konseptual SOP, sedangkan implementasi runtime memakai pemetaan status yang disederhanakan untuk menjaga kompatibilitas state machine transaksi yang sudah berjalan.
+
 ---
 
 ## 15. Approval Chain Decision Tree

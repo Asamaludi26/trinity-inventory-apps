@@ -47,6 +47,63 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-14] — Backend Typecheck Remediation (Assets + Dashboard)
+
+#### Fixed
+
+- Perbaikan `AssetService.updateStockThreshold()` agar payload `stockThreshold.upsert().create` menyertakan `createdById` sesuai kontrak Prisma model `StockThreshold`
+- Perbaikan endpoint threshold di controller agar meneruskan `@CurrentUser('id')` ke service untuk kebutuhan audit field `createdById`
+- Perbaikan `DashboardService.getSpendingByCategory()` dari relasi include yang tidak valid menjadi mapping `modelId -> categoryId` melalui query `asset` yang typed-safe
+
+#### Changed
+
+- Signature method service threshold diupdate menjadi menerima `userId` sebagai parameter ketiga
+
+#### Validation
+
+- Backend typecheck: passed
+- Frontend lint: passed
+- Frontend typecheck: passed
+- Backend lint: passed
+
+#### Agents Involved
+
+- `backend`
+- `documentation`
+
+### [2026-04-14] — Sprint 6 Remediation Completion (Gap Closure 100%)
+
+#### Added
+
+- Backend endpoint `PUT /api/v1/assets/models/:modelId/threshold` dengan DTO validasi `UpdateStockThresholdDto` dan service upsert `stockThreshold`
+- Dashboard endpoint `GET /api/v1/dashboard/operations/daily-ops` untuk ringkasan transaksi harian (`request`, `loan`, `handover`, `return`)
+- Dashboard endpoint `GET /api/v1/dashboard/finance/spending-by-category` untuk agregasi pengeluaran per kategori aset
+- Frontend export binding baru: `exportApi.stock()`, `exportApi.handovers()`, `exportApi.repairs()`
+- Frontend hooks baru: `useExportStock()`, `useExportHandovers()`, `useExportRepairs()`
+
+#### Changed
+
+- Dashboard Super Admin: tambah card metric `Dalam Perbaikan` (status-based `UNDER_REPAIR`)
+- Dashboard Operations: tambah section `Aktivitas Hari Ini`
+- Dashboard Finance: tambah section `Pengeluaran per Kategori`
+- StockPage: threshold sekarang bisa diubah inline dan disimpan langsung dari UI
+- HandoverListPage dan RepairListPage: tambah `ExportButton` untuk export data transaksi
+- Dokumentasi `USER_SYSTEM_FLOW.md` §14 ditambahkan decision note: implementasi menggunakan mapping `PENDING = DRAFT + PLANNING`
+- `SPRINT_PLAN.md` di-update ke v1.2: Sprint 2/3/4/6 menjadi 100% complete dan seluruh gap ditandai resolved
+
+#### Fixed
+
+- Gap Sprint 4 export frontend binding (stock, handover, repair) ditutup penuh
+- Gap dashboard completeness (SA underRepair, Ops daily summary, Finance spending/category) ditutup penuh
+- Gap stock threshold CRUD ditutup penuh melalui endpoint + UI inline editing
+
+#### Agents Involved
+
+- `backend`
+- `frontend`
+- `documentation`
+- `orchestrator`
+
 ### [2026-04-14] — Sprint Completion Analysis & Remediation Plan
 
 #### Added

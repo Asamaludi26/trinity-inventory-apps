@@ -409,32 +409,32 @@ GET /api/v1/assets?page=2&limit=20&search=mikrotik&status=IN_STORAGE&sortBy=crea
 
 ### 8.2 Assets (F-02 + F-03)
 
-| Method   | Endpoint                     | Deskripsi                               | Permission            |
-| -------- | ---------------------------- | --------------------------------------- | --------------------- |
-| `GET`    | `/assets`                    | List aset + pagination                  | `assets:read`         |
-| `GET`    | `/assets/:id`                | Detail aset                             | `assets:read`         |
-| `POST`   | `/assets`                    | Buat aset baru                          | `assets:create`       |
-| `PATCH`  | `/assets/:id`                | Update aset                             | `assets:edit`         |
-| `DELETE` | `/assets/:id`                | Soft delete aset                        | `assets:delete`       |
-| `GET`    | `/assets/stock`              | Stok (`?view=main\|division\|personal`) | `stock:read`          |
-| `PATCH`  | `/assets/stock/threshold`    | Set threshold per model                 | `stock:edit`          |
-| `GET`    | `/assets/scan/:qrData`       | Scan QR code aset                       | `assets:read`         |
-| `GET`    | `/assets/:id/qr-code`        | Generate QR code                        | `assets:read`         |
-| `GET`    | `/assets/categories`         | List kategori                           | `categories:read`     |
-| `POST`   | `/assets/categories`         | Buat kategori                           | `categories:create`   |
-| `PATCH`  | `/assets/categories/:id`     | Update kategori                         | `categories:edit`     |
-| `DELETE` | `/assets/categories/:id`     | Hapus kategori                          | `categories:delete`   |
-| `GET`    | `/assets/types`              | List tipe                               | `types:read`          |
-| `POST`   | `/assets/types`              | Buat tipe                               | `types:create`        |
-| `GET`    | `/assets/models`             | List model                              | `models:read`         |
-| `POST`   | `/assets/models`             | Buat model                              | `models:create`       |
-| `GET`    | `/assets/purchases`          | List data pembelian                     | `purchases:read`      |
-| `POST`   | `/assets/purchases`          | Buat data pembelian                     | `purchases:create`    |
-| `PATCH`  | `/assets/purchases/:uuid`    | Update data pembelian                   | `purchases:edit`      |
-| `GET`    | `/assets/depreciation`       | List data depresiasi                    | `depreciation:read`   |
-| `POST`   | `/assets/depreciation`       | Buat data depresiasi                    | `depreciation:create` |
-| `GET`    | `/assets/depreciation/:uuid` | Detail depresiasi                       | `depreciation:read`   |
-| `PATCH`  | `/assets/depreciation/:uuid` | Update data depresiasi                  | `depreciation:edit`   |
+| Method   | Endpoint                       | Deskripsi                               | Permission            |
+| -------- | ------------------------------ | --------------------------------------- | --------------------- |
+| `GET`    | `/assets`                      | List aset + pagination                  | `assets:read`         |
+| `GET`    | `/assets/:id`                  | Detail aset                             | `assets:read`         |
+| `POST`   | `/assets`                      | Buat aset baru                          | `assets:create`       |
+| `PATCH`  | `/assets/:id`                  | Update aset                             | `assets:edit`         |
+| `DELETE` | `/assets/:id`                  | Soft delete aset                        | `assets:delete`       |
+| `GET`    | `/assets/stock`                | Stok (`?view=main\|division\|personal`) | `stock:read`          |
+| `PUT`    | `/assets/models/:id/threshold` | Set/update threshold per model          | `stock:edit`          |
+| `GET`    | `/assets/scan/:qrData`         | Scan QR code aset                       | `assets:read`         |
+| `GET`    | `/assets/:id/qr-code`          | Generate QR code                        | `assets:read`         |
+| `GET`    | `/assets/categories`           | List kategori                           | `categories:read`     |
+| `POST`   | `/assets/categories`           | Buat kategori                           | `categories:create`   |
+| `PATCH`  | `/assets/categories/:id`       | Update kategori                         | `categories:edit`     |
+| `DELETE` | `/assets/categories/:id`       | Hapus kategori                          | `categories:delete`   |
+| `GET`    | `/assets/types`                | List tipe                               | `types:read`          |
+| `POST`   | `/assets/types`                | Buat tipe                               | `types:create`        |
+| `GET`    | `/assets/models`               | List model                              | `models:read`         |
+| `POST`   | `/assets/models`               | Buat model                              | `models:create`       |
+| `GET`    | `/assets/purchases`            | List data pembelian                     | `purchases:read`      |
+| `POST`   | `/assets/purchases`            | Buat data pembelian                     | `purchases:create`    |
+| `PATCH`  | `/assets/purchases/:uuid`      | Update data pembelian                   | `purchases:edit`      |
+| `GET`    | `/assets/depreciation`         | List data depresiasi                    | `depreciation:read`   |
+| `POST`   | `/assets/depreciation`         | Buat data depresiasi                    | `depreciation:create` |
+| `GET`    | `/assets/depreciation/:uuid`   | Detail depresiasi                       | `depreciation:read`   |
+| `PATCH`  | `/assets/depreciation/:uuid`   | Update data depresiasi                  | `depreciation:edit`   |
 
 ### 8.3 Transactions (F-04) — Pola DRY
 
@@ -485,23 +485,38 @@ Setiap modul transaksi (`requests`, `loans`, `returns`, `handovers`, `repairs`, 
 
 ### 8.6 Dashboard (F-01)
 
-| Method | Endpoint                | Deskripsi             | Role           |
-| ------ | ----------------------- | --------------------- | -------------- |
-| `GET`  | `/dashboard/main`       | Statistik utama       | Superadmin     |
-| `GET`  | `/dashboard/finance`    | Statistik keuangan    | Admin Purchase |
-| `GET`  | `/dashboard/operations` | Statistik operasional | Admin Logistik |
-| `GET`  | `/dashboard/division`   | Statistik divisi      | Leader         |
-| `GET`  | `/dashboard/personal`   | Statistik pribadi     | Staff          |
+| Method | Endpoint                                  | Deskripsi                                | Permission/Role        |
+| ------ | ----------------------------------------- | ---------------------------------------- | ---------------------- |
+| `GET`  | `/dashboard/stats`                        | Statistik utama superadmin               | `dashboard:view`       |
+| `GET`  | `/dashboard/recent-activity`              | Aktivitas terbaru sistem                 | `reports:view`         |
+| `GET`  | `/dashboard/asset-trend`                  | Tren aset bulanan                        | `reports:view`         |
+| `GET`  | `/dashboard/category-distribution`        | Distribusi aset per kategori             | `reports:view`         |
+| `GET`  | `/dashboard/finance/stats`                | Statistik keuangan                       | `assets:view_price`    |
+| `GET`  | `/dashboard/finance/spending-by-category` | Pengeluaran pembelian per kategori       | `assets:view_price`    |
+| `GET`  | `/dashboard/operations/stats`             | Statistik operasional                    | `stock:view`           |
+| `GET`  | `/dashboard/operations/daily-ops`         | Ringkasan aktivitas operasional hari ini | `stock:view`           |
+| `GET`  | `/dashboard/operations/stock-alerts`      | Daftar alert stok rendah                 | `stock:manage`         |
+| `GET`  | `/dashboard/division/stats`               | Statistik divisi                         | `assets:view_division` |
+| `GET`  | `/dashboard/division/members`             | Daftar member dan aset divisi            | `assets:view_division` |
+| `GET`  | `/dashboard/personal/stats`               | Statistik pribadi                        | `dashboard:view`       |
+| `GET`  | `/dashboard/personal/assets`              | Daftar aset pribadi                      | `dashboard:view`       |
+| `GET`  | `/dashboard/personal/pending-returns`     | Daftar pengembalian pinjaman pribadi     | `dashboard:view`       |
 
 ### 8.7 Cross-Cutting
 
-| Method  | Endpoint                  | Deskripsi                | Permission      |
-| ------- | ------------------------- | ------------------------ | --------------- |
-| `GET`   | `/notifications`          | List notifikasi user     | (semua user)    |
-| `PATCH` | `/notifications/:id/read` | Tandai notifikasi dibaca | (semua user)    |
-| `PATCH` | `/notifications/read-all` | Tandai semua dibaca      | (semua user)    |
-| `POST`  | `/upload`                 | Upload file attachment   | (semua user)    |
-| `GET`   | `/export/:module`         | Export data ke Excel/PDF | `{module}:read` |
+| Method  | Endpoint                  | Deskripsi                | Permission    |
+| ------- | ------------------------- | ------------------------ | ------------- |
+| `GET`   | `/notifications`          | List notifikasi user     | (semua user)  |
+| `PATCH` | `/notifications/:id/read` | Tandai notifikasi dibaca | (semua user)  |
+| `PATCH` | `/notifications/read-all` | Tandai semua dibaca      | (semua user)  |
+| `POST`  | `/upload`                 | Upload file attachment   | (semua user)  |
+| `GET`   | `/export/assets`          | Export aset              | `data:export` |
+| `GET`   | `/export/requests`        | Export request           | `data:export` |
+| `GET`   | `/export/loans`           | Export pinjaman          | `data:export` |
+| `GET`   | `/export/customers`       | Export pelanggan         | `data:export` |
+| `GET`   | `/export/stock`           | Export mutasi stok       | `data:export` |
+| `GET`   | `/export/handovers`       | Export serah terima      | `data:export` |
+| `GET`   | `/export/repairs`         | Export perbaikan         | `data:export` |
 
 ---
 

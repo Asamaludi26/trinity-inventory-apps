@@ -48,6 +48,20 @@ export const exportApi = {
 
   customers: (params?: { format?: ExportFormat; search?: string; isActive?: string }) =>
     api.get('/export/customers', { params, responseType: 'blob' }),
+
+  stock: (params?: {
+    format?: ExportFormat;
+    search?: string;
+    movementType?: string;
+    startDate?: string;
+    endDate?: string;
+  }) => api.get('/export/stock', { params, responseType: 'blob' }),
+
+  handovers: (params?: { format?: ExportFormat; search?: string; status?: string }) =>
+    api.get('/export/handovers', { params, responseType: 'blob' }),
+
+  repairs: (params?: { format?: ExportFormat; search?: string; status?: string }) =>
+    api.get('/export/repairs', { params, responseType: 'blob' }),
 };
 
 // ================================

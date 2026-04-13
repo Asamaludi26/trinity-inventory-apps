@@ -83,6 +83,17 @@ export class DashboardController {
     return this.dashboardService.getFinanceStats();
   }
 
+  @Get('finance/spending-by-category')
+  @AuthPermissions(PERMISSIONS.ASSETS_VIEW_PRICE)
+  @ApiOperation({ summary: 'Pengeluaran pembelian dikelompokkan per kategori' })
+  @ApiResponse({
+    status: 200,
+    description: 'Data pengeluaran per kategori berhasil diambil',
+  })
+  async getSpendingByCategory() {
+    return this.dashboardService.getSpendingByCategory();
+  }
+
   // ──────────────── Operations Endpoints ────────────────
 
   @Get('operations/stats')
@@ -94,6 +105,17 @@ export class DashboardController {
   })
   async getOperationsStats() {
     return this.dashboardService.getOperationsStats();
+  }
+
+  @Get('operations/daily-ops')
+  @AuthPermissions(PERMISSIONS.STOCK_VIEW)
+  @ApiOperation({ summary: 'Ringkasan aktivitas operasional hari ini' })
+  @ApiResponse({
+    status: 200,
+    description: 'Data aktivitas hari ini berhasil diambil',
+  })
+  async getDailyOps() {
+    return this.dashboardService.getDailyOps();
   }
 
   @Get('operations/stock-alerts')

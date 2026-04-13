@@ -84,6 +84,48 @@ export function useExportCustomers() {
   });
 }
 
+export function useExportStock() {
+  return useMutation({
+    mutationFn: async (params: {
+      format?: ExportFormat;
+      search?: string;
+      movementType?: string;
+      startDate?: string;
+      endDate?: string;
+    }) => {
+      const res = await exportApi.stock(params);
+      const filename = getFilenameFromResponse(res, `stok.${params.format ?? 'xlsx'}`);
+      downloadBlob(res.data as Blob, filename);
+    },
+    onSuccess: () => toast.success('Export berhasil diunduh'),
+    onError: () => toast.error('Gagal mengexport data'),
+  });
+}
+
+export function useExportHandovers() {
+  return useMutation({
+    mutationFn: async (params: { format?: ExportFormat; search?: string; status?: string }) => {
+      const res = await exportApi.handovers(params);
+      const filename = getFilenameFromResponse(res, `serah-terima.${params.format ?? 'xlsx'}`);
+      downloadBlob(res.data as Blob, filename);
+    },
+    onSuccess: () => toast.success('Export berhasil diunduh'),
+    onError: () => toast.error('Gagal mengexport data'),
+  });
+}
+
+export function useExportRepairs() {
+  return useMutation({
+    mutationFn: async (params: { format?: ExportFormat; search?: string; status?: string }) => {
+      const res = await exportApi.repairs(params);
+      const filename = getFilenameFromResponse(res, `perbaikan.${params.format ?? 'xlsx'}`);
+      downloadBlob(res.data as Blob, filename);
+    },
+    onSuccess: () => toast.success('Export berhasil diunduh'),
+    onError: () => toast.error('Gagal mengexport data'),
+  });
+}
+
 // ================================
 // Import Hooks
 // ================================

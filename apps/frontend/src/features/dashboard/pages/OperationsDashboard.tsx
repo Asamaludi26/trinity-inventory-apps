@@ -1,7 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
-import { Package, AlertTriangle, ArrowLeftRight, Wrench } from 'lucide-react';
+import {
+  Package,
+  AlertTriangle,
+  ArrowLeftRight,
+  Wrench,
+  Activity,
+  ClipboardList,
+  RefreshCw,
+  Repeat,
+} from 'lucide-react';
 import { dashboardApi } from '../api';
 import { StatCard, StockAlertTable, RecentActivityTable } from '../components';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function OperationsDashboard() {
   const { data: statsData, isLoading: statsLoading } = useQuery({
@@ -19,6 +29,12 @@ export function OperationsDashboard() {
   const { data: activities, isLoading: activitiesLoading } = useQuery({
     queryKey: ['dashboard', 'recent-activity'],
     queryFn: () => dashboardApi.getRecentActivity(10),
+    select: (res) => res.data.data,
+  });
+
+  const { data: dailyOps, isLoading: dailyOpsLoading } = useQuery({
+    queryKey: ['dashboard', 'operations', 'daily-ops'],
+    queryFn: () => dashboardApi.getDailyOps(),
     select: (res) => res.data.data,
   });
 
@@ -56,6 +72,40 @@ export function OperationsDashboard() {
 
       {/* Stock Alerts */}
       <StockAlertTable items={stockAlerts ?? []} isLoading={stockLoading} />
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Aktivitas Hari Ini</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard
+              title="Request"
+              value={dailyOps?.requests ?? 0}
+              icon={ClipboardList}
+              isLoading={dailyOpsLoading}
+            />
+            <StatCard
+              title="Peminjaman"
+              value={dailyOps?.loanRequests ?? 0}
+              icon={RefreshCw}
+              isLoading={dailyOpsLoading}
+            />
+            <StatCard
+              title="Serah Terima"
+              value={dailyOps?.handovers ?? 0}
+              icon={Repeat}
+              isLoading={dailyOpsLoading}
+            />
+            <StatCard
+              title="Pengembalian"
+              value={dailyOps?.returns ?? 0}
+              icon={Activity}
+              isLoading={dailyOpsLoading}
+            />
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Recent Activity */}
       <RecentActivityTable activities={activities ?? []} isLoading={activitiesLoading} />

@@ -24,6 +24,8 @@ import {
 } from '@/components/ui/select';
 import { useRepairs } from '../hooks';
 import { useDebounce } from '@/hooks/use-debounce';
+import { ExportButton } from '@/components/form';
+import { useExportRepairs } from '@/hooks/use-export-import';
 import type { TransactionStatus } from '@/types';
 import type { Repair } from '../types';
 
@@ -41,6 +43,7 @@ export function RepairListPage() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
   const debouncedSearch = useDebounce(search, 300);
+  const exportRepairs = useExportRepairs();
 
   const { data, isLoading } = useRepairs({
     page,
@@ -54,10 +57,22 @@ export function RepairListPage() {
       title="Perbaikan Aset"
       description="Kelola laporan kerusakan dan perbaikan aset"
       actions={
-        <Button onClick={() => navigate('/repairs/new')}>
-          <Plus className="mr-2 h-4 w-4" />
-          Lapor Kerusakan
-        </Button>
+        <div className="flex items-center gap-2">
+          <ExportButton
+            onExport={(format) =>
+              exportRepairs.mutate({
+                format,
+                search: debouncedSearch || undefined,
+                status: statusFilter !== 'all' ? statusFilter : undefined,
+              })
+            }
+            isLoading={exportRepairs.isPending}
+          />
+          <Button onClick={() => navigate('/repairs/new')}>
+            <Plus className="mr-2 h-4 w-4" />
+            Lapor Kerusakan
+          </Button>
+        </div>
       }
     >
       <div className="flex items-center gap-2 flex-wrap">

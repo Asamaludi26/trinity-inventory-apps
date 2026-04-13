@@ -2,6 +2,8 @@ import { api } from '@/lib/axios';
 import type {
   DashboardStats,
   FinanceDashboardStats,
+  CategorySpending,
+  DailyOpsStats,
   OperationsDashboardStats,
   DivisionDashboardStats,
   PersonalDashboardStats,
@@ -31,12 +33,15 @@ export const dashboardApi = {
 
   // Admin Purchase
   getFinanceStats: () => api.get<ApiResponse<FinanceDashboardStats>>('/dashboard/finance/stats'),
+  getSpendingByCategory: () =>
+    api.get<ApiResponse<CategorySpending[]>>('/dashboard/finance/spending-by-category'),
 
   // Admin Logistik
   getOperationsStats: () =>
     api.get<ApiResponse<OperationsDashboardStats>>('/dashboard/operations/stats'),
   getStockAlerts: () =>
     api.get<ApiResponse<StockAlertItem[]>>('/dashboard/operations/stock-alerts'),
+  getDailyOps: () => api.get<ApiResponse<DailyOpsStats>>('/dashboard/operations/daily-ops'),
 
   // Leader
   getDivisionStats: () => api.get<ApiResponse<DivisionDashboardStats>>('/dashboard/division/stats'),

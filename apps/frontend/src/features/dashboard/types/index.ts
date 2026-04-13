@@ -7,6 +7,7 @@ export interface DashboardStats {
   pendingRequests: number;
   activeLoans: number;
   damagedAssets: number;
+  underRepair: number;
   lowStockAlerts: number;
 }
 
@@ -15,6 +16,19 @@ export interface FinanceDashboardStats {
   monthlyDepreciation: number;
   remainingBudget: number;
   pendingApprovals: number;
+}
+
+export interface CategorySpending {
+  category: string;
+  totalSpent: number;
+  fill: string;
+}
+
+export interface DailyOpsStats {
+  handovers: number;
+  loanRequests: number;
+  returns: number;
+  requests: number;
 }
 
 export interface OperationsDashboardStats {

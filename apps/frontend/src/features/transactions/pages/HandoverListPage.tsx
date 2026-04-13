@@ -24,6 +24,8 @@ import {
 } from '@/components/ui/select';
 import { useHandovers } from '../hooks';
 import { useDebounce } from '@/hooks/use-debounce';
+import { ExportButton } from '@/components/form';
+import { useExportHandovers } from '@/hooks/use-export-import';
 import type { TransactionStatus } from '@/types';
 
 function formatDate(date: string) {
@@ -40,6 +42,7 @@ export function HandoverListPage() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
   const debouncedSearch = useDebounce(search, 300);
+  const exportHandovers = useExportHandovers();
 
   const { data, isLoading } = useHandovers({
     page,
@@ -53,10 +56,22 @@ export function HandoverListPage() {
       title="Serah Terima"
       description="Kelola proses serah terima aset antar pengguna"
       actions={
-        <Button onClick={() => navigate('/handovers/new')}>
-          <Plus className="mr-2 h-4 w-4" />
-          Buat Serah Terima
-        </Button>
+        <div className="flex items-center gap-2">
+          <ExportButton
+            onExport={(format) =>
+              exportHandovers.mutate({
+                format,
+                search: debouncedSearch || undefined,
+                status: statusFilter !== 'all' ? statusFilter : undefined,
+              })
+            }
+            isLoading={exportHandovers.isPending}
+          />
+          <Button onClick={() => navigate('/handovers/new')}>
+            <Plus className="mr-2 h-4 w-4" />
+            Buat Serah Terima
+          </Button>
+        </div>
       }
     >
       <div className="flex items-center gap-2 flex-wrap">

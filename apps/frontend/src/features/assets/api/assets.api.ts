@@ -41,7 +41,7 @@ export const stockApi = {
     api.get<ApiResponse<PaginatedResponse<StockSummary>>>('/assets/stock', { params }),
 
   updateThreshold: (modelId: number, minQuantity: number) =>
-    api.put<ApiResponse<void>>(`/assets/stock/threshold/${modelId}`, { minQuantity }),
+    api.put<ApiResponse<void>>(`/assets/models/${modelId}/threshold`, { minQuantity }),
 };
 
 // ================================

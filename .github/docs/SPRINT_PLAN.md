@@ -23,10 +23,10 @@
 | RBAC & Permissions            | ✅ Lengkap |   100%   |
 | Approval Workflow Engine      | ✅ Lengkap |   100%   |
 | Notification System (SSE/WS)  | ✅ Lengkap |   100%   |
-| Dashboard (Role-based)        | ⚠️ Partial |   90%    |
-| Export/Import                 | ⚠️ Partial |   85%    |
+| Dashboard (Role-based)        | ✅ Lengkap |   100%   |
+| Export/Import                 | ✅ Lengkap |   100%   |
 | QR Code Integration           | ✅ Lengkap |   100%   |
-| Stock Management & Threshold  | ⚠️ Partial |   90%    |
+| Stock Management & Threshold  | ✅ Lengkap |   100%   |
 | Audit Trail/Activity Log      | ✅ Lengkap |   100%   |
 | Cron Jobs (Overdue, Reminder) | ✅ Lengkap |   100%   |
 | WhatsApp Integration          | ✅ Lengkap |   100%   |
@@ -118,7 +118,7 @@ Berikut gap yang ditemukan antara 4 dokumen referensi dan kode saat ini:
 - [x] Reminder H-3 dan H-1 berjalan otomatis
 - [x] Repair: 3 jalur resolution (internal, service center, decommission)
 - [x] Login pertama paksa ganti password
-- [ ] Stock threshold alert trigger notifikasi — ⚠️ PARTIAL: CRUD endpoint belum ada
+- [x] Stock threshold alert trigger notifikasi
 - [x] Quality Gate passed
 
 ---
@@ -142,13 +142,13 @@ Berikut gap yang ditemukan antara 4 dokumen referensi dan kode saat ini:
 | 3.9  | **Dashboard: Leader** — Aset divisi, anggota tim + aset count, request pending dari tim                                                                                                                                    | `backend` + `frontend` | M    | 3.6            | G8  |
 | 3.10 | **Dashboard: Staff** — Aset saya, pinjaman aktif, checklist pengembalian                                                                                                                                                   | `backend` + `frontend` | S    | 3.6            | G8  |
 
-**Acceptance Criteria Sprint 3:** ⚠️ 80% PASSED
+**Acceptance Criteria Sprint 3:** ✅ 100% PASSED
 
-- [ ] Project lifecycle state machine berfungsi lengkap — ⚠️ PARTIAL: DRAFT/PLANNING states tidak ada
+- [x] Project lifecycle state machine berfungsi lengkap (design decision: `PENDING` mencakup fase DRAFT+PLANNING)
 - [x] Task CRUD dalam project berjalan
 - [x] Material di instalasi/maintenance mengurangi stok
 - [x] Dismantle mengembalikan aset ke gudang
-- [ ] 5 dashboard variants menampilkan data sesuai SOP §4.1-4.5 — ⚠️ PARTIAL: SA underRepair metric, Ops daily summary, Finance spending/category
+- [x] 5 dashboard variants menampilkan data sesuai SOP §4.1-4.5
 - [x] Quality Gate passed
 
 ---
@@ -171,11 +171,11 @@ Berikut gap yang ditemukan antara 4 dokumen referensi dan kode saat ini:
 
 **Acceptance Criteria Sprint 4:**
 
-**Acceptance Criteria Sprint 4:** ⚠️ 78.6% PASSED
+**Acceptance Criteria Sprint 4:** ✅ 100% PASSED
 
 - [x] QR code tampil di detail aset, bisa dicetak (on-demand, valid)
 - [x] Scan QR dari HP/webcam redirect ke detail aset
-- [ ] Export asset/stock/transaction ke XLSX berfungsi — ⚠️ PARTIAL: stock/handover/repair frontend binding belum ada
+- [x] Export asset/stock/transaction ke XLSX berfungsi
 - [x] Bulk import aset dari XLSX dengan validasi
 - [x] Audit trail page menampilkan activity logs
 - [x] Quality Gate passed
@@ -227,9 +227,9 @@ Mapping lengkap dari SETIAP point di dokumentasi ke sprint task:
 | §3.2     | Sidebar role-based                        | Existing | -        | ✅     |
 | §3.3     | Notifikasi (bell icon, real-time)         | Sprint 2 | 2.1, 2.2 | ✅     |
 | §3.4     | Pencarian global (⌘+K)                    | Sprint 5 | 5.1      | ✅     |
-| §4.1     | Dashboard Super Admin                     | Sprint 3 | 3.6      | ⚠️     |
-| §4.2     | Dashboard Admin Logistik                  | Sprint 3 | 3.7      | ⚠️     |
-| §4.3     | Dashboard Admin Purchase                  | Sprint 3 | 3.8      | ⚠️     |
+| §4.1     | Dashboard Super Admin                     | Sprint 3 | 3.6      | ✅     |
+| §4.2     | Dashboard Admin Logistik                  | Sprint 3 | 3.7      | ✅     |
+| §4.3     | Dashboard Admin Purchase                  | Sprint 3 | 3.8      | ✅     |
 | §4.4     | Dashboard Leader                          | Sprint 3 | 3.9      | ✅     |
 | §4.5     | Dashboard Staff                           | Sprint 3 | 3.10     | ✅     |
 | §5.1     | Daftar aset (list, filter, search)        | Existing | -        | ✅     |
@@ -237,7 +237,7 @@ Mapping lengkap dari SETIAP point di dokumentasi ke sprint task:
 | §5.3     | Detail + QR code                          | Sprint 4 | 4.1      | ✅     |
 | §5.4     | Edit aset                                 | Existing | -        | ✅     |
 | §5.5     | Stok aset (perspektif)                    | Existing | -        | ✅     |
-| §5.6     | Threshold stok + alert                    | Sprint 2 | 2.7      | ⚠️     |
+| §5.6     | Threshold stok + alert                    | Sprint 2 | 2.7      | ✅     |
 | §5.7     | Kategori/Tipe/Model CRUD                  | Existing | -        | ✅     |
 | §6.1.1   | Buat request (form)                       | Existing | -        | ✅     |
 | §6.1.2   | Approval chain per role                   | Sprint 1 | 1.1      | ✅     |
@@ -253,7 +253,7 @@ Mapping lengkap dari SETIAP point di dokumentasi ke sprint task:
 | §7.3     | Instalasi + material                      | Sprint 3 | 3.3      | ✅     |
 | §7.4     | Maintenance + material                    | Sprint 3 | 3.4      | ✅     |
 | §7.5     | Dismantle → return aset                   | Sprint 3 | 3.5      | ✅     |
-| §8       | Proyek infrastruktur                      | Sprint 3 | 3.1, 3.2 | ⚠️     |
+| §8       | Proyek infrastruktur                      | Sprint 3 | 3.1, 3.2 | ✅     |
 | §9.1     | Profil sendiri                            | Existing | -        | ✅     |
 | §9.2     | Kelola user (SA only)                     | Existing | -        | ✅     |
 | §9.3     | Kelola divisi                             | Existing | -        | ✅     |
@@ -264,7 +264,7 @@ Mapping lengkap dari SETIAP point di dokumentasi ke sprint task:
 | SOP-03   | Peminjaman & pengembalian                 | Sprint 1 | 1.3, 1.4 | ✅     |
 | SOP-04   | Serah terima antar user                   | Sprint 1 | 1.6      | ✅     |
 | SOP-05   | Pelaporan aset rusak                      | Sprint 2 | 2.5      | ✅     |
-| SOP-06   | Stock opname (export)                     | Sprint 4 | 4.4      | ⚠️     |
+| SOP-06   | Stock opname (export)                     | Sprint 4 | 4.4      | ✅     |
 | SOP-07   | Instalasi pelanggan                       | Sprint 3 | 3.3      | ✅     |
 | SOP-08   | Onboarding user baru                      | Sprint 2 | 2.6      | ✅     |
 
@@ -282,14 +282,14 @@ Mapping lengkap dari SETIAP point di dokumentasi ke sprint task:
 | §6.1     | Instalasi customer                  | Sprint 3                  | 3.3           | ✅     |
 | §6.2     | Maintenance customer                | Sprint 3                  | 3.4           | ✅     |
 | §6.3     | Dismantle customer                  | Sprint 3                  | 3.5           | ✅     |
-| §7       | Proyek infrastruktur                | Sprint 3                  | 3.1, 3.2      | ⚠️     |
+| §7       | Proyek infrastruktur                | Sprint 3                  | 3.1, 3.2      | ✅     |
 | §8       | Auth sequence (JWT)                 | Existing                  | -             | ✅     |
 | §9       | Request approval sequence           | Sprint 1                  | 1.1-1.8       | ✅     |
 | §10      | Loan sequence                       | Sprint 1                  | 1.3, 1.4      | ✅     |
 | §11      | State machine: request              | Sprint 1                  | 1.8           | ✅     |
 | §12      | State machine: aset                 | Sprint 1-3                | Multiple      | ✅     |
 | §13      | State machine: pinjaman             | Sprint 1-2                | 1.3, 1.4, 2.3 | ✅     |
-| §14      | State machine: proyek               | Sprint 3                  | 3.1           | ⚠️     |
+| §14      | State machine: proyek               | Sprint 3                  | 3.1           | ✅     |
 | §15      | Approval chain decision tree        | Sprint 1                  | 1.1           | ✅     |
 | §16      | System architecture overview        | Existing                  | -             | ✅     |
 
@@ -370,7 +370,7 @@ Sprint 5 (P2 MEDIUM-LOW)   ← Polish, terakhir
 
 **Durasi**: Target 2-3 hari
 
-**Status**: ⬜ BELUM DIMULAI
+**Status**: ✅ COMPLETED (14 April 2026)
 
 | #   | Task                                                                                                                                                                                                            | Agent                  | Size | Source Gap | Sprint |
 | --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---- | ---------- | ------ |
@@ -384,15 +384,15 @@ Sprint 5 (P2 MEDIUM-LOW)   ← Polish, terakhir
 
 **Acceptance Criteria Sprint 6:**
 
-- [ ] Admin bisa set/update stock threshold per model via UI
-- [ ] Super Admin dashboard menampilkan "Dalam Perbaikan" metric (status-based)
-- [ ] Operations dashboard menampilkan aktivitas hari ini
-- [ ] Finance dashboard menampilkan spending breakdown per kategori
-- [ ] Export stock dari frontend berfungsi
-- [ ] Export handover dan repair dari frontend berfungsi
-- [ ] Project lifecycle design decision terdokumentasi
-- [ ] Quality Gate passed
-- [ ] Semua 22 gap dari Gap Analysis = RESOLVED ✅
+- [x] Admin bisa set/update stock threshold per model via UI
+- [x] Super Admin dashboard menampilkan "Dalam Perbaikan" metric (status-based)
+- [x] Operations dashboard menampilkan aktivitas hari ini
+- [x] Finance dashboard menampilkan spending breakdown per kategori
+- [x] Export stock dari frontend berfungsi
+- [x] Export handover dan repair dari frontend berfungsi
+- [x] Project lifecycle design decision terdokumentasi
+- [x] Quality Gate passed
+- [x] Semua 22 gap dari Gap Analysis = RESOLVED ✅
 
 ---
 
@@ -401,15 +401,15 @@ Sprint 5 (P2 MEDIUM-LOW)   ← Polish, terakhir
 ```
 Sprint 1 (P0 CRITICAL)     ✅ 100% COMPLETE
     ↓
-Sprint 2 (P1 HIGH)         ⚠️ 92.9% — threshold CRUD gap
+Sprint 2 (P1 HIGH)         ✅ 100% COMPLETE
     ↓
-Sprint 3 (P1 HIGH)         ⚠️ 80.0% — dashboard + project gaps
+Sprint 3 (P1 HIGH)         ✅ 100% COMPLETE
     ↓
-Sprint 4 (P1-P2)           ⚠️ 78.6% — export frontend gaps
+Sprint 4 (P1-P2)           ✅ 100% COMPLETE
     ↓
 Sprint 5 (P2 MEDIUM-LOW)   ✅ 100% COMPLETE
     ↓
-Sprint 6 (REMEDIATION)     ⬜ Target: close ALL remaining gaps → 100%
+Sprint 6 (REMEDIATION)     ✅ COMPLETED — ALL gaps closed
 ```
 
-**— Akhir Sprint Plan v1.1 (Updated 14 April 2026) —**
+**— Akhir Sprint Plan v1.2 (Updated 14 April 2026) —**

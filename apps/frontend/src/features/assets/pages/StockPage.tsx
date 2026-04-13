@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { Search, Warehouse, AlertTriangle } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
+import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { ExportButton } from '@/components/form';
 import {
   Table,
   TableBody,
@@ -16,8 +19,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
-import { useStock } from '../hooks';
+import { useStock, useUpdateStockThreshold } from '../hooks';
 import { useDebounce } from '@/hooks/use-debounce';
+import { useExportStock } from '@/hooks/use-export-import';
 
 function StockLevelBadge({ total, threshold }: { total: number; threshold: number }) {
   if (threshold <= 0) return <span className="text-muted-foreground text-xs">—</span>;
@@ -58,7 +62,11 @@ export function StockPage() {
   const view = (searchParams.get('view') ?? 'main') as 'main' | 'division' | 'personal';
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
+  const [thresholdDrafts, setThresholdDrafts] = useState<Record<number, string>>({});
+  const [savingModelId, setSavingModelId] = useState<number | null>(null);
   const debouncedSearch = useDebounce(search, 300);
+  const updateThreshold = useUpdateStockThreshold();
+  const exportStock = useExportStock();
 
   const { data, isLoading } = useStock({
     view,
@@ -72,10 +80,50 @@ export function StockPage() {
     setPage(1);
   };
 
+  const getDraftValue = (modelId: number, threshold: number) => {
+    return thresholdDrafts[modelId] ?? String(threshold);
+  };
+
+  const handleSaveThreshold = async (modelId: number, currentThreshold: number) => {
+    const raw = getDraftValue(modelId, currentThreshold).trim();
+    const parsed = Number(raw);
+
+    if (!Number.isInteger(parsed) || parsed < 0) {
+      toast.error('Threshold harus berupa angka bulat minimal 0');
+      return;
+    }
+
+    if (parsed === currentThreshold) {
+      return;
+    }
+
+    setSavingModelId(modelId);
+    try {
+      await updateThreshold.mutateAsync({ modelId, minQuantity: parsed });
+      toast.success('Threshold stok berhasil diperbarui');
+      setThresholdDrafts((prev) => ({ ...prev, [modelId]: String(parsed) }));
+    } catch {
+      toast.error('Gagal memperbarui threshold stok');
+    } finally {
+      setSavingModelId(null);
+    }
+  };
+
   return (
     <PageContainer
       title="Stok Aset"
       description="Monitoring stok gudang utama, divisi, dan pribadi"
+      actions={
+        <ExportButton
+          onExport={(format) =>
+            exportStock.mutate({
+              format,
+              search: debouncedSearch || undefined,
+            })
+          }
+          isLoading={exportStock.isPending}
+        />
+      }
     >
       <Tabs value={view} onValueChange={handleTabChange}>
         <TabsList>
@@ -160,7 +208,32 @@ export function StockPage() {
                       <TableCell className="text-center">{item.inUse}</TableCell>
                       <TableCell className="text-center">{item.underRepair}</TableCell>
                       <TableCell className="text-center text-muted-foreground">
-                        {item.threshold || '—'}
+                        {view === 'main' ? (
+                          <div className="flex items-center justify-center gap-2">
+                            <Input
+                              type="number"
+                              min={0}
+                              className="h-8 w-20 text-center"
+                              value={getDraftValue(item.modelId, item.threshold)}
+                              onChange={(e) => {
+                                setThresholdDrafts((prev) => ({
+                                  ...prev,
+                                  [item.modelId]: e.target.value,
+                                }));
+                              }}
+                            />
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              disabled={savingModelId === item.modelId}
+                              onClick={() => handleSaveThreshold(item.modelId, item.threshold)}
+                            >
+                              Simpan
+                            </Button>
+                          </div>
+                        ) : (
+                          item.threshold || '—'
+                        )}
                       </TableCell>
                       <TableCell className="text-center">
                         <StockLevelBadge total={item.totalQuantity} threshold={item.threshold} />

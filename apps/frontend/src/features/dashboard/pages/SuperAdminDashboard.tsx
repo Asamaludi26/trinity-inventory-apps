@@ -1,5 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import { Package, ClipboardList, ArrowLeftRight, Wrench, AlertTriangle } from 'lucide-react';
+import {
+  Package,
+  ClipboardList,
+  ArrowLeftRight,
+  Wrench,
+  AlertTriangle,
+  Settings,
+} from 'lucide-react';
 import { dashboardApi } from '../api';
 import {
   StatCard,
@@ -36,7 +43,7 @@ export function SuperAdminDashboard() {
   return (
     <div className="flex flex-col gap-6">
       {/* Stat Cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
         <StatCard
           title="Total Aset"
           value={statsData?.totalAssets ?? 0}
@@ -61,6 +68,13 @@ export function SuperAdminDashboard() {
           value={statsData?.damagedAssets ?? 0}
           icon={Wrench}
           variant={statsData?.damagedAssets ? 'danger' : 'default'}
+          isLoading={statsLoading}
+        />
+        <StatCard
+          title="Dalam Perbaikan"
+          value={statsData?.underRepair ?? 0}
+          icon={Settings}
+          variant={statsData?.underRepair ? 'warning' : 'default'}
           isLoading={statsLoading}
         />
         <StatCard

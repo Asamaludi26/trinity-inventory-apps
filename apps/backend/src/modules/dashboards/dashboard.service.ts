@@ -44,28 +44,36 @@ export class DashboardService {
   // ──────────────── Superadmin Dashboard ────────────────
 
   async getStats() {
-    const [totalAssets, pendingRequests, activeLoans, damagedAssets] =
-      await Promise.all([
-        this.prisma.asset.count({ where: { isDeleted: false } }),
-        this.prisma.request.count({
-          where: {
-            isDeleted: false,
-            status: { in: PENDING_APPROVAL_STATUSES },
-          },
-        }),
-        this.prisma.loanRequest.count({
-          where: {
-            isDeleted: false,
-            status: { in: ACTIVE_TRANSACTION_STATUSES },
-          },
-        }),
-        this.prisma.asset.count({
-          where: {
-            isDeleted: false,
-            condition: { in: [AssetCondition.BROKEN, AssetCondition.POOR] },
-          },
-        }),
-      ]);
+    const [
+      totalAssets,
+      pendingRequests,
+      activeLoans,
+      damagedAssets,
+      underRepair,
+    ] = await Promise.all([
+      this.prisma.asset.count({ where: { isDeleted: false } }),
+      this.prisma.request.count({
+        where: {
+          isDeleted: false,
+          status: { in: PENDING_APPROVAL_STATUSES },
+        },
+      }),
+      this.prisma.loanRequest.count({
+        where: {
+          isDeleted: false,
+          status: { in: ACTIVE_TRANSACTION_STATUSES },
+        },
+      }),
+      this.prisma.asset.count({
+        where: {
+          isDeleted: false,
+          condition: { in: [AssetCondition.BROKEN, AssetCondition.POOR] },
+        },
+      }),
+      this.prisma.asset.count({
+        where: { isDeleted: false, status: AssetStatus.UNDER_REPAIR },
+      }),
+    ]);
 
     const lowStockAlerts = await this.getLowStockAlertCount();
 
@@ -74,6 +82,7 @@ export class DashboardService {
       pendingRequests,
       activeLoans,
       damagedAssets,
+      underRepair,
       lowStockAlerts,
     };
   }
@@ -214,6 +223,60 @@ export class DashboardService {
     };
   }
 
+  async getSpendingByCategory() {
+    const purchases = await this.prisma.purchaseMasterData.findMany({
+      where: { isDeleted: false },
+    });
+
+    const modelIds = [
+      ...new Set(purchases.map((purchase) => purchase.modelId)),
+    ];
+    const assetSamples =
+      modelIds.length > 0
+        ? await this.prisma.asset.findMany({
+            where: { isDeleted: false, modelId: { in: modelIds } },
+            distinct: ['modelId'],
+            select: { modelId: true, categoryId: true },
+          })
+        : [];
+    const modelCategoryMap = new Map(
+      assetSamples.map((asset) => [asset.modelId, asset.categoryId]),
+    );
+
+    const categorySpend = new Map<
+      number,
+      { categoryId: number; totalSpent: number }
+    >();
+
+    for (const purchase of purchases) {
+      const categoryId = modelCategoryMap.get(purchase.modelId);
+      if (!categoryId) continue;
+      const current = categorySpend.get(categoryId) ?? {
+        categoryId,
+        totalSpent: 0,
+      };
+      current.totalSpent += Number(purchase.totalPrice ?? 0);
+      categorySpend.set(categoryId, current);
+    }
+
+    const categoryIds = [...categorySpend.keys()];
+    if (categoryIds.length === 0) return [];
+
+    const categories = await this.prisma.assetCategory.findMany({
+      where: { id: { in: categoryIds } },
+      select: { id: true, name: true },
+    });
+    const categoryMap = new Map(categories.map((c) => [c.id, c.name]));
+
+    return [...categorySpend.values()]
+      .map((entry, idx) => ({
+        category: categoryMap.get(entry.categoryId) ?? 'Unknown',
+        totalSpent: entry.totalSpent,
+        fill: CHART_COLORS[idx % CHART_COLORS.length],
+      }))
+      .sort((a, b) => b.totalSpent - a.totalSpent);
+  }
+
   private async calculateRemainingBudget(): Promise<number> {
     const currentYear = new Date().getFullYear();
     const startOfYear = new Date(currentYear, 0, 1);
@@ -287,6 +350,38 @@ export class DashboardService {
       ]);
 
     return { totalAssets, criticalStock, overdueLoans, underRepair };
+  }
+
+  async getDailyOps() {
+    const now = new Date();
+    const startOfToday = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      0,
+      0,
+      0,
+    );
+
+    const [handovers, loanRequests, returns, requests] = await Promise.all([
+      this.prisma.handover.count({
+        where: { isDeleted: false, createdAt: { gte: startOfToday } },
+      }),
+      this.prisma.loanRequest.count({
+        where: { isDeleted: false, createdAt: { gte: startOfToday } },
+      }),
+      this.prisma.assetReturn.count({
+        where: {
+          isDeleted: false,
+          createdAt: { gte: startOfToday },
+        },
+      }),
+      this.prisma.request.count({
+        where: { isDeleted: false, createdAt: { gte: startOfToday } },
+      }),
+    ]);
+
+    return { handovers, loanRequests, returns, requests };
   }
 
   async getStockAlerts() {

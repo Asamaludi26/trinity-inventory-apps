@@ -3,10 +3,12 @@ import {
   Get,
   Post,
   Patch,
+  Put,
   Delete,
   Body,
   Param,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -18,7 +20,12 @@ import {
 import { AssetService } from './asset.service';
 import { AuthPermissions, CurrentUser } from '../../common/decorators';
 import { PERMISSIONS } from '../../common/constants';
-import { CreateAssetDto, UpdateAssetDto, FilterAssetDto } from './dto';
+import {
+  CreateAssetDto,
+  UpdateAssetDto,
+  FilterAssetDto,
+  UpdateStockThresholdDto,
+} from './dto';
 
 @ApiTags('Assets')
 @ApiBearerAuth('access-token')
@@ -90,5 +97,21 @@ export class AssetController {
   @ApiResponse({ status: 200, description: 'Aset berhasil dihapus' })
   async remove(@Param('id') id: string) {
     return this.assetService.remove(id);
+  }
+
+  @Put('models/:modelId/threshold')
+  @AuthPermissions(PERMISSIONS.STOCK_MANAGE)
+  @ApiOperation({ summary: 'Set/update threshold stok minimum per model' })
+  @ApiResponse({ status: 200, description: 'Threshold berhasil diupdate' })
+  async updateStockThreshold(
+    @Param('modelId', ParseIntPipe) modelId: number,
+    @Body() dto: UpdateStockThresholdDto,
+    @CurrentUser('id') userId: number,
+  ) {
+    return this.assetService.updateStockThreshold(
+      modelId,
+      dto.minQuantity,
+      userId,
+    );
   }
 }

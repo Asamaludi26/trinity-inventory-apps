@@ -318,4 +318,27 @@ export class AssetService {
       search,
     );
   }
+
+  async updateStockThreshold(
+    modelId: number,
+    minQuantity: number,
+    userId: number,
+  ) {
+    const model = await this.prisma.assetModel.findUnique({
+      where: { id: modelId },
+    });
+    if (!model) {
+      throw new NotFoundException(
+        `Model aset dengan id ${modelId} tidak ditemukan`,
+      );
+    }
+
+    await this.prisma.stockThreshold.upsert({
+      where: { modelId },
+      update: { minQuantity },
+      create: { modelId, minQuantity, createdById: userId },
+    });
+
+    return null;
+  }
 }
