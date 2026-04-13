@@ -20,6 +20,7 @@ import {
   UpdateRequestDto,
   FilterRequestDto,
   ApproveRequestDto,
+  RegisterAssetsDto,
 } from './dto';
 import { AuthPermissions, CurrentUser } from '../../../common/decorators';
 import { PERMISSIONS } from '../../../common/constants';
@@ -128,5 +129,18 @@ export class RequestController {
     @CurrentUser() user: JwtPayload,
   ) {
     return this.requestService.cancel(id, user.sub, version);
+  }
+
+  @Post(':id/register-assets')
+  @AuthPermissions(PERMISSIONS.ASSETS_CREATE)
+  @ApiOperation({
+    summary: 'Daftarkan aset ke inventori setelah barang tiba (status ARRIVED)',
+  })
+  async registerAssets(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: RegisterAssetsDto,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.requestService.registerAssets(id, dto, user.sub);
   }
 }

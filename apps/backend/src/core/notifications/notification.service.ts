@@ -1,12 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
 import { NotificationType } from '../../generated/prisma/client';
+import { WhatsAppService } from './whatsapp.service';
 
 @Injectable()
 export class NotificationService {
   private readonly logger = new Logger(NotificationService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly whatsapp: WhatsAppService,
+  ) {}
 
   async create(params: {
     userId: number;
@@ -22,6 +26,18 @@ export class NotificationService {
     this.logger.log(
       `Notification sent to user ${params.userId}: ${params.title}`,
     );
+
+    // Optionally send WhatsApp message if service is configured
+    if (this.whatsapp.isEnabled) {
+      const user = await this.prisma.user.findUnique({
+        where: { id: params.userId },
+        select: { phone: true },
+      });
+      if (user?.phone) {
+        const waMessage = `*${params.title}*\n${params.message}`;
+        void this.whatsapp.sendMessage(user.phone, waMessage);
+      }
+    }
 
     return notification;
   }

@@ -6,3 +6,4 @@ export { AttachmentSection } from './AttachmentSection';
 export { ExportButton } from './ExportButton';
 export { ImportDialog } from './ImportDialog';
 export { QrCodeSection } from './QrCodeSection';
+export { QRScannerDialog } from './QRScannerDialog';

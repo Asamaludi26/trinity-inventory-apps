@@ -5,6 +5,7 @@ import {
   ExportAssetQueryDto,
   ExportTransactionQueryDto,
   ExportCustomerQueryDto,
+  ExportStockQueryDto,
 } from './dto';
 import { Prisma } from '../../generated/prisma/client';
 import * as ExcelJS from 'exceljs';
@@ -285,6 +286,196 @@ export class ExportService {
       columns,
       rows,
       'pelanggan',
+    );
+  }
+
+  // ──────────────── Stock Movement Export ────────────────
+
+  async exportStock(query: ExportStockQueryDto) {
+    const where: Prisma.StockMovementWhereInput = {
+      ...(query.movementType && { type: query.movementType as never }),
+      ...(query.startDate || query.endDate
+        ? {
+            createdAt: {
+              ...(query.startDate && { gte: new Date(query.startDate) }),
+              ...(query.endDate && { lte: new Date(query.endDate) }),
+            },
+          }
+        : {}),
+      ...(query.search && {
+        OR: [
+          { reference: { contains: query.search, mode: 'insensitive' } },
+          { asset: { code: { contains: query.search, mode: 'insensitive' } } },
+          { asset: { name: { contains: query.search, mode: 'insensitive' } } },
+        ],
+      }),
+    };
+
+    const data = await this.prisma.stockMovement.findMany({
+      where,
+      include: {
+        asset: { select: { code: true, name: true } },
+        createdBy: { select: { fullName: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const MOVEMENT_LABELS: Record<string, string> = {
+      IN: 'Masuk',
+      OUT: 'Keluar',
+      ADJUSTMENT: 'Penyesuaian',
+    };
+
+    const rows = data.map((m) => ({
+      assetCode: m.asset?.code ?? '-',
+      assetName: m.asset?.name ?? '-',
+      type: MOVEMENT_LABELS[m.type] ?? m.type,
+      quantity: m.quantity,
+      reference: m.reference ?? '-',
+      note: m.note ?? '-',
+      createdBy: m.createdBy.fullName,
+      createdAt: new Intl.DateTimeFormat('id-ID').format(m.createdAt),
+    }));
+
+    const columns = [
+      { header: 'Kode Aset', key: 'assetCode', width: 18 },
+      { header: 'Nama Aset', key: 'assetName', width: 30 },
+      { header: 'Tipe Gerakan', key: 'type', width: 15 },
+      { header: 'Jumlah', key: 'quantity', width: 10 },
+      { header: 'Referensi', key: 'reference', width: 25 },
+      { header: 'Catatan', key: 'note', width: 30 },
+      { header: 'Dibuat Oleh', key: 'createdBy', width: 20 },
+      { header: 'Tanggal', key: 'createdAt', width: 15 },
+    ];
+
+    return this.generateByFormat(
+      query.format,
+      'Laporan Mutasi Stok',
+      columns,
+      rows,
+      'mutasi-stok',
+    );
+  }
+
+  // ──────────────── Handover Export ────────────────
+
+  async exportHandovers(query: ExportTransactionQueryDto) {
+    const where: Prisma.HandoverWhereInput = {
+      isDeleted: false,
+      ...(query.search && {
+        OR: [
+          { code: { contains: query.search, mode: 'insensitive' } },
+          { note: { contains: query.search, mode: 'insensitive' } },
+        ],
+      }),
+      ...(query.status && { status: query.status as never }),
+    };
+
+    const data = await this.prisma.handover.findMany({
+      where,
+      include: {
+        fromUser: { select: { fullName: true } },
+        toUser: { select: { fullName: true } },
+        items: { select: { id: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const rows = data.map((h) => ({
+      code: h.code,
+      status: TRANSACTION_STATUS_LABELS[h.status] ?? h.status,
+      fromUser: h.fromUser.fullName,
+      toUser: h.toUser.fullName,
+      itemCount: h.items.length,
+      note: h.note ?? '-',
+      createdAt: new Intl.DateTimeFormat('id-ID').format(h.createdAt),
+    }));
+
+    const columns = [
+      { header: 'No. Dokumen', key: 'code', width: 20 },
+      { header: 'Status', key: 'status', width: 18 },
+      { header: 'Dari', key: 'fromUser', width: 22 },
+      { header: 'Kepada', key: 'toUser', width: 22 },
+      { header: 'Jumlah Item', key: 'itemCount', width: 12 },
+      { header: 'Catatan', key: 'note', width: 30 },
+      { header: 'Tanggal', key: 'createdAt', width: 15 },
+    ];
+
+    return this.generateByFormat(
+      query.format,
+      'Daftar Serah Terima',
+      columns,
+      rows,
+      'serah-terima',
+    );
+  }
+
+  // ──────────────── Repair Export ────────────────
+
+  async exportRepairs(query: ExportTransactionQueryDto) {
+    const where: Prisma.RepairWhereInput = {
+      isDeleted: false,
+      ...(query.search && {
+        OR: [
+          { code: { contains: query.search, mode: 'insensitive' } },
+          { issueDescription: { contains: query.search, mode: 'insensitive' } },
+          { repairVendor: { contains: query.search, mode: 'insensitive' } },
+        ],
+      }),
+      ...(query.status && { status: query.status as never }),
+    };
+
+    const data = await this.prisma.repair.findMany({
+      where,
+      include: {
+        asset: { select: { code: true, name: true } },
+        createdBy: { select: { fullName: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const rows = data.map((r) => ({
+      code: r.code,
+      assetCode: r.asset.code,
+      assetName: r.asset.name,
+      issueDescription: r.issueDescription,
+      status: TRANSACTION_STATUS_LABELS[r.status] ?? r.status,
+      repairAction: r.repairAction ?? '-',
+      repairVendor: r.repairVendor ?? '-',
+      repairCost: r.repairCost
+        ? Number(r.repairCost).toLocaleString('id-ID')
+        : '-',
+      startedAt: r.startedAt
+        ? new Intl.DateTimeFormat('id-ID').format(r.startedAt)
+        : '-',
+      completedAt: r.completedAt
+        ? new Intl.DateTimeFormat('id-ID').format(r.completedAt)
+        : '-',
+      createdBy: r.createdBy.fullName,
+      createdAt: new Intl.DateTimeFormat('id-ID').format(r.createdAt),
+    }));
+
+    const columns = [
+      { header: 'No. Dokumen', key: 'code', width: 18 },
+      { header: 'Kode Aset', key: 'assetCode', width: 15 },
+      { header: 'Nama Aset', key: 'assetName', width: 25 },
+      { header: 'Deskripsi Masalah', key: 'issueDescription', width: 30 },
+      { header: 'Status', key: 'status', width: 18 },
+      { header: 'Tindakan Perbaikan', key: 'repairAction', width: 30 },
+      { header: 'Vendor', key: 'repairVendor', width: 22 },
+      { header: 'Biaya (Rp)', key: 'repairCost', width: 15 },
+      { header: 'Mulai', key: 'startedAt', width: 13 },
+      { header: 'Selesai', key: 'completedAt', width: 13 },
+      { header: 'Dibuat Oleh', key: 'createdBy', width: 20 },
+      { header: 'Tanggal', key: 'createdAt', width: 13 },
+    ];
+
+    return this.generateByFormat(
+      query.format,
+      'Laporan Perbaikan Aset',
+      columns,
+      rows,
+      'perbaikan',
     );
   }
 

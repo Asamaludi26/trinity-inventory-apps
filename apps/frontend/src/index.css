@@ -124,3 +124,48 @@
     letter-spacing: -0.025em;
   }
 }
+
+@media print {
+  /* Hide sidebar, header, nav, and action buttons */
+  [data-sidebar],
+  aside,
+  nav,
+  header,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Ensure cards render cleanly */
+  .rounded-lg,
+  .rounded-md {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+
+  /* Page breaks */
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    border: 1px solid #ccc;
+    padding: 4pt 8pt;
+  }
+}

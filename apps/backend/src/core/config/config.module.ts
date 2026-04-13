@@ -21,6 +21,8 @@ const envSchema = z.object({
     .default('true')
     .transform((val) => val === 'true'),
   UPLOAD_DIR: z.string().default('./uploads'),
+  WHATSAPP_API_URL: z.string().url().optional(),
+  WHATSAPP_TOKEN: z.string().optional(),
 });
 
 export type EnvConfig = z.infer<typeof envSchema>;

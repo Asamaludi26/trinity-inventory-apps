@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, CheckCircle, XCircle, Play } from 'lucide-react';
+import { ArrowLeft, CheckCircle, XCircle, Play, Printer } from 'lucide-react';
 import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -109,10 +109,14 @@ export function HandoverDetailPage() {
     <PageContainer
       title={`Serah Terima ${handover.code}`}
       actions={
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 print:hidden">
           <Button variant="outline" onClick={() => navigate('/handovers')}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Kembali
+          </Button>
+          <Button variant="outline" onClick={() => window.print()}>
+            <Printer className="mr-2 h-4 w-4" />
+            Cetak
           </Button>
           {canApprove && (
             <>

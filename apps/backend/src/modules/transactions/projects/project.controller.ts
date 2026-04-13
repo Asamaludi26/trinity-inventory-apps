@@ -22,6 +22,7 @@ import {
   UpdateProjectDto,
   FilterProjectDto,
   ProjectTaskDto,
+  UpdateTaskDto,
   ProjectMaterialDto,
   ProjectTeamMemberDto,
 } from './dto';
@@ -162,14 +163,7 @@ export class ProjectController {
   async updateTask(
     @Param('id', ParseUUIDPipe) id: string,
     @Param('taskId', ParseIntPipe) taskId: number,
-    @Body()
-    data: {
-      title?: string;
-      description?: string;
-      status?: string;
-      assigneeId?: number;
-      dueDate?: string;
-    },
+    @Body() data: UpdateTaskDto,
   ) {
     return this.projectService.updateTask(id, taskId, data);
   }

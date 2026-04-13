@@ -134,7 +134,7 @@ export class RepairService {
       'REPAIR',
     );
 
-    return this.prisma.repair.create({
+    const repair = await this.prisma.repair.create({
       data: {
         code,
         assetId: dto.assetId,
@@ -149,6 +149,23 @@ export class RepairService {
         asset: { select: { id: true, code: true, name: true } },
       },
     });
+
+    // Notify first-tier approvers (fire and forget)
+    this.approvalService.getFirstTierApproverIds(approvalChain).then((ids) => {
+      ids.forEach((approverId) => {
+        this.notificationService
+          .notifyApprovalRequired({
+            recipientUserId: approverId,
+            transactionType: 'Laporan Perbaikan',
+            transactionCode: code,
+            requesterName: repair.createdBy.fullName,
+            link: `/transactions/repairs/${repair.id}`,
+          })
+          .catch(() => {});
+      });
+    });
+
+    return repair;
   }
 
   async update(id: string, dto: UpdateRepairDto) {

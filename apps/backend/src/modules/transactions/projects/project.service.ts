@@ -10,6 +10,7 @@ import { EventsService } from '../../../core/events/events.service';
 import {
   CreateProjectDto,
   ProjectTaskDto,
+  UpdateTaskDto,
   ProjectMaterialDto,
   ProjectTeamMemberDto,
 } from './dto/create-project.dto';
@@ -544,17 +545,7 @@ export class ProjectService {
     });
   }
 
-  async updateTask(
-    projectId: string,
-    taskId: number,
-    data: {
-      title?: string;
-      description?: string;
-      status?: string;
-      assigneeId?: number;
-      dueDate?: string;
-    },
-  ) {
+  async updateTask(projectId: string, taskId: number, data: UpdateTaskDto) {
     const task = await this.prisma.infraProjectTask.findFirst({
       where: { id: taskId, projectId },
     });

@@ -120,7 +120,7 @@ export class HandoverService {
       'HANDOVER',
     );
 
-    return this.prisma.handover.create({
+    const handover = await this.prisma.handover.create({
       data: {
         code,
         fromUserId: userId,
@@ -141,6 +141,23 @@ export class HandoverService {
         toUser: { select: { id: true, fullName: true } },
       },
     });
+
+    // Notify first-tier approvers (fire and forget)
+    this.approvalService.getFirstTierApproverIds(approvalChain).then((ids) => {
+      ids.forEach((approverId) => {
+        this.notificationService
+          .notifyApprovalRequired({
+            recipientUserId: approverId,
+            transactionType: 'Serah Terima',
+            transactionCode: code,
+            requesterName: handover.fromUser.fullName,
+            link: `/transactions/handovers/${handover.id}`,
+          })
+          .catch(() => {});
+      });
+    });
+
+    return handover;
   }
 
   async update(id: string, dto: UpdateHandoverDto) {

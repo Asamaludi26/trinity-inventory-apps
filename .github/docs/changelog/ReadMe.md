@@ -47,6 +47,80 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-14] — Sprint Completion Analysis & Remediation Plan
+
+#### Added
+
+- **SPRINT_ANALYSIS_REPORT.md** — File analisa lengkap tingkat penyelesaian Sprint 1–5 dengan persentase per sprint dan per task (93.6% overall completion)
+- **Sprint 6 (Remediation Sprint)** — 7 task tambahan di SPRINT_PLAN.md untuk menutup semua gap: stock threshold CRUD, dashboard metrics (underRepair, daily ops, spending/category), export frontend bindings (stock, handover, repair), project lifecycle documentation
+
+#### Changed
+
+- **SPRINT_PLAN.md** — Updated ke v1.1: semua tracking matrix (USER_MANUAL_SOP, USER_SYSTEM_FLOW, API_CONTRACT, SECURITY_RBAC) di-update dari ⬜ ke ✅/⚠️ sesuai hasil verifikasi kode aktual. Status Saat Ini table di-update dengan coverage terkini. Acceptance Criteria per sprint di-update dengan status checked/partial
+
+#### Agents Involved
+
+- `project-manager` (analysis, planning)
+- `documentation` (changelog, report)
+
+---
+
+### [2026-04-13] — Sprint 5 Completion (5.1-5.7)
+
+#### Added
+
+- **Sprint 5.1** - Global command palette (`Ctrl+K`) using `cmdk`; new shared UI primitive `components/ui/command.tsx`; quick navigation groups for dashboard, asset, transaction, customer, and settings pages
+- **Sprint 5.5** - WhatsApp notification integration via `WhatsAppService` with optional env config (`WHATSAPP_API_URL`, `WHATSAPP_TOKEN`) and notification fan-out from `NotificationService`
+- **Sprint 5.6** - Handover print support with `Cetak` action in handover detail page and print-focused stylesheet rules
+
+#### Changed
+
+- **Sprint 5.2** - Breadcrumb label coverage expanded for additional route segments (`notifications`, `installation`, dashboard subroutes, settings subroutes)
+- **Sprint 5.3** - Asset list page now renders responsive mobile card layout (<768px) and desktop table layout (>=768px)
+- **Sprint 5.4** - Theme persistence verified through existing Zustand `persist` store (`ui-storage`) and `ThemeProvider` DOM class sync
+
+#### Fixed
+
+- **Sprint 5.7** - Frontend change-password validation aligned with backend policy by requiring at least one special character
+- Asset list desktop empty-state action now routes to create-asset page
+
+#### Security
+
+- Password validation compliance improved on forced password-change flow to enforce stronger password complexity at UI layer before API submission
+
+#### Agents Involved
+
+- `orchestrator` - coordinated Sprint 5 delivery and quality gate
+
+### [2026-04-16] — Sprint 1-4 Gap Closure: 100% Completion
+
+#### Added
+
+- **Sprint 3.2** — `TaskStatus` enum (`TODO`, `IN_PROGRESS`, `BLOCKED`, `COMPLETED`) added to `create-project.dto.ts`; `UpdateTaskDto` class with `@IsEnum` validation exported; `project.controller.ts` and `project.service.ts` updated to use typed DTO instead of plain object for `PATCH /:id/tasks/:taskId`
+- **Sprint 4.4** — `GET /export/stock` endpoint: exports `StockMovement` records with asset info, movement type, quantity, reference, and date filters. `ExportStockQueryDto` DTO added with `movementType`, `startDate`, `endDate` query params
+- **Sprint 4.5** — `GET /export/handovers` and `GET /export/repairs` endpoints for Handover and Repair bulk exports (XLSX/CSV/PDF format support). Methods `exportHandovers()` and `exportRepairs()` added to `ExportService`
+- **Sprint 4.7** — Audit Trail filters UI: `AuditLogPage.tsx` now includes entity type dropdown (12 entity types), user filter dropdown (fetched from `useUsers`), start/end date range inputs, and a Reset Filter button. Backend already supported these filters via `FilterAuditDto`
+- **Sprint 4.6** — Import two-step preview flow: `POST /import/assets/preview` endpoint added (validates without DB insertion); `ImportPreviewResult` type created; `usePreviewImportAssets()` hook added; `ImportDialog.tsx` redesigned with Step 1 (upload → Preview) → Step 2 (review table + error list → Import) → Step 3 (results)
+- **Sprint 4.2** — QR Code scan: `html5-qrcode` installed; `QRScannerDialog.tsx` component created with camera-based QR scanning using `Html5Qrcode`; supports asset code and URL path formats; added to `AssetListPage.tsx` toolbar as "Scan QR" button
+- **Sprint 1.8 (from previous session)** — `registerAssets()` endpoint and flow fully implemented
+- **Sprint 2.1 (from previous session)** — `notifyApprovalRequired()` called in all 4 transaction `create()` methods
+
+#### Changed
+
+- `ImportDialog.tsx` — redesigned from single-step to two-step preview+confirm flow
+- `AuditLogPage.tsx` — added 4 new filter controls (entity type, user, date from, date to)
+- `export-import.ts` (lib) — added `ImportPreviewResult`, `ImportPreviewRow` types and `importApi.previewAssets()` method
+- `use-export-import.ts` (hook) — added `usePreviewImportAssets()` hook and `ImportPreviewResult` import
+- `export.service.ts` — added 3 new export methods before format router
+- `export.controller.ts` — added 3 new GET endpoints with proper auth and throttle
+- `export-query.dto.ts` — added `ExportStockQueryDto` with date/movement type filters
+
+#### Agents Involved
+
+- `orchestrator` — coordinated full Sprint 1-4 gap closure
+
+---
+
 ### [2026-04-15] — Fix: Prisma Seed P2002 Unique Constraint on `employee_id`
 
 #### Fixed

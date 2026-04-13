@@ -123,7 +123,7 @@ export class LoanService {
       'LOAN',
     );
 
-    return this.prisma.loanRequest.create({
+    const loan = await this.prisma.loanRequest.create({
       data: {
         code,
         purpose: dto.purpose,
@@ -145,6 +145,23 @@ export class LoanService {
         createdBy: { select: { id: true, fullName: true } },
       },
     });
+
+    // Notify first-tier approvers (fire and forget)
+    this.approvalService.getFirstTierApproverIds(approvalChain).then((ids) => {
+      ids.forEach((approverId) => {
+        this.notificationService
+          .notifyApprovalRequired({
+            recipientUserId: approverId,
+            transactionType: 'Peminjaman',
+            transactionCode: code,
+            requesterName: loan.createdBy.fullName,
+            link: `/transactions/loans/${loan.id}`,
+          })
+          .catch(() => {});
+      });
+    });
+
+    return loan;
   }
 
   async update(id: string, dto: UpdateLoanDto) {

@@ -17,6 +17,7 @@
 
 | ID    | Issue                                              | Status | Fix                       | Date       |
 | ----- | -------------------------------------------------- | ------ | ------------------------- | ---------- |
+| ISS-2 | Change password policy mismatch (frontend vs API)  | Fixed  | [FIX-002](fix/FIX-002.md) | 2026-04-13 |
 | ISS-1 | Detail pages return 400 (undefined UUID in params) | Fixed  | [FIX-001](fix/FIX-001.md) | 2026-04-12 |
 
 <!-- Entry baru ditambahkan di atas baris ini -->

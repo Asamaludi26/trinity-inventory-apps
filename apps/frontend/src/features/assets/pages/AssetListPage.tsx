@@ -7,8 +7,10 @@ import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { StatusBadge } from '@/components/ui/status-badge';
-import { ExportButton, ImportDialog } from '@/components/form';
+import { ExportButton, ImportDialog, QRScannerDialog } from '@/components/form';
 import { useExportAssets } from '@/hooks/use-export-import';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -74,6 +76,7 @@ export function AssetListPage() {
   const debouncedSearch = useDebounce(search, 300);
   const { data: categories } = useCategories();
   const exportAssets = useExportAssets();
+  const isMobile = useIsMobile();
 
   const { data, isLoading } = useAssets({
     page,
@@ -92,6 +95,7 @@ export function AssetListPage() {
       description="Kelola semua aset inventaris"
       actions={
         <div className="flex items-center gap-2">
+          <QRScannerDialog />
           <ImportDialog />
           <ExportButton
             onExport={(format) =>
@@ -198,96 +202,173 @@ export function AssetListPage() {
         )}
       </div>
 
-      {/* Table */}
-      <div className="rounded-lg border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Kode</TableHead>
-              <TableHead>Nama Aset</TableHead>
-              <TableHead>Kategori</TableHead>
-              <TableHead>Brand</TableHead>
-              <TableHead>S/N</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Kondisi</TableHead>
-              <TableHead>Pemegang</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {isLoading ? (
-              Array.from({ length: 10 }).map((_, i) => (
-                <TableRow key={i}>
-                  {Array.from({ length: 8 }).map((__, j) => (
-                    <TableCell key={j}>
-                      <Skeleton className="h-4 w-full" />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : !data?.data?.length ? (
-              <TableRow>
-                <TableCell colSpan={10}>
-                  <EmptyState
-                    icon={<Package className="h-12 w-12" />}
-                    title="Belum ada data aset"
-                    description={
-                      hasFilters
-                        ? 'Tidak ada aset yang sesuai filter.'
-                        : 'Mulai catat aset pertama Anda.'
-                    }
-                    action={
-                      hasFilters ? (
-                        <Button
-                          variant="outline"
-                          onClick={() => {
-                            resetFilters();
-                            setPage(1);
-                          }}
-                        >
-                          Reset Filter
-                        </Button>
-                      ) : (
-                        <Button>
-                          <Plus className="mr-2 h-4 w-4" />
-                          Catat Aset
-                        </Button>
-                      )
-                    }
-                  />
-                </TableCell>
-              </TableRow>
-            ) : (
-              data.data.map((asset) => (
-                <TableRow
-                  key={asset.id}
-                  className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => navigate(`/assets/${asset.id}`)}
-                >
-                  <TableCell className="font-mono text-xs">{asset.code}</TableCell>
-                  <TableCell className="font-medium">{asset.name}</TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {asset.category?.name ?? '-'}
-                  </TableCell>
-                  <TableCell>{asset.brand || '-'}</TableCell>
-                  <TableCell className="font-mono text-xs">{asset.serialNumber || '-'}</TableCell>
-                  <TableCell>
+      {/* Table / Card */}
+      {isMobile ? (
+        /* Mobile card view */
+        <div className="flex flex-col gap-3">
+          {isLoading ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <Card key={i}>
+                <CardContent className="p-4 space-y-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-3 w-1/2" />
+                  <Skeleton className="h-3 w-full" />
+                </CardContent>
+              </Card>
+            ))
+          ) : !data?.data?.length ? (
+            <EmptyState
+              icon={<Package className="h-12 w-12" />}
+              title="Belum ada data aset"
+              description={
+                hasFilters ? 'Tidak ada aset yang sesuai filter.' : 'Mulai catat aset pertama Anda.'
+              }
+              action={
+                hasFilters ? (
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      resetFilters();
+                      setPage(1);
+                    }}
+                  >
+                    Reset Filter
+                  </Button>
+                ) : (
+                  <Button onClick={() => navigate('/assets/new')}>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Catat Aset
+                  </Button>
+                )
+              }
+            />
+          ) : (
+            data.data.map((asset) => (
+              <Card
+                key={asset.id}
+                className="cursor-pointer hover:bg-muted/50 transition-colors"
+                onClick={() => navigate(`/assets/${asset.id}`)}
+              >
+                <CardContent className="p-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium truncate">{asset.name}</p>
+                      <p className="text-xs font-mono text-muted-foreground">{asset.code}</p>
+                    </div>
                     <StatusBadge status={asset.status} />
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className={CONDITION_COLORS[asset.condition]}>
-                      {CONDITION_OPTIONS.find((o) => o.value === asset.condition)?.label ??
-                        asset.condition}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {asset.currentUser?.fullName ?? '-'}
+                  </div>
+                  <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                    <span>Kategori: {asset.category?.name ?? '-'}</span>
+                    <span>Brand: {asset.brand || '-'}</span>
+                    <span className="font-mono">S/N: {asset.serialNumber || '-'}</span>
+                    <span>
+                      Kondisi:{' '}
+                      <Badge variant="outline" className={CONDITION_COLORS[asset.condition]}>
+                        {CONDITION_OPTIONS.find((o) => o.value === asset.condition)?.label ??
+                          asset.condition}
+                      </Badge>
+                    </span>
+                    <span className="col-span-2">
+                      Pemegang: {asset.currentUser?.fullName ?? '-'}
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </div>
+      ) : (
+        /* Desktop table view */
+        <div className="rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Kode</TableHead>
+                <TableHead>Nama Aset</TableHead>
+                <TableHead>Kategori</TableHead>
+                <TableHead>Brand</TableHead>
+                <TableHead>S/N</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Kondisi</TableHead>
+                <TableHead>Pemegang</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {isLoading ? (
+                Array.from({ length: 10 }).map((_, i) => (
+                  <TableRow key={i}>
+                    {Array.from({ length: 8 }).map((__, j) => (
+                      <TableCell key={j}>
+                        <Skeleton className="h-4 w-full" />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : !data?.data?.length ? (
+                <TableRow>
+                  <TableCell colSpan={10}>
+                    <EmptyState
+                      icon={<Package className="h-12 w-12" />}
+                      title="Belum ada data aset"
+                      description={
+                        hasFilters
+                          ? 'Tidak ada aset yang sesuai filter.'
+                          : 'Mulai catat aset pertama Anda.'
+                      }
+                      action={
+                        hasFilters ? (
+                          <Button
+                            variant="outline"
+                            onClick={() => {
+                              resetFilters();
+                              setPage(1);
+                            }}
+                          >
+                            Reset Filter
+                          </Button>
+                        ) : (
+                          <Button onClick={() => navigate('/assets/new')}>
+                            <Plus className="mr-2 h-4 w-4" />
+                            Catat Aset
+                          </Button>
+                        )
+                      }
+                    />
                   </TableCell>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </div>
+              ) : (
+                data.data.map((asset) => (
+                  <TableRow
+                    key={asset.id}
+                    className="cursor-pointer hover:bg-muted/50"
+                    onClick={() => navigate(`/assets/${asset.id}`)}
+                  >
+                    <TableCell className="font-mono text-xs">{asset.code}</TableCell>
+                    <TableCell className="font-medium">{asset.name}</TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {asset.category?.name ?? '-'}
+                    </TableCell>
+                    <TableCell>{asset.brand || '-'}</TableCell>
+                    <TableCell className="font-mono text-xs">{asset.serialNumber || '-'}</TableCell>
+                    <TableCell>
+                      <StatusBadge status={asset.status} />
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className={CONDITION_COLORS[asset.condition]}>
+                        {CONDITION_OPTIONS.find((o) => o.value === asset.condition)?.label ??
+                          asset.condition}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {asset.currentUser?.fullName ?? '-'}
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      )}
 
       {/* Pagination */}
       {data?.meta && data.meta.totalPages > 1 && (

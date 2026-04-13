@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { LogOut, Moon, Sun, User } from 'lucide-react';
+import { LogOut, Moon, Search, Sun, User } from 'lucide-react';
 
 import { useAuthStore } from '@/store/useAuthStore';
 import { useUIStore } from '@/store/useUIStore';
@@ -25,6 +25,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { NotificationDropdown } from './NotificationDropdown';
+import { CommandPalette } from './CommandPalette';
 
 const ROLE_LABELS: Record<string, string> = {
   SUPERADMIN: 'Super Admin',
@@ -36,6 +37,10 @@ const ROLE_LABELS: Record<string, string> = {
 
 const ROUTE_LABELS: Record<string, string> = {
   dashboard: 'Dashboard',
+  finance: 'Keuangan',
+  operations: 'Operasional',
+  division: 'Divisi',
+  personal: 'Personal',
   assets: 'Pusat Aset',
   stock: 'Stok Aset',
   categories: 'Kategori',
@@ -50,12 +55,18 @@ const ROUTE_LABELS: Record<string, string> = {
   repairs: 'Perbaikan',
   projects: 'Proyek',
   customers: 'Pelanggan',
+  installation: 'Instalasi',
   installations: 'Instalasi',
   maintenance: 'Maintenance',
+  dismantle: 'Dismantle',
   dismantles: 'Dismantle',
+  notifications: 'Notifikasi',
   settings: 'Pengaturan',
   profile: 'Profil',
   'users-divisions': 'Akun & Divisi',
+  users: 'Pengguna',
+  divisions: 'Divisi',
+  'audit-log': 'Audit Log',
   new: 'Baru',
 };
 
@@ -116,6 +127,37 @@ export function AppHeader() {
 
       {/* Right section */}
       <div className="flex items-center gap-2">
+        {/* Global search trigger */}
+        <Button
+          variant="outline"
+          size="sm"
+          className="hidden sm:flex items-center gap-2 text-muted-foreground w-44 justify-between"
+          onClick={() => {
+            window.dispatchEvent(new Event('open-command-palette'));
+          }}
+          aria-label="Cari halaman (Ctrl+K)"
+        >
+          <span className="flex items-center gap-2">
+            <Search className="size-3.5" />
+            <span className="text-xs">Cari...</span>
+          </span>
+          <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium sm:flex">
+            Ctrl+K
+          </kbd>
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="sm:hidden"
+          onClick={() => {
+            window.dispatchEvent(new Event('open-command-palette'));
+          }}
+          aria-label="Cari halaman"
+        >
+          <Search className="size-4" />
+        </Button>
+
+        <CommandPalette />
         {/* Theme toggle */}
         <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Ganti tema">
           {theme === 'light' ? <Moon className="size-4" /> : <Sun className="size-4" />}

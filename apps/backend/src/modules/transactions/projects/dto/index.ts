@@ -1,6 +1,8 @@
 export {
   CreateProjectDto,
   ProjectTaskDto,
+  UpdateTaskDto,
+  TaskStatus,
   ProjectMaterialDto,
   ProjectTeamMemberDto,
 } from './create-project.dto';

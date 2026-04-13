@@ -382,4 +382,20 @@ export class ApprovalService {
 
     return [];
   }
+
+  /**
+   * Get the user IDs of the first-tier approvers based on the approval chain.
+   * Used to send initial approval notifications when a transaction is created.
+   */
+  async getFirstTierApproverIds(chain: ApprovalChainStep[]): Promise<number[]> {
+    const firstStep = this.getCurrentPendingStep(chain);
+    if (!firstStep) return [];
+
+    const approvers = await this.prisma.user.findMany({
+      where: { role: firstStep.approverRole, isDeleted: false },
+      select: { id: true },
+    });
+
+    return approvers.map((u) => u.id);
+  }
 }

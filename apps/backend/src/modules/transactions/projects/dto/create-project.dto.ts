@@ -8,8 +8,16 @@ import {
   IsDateString,
   MaxLength,
   Min,
+  IsEnum,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+
+export enum TaskStatus {
+  TODO = 'TODO',
+  IN_PROGRESS = 'IN_PROGRESS',
+  BLOCKED = 'BLOCKED',
+  COMPLETED = 'COMPLETED',
+}
 
 export class ProjectTaskDto {
   @IsNotEmpty({ message: 'Judul task wajib diisi' })
@@ -20,6 +28,32 @@ export class ProjectTaskDto {
   @IsOptional()
   @IsString()
   description?: string;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  assigneeId?: number;
+
+  @IsOptional()
+  @IsDateString()
+  dueDate?: string;
+}
+
+export class UpdateTaskDto {
+  @IsOptional()
+  @IsString()
+  @MaxLength(255)
+  title?: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @IsOptional()
+  @IsEnum(TaskStatus, {
+    message: 'Status tidak valid. Pilih: TODO, IN_PROGRESS, BLOCKED, COMPLETED',
+  })
+  status?: TaskStatus;
 
   @IsOptional()
   @Type(() => Number)

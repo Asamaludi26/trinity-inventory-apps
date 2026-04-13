@@ -75,6 +75,48 @@ export class ImportController {
     return this.importService.importAssets(file, userId);
   }
 
+  @Post('assets/preview')
+  @AuthPermissions(PERMISSIONS.DATA_IMPORT)
+  @SkipAudit()
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: { fileSize: MAX_IMPORT_SIZE },
+      fileFilter: (_req, file, cb) => {
+        const allowed = [
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'application/vnd.ms-excel',
+          'text/csv',
+        ];
+        if (allowed.includes(file.mimetype)) {
+          cb(null, true);
+        } else {
+          cb(
+            new BadRequestException(
+              'Format file tidak didukung. Gunakan XLSX, XLS, atau CSV.',
+            ),
+            false,
+          );
+        }
+      },
+    }),
+  )
+  @ApiOperation({
+    summary: 'Preview import aset — validasi tanpa menyimpan ke DB',
+  })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: { type: 'string', format: 'binary' },
+      },
+    },
+  })
+  @ApiResponse({ status: 200, description: 'Preview berhasil' })
+  async previewImportAssets(@UploadedFile() file: Express.Multer.File) {
+    return this.importService.previewAssets(file);
+  }
+
   @Get('assets/template')
   @AuthPermissions(PERMISSIONS.DATA_IMPORT)
   @SkipAudit()

@@ -10,6 +10,23 @@ export interface ImportResult {
   errors: Array<{ row: number; field: string; message: string }>;
 }
 
+export interface ImportPreviewRow {
+  row: number;
+  code: string;
+  name: string;
+  category: string;
+  brand: string;
+  serialNumber: string | null;
+}
+
+export interface ImportPreviewResult {
+  totalRows: number;
+  validCount: number;
+  errorCount: number;
+  errors: Array<{ row: number; field: string; message: string }>;
+  rows: ImportPreviewRow[];
+}
+
 // ================================
 // Export API
 // ================================
@@ -42,6 +59,14 @@ export const importApi = {
     const formData = new FormData();
     formData.append('file', file);
     return api.post<ApiResponse<ImportResult>>('/import/assets', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+
+  previewAssets: (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return api.post<ApiResponse<ImportPreviewResult>>('/import/assets/preview', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
   },

@@ -3,6 +3,7 @@ import {
   NotFoundException,
   BadRequestException,
   ConflictException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
 import { NotificationService } from '../../../core/notifications/notification.service';
@@ -10,11 +11,15 @@ import { EventsService } from '../../../core/events/events.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { FilterRequestDto } from './dto/filter-request.dto';
+import { RegisterAssetsDto } from './dto/register-assets.dto';
 import { ApprovalService } from '../approval/approval.service';
+import { StockMovementService } from '../stock-movements/stock-movement.service';
 import {
   Prisma,
   TransactionStatus,
   UserRole,
+  AssetCondition,
+  AssetStatus,
 } from '../../../generated/prisma/client';
 
 @Injectable()
@@ -24,6 +29,7 @@ export class RequestService {
     private readonly approvalService: ApprovalService,
     private readonly notificationService: NotificationService,
     private readonly eventsService: EventsService,
+    private readonly stockMovementService: StockMovementService,
   ) {}
 
   private async generateCode(): Promise<string> {
@@ -119,7 +125,7 @@ export class RequestService {
       'REQUEST',
     );
 
-    return this.prisma.request.create({
+    const request = await this.prisma.request.create({
       data: {
         code,
         title: dto.title,
@@ -142,6 +148,23 @@ export class RequestService {
         createdBy: { select: { id: true, fullName: true } },
       },
     });
+
+    // Notify first-tier approvers (fire and forget)
+    this.approvalService.getFirstTierApproverIds(approvalChain).then((ids) => {
+      ids.forEach((approverId) => {
+        this.notificationService
+          .notifyApprovalRequired({
+            recipientUserId: approverId,
+            transactionType: 'Permintaan',
+            transactionCode: code,
+            requesterName: request.createdBy.fullName,
+            link: `/transactions/requests/${request.id}`,
+          })
+          .catch(() => {});
+      });
+    });
+
+    return request;
   }
 
   async update(id: string, dto: UpdateRequestDto) {
@@ -426,5 +449,179 @@ export class RequestService {
     });
 
     return this.prisma.request.findUnique({ where: { id } });
+  }
+
+  private async generateAssetCode(
+    tx: Prisma.TransactionClient,
+  ): Promise<string> {
+    const now = new Date();
+    const prefix = `AST-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}`;
+    const lastAsset = await tx.asset.findFirst({
+      where: { code: { startsWith: prefix } },
+      orderBy: { code: 'desc' },
+      select: { code: true },
+    });
+    const seq = lastAsset
+      ? parseInt(lastAsset.code.split('-').pop() ?? '0', 10) + 1
+      : 1;
+    return `${prefix}-${String(seq).padStart(5, '0')}`;
+  }
+
+  /**
+   * Register physical assets into inventory after request arrives.
+   * Only allowed when status = ARRIVED.
+   * After ALL request items are registered, transitions to COMPLETED.
+   */
+  async registerAssets(
+    id: string,
+    dto: RegisterAssetsDto,
+    registeredById: number,
+  ) {
+    const existing = await this.findOne(id);
+
+    if (existing.status !== TransactionStatus.ARRIVED) {
+      throw new UnprocessableEntityException(
+        'Registrasi aset hanya dapat dilakukan saat status request adalah ARRIVED',
+      );
+    }
+
+    const result = await this.prisma.$transaction(async (tx) => {
+      const { count } = await tx.request.updateMany({
+        where: { id, version: dto.version },
+        data: { version: { increment: 1 } },
+      });
+
+      if (count === 0) {
+        throw new ConflictException(
+          'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+        );
+      }
+
+      const registeredAssetIds: string[] = [];
+
+      for (const itemDto of dto.items) {
+        const requestItem = existing.items.find(
+          (i) => i.id === itemDto.requestItemId,
+        );
+        if (!requestItem) {
+          throw new NotFoundException(
+            `Request item dengan ID ${itemDto.requestItemId} tidak ditemukan`,
+          );
+        }
+
+        const qty = requestItem.approvedQuantity ?? requestItem.quantity;
+
+        let assetName = itemDto.name ?? requestItem.description;
+        let assetBrand = itemDto.brand ?? 'N/A';
+        let assetCategoryId = itemDto.categoryId;
+        let assetTypeId: number | undefined;
+
+        if (requestItem.modelId) {
+          const model = await tx.assetModel.findUnique({
+            where: { id: requestItem.modelId },
+            include: { type: { include: { category: true } } },
+          });
+          if (model) {
+            if (!itemDto.name) assetName = model.name;
+            if (!itemDto.brand) assetBrand = model.brand;
+            assetTypeId = model.typeId ?? undefined;
+            if (!assetCategoryId && model.type?.categoryId) {
+              assetCategoryId = model.type.categoryId;
+            }
+          }
+        }
+
+        if (!assetCategoryId) {
+          throw new BadRequestException(
+            `Category ID wajib diisi untuk item "${requestItem.description}" yang tidak memiliki model`,
+          );
+        }
+
+        for (let i = 0; i < qty; i++) {
+          const code = await this.generateAssetCode(tx);
+          const sn = itemDto.serialNumbers?.[i];
+
+          const asset = await tx.asset.create({
+            data: {
+              code,
+              name: assetName,
+              brand: assetBrand,
+              categoryId: assetCategoryId,
+              typeId: assetTypeId ?? null,
+              modelId: requestItem.modelId ?? null,
+              serialNumber: sn ?? null,
+              purchasePrice: itemDto.purchasePrice ?? null,
+              condition: itemDto.condition ?? AssetCondition.NEW,
+              status: AssetStatus.IN_STORAGE,
+              recordedById: registeredById,
+            },
+          });
+          registeredAssetIds.push(asset.id);
+
+          await this.stockMovementService.create(
+            {
+              assetId: asset.id,
+              type: 'IN',
+              reference: existing.code,
+              note: `Penerimaan dari ${existing.code}: ${assetName}`,
+              createdById: registeredById,
+            },
+            tx,
+          );
+        }
+
+        await tx.assetRegistration.create({
+          data: {
+            requestId: id,
+            quantity: qty,
+            note: itemDto.note ?? null,
+            registeredById,
+          },
+        });
+      }
+
+      const totalRegistrations = await tx.assetRegistration.count({
+        where: { requestId: id },
+      });
+
+      let finalStatus: TransactionStatus = TransactionStatus.ARRIVED;
+      if (totalRegistrations >= existing.items.length) {
+        await tx.request.updateMany({
+          where: { id },
+          data: {
+            status: TransactionStatus.COMPLETED,
+            version: { increment: 1 },
+          },
+        });
+        finalStatus = TransactionStatus.COMPLETED;
+      }
+
+      return { registeredAssetIds, finalStatus };
+    });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'request',
+      status: result.finalStatus,
+      version: existing.version + 1,
+    });
+
+    if (result.finalStatus === TransactionStatus.COMPLETED) {
+      this.notificationService
+        .notifyTransactionStatusChange({
+          recipientUserId: existing.createdById,
+          transactionType: 'Permintaan',
+          transactionCode: existing.code,
+          action: 'COMPLETED',
+          link: `/transactions/requests/${id}`,
+        })
+        .catch(() => {});
+    }
+
+    return {
+      registeredAssets: result.registeredAssetIds.length,
+      status: result.finalStatus,
+    };
   }
 }

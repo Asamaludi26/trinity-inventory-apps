@@ -10,6 +10,23 @@ export interface ImportResult {
   errors: Array<{ row: number; field: string; message: string }>;
 }
 
+export interface ImportPreviewRow {
+  row: number;
+  code: string;
+  name: string;
+  category: string;
+  brand: string;
+  serialNumber: string | null;
+}
+
+export interface ImportPreviewResult {
+  totalRows: number;
+  validCount: number;
+  errorCount: number;
+  errors: Array<{ row: number; field: string; message: string }>;
+  rows: ImportPreviewRow[];
+}
+
 @Injectable()
 export class ImportService {
   private readonly logger = new Logger(ImportService.name);
@@ -220,6 +237,137 @@ export class ImportService {
           );
         }
       }
+    }
+
+    return result;
+  }
+
+  async previewAssets(file: Express.Multer.File): Promise<ImportPreviewResult> {
+    if (!file) {
+      throw new BadRequestException('File tidak ditemukan');
+    }
+
+    const ext = file.originalname.split('.').pop()?.toLowerCase();
+    if (!['xlsx', 'xls', 'csv'].includes(ext ?? '')) {
+      throw new BadRequestException(
+        'Format file tidak didukung. Gunakan XLSX, XLS, atau CSV.',
+      );
+    }
+
+    const workbook = new ExcelJS.Workbook();
+    if (ext === 'csv') {
+      const stream = new Readable();
+      stream.push(file.buffer);
+      stream.push(null);
+      await workbook.csv.read(stream);
+    } else {
+      // @ts-expect-error Buffer generic type mismatch between @types/node v22+ and exceljs
+      await workbook.xlsx.load(file.buffer);
+    }
+
+    const sheet = workbook.worksheets[0];
+    if (!sheet || sheet.rowCount < 2) {
+      throw new BadRequestException(
+        'File kosong atau tidak memiliki data. Baris pertama harus header.',
+      );
+    }
+
+    const headerRow = sheet.getRow(1);
+    const headerMap = new Map<string, number>();
+    headerRow.eachCell((cell, colNumber) => {
+      const val = String(cell.value ?? '')
+        .trim()
+        .toLowerCase();
+      headerMap.set(val, colNumber);
+    });
+
+    const requiredHeaders = ['kode', 'nama aset', 'kategori', 'brand'];
+    const missingHeaders = requiredHeaders.filter((h) => !headerMap.has(h));
+    if (missingHeaders.length > 0) {
+      throw new BadRequestException(
+        `Kolom wajib tidak ditemukan: ${missingHeaders.join(', ')}. Pastikan header sesuai template.`,
+      );
+    }
+
+    const categories = await this.prisma.assetCategory.findMany({
+      where: { isDeleted: false },
+    });
+    const categoryMap = new Map(
+      categories.map((c) => [c.name.toLowerCase(), c.id]),
+    );
+
+    const result: ImportPreviewResult = {
+      totalRows: 0,
+      validCount: 0,
+      errorCount: 0,
+      errors: [],
+      rows: [],
+    };
+
+    const getCell = (row: ExcelJS.Row, header: string): string => {
+      const colNum = headerMap.get(header);
+      if (!colNum) return '';
+      return String(row.getCell(colNum).value ?? '').trim();
+    };
+
+    for (let rowNum = 2; rowNum <= sheet.rowCount; rowNum++) {
+      const row = sheet.getRow(rowNum);
+      const code = getCell(row, 'kode');
+      if (!code) continue;
+
+      result.totalRows++;
+
+      const name = getCell(row, 'nama aset');
+      const categoryName = getCell(row, 'kategori');
+      const brand = getCell(row, 'brand');
+      const serialNumber = getCell(row, 's/n') || null;
+
+      if (!name) {
+        result.errors.push({
+          row: rowNum,
+          field: 'Nama Aset',
+          message: 'Nama aset wajib diisi',
+        });
+        result.errorCount++;
+        continue;
+      }
+      if (!categoryName) {
+        result.errors.push({
+          row: rowNum,
+          field: 'Kategori',
+          message: 'Kategori wajib diisi',
+        });
+        result.errorCount++;
+        continue;
+      }
+      if (!categoryMap.get(categoryName.toLowerCase())) {
+        result.errors.push({
+          row: rowNum,
+          field: 'Kategori',
+          message: `Kategori "${categoryName}" tidak ditemukan`,
+        });
+        result.errorCount++;
+        continue;
+      }
+      if (!brand) {
+        result.errors.push({
+          row: rowNum,
+          field: 'Brand',
+          message: 'Brand wajib diisi',
+        });
+        result.errorCount++;
+        continue;
+      }
+
+      result.rows.push({
+        row: rowNum,
+        code,
+        name,
+        category: categoryName,
+        brand,
+        serialNumber,
+      });
+      result.validCount++;
     }
 
     return result;

@@ -76,3 +76,31 @@ export class ExportCustomerQueryDto {
   @ApiPropertyOptional()
   isActive?: string;
 }
+
+export class ExportStockQueryDto {
+  @IsEnum(ExportFormat)
+  @ApiPropertyOptional({ enum: ExportFormat, default: ExportFormat.XLSX })
+  format: ExportFormat = ExportFormat.XLSX;
+
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional()
+  search?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional({
+    description: 'Filter by MovementType (IN/OUT/ADJUSTMENT)',
+  })
+  movementType?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional({ description: 'Filter from date (ISO 8601)' })
+  startDate?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional({ description: 'Filter to date (ISO 8601)' })
+  endDate?: string;
+}

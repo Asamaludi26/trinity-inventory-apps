@@ -7,6 +7,7 @@ import {
   qrCodeApi,
   type ExportFormat,
   type ImportResult,
+  type ImportPreviewResult,
 } from '@/lib/export-import';
 
 // ================================
@@ -98,6 +99,14 @@ export function useImportAssets() {
       }
     },
     onError: () => toast.error('Gagal mengimport data'),
+  });
+}
+
+export function usePreviewImportAssets() {
+  return useMutation({
+    mutationFn: (file: File) =>
+      importApi.previewAssets(file).then((res) => res.data.data as ImportPreviewResult),
+    onError: () => toast.error('Gagal memvalidasi file import'),
   });
 }
 

@@ -11,6 +11,7 @@ import {
   ExportAssetQueryDto,
   ExportTransactionQueryDto,
   ExportCustomerQueryDto,
+  ExportStockQueryDto,
 } from './dto';
 import { AuthPermissions } from '../../common/decorators';
 import { PERMISSIONS } from '../../common/constants';
@@ -98,6 +99,66 @@ export class ExportController {
   ) {
     const { buffer, contentType, filename } =
       await this.exportService.exportCustomers(query);
+
+    res.set({
+      'Content-Type': contentType,
+      'Content-Disposition': `attachment; filename="${filename}"`,
+      'Content-Length': buffer.length,
+    });
+    res.end(buffer);
+  }
+
+  // ──────────────── Stock Movements ────────────────
+
+  @Get('stock')
+  @AuthPermissions(PERMISSIONS.DATA_EXPORT)
+  @ApiOperation({ summary: 'Export mutasi stok aset (XLSX/CSV/PDF)' })
+  @SwaggerResponse({ status: 200, description: 'File berhasil diexport' })
+  async exportStock(@Query() query: ExportStockQueryDto, @Res() res: Response) {
+    const { buffer, contentType, filename } =
+      await this.exportService.exportStock(query);
+
+    res.set({
+      'Content-Type': contentType,
+      'Content-Disposition': `attachment; filename="${filename}"`,
+      'Content-Length': buffer.length,
+    });
+    res.end(buffer);
+  }
+
+  // ──────────────── Handovers ────────────────
+
+  @Get('handovers')
+  @AuthPermissions(PERMISSIONS.DATA_EXPORT)
+  @ApiOperation({ summary: 'Export daftar serah terima (XLSX/CSV/PDF)' })
+  @SwaggerResponse({ status: 200, description: 'File berhasil diexport' })
+  async exportHandovers(
+    @Query() query: ExportTransactionQueryDto,
+    @Res() res: Response,
+  ) {
+    const { buffer, contentType, filename } =
+      await this.exportService.exportHandovers(query);
+
+    res.set({
+      'Content-Type': contentType,
+      'Content-Disposition': `attachment; filename="${filename}"`,
+      'Content-Length': buffer.length,
+    });
+    res.end(buffer);
+  }
+
+  // ──────────────── Repairs ────────────────
+
+  @Get('repairs')
+  @AuthPermissions(PERMISSIONS.DATA_EXPORT)
+  @ApiOperation({ summary: 'Export laporan perbaikan aset (XLSX/CSV/PDF)' })
+  @SwaggerResponse({ status: 200, description: 'File berhasil diexport' })
+  async exportRepairs(
+    @Query() query: ExportTransactionQueryDto,
+    @Res() res: Response,
+  ) {
+    const { buffer, contentType, filename } =
+      await this.exportService.exportRepairs(query);
 
     res.set({
       'Content-Type': contentType,

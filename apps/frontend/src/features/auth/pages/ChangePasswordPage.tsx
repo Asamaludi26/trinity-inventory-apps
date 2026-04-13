@@ -20,7 +20,8 @@ const changePasswordSchema = z
       .min(8, 'Password minimal 8 karakter')
       .regex(/[A-Z]/, 'Harus mengandung huruf besar')
       .regex(/[a-z]/, 'Harus mengandung huruf kecil')
-      .regex(/[0-9]/, 'Harus mengandung angka'),
+      .regex(/[0-9]/, 'Harus mengandung angka')
+      .regex(/[@$!%*?&#]/, 'Harus mengandung karakter spesial'),
     confirmPassword: z.string().min(1, 'Konfirmasi password wajib diisi'),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
