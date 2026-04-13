@@ -47,6 +47,32 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-07-16] — Old App Feature Documentation for Rebuild Planning
+
+#### Added
+
+- `.github/docs/00_PLANNING/OLD_VERSION/README.md` — Index overview seluruh dokumentasi fitur apps lama dengan ringkasan tech stack
+- `.github/docs/00_PLANNING/OLD_VERSION/01_PENCATATAN_ASET_STOK.md` — Dokumentasi lengkap asset registration, stock management, stock movements, threshold alerts, klasifikasi ASSET/MATERIAL, status state machine, FIFO consumption
+- `.github/docs/00_PLANNING/OLD_VERSION/02_REQUEST_PINJAM_KEMBALI_HANDOVER.md` — Multi-stage approval workflow (logistic→purchase→CEO), loan request, asset return per-item verification, handover dengan material measurement split
+- `.github/docs/00_PLANNING/OLD_VERSION/03_PELANGGAN_INSTALASI_MAINTENANCE_DISMANTLE.md` — Customer lifecycle, installation FIFO consumption, maintenance replacement logic, dismantle workflow
+- `.github/docs/00_PLANNING/OLD_VERSION/04_AKUN_DIVISI_KATEGORI_PEMBELIAN.md` — Role system dengan account limits, permission system, 3-level category hierarchy, purchase master, depreciation calculation
+- `.github/docs/00_PLANNING/OLD_VERSION/05_LOGIN_AUTH.md` — JWT auth flow, timing-safe comparison, token versioning, force change password, password reset via admin
+- `.github/docs/00_PLANNING/OLD_VERSION/06_SIDEBAR_MINIMIZE_DROPDOWN.md` — Collapsed/expanded mode design, click-based flyout panels, permission-based menu filtering, active page sync
+
+#### Files Modified
+
+- `.github/docs/00_PLANNING/OLD_VERSION/README.md` — Baru
+- `.github/docs/00_PLANNING/OLD_VERSION/01_PENCATATAN_ASET_STOK.md` — Baru
+- `.github/docs/00_PLANNING/OLD_VERSION/02_REQUEST_PINJAM_KEMBALI_HANDOVER.md` — Baru
+- `.github/docs/00_PLANNING/OLD_VERSION/03_PELANGGAN_INSTALASI_MAINTENANCE_DISMANTLE.md` — Baru
+- `.github/docs/00_PLANNING/OLD_VERSION/04_AKUN_DIVISI_KATEGORI_PEMBELIAN.md` — Baru
+- `.github/docs/00_PLANNING/OLD_VERSION/05_LOGIN_AUTH.md` — Baru
+- `.github/docs/00_PLANNING/OLD_VERSION/06_SIDEBAR_MINIMIZE_DROPDOWN.md` — Baru
+
+#### Agents Involved
+
+- `documentation`
+
 ### [2026-04-14] — Backend Typecheck Remediation (Assets + Dashboard)
 
 #### Fixed
