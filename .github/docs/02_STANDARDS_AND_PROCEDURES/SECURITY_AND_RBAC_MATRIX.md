@@ -503,3 +503,85 @@ Frontend menggunakan `usePermissions()` hook untuk menampilkan/menyembunyikan ac
 | RepairDetail   | `ASSETS_REPAIR_MANAGE`, `ASSETS_REPAIR_REPORT`         |
 | ProjectDetail  | `PROJECTS_APPROVE`, `PROJECTS_CREATE`, `PROJECTS_EDIT` |
 | AssetDetail    | `ASSETS_EDIT`, `ASSETS_DELETE`                         |
+
+---
+
+## 9. Role Account Limits
+
+> **Referensi**: OLD_VERSION/04_AKUN_DIVISI_KATEGORI_PEMBELIAN — Role System & Account Limits
+
+### 9.1 Maximum Accounts per Role
+
+Sistem membatasi jumlah akun per role tertentu untuk keamanan dan kontrol akses:
+
+| Role             | Max Accounts | Keterangan                             |
+| ---------------- | :----------: | -------------------------------------- |
+| `SUPER_ADMIN`    |      1       | Hanya 1 akun, pemegang keputusan final |
+| `ADMIN_LOGISTIK` |      3       | Tim logistik inti                      |
+| `ADMIN_PURCHASE` |      3       | Tim purchase inti                      |
+| `LEADER`         |  Unlimited   | Sesuai jumlah divisi                   |
+| `STAFF`          |  Unlimited   | Sesuai jumlah karyawan                 |
+
+### 9.2 Validasi
+
+```
+validateRoleAccountLimit(role, excludeUserId?):
+  1. Count active users with role (exclude current user jika edit)
+  2. Jika count >= max → throw ConflictException
+  3. Endpoint: GET /users/role-limits → return current counts vs max per role
+```
+
+### 9.3 UI Feedback
+
+- Form create user: role dropdown menampilkan badge "(X/Y)" menunjukkan slot terpakai
+- Role yang sudah penuh: disabled di dropdown dengan tooltip "Batas maksimum tercapai"
+
+---
+
+## 10. Permission Sanitization
+
+> **Referensi**: OLD_VERSION/04_AKUN_DIVISI_KATEGORI_PEMBELIAN — Permission Management
+
+### 10.1 Sanitization Flow
+
+Saat admin mengubah permission user, backend melakukan sanitasi 3 langkah:
+
+```
+Input: { userId, permissions: string[] }
+
+Step 1: STRIP INVALID KEYS
+  └── Buang key yang tidak ada di PERMISSION_CATALOG
+
+Step 2: ENFORCE RESTRICTIONS
+  └── Hapus permission yang ada di ROLE_RESTRICTIONS[userRole]
+      (hard block — tidak bisa diberikan walau admin coba set)
+
+Step 3: INJECT MANDATORY
+  └── Tambahkan permission dari MANDATORY_PERMISSIONS[userRole]
+      (selalu ada, tidak bisa dihapus)
+
+Output: sanitized permissions[] → save to DB
+```
+
+### 10.2 Side Effects
+
+Perubahan permission menyebabkan:
+
+| Aksi                          | Detail                                                         |
+| ----------------------------- | -------------------------------------------------------------- |
+| JWT Cache Invalidation        | In-memory user cache di-invalidate untuk user terkait          |
+| Token Version Increment (opt) | Jika major permission change → tokenVersion++ → force re-login |
+| Audit Log                     | Perubahan dicatat di ActivityLog (before/after permissions)    |
+| SSE Event                     | `user_updated` event di-emit untuk real-time UI update         |
+
+### 10.3 Division-Category Association
+
+Divisi memiliki relasi M2M dengan AssetCategory yang menentukan scope akses:
+
+```
+Division
+├── canDoFieldwork: Boolean
+│   └── True = divisi bisa tugas lapangan (instalasi, maintenance, dismantle)
+└── assetCategories[] ↔ AssetCategory (M2M)
+    └── Menentukan divisi mana yang bisa manage aset kategori tertentu
+```

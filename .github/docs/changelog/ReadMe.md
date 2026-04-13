@@ -47,6 +47,33 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-07-16] — Business Logic Extraction from OLD_VERSION Docs
+
+#### Added
+
+- `.github/docs/01_BUSINESS_LOGIC/ASSET_LIFECYCLE.md` — Referensi lengkap lifecycle aset: klasifikasi (INDIVIDUAL/COUNT/MEASUREMENT), status state machine dengan valid transitions, asset conditions, registration flow, stock movement tracking (8 tipe), FIFO consumption algorithm, unit conversion, threshold alerts, availability check, ID generation patterns, data model reference
+- `.github/docs/01_BUSINESS_LOGIC/TRANSACTION_WORKFLOWS.md` — Workflow detail semua transaksi: Request Pengadaan (5-stage approval per-item), Loan Request (status flow dengan assignment), Asset Return (per-item verification ACCEPT/REJECT), Handover (3-party system), Material Split Logic, notification triggers per workflow
+- `.github/docs/01_BUSINESS_LOGIC/CUSTOMER_OPERATIONS.md` — Customer management: auto-status transitions (INACTIVE↔ACTIVE), installation flow (FIFO material consumption), maintenance (replacement/material/inspection), dismantle workflow (3-step dengan duplicate protection), repair tracking, data model reference
+- `.github/docs/01_BUSINESS_LOGIC/CATEGORY_HIERARCHY.md` — Hierarki kategori 3-level (Category→Type→Model), Purchase Master Data (1-to-1 dengan AssetModel), depreciation configuration, contoh hierarki implementasi, deletion protection, Division-Category M2M
+
+#### Changed
+
+- `.github/docs/02_STANDARDS_AND_PROCEDURES/SECURITY_AND_RBAC_MATRIX.md` — Ditambahkan Section 9 (Role Account Limits: SUPER_ADMIN max 1, ADMIN_LOGISTIK max 3, ADMIN_PURCHASE max 3), Section 10 (Permission Sanitization: strip→restrict→inject 3-step flow), Division-Category Association
+
+#### Files Modified
+
+- `.github/docs/01_BUSINESS_LOGIC/ASSET_LIFECYCLE.md` — Baru
+- `.github/docs/01_BUSINESS_LOGIC/TRANSACTION_WORKFLOWS.md` — Baru
+- `.github/docs/01_BUSINESS_LOGIC/CUSTOMER_OPERATIONS.md` — Baru
+- `.github/docs/01_BUSINESS_LOGIC/CATEGORY_HIERARCHY.md` — Baru
+- `.github/docs/02_STANDARDS_AND_PROCEDURES/SECURITY_AND_RBAC_MATRIX.md` — Updated (Section 9-10)
+
+#### Agents Involved
+
+- `documentation`
+
+---
+
 ### [2026-07-16] — Old App Feature Documentation for Rebuild Planning
 
 #### Added
