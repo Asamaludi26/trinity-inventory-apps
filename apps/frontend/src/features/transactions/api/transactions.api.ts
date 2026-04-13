@@ -25,13 +25,17 @@ export const requestApi = {
 
   create: (data: Record<string, unknown>) => api.post<ApiResponse<Request>>('/requests', data),
 
-  cancel: (uuid: string) => api.patch<ApiResponse<void>>(`/requests/${uuid}/cancel`),
+  cancel: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/requests/${uuid}/cancel`, { version }),
 
-  approve: (uuid: string, data?: { note?: string }) =>
-    api.patch<ApiResponse<void>>(`/requests/${uuid}/approve`, data),
+  approve: (uuid: string, version: number, data?: { note?: string }) =>
+    api.patch<ApiResponse<void>>(`/requests/${uuid}/approve`, { ...data, version }),
 
-  reject: (uuid: string, data: { reason: string }) =>
-    api.patch<ApiResponse<void>>(`/requests/${uuid}/reject`, data),
+  reject: (uuid: string, version: number, data: { reason: string }) =>
+    api.patch<ApiResponse<void>>(`/requests/${uuid}/reject`, { ...data, version }),
+
+  execute: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/requests/${uuid}/execute`, { version }),
 };
 
 // ================================
@@ -46,13 +50,14 @@ export const loanApi = {
 
   create: (data: Record<string, unknown>) => api.post<ApiResponse<LoanRequest>>('/loans', data),
 
-  cancel: (uuid: string) => api.patch<ApiResponse<void>>(`/loans/${uuid}/cancel`),
+  cancel: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/loans/${uuid}/cancel`, { version }),
 
-  approve: (uuid: string, data?: { note?: string }) =>
-    api.patch<ApiResponse<void>>(`/loans/${uuid}/approve`, data),
+  approve: (uuid: string, version: number, data?: { note?: string }) =>
+    api.patch<ApiResponse<void>>(`/loans/${uuid}/approve`, { ...data, version }),
 
-  reject: (uuid: string, data: { reason: string }) =>
-    api.patch<ApiResponse<void>>(`/loans/${uuid}/reject`, data),
+  reject: (uuid: string, version: number, data: { reason: string }) =>
+    api.patch<ApiResponse<void>>(`/loans/${uuid}/reject`, { ...data, version }),
 
   assignAssets: (uuid: string, assetIds: string[]) =>
     api.patch<ApiResponse<void>>(`/loans/${uuid}/assign`, { assetIds }),
@@ -70,8 +75,17 @@ export const returnApi = {
 
   create: (data: Record<string, unknown>) => api.post<ApiResponse<AssetReturn>>('/returns', data),
 
-  verify: (uuid: string, data: Record<string, unknown>) =>
-    api.patch<ApiResponse<void>>(`/returns/${uuid}/verify`, data),
+  approve: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/returns/${uuid}/approve`, { version }),
+
+  reject: (uuid: string, version: number, data: { reason: string }) =>
+    api.patch<ApiResponse<void>>(`/returns/${uuid}/reject`, { ...data, version }),
+
+  execute: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/returns/${uuid}/execute`, { version }),
+
+  cancel: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/returns/${uuid}/cancel`, { version }),
 };
 
 // ================================
@@ -86,11 +100,11 @@ export const handoverApi = {
 
   create: (data: Record<string, unknown>) => api.post<ApiResponse<Handover>>('/handovers', data),
 
-  approve: (uuid: string, data?: { note?: string }) =>
-    api.patch<ApiResponse<void>>(`/handovers/${uuid}/approve`, data),
+  approve: (uuid: string, version: number, data?: { note?: string }) =>
+    api.patch<ApiResponse<void>>(`/handovers/${uuid}/approve`, { ...data, version }),
 
-  reject: (uuid: string, data: { reason: string }) =>
-    api.patch<ApiResponse<void>>(`/handovers/${uuid}/reject`, data),
+  reject: (uuid: string, version: number, data: { reason: string }) =>
+    api.patch<ApiResponse<void>>(`/handovers/${uuid}/reject`, { ...data, version }),
 };
 
 // ================================
@@ -108,20 +122,23 @@ export const repairApi = {
   update: (uuid: string, data: Record<string, unknown>) =>
     api.patch<ApiResponse<Repair>>(`/repairs/${uuid}`, data),
 
-  approve: (uuid: string, data?: { note?: string }) =>
-    api.patch<ApiResponse<void>>(`/repairs/${uuid}/approve`, data),
+  approve: (uuid: string, version: number, data?: { note?: string }) =>
+    api.patch<ApiResponse<void>>(`/repairs/${uuid}/approve`, { ...data, version }),
 
-  reject: (uuid: string, data: { reason: string }) =>
-    api.patch<ApiResponse<void>>(`/repairs/${uuid}/reject`, data),
+  reject: (uuid: string, version: number, data: { reason: string }) =>
+    api.patch<ApiResponse<void>>(`/repairs/${uuid}/reject`, { ...data, version }),
 
-  execute: (uuid: string) => api.patch<ApiResponse<void>>(`/repairs/${uuid}/execute`),
+  execute: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/repairs/${uuid}/execute`, { version }),
 
   complete: (
     uuid: string,
+    version: number,
     data: { repairAction?: string; repairVendor?: string; repairCost?: number },
-  ) => api.patch<ApiResponse<void>>(`/repairs/${uuid}/complete`, data),
+  ) => api.patch<ApiResponse<void>>(`/repairs/${uuid}/complete`, { ...data, version }),
 
-  cancel: (uuid: string) => api.patch<ApiResponse<void>>(`/repairs/${uuid}/cancel`),
+  cancel: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/repairs/${uuid}/cancel`, { version }),
 };
 
 // ================================
@@ -136,8 +153,20 @@ export const projectApi = {
 
   create: (data: Record<string, unknown>) => api.post<ApiResponse<InfraProject>>('/projects', data),
 
-  update: (uuid: string, data: Record<string, unknown>) =>
-    api.patch<ApiResponse<InfraProject>>(`/projects/${uuid}`, data),
+  update: (uuid: string, version: number, data: Record<string, unknown>) =>
+    api.patch<ApiResponse<InfraProject>>(`/projects/${uuid}`, { ...data, version }),
+
+  approve: (uuid: string, version: number, data?: { note?: string }) =>
+    api.patch<ApiResponse<void>>(`/projects/${uuid}/approve`, { ...data, version }),
+
+  reject: (uuid: string, version: number, data: { reason: string }) =>
+    api.patch<ApiResponse<void>>(`/projects/${uuid}/reject`, { ...data, version }),
+
+  execute: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/projects/${uuid}/execute`, { version }),
+
+  cancel: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/projects/${uuid}/cancel`, { version }),
 
   remove: (uuid: string) => api.delete<ApiResponse<void>>(`/projects/${uuid}`),
 };

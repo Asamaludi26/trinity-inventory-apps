@@ -19,6 +19,8 @@ import {
 import { useHandover, useApproveHandover, useRejectHandover } from '../hooks';
 import { RejectDialog } from '../components';
 import { AttachmentSection } from '@/components/form';
+import { usePermissions } from '@/hooks';
+import { P } from '@/config/permissions';
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('id-ID', {
@@ -35,11 +37,12 @@ export function HandoverDetailPage() {
   const approveHandover = useApproveHandover();
   const rejectHandover = useRejectHandover();
   const [rejectOpen, setRejectOpen] = useState(false);
+  const { can } = usePermissions();
 
   const handleApprove = () => {
-    if (!uuid) return;
+    if (!uuid || !handover) return;
     approveHandover.mutate(
-      { uuid },
+      { uuid, version: handover.version },
       {
         onSuccess: () => toast.success('Serah terima berhasil disetujui'),
         onError: () => toast.error('Gagal menyetujui serah terima'),
@@ -48,9 +51,9 @@ export function HandoverDetailPage() {
   };
 
   const handleReject = (reason: string) => {
-    if (!uuid) return;
+    if (!uuid || !handover) return;
     rejectHandover.mutate(
-      { uuid, reason },
+      { uuid, version: handover.version, reason },
       {
         onSuccess: () => {
           toast.success('Serah terima berhasil ditolak');
@@ -86,6 +89,7 @@ export function HandoverDetailPage() {
   }
 
   const isPending = handover.status === 'PENDING';
+  const canApprove = isPending && can(P.ASSETS_HANDOVER);
 
   return (
     <PageContainer
@@ -96,7 +100,7 @@ export function HandoverDetailPage() {
             <ArrowLeft className="mr-2 h-4 w-4" />
             Kembali
           </Button>
-          {isPending && (
+          {canApprove && (
             <>
               <Button
                 variant="default"

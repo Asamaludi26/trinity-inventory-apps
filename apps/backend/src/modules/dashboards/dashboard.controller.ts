@@ -14,7 +14,8 @@ import {
   ApiQuery,
 } from '@nestjs/swagger';
 import { DashboardService } from './dashboard.service';
-import { CurrentUser, Roles } from '../../common/decorators';
+import { AuthPermissions, CurrentUser } from '../../common/decorators';
+import { PERMISSIONS } from '../../common/constants';
 import { UserRole } from '../../generated/prisma/client';
 
 interface DashboardUser {
@@ -32,7 +33,7 @@ export class DashboardController {
   // ──────────────── Superadmin Endpoints ────────────────
 
   @Get('stats')
-  @Roles(UserRole.SUPERADMIN)
+  @AuthPermissions(PERMISSIONS.DASHBOARD_VIEW)
   @ApiOperation({ summary: 'Statistik utama dashboard — overview sistem' })
   @ApiResponse({ status: 200, description: 'Statistik utama berhasil diambil' })
   async getStats() {
@@ -40,7 +41,7 @@ export class DashboardController {
   }
 
   @Get('recent-activity')
-  @Roles(UserRole.SUPERADMIN)
+  @AuthPermissions(PERMISSIONS.REPORTS_VIEW)
   @ApiOperation({ summary: 'Aktivitas terbaru seluruh sistem' })
   @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiResponse({ status: 200, description: 'Data aktivitas berhasil diambil' })
@@ -51,7 +52,7 @@ export class DashboardController {
   }
 
   @Get('asset-trend')
-  @Roles(UserRole.SUPERADMIN)
+  @AuthPermissions(PERMISSIONS.REPORTS_VIEW)
   @ApiOperation({ summary: 'Tren aset per bulan' })
   @ApiQuery({ name: 'months', required: false, type: Number })
   @ApiResponse({ status: 200, description: 'Data tren berhasil diambil' })
@@ -62,7 +63,7 @@ export class DashboardController {
   }
 
   @Get('category-distribution')
-  @Roles(UserRole.SUPERADMIN)
+  @AuthPermissions(PERMISSIONS.REPORTS_VIEW)
   @ApiOperation({ summary: 'Distribusi aset per kategori' })
   @ApiResponse({ status: 200, description: 'Data distribusi berhasil diambil' })
   async getCategoryDistribution() {
@@ -72,7 +73,7 @@ export class DashboardController {
   // ──────────────── Finance Endpoints ────────────────
 
   @Get('finance/stats')
-  @Roles(UserRole.ADMIN_PURCHASE, UserRole.SUPERADMIN)
+  @AuthPermissions(PERMISSIONS.ASSETS_VIEW_PRICE)
   @ApiOperation({ summary: 'Statistik keuangan — pembelian & depresiasi' })
   @ApiResponse({
     status: 200,
@@ -85,7 +86,7 @@ export class DashboardController {
   // ──────────────── Operations Endpoints ────────────────
 
   @Get('operations/stats')
-  @Roles(UserRole.ADMIN_LOGISTIK, UserRole.SUPERADMIN)
+  @AuthPermissions(PERMISSIONS.STOCK_VIEW)
   @ApiOperation({ summary: 'Statistik operasional — stok & transaksi aktif' })
   @ApiResponse({
     status: 200,
@@ -96,7 +97,7 @@ export class DashboardController {
   }
 
   @Get('operations/stock-alerts')
-  @Roles(UserRole.ADMIN_LOGISTIK, UserRole.SUPERADMIN)
+  @AuthPermissions(PERMISSIONS.STOCK_MANAGE)
   @ApiOperation({ summary: 'Peringatan stok rendah' })
   @ApiResponse({
     status: 200,
@@ -109,7 +110,7 @@ export class DashboardController {
   // ──────────────── Division Endpoints ────────────────
 
   @Get('division/stats')
-  @Roles(UserRole.LEADER, UserRole.SUPERADMIN)
+  @AuthPermissions(PERMISSIONS.ASSETS_VIEW_DIVISION)
   @ApiOperation({ summary: 'Statistik divisi — aset & transaksi tim' })
   @ApiResponse({
     status: 200,
@@ -123,7 +124,7 @@ export class DashboardController {
   }
 
   @Get('division/members')
-  @Roles(UserRole.LEADER, UserRole.SUPERADMIN)
+  @AuthPermissions(PERMISSIONS.ASSETS_VIEW_DIVISION)
   @ApiOperation({ summary: 'Daftar member divisi beserta aset' })
   @ApiResponse({ status: 200, description: 'Data member berhasil diambil' })
   async getDivisionMembers(@CurrentUser() user: DashboardUser) {
@@ -136,6 +137,7 @@ export class DashboardController {
   // ──────────────── Personal Endpoints ────────────────
 
   @Get('personal/stats')
+  @AuthPermissions(PERMISSIONS.DASHBOARD_VIEW)
   @ApiOperation({ summary: 'Statistik pribadi — aset & pinjaman saya' })
   @ApiResponse({
     status: 200,
@@ -146,6 +148,7 @@ export class DashboardController {
   }
 
   @Get('personal/assets')
+  @AuthPermissions(PERMISSIONS.DASHBOARD_VIEW)
   @ApiOperation({ summary: 'Daftar aset yang saya pegang' })
   @ApiResponse({
     status: 200,
@@ -156,6 +159,7 @@ export class DashboardController {
   }
 
   @Get('personal/pending-returns')
+  @AuthPermissions(PERMISSIONS.DASHBOARD_VIEW)
   @ApiOperation({ summary: 'Daftar pinjaman yang perlu dikembalikan' })
   @ApiResponse({
     status: 200,

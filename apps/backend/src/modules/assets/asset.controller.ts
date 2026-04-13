@@ -16,8 +16,8 @@ import {
   ApiQuery,
 } from '@nestjs/swagger';
 import { AssetService } from './asset.service';
-import { Roles, CurrentUser } from '../../common/decorators';
-import { UserRole } from '../../generated/prisma/client';
+import { AuthPermissions, CurrentUser } from '../../common/decorators';
+import { PERMISSIONS } from '../../common/constants';
 import { CreateAssetDto, UpdateAssetDto, FilterAssetDto } from './dto';
 
 @ApiTags('Assets')
@@ -27,7 +27,7 @@ export class AssetController {
   constructor(private readonly assetService: AssetService) {}
 
   @Get()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK, UserRole.ADMIN_PURCHASE)
+  @AuthPermissions(PERMISSIONS.ASSETS_VIEW)
   @ApiOperation({ summary: 'List aset dengan pagination dan filter' })
   @ApiResponse({ status: 200, description: 'Berhasil mengambil data aset' })
   async findAll(@Query() query: FilterAssetDto) {
@@ -35,17 +35,28 @@ export class AssetController {
   }
 
   @Get('stock')
+  @AuthPermissions(PERMISSIONS.STOCK_VIEW)
   @ApiOperation({ summary: 'Stok aset (gudang utama / divisi / pribadi)' })
   @ApiQuery({ name: 'view', enum: ['main', 'division', 'personal'] })
   @ApiResponse({ status: 200, description: 'Data stok berhasil diambil' })
   async getStock(
     @Query('view') view: 'main' | 'division' | 'personal',
+    @Query('page') page: string,
+    @Query('limit') limit: string,
+    @Query('search') search: string,
     @CurrentUser() user: { id: number; divisionId: number | null },
   ) {
-    return this.assetService.getStock(view, user);
+    return this.assetService.getStock(
+      view,
+      user,
+      Number(page) || 1,
+      Number(limit) || 20,
+      search || undefined,
+    );
   }
 
   @Get(':id')
+  @AuthPermissions(PERMISSIONS.ASSETS_VIEW)
   @ApiOperation({ summary: 'Detail aset' })
   @ApiResponse({ status: 200, description: 'Detail aset ditemukan' })
   @ApiResponse({ status: 404, description: 'Aset tidak ditemukan' })
@@ -54,7 +65,7 @@ export class AssetController {
   }
 
   @Post()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.ASSETS_CREATE)
   @ApiOperation({ summary: 'Buat aset baru' })
   @ApiResponse({ status: 201, description: 'Aset berhasil dibuat' })
   async create(@Body() dto: CreateAssetDto, @CurrentUser('id') userId: number) {
@@ -62,15 +73,19 @@ export class AssetController {
   }
 
   @Patch(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.ASSETS_EDIT)
   @ApiOperation({ summary: 'Update aset' })
   @ApiResponse({ status: 200, description: 'Aset berhasil diupdate' })
-  async update(@Param('id') id: string, @Body() dto: UpdateAssetDto) {
-    return this.assetService.update(id, dto);
+  async update(
+    @Param('id') id: string,
+    @Body() dto: UpdateAssetDto,
+    @Body('version') version: number,
+  ) {
+    return this.assetService.update(id, dto, version);
   }
 
   @Delete(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.ASSETS_DELETE)
   @ApiOperation({ summary: 'Soft delete aset' })
   @ApiResponse({ status: 200, description: 'Aset berhasil dihapus' })
   async remove(@Param('id') id: string) {

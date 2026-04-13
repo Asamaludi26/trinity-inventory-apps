@@ -14,7 +14,15 @@ export {
   useApproveLoan,
   useRejectLoan,
 } from './useLoans';
-export { useReturns, useReturn, useCreateReturn, useVerifyReturn } from './useReturns';
+export {
+  useReturns,
+  useReturn,
+  useCreateReturn,
+  useApproveReturn,
+  useRejectReturn,
+  useExecuteReturn,
+  useCancelReturn,
+} from './useReturns';
 export {
   useHandovers,
   useHandover,
@@ -37,5 +45,9 @@ export {
   useProject,
   useCreateProject,
   useUpdateProject,
+  useApproveProject,
+  useRejectProject,
+  useExecuteProject,
+  useCancelProject,
   useDeleteProject,
 } from './useProjects';

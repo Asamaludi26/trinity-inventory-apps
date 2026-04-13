@@ -33,7 +33,8 @@ export function useCreateLoan() {
 export function useCancelLoan() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (uuid: string) => loanApi.cancel(uuid),
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      loanApi.cancel(uuid, version),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: LOANS_KEY });
     },
@@ -43,8 +44,8 @@ export function useCancelLoan() {
 export function useApproveLoan() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ uuid, note }: { uuid: string; note?: string }) =>
-      loanApi.approve(uuid, { note }),
+    mutationFn: ({ uuid, version, note }: { uuid: string; version: number; note?: string }) =>
+      loanApi.approve(uuid, version, { note }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: LOANS_KEY });
     },
@@ -54,8 +55,8 @@ export function useApproveLoan() {
 export function useRejectLoan() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ uuid, reason }: { uuid: string; reason: string }) =>
-      loanApi.reject(uuid, { reason }),
+    mutationFn: ({ uuid, version, reason }: { uuid: string; version: number; reason: string }) =>
+      loanApi.reject(uuid, version, { reason }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: LOANS_KEY });
     },

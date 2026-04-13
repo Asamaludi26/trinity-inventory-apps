@@ -9,6 +9,7 @@ import { AppConfigModule } from './core/config/config.module';
 import { PrismaModule } from './core/database/prisma.module';
 import { AuthModule } from './core/auth/auth.module';
 import { NotificationModule } from './core/notifications/notification.module';
+import { EventsModule } from './core/events/events.module';
 
 // Feature modules
 import { DashboardModule } from './modules/dashboards/dashboard.module';
@@ -24,6 +25,7 @@ import { QrCodeModule } from './modules/qrcode/qrcode.module';
 // Guards
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
+import { PermissionsGuard } from './common/guards/permissions.guard';
 
 // Interceptors
 import { AuditTrailInterceptor } from './common/interceptors/audit-trail.interceptor';
@@ -35,6 +37,7 @@ import { AuditTrailInterceptor } from './common/interceptors/audit-trail.interce
     PrismaModule,
     AuthModule,
     NotificationModule,
+    EventsModule,
 
     // Rate limiting (ADR: throttler for API protection)
     ThrottlerModule.forRoot({
@@ -57,8 +60,10 @@ import { AuditTrailInterceptor } from './common/interceptors/audit-trail.interce
     AppService,
     // Global JWT auth guard — all routes protected by default, use @Public() to opt out
     { provide: APP_GUARD, useClass: JwtAuthGuard },
-    // Global roles guard — use @Roles() decorator to restrict
+    // Global roles guard — use @Roles() decorator to restrict (legacy)
     { provide: APP_GUARD, useClass: RolesGuard },
+    // Global permissions guard — use @AuthPermissions() decorator
+    { provide: APP_GUARD, useClass: PermissionsGuard },
     // Global rate limiting
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     // Global audit trail — auto-logs all CUD operations

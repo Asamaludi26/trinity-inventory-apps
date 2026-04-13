@@ -2,9 +2,11 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
 import { NotificationService } from '../../../core/notifications/notification.service';
+import { EventsService } from '../../../core/events/events.service';
 import { CreateLoanDto } from './dto/create-loan.dto';
 import { UpdateLoanDto } from './dto/update-loan.dto';
 import { FilterLoanDto } from './dto/filter-loan.dto';
@@ -21,6 +23,7 @@ export class LoanService {
     private readonly prisma: PrismaService,
     private readonly approvalService: ApprovalService,
     private readonly notificationService: NotificationService,
+    private readonly eventsService: EventsService,
   ) {}
 
   private async generateCode(): Promise<string> {
@@ -162,7 +165,7 @@ export class LoanService {
     });
   }
 
-  async approve(id: string) {
+  async approve(id: string, version: number) {
     const existing = await this.findOne(id);
     if (
       !(
@@ -181,9 +184,25 @@ export class LoanService {
         ? TransactionStatus.LOGISTIC_APPROVED
         : TransactionStatus.APPROVED;
 
-    const result = await this.prisma.loanRequest.update({
-      where: { id },
+    const { count } = await this.prisma.loanRequest.updateMany({
+      where: { id, version },
       data: { status: nextStatus, version: { increment: 1 } },
+    });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.loanRequest.findUnique({ where: { id } });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'loan',
+      status: nextStatus,
+      version: existing.version + 1,
     });
 
     this.notificationService
@@ -199,7 +218,7 @@ export class LoanService {
     return result;
   }
 
-  async reject(id: string, reason: string) {
+  async reject(id: string, reason: string, version: number) {
     const existing = await this.findOne(id);
     if (
       existing.status === TransactionStatus.REJECTED ||
@@ -207,13 +226,30 @@ export class LoanService {
     ) {
       throw new BadRequestException('Peminjaman sudah ditolak atau dibatalkan');
     }
-    const result = await this.prisma.loanRequest.update({
-      where: { id },
+
+    const { count } = await this.prisma.loanRequest.updateMany({
+      where: { id, version },
       data: {
         status: TransactionStatus.REJECTED,
         rejectionReason: reason,
         version: { increment: 1 },
       },
+    });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.loanRequest.findUnique({ where: { id } });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'loan',
+      status: TransactionStatus.REJECTED,
+      version: existing.version + 1,
     });
 
     this.notificationService
@@ -230,19 +266,36 @@ export class LoanService {
     return result;
   }
 
-  async execute(id: string) {
+  async execute(id: string, version: number) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.APPROVED) {
       throw new BadRequestException(
         'Hanya peminjaman yang sudah di-approve yang dapat dieksekusi',
       );
     }
-    const result = await this.prisma.loanRequest.update({
-      where: { id },
+
+    const { count } = await this.prisma.loanRequest.updateMany({
+      where: { id, version },
       data: {
         status: TransactionStatus.IN_PROGRESS,
         version: { increment: 1 },
       },
+    });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.loanRequest.findUnique({ where: { id } });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'loan',
+      status: TransactionStatus.IN_PROGRESS,
+      version: existing.version + 1,
     });
 
     this.notificationService
@@ -258,7 +311,7 @@ export class LoanService {
     return result;
   }
 
-  async cancel(id: string, userId: number) {
+  async cancel(id: string, userId: number, version: number) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.PENDING) {
       throw new BadRequestException(
@@ -270,9 +323,26 @@ export class LoanService {
         'Hanya pembuat peminjaman yang dapat membatalkan',
       );
     }
-    return this.prisma.loanRequest.update({
-      where: { id },
+
+    const { count } = await this.prisma.loanRequest.updateMany({
+      where: { id, version },
       data: { status: TransactionStatus.CANCELLED, version: { increment: 1 } },
     });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'loan',
+      status: TransactionStatus.CANCELLED,
+      version: existing.version + 1,
+    });
+
+    return this.prisma.loanRequest.findUnique({ where: { id } });
   }
 }

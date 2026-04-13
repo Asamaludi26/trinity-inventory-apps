@@ -2,8 +2,10 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
+import { EventsService } from '../../../core/events/events.service';
 import { CreateRepairDto } from './dto/create-repair.dto';
 import { UpdateRepairDto } from './dto/update-repair.dto';
 import { FilterRepairDto } from './dto/filter-repair.dto';
@@ -19,6 +21,7 @@ export class RepairService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly approvalService: ApprovalService,
+    private readonly eventsService: EventsService,
   ) {}
 
   private async generateCode(): Promise<string> {
@@ -166,7 +169,7 @@ export class RepairService {
     });
   }
 
-  async approve(id: string) {
+  async approve(id: string, version: number) {
     const existing = await this.findOne(id);
     if (
       !(
@@ -185,13 +188,31 @@ export class RepairService {
         ? TransactionStatus.LOGISTIC_APPROVED
         : TransactionStatus.APPROVED;
 
-    return this.prisma.repair.update({
-      where: { id },
+    const { count } = await this.prisma.repair.updateMany({
+      where: { id, version },
       data: { status: nextStatus, version: { increment: 1 } },
     });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.repair.findUnique({ where: { id } });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'repair',
+      status: nextStatus,
+      version: existing.version + 1,
+    });
+
+    return result;
   }
 
-  async reject(id: string, reason: string) {
+  async reject(id: string, reason: string, version: number) {
     const existing = await this.findOne(id);
     if (
       existing.status === TransactionStatus.REJECTED ||
@@ -199,25 +220,50 @@ export class RepairService {
     ) {
       throw new BadRequestException('Laporan sudah ditolak atau dibatalkan');
     }
-    return this.prisma.repair.update({
-      where: { id },
+
+    const { count } = await this.prisma.repair.updateMany({
+      where: { id, version },
       data: {
         status: TransactionStatus.REJECTED,
         rejectionReason: reason,
         version: { increment: 1 },
       },
     });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.repair.findUnique({ where: { id } });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'repair',
+      status: TransactionStatus.REJECTED,
+      version: existing.version + 1,
+    });
+
+    return result;
   }
 
-  async execute(id: string) {
+  async execute(id: string, version: number) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.APPROVED) {
       throw new BadRequestException(
         'Hanya laporan yang sudah di-approve yang dapat dieksekusi',
       );
     }
-    return this.prisma.$transaction(async (tx) => {
-      // Update asset status to UNDER_REPAIR
+
+    if (existing.version !== version) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.$transaction(async (tx) => {
       await tx.asset.update({
         where: { id: existing.assetId },
         data: { status: 'UNDER_REPAIR' },
@@ -232,11 +278,22 @@ export class RepairService {
         },
       });
     });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'repair',
+      status: TransactionStatus.IN_PROGRESS,
+      version: existing.version + 1,
+    });
+
+    return result;
   }
 
   async complete(
     id: string,
     data: { repairAction?: string; repairVendor?: string; repairCost?: number },
+    version: number,
   ) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.IN_PROGRESS) {
@@ -244,8 +301,14 @@ export class RepairService {
         'Hanya laporan yang sedang diperbaiki yang dapat diselesaikan',
       );
     }
-    return this.prisma.$transaction(async (tx) => {
-      // Restore asset status
+
+    if (existing.version !== version) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.$transaction(async (tx) => {
       await tx.asset.update({
         where: { id: existing.assetId },
         data: { status: 'IN_STORAGE', condition: 'GOOD' },
@@ -265,9 +328,19 @@ export class RepairService {
         },
       });
     });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'repair',
+      status: TransactionStatus.COMPLETED,
+      version: existing.version + 1,
+    });
+
+    return result;
   }
 
-  async cancel(id: string, userId: number) {
+  async cancel(id: string, userId: number, version: number) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.PENDING) {
       throw new BadRequestException(
@@ -279,9 +352,26 @@ export class RepairService {
         'Hanya pembuat laporan yang dapat membatalkan',
       );
     }
-    return this.prisma.repair.update({
-      where: { id },
+
+    const { count } = await this.prisma.repair.updateMany({
+      where: { id, version },
       data: { status: TransactionStatus.CANCELLED, version: { increment: 1 } },
     });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'repair',
+      status: TransactionStatus.CANCELLED,
+      version: existing.version + 1,
+    });
+
+    return this.prisma.repair.findUnique({ where: { id } });
   }
 }

@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Eye, EyeOff, Moon, Sun, Package } from 'lucide-react';
+import { Eye, EyeOff, Moon, Sun } from 'lucide-react';
 import { loginSchema, type LoginFormData } from '@/validation/auth.schema';
 import { authApi } from '../api/auth.api';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -47,8 +47,15 @@ export function LoginPage() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
       <Card className="w-full max-w-[420px] shadow-lg">
         <CardHeader className="space-y-4 text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-            <Package className="h-7 w-7" />
+          <div className="mx-auto flex h-30 w-30 items-center justify-center rounded-full">
+            <img
+              src="/tmi1.png"
+              alt="Trinity Inventory Apps"
+              className="h-16 w-auto object-contain"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = '/tmi1.png';
+              }}
+            />
           </div>
           <div className="space-y-1">
             <CardTitle className="text-2xl font-bold tracking-tight">Trinity Inventory</CardTitle>

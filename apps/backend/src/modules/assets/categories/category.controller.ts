@@ -17,8 +17,8 @@ import {
 } from '@nestjs/swagger';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto, UpdateCategoryDto, FilterCategoryDto } from './dto';
-import { Roles } from '../../../common/decorators';
-import { UserRole } from '../../../generated/prisma/client';
+import { AuthPermissions } from '../../../common/decorators';
+import { PERMISSIONS } from '../../../common/constants';
 
 @ApiTags('Asset Categories')
 @ApiBearerAuth('access-token')
@@ -27,7 +27,7 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Get()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CATEGORIES_VIEW)
   @ApiOperation({ summary: 'List kategori aset' })
   @ApiResponse({ status: 200, description: 'Berhasil mengambil data kategori' })
   async findAll(@Query() query: FilterCategoryDto) {
@@ -35,14 +35,14 @@ export class CategoryController {
   }
 
   @Get(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CATEGORIES_VIEW)
   @ApiOperation({ summary: 'Detail kategori aset' })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.categoryService.findOne(id);
   }
 
   @Post()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CATEGORIES_MANAGE)
   @ApiOperation({ summary: 'Buat kategori aset' })
   @ApiResponse({ status: 201, description: 'Kategori berhasil dibuat' })
   async create(@Body() dto: CreateCategoryDto) {
@@ -50,7 +50,7 @@ export class CategoryController {
   }
 
   @Patch(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CATEGORIES_MANAGE)
   @ApiOperation({ summary: 'Update kategori aset' })
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -60,7 +60,7 @@ export class CategoryController {
   }
 
   @Delete(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CATEGORIES_MANAGE)
   @ApiOperation({ summary: 'Hapus kategori aset' })
   async remove(@Param('id', ParseIntPipe) id: number) {
     return this.categoryService.remove(id);

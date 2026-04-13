@@ -16,7 +16,8 @@ import {
 } from '@nestjs/swagger';
 import { HandoverService } from './handover.service';
 import { CreateHandoverDto, UpdateHandoverDto, FilterHandoverDto } from './dto';
-import { CurrentUser } from '../../../common/decorators';
+import { AuthPermissions, CurrentUser } from '../../../common/decorators';
+import { PERMISSIONS } from '../../../common/constants';
 import { JwtPayload } from '../../../common/interfaces';
 import { UserRole } from '../../../generated/prisma/client';
 
@@ -27,6 +28,7 @@ export class HandoverController {
   constructor(private readonly handoverService: HandoverService) {}
 
   @Get()
+  @AuthPermissions(PERMISSIONS.HANDOVERS_VIEW)
   @ApiOperation({ summary: 'List serah terima' })
   @ApiResponse({
     status: 200,
@@ -40,12 +42,14 @@ export class HandoverController {
   }
 
   @Get(':id')
+  @AuthPermissions(PERMISSIONS.HANDOVERS_VIEW)
   @ApiOperation({ summary: 'Detail serah terima' })
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.handoverService.findOne(id);
   }
 
   @Post()
+  @AuthPermissions(PERMISSIONS.ASSETS_HANDOVER)
   @ApiOperation({ summary: 'Buat serah terima' })
   @ApiResponse({ status: 201, description: 'Serah terima berhasil dibuat' })
   async create(
@@ -56,6 +60,7 @@ export class HandoverController {
   }
 
   @Patch(':id')
+  @AuthPermissions(PERMISSIONS.ASSETS_HANDOVER)
   @ApiOperation({ summary: 'Update serah terima' })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -65,32 +70,44 @@ export class HandoverController {
   }
 
   @Patch(':id/approve')
+  @AuthPermissions(PERMISSIONS.ASSETS_HANDOVER)
   @ApiOperation({ summary: 'Approve serah terima' })
-  async approve(@Param('id', ParseUUIDPipe) id: string) {
-    return this.handoverService.approve(id);
+  async approve(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('version') version: number,
+  ) {
+    return this.handoverService.approve(id, version);
   }
 
   @Patch(':id/reject')
+  @AuthPermissions(PERMISSIONS.ASSETS_HANDOVER)
   @ApiOperation({ summary: 'Reject serah terima' })
   async reject(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('reason') reason: string,
+    @Body('version') version: number,
   ) {
-    return this.handoverService.reject(id, reason);
+    return this.handoverService.reject(id, reason, version);
   }
 
   @Patch(':id/execute')
+  @AuthPermissions(PERMISSIONS.ASSETS_HANDOVER)
   @ApiOperation({ summary: 'Eksekusi serah terima' })
-  async execute(@Param('id', ParseUUIDPipe) id: string) {
-    return this.handoverService.execute(id);
+  async execute(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('version') version: number,
+  ) {
+    return this.handoverService.execute(id, version);
   }
 
   @Patch(':id/cancel')
+  @AuthPermissions(PERMISSIONS.ASSETS_HANDOVER)
   @ApiOperation({ summary: 'Batalkan serah terima' })
   async cancel(
     @Param('id', ParseUUIDPipe) id: string,
+    @Body('version') version: number,
     @CurrentUser() user: JwtPayload,
   ) {
-    return this.handoverService.cancel(id, user.sub);
+    return this.handoverService.cancel(id, user.sub, version);
   }
 }

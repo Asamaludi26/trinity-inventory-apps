@@ -19,6 +19,8 @@ import {
 import { useLoan, useApproveLoan, useRejectLoan, useCancelLoan } from '../hooks';
 import { RejectDialog } from '../components';
 import { AttachmentSection } from '@/components/form';
+import { usePermissions } from '@/hooks';
+import { P } from '@/config/permissions';
 
 function formatDate(date: string | null) {
   if (!date) return '-';
@@ -37,11 +39,12 @@ export function LoanDetailPage() {
   const rejectLoan = useRejectLoan();
   const cancelLoan = useCancelLoan();
   const [rejectOpen, setRejectOpen] = useState(false);
+  const { can } = usePermissions();
 
   const handleApprove = () => {
-    if (!uuid) return;
+    if (!uuid || !loan) return;
     approveLoan.mutate(
-      { uuid },
+      { uuid, version: loan.version },
       {
         onSuccess: () => toast.success('Peminjaman berhasil disetujui'),
         onError: () => toast.error('Gagal menyetujui peminjaman'),
@@ -50,9 +53,9 @@ export function LoanDetailPage() {
   };
 
   const handleReject = (reason: string) => {
-    if (!uuid) return;
+    if (!uuid || !loan) return;
     rejectLoan.mutate(
-      { uuid, reason },
+      { uuid, version: loan.version, reason },
       {
         onSuccess: () => {
           toast.success('Peminjaman berhasil ditolak');
@@ -64,11 +67,14 @@ export function LoanDetailPage() {
   };
 
   const handleCancel = () => {
-    if (!uuid) return;
-    cancelLoan.mutate(uuid, {
-      onSuccess: () => toast.success('Peminjaman berhasil dibatalkan'),
-      onError: () => toast.error('Gagal membatalkan peminjaman'),
-    });
+    if (!uuid || !loan) return;
+    cancelLoan.mutate(
+      { uuid, version: loan.version },
+      {
+        onSuccess: () => toast.success('Peminjaman berhasil dibatalkan'),
+        onError: () => toast.error('Gagal membatalkan peminjaman'),
+      },
+    );
   };
 
   if (isLoading) {
@@ -100,6 +106,8 @@ export function LoanDetailPage() {
   }
 
   const isPending = loan.status === 'PENDING';
+  const canApprove = isPending && can(P.LOAN_REQUESTS_APPROVE);
+  const canCancel = isPending && can(P.LOAN_REQUESTS_CREATE);
 
   return (
     <PageContainer
@@ -111,7 +119,7 @@ export function LoanDetailPage() {
             <ArrowLeft className="mr-2 h-4 w-4" />
             Kembali
           </Button>
-          {isPending && (
+          {canApprove && (
             <>
               <Button variant="default" onClick={handleApprove} disabled={approveLoan.isPending}>
                 <CheckCircle className="mr-2 h-4 w-4" />
@@ -121,11 +129,13 @@ export function LoanDetailPage() {
                 <XCircle className="mr-2 h-4 w-4" />
                 Reject
               </Button>
-              <Button variant="outline" onClick={handleCancel} disabled={cancelLoan.isPending}>
-                <Ban className="mr-2 h-4 w-4" />
-                {cancelLoan.isPending ? 'Membatalkan...' : 'Batalkan'}
-              </Button>
             </>
+          )}
+          {canCancel && (
+            <Button variant="outline" onClick={handleCancel} disabled={cancelLoan.isPending}>
+              <Ban className="mr-2 h-4 w-4" />
+              {cancelLoan.isPending ? 'Membatalkan...' : 'Batalkan'}
+            </Button>
           )}
         </div>
       }

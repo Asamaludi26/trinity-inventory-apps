@@ -33,8 +33,15 @@ export function useCreateAsset() {
 export function useUpdateAsset() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Record<string, unknown> }) =>
-      assetApi.update(id, data).then((res) => res.data.data),
+    mutationFn: ({
+      id,
+      version,
+      data,
+    }: {
+      id: string;
+      version: number;
+      data: Record<string, unknown>;
+    }) => assetApi.update(id, version, data).then((res) => res.data.data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ASSETS_KEY });
     },

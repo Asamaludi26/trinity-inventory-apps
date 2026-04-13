@@ -20,8 +20,8 @@ import {
   UpdateDismantleDto,
   FilterDismantleDto,
 } from './dto';
-import { Roles, CurrentUser } from '../../../common/decorators';
-import { UserRole } from '../../../generated/prisma/client';
+import { AuthPermissions, CurrentUser } from '../../../common/decorators';
+import { PERMISSIONS } from '../../../common/constants';
 import { JwtPayload } from '../../../common/interfaces';
 
 @ApiTags('Dismantles')
@@ -31,7 +31,7 @@ export class DismantleController {
   constructor(private readonly dismantleService: DismantleService) {}
 
   @Get()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK, UserRole.LEADER)
+  @AuthPermissions(PERMISSIONS.DISMANTLES_VIEW)
   @ApiOperation({ summary: 'List dismantle' })
   @ApiResponse({
     status: 200,
@@ -42,14 +42,14 @@ export class DismantleController {
   }
 
   @Get(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK, UserRole.LEADER)
+  @AuthPermissions(PERMISSIONS.DISMANTLES_VIEW)
   @ApiOperation({ summary: 'Detail dismantle' })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.dismantleService.findOne(id);
   }
 
   @Post()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.ASSETS_DISMANTLE)
   @ApiOperation({ summary: 'Buat dismantle' })
   @ApiResponse({ status: 201, description: 'Dismantle berhasil dibuat' })
   async create(
@@ -60,7 +60,7 @@ export class DismantleController {
   }
 
   @Patch(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.ASSETS_DISMANTLE)
   @ApiOperation({ summary: 'Update dismantle' })
   async update(
     @Param('id', ParseIntPipe) id: number,

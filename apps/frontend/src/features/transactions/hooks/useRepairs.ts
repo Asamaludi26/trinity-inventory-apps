@@ -33,7 +33,8 @@ export function useCreateRepair() {
 export function useApproveRepair() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (uuid: string) => repairApi.approve(uuid),
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      repairApi.approve(uuid, version),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: REPAIRS_KEY });
     },
@@ -43,8 +44,8 @@ export function useApproveRepair() {
 export function useRejectRepair() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ uuid, reason }: { uuid: string; reason: string }) =>
-      repairApi.reject(uuid, { reason }),
+    mutationFn: ({ uuid, version, reason }: { uuid: string; version: number; reason: string }) =>
+      repairApi.reject(uuid, version, { reason }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: REPAIRS_KEY });
     },
@@ -54,7 +55,8 @@ export function useRejectRepair() {
 export function useExecuteRepair() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (uuid: string) => repairApi.execute(uuid),
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      repairApi.execute(uuid, version),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: REPAIRS_KEY });
     },
@@ -66,11 +68,13 @@ export function useCompleteRepair() {
   return useMutation({
     mutationFn: ({
       uuid,
+      version,
       data,
     }: {
       uuid: string;
+      version: number;
       data: { repairAction?: string; repairVendor?: string; repairCost?: number };
-    }) => repairApi.complete(uuid, data),
+    }) => repairApi.complete(uuid, version, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: REPAIRS_KEY });
     },
@@ -80,7 +84,8 @@ export function useCompleteRepair() {
 export function useCancelRepair() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (uuid: string) => repairApi.cancel(uuid),
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      repairApi.cancel(uuid, version),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: REPAIRS_KEY });
     },

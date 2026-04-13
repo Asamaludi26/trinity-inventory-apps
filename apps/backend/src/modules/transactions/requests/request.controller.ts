@@ -16,7 +16,8 @@ import {
 } from '@nestjs/swagger';
 import { RequestService } from './request.service';
 import { CreateRequestDto, UpdateRequestDto, FilterRequestDto } from './dto';
-import { CurrentUser } from '../../../common/decorators';
+import { AuthPermissions, CurrentUser } from '../../../common/decorators';
+import { PERMISSIONS } from '../../../common/constants';
 import { JwtPayload } from '../../../common/interfaces';
 import { UserRole } from '../../../generated/prisma/client';
 
@@ -27,6 +28,7 @@ export class RequestController {
   constructor(private readonly requestService: RequestService) {}
 
   @Get()
+  @AuthPermissions(PERMISSIONS.REQUESTS_VIEW_ALL)
   @ApiOperation({ summary: 'List permintaan barang' })
   @ApiResponse({
     status: 200,
@@ -40,12 +42,14 @@ export class RequestController {
   }
 
   @Get(':id')
+  @AuthPermissions(PERMISSIONS.REQUESTS_VIEW_OWN)
   @ApiOperation({ summary: 'Detail permintaan barang' })
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.requestService.findOne(id);
   }
 
   @Post()
+  @AuthPermissions(PERMISSIONS.REQUESTS_CREATE)
   @ApiOperation({ summary: 'Buat permintaan barang' })
   @ApiResponse({ status: 201, description: 'Permintaan berhasil dibuat' })
   async create(@Body() dto: CreateRequestDto, @CurrentUser() user: JwtPayload) {
@@ -53,6 +57,7 @@ export class RequestController {
   }
 
   @Patch(':id')
+  @AuthPermissions(PERMISSIONS.REQUESTS_CREATE)
   @ApiOperation({ summary: 'Update permintaan barang' })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -62,32 +67,44 @@ export class RequestController {
   }
 
   @Patch(':id/approve')
+  @AuthPermissions(PERMISSIONS.REQUESTS_APPROVE_LOGISTIC)
   @ApiOperation({ summary: 'Approve permintaan barang' })
-  async approve(@Param('id', ParseUUIDPipe) id: string) {
-    return this.requestService.approve(id);
+  async approve(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('version') version: number,
+  ) {
+    return this.requestService.approve(id, version);
   }
 
   @Patch(':id/reject')
+  @AuthPermissions(PERMISSIONS.REQUESTS_APPROVE_LOGISTIC)
   @ApiOperation({ summary: 'Reject permintaan barang' })
   async reject(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('reason') reason: string,
+    @Body('version') version: number,
   ) {
-    return this.requestService.reject(id, reason);
+    return this.requestService.reject(id, reason, version);
   }
 
   @Patch(':id/execute')
+  @AuthPermissions(PERMISSIONS.REQUESTS_APPROVE_LOGISTIC)
   @ApiOperation({ summary: 'Eksekusi permintaan barang' })
-  async execute(@Param('id', ParseUUIDPipe) id: string) {
-    return this.requestService.execute(id);
+  async execute(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('version') version: number,
+  ) {
+    return this.requestService.execute(id, version);
   }
 
   @Patch(':id/cancel')
+  @AuthPermissions(PERMISSIONS.REQUESTS_CANCEL_OWN)
   @ApiOperation({ summary: 'Batalkan permintaan barang' })
   async cancel(
     @Param('id', ParseUUIDPipe) id: string,
+    @Body('version') version: number,
     @CurrentUser() user: JwtPayload,
   ) {
-    return this.requestService.cancel(id, user.sub);
+    return this.requestService.cancel(id, user.sub, version);
   }
 }

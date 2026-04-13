@@ -7,9 +7,10 @@ import helmet from 'helmet';
 import compression from 'compression';
 import * as path from 'path';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
-import { PrismaExceptionFilter } from './common/filters/prisma-exception.filter';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { ResponseTransformInterceptor } from './common/interceptors/response-transform.interceptor';
+import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
@@ -43,11 +44,15 @@ async function bootstrap() {
     }),
   );
 
-  // Global Exception Filters (order matters: last registered = first executed)
-  app.useGlobalFilters(new HttpExceptionFilter(), new PrismaExceptionFilter());
+  // Global Exception Filter — unified (catches all)
+  app.useGlobalFilters(new AllExceptionsFilter());
 
-  // Global Response Transform Interceptor
-  app.useGlobalInterceptors(new ResponseTransformInterceptor());
+  // Global Interceptors (order: logging → timeout → response transform)
+  app.useGlobalInterceptors(
+    new LoggingInterceptor(),
+    new TimeoutInterceptor(),
+    new ResponseTransformInterceptor(),
+  );
 
   // Static file serving — uploads directory
   const uploadDir = configService.get<string>('UPLOAD_DIR', './uploads');

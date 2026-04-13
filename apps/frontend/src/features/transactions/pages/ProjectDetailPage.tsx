@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Edit } from 'lucide-react';
+import { ArrowLeft, Edit, CheckCircle, XCircle, Play, Ban } from 'lucide-react';
+import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,8 +17,17 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useProject } from '../hooks';
+import {
+  useProject,
+  useApproveProject,
+  useRejectProject,
+  useExecuteProject,
+  useCancelProject,
+} from '../hooks';
+import { RejectDialog } from '../components';
 import { AttachmentSection } from '@/components/form';
+import { usePermissions } from '@/hooks';
+import { P } from '@/config/permissions';
 
 function formatDate(date: string | null) {
   if (!date) return '-';
@@ -31,6 +42,59 @@ export function ProjectDetailPage() {
   const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
   const { data: project, isLoading } = useProject(uuid);
+  const approveProject = useApproveProject();
+  const rejectProject = useRejectProject();
+  const executeProject = useExecuteProject();
+  const cancelProject = useCancelProject();
+  const [rejectOpen, setRejectOpen] = useState(false);
+  const { can } = usePermissions();
+
+  const handleApprove = () => {
+    if (!uuid || !project) return;
+    approveProject.mutate(
+      { uuid, version: project.version },
+      {
+        onSuccess: () => toast.success('Proyek berhasil disetujui'),
+        onError: () => toast.error('Gagal menyetujui proyek'),
+      },
+    );
+  };
+
+  const handleReject = (reason: string) => {
+    if (!uuid || !project) return;
+    rejectProject.mutate(
+      { uuid, version: project.version, reason },
+      {
+        onSuccess: () => {
+          toast.success('Proyek berhasil ditolak');
+          setRejectOpen(false);
+        },
+        onError: () => toast.error('Gagal menolak proyek'),
+      },
+    );
+  };
+
+  const handleExecute = () => {
+    if (!uuid || !project) return;
+    executeProject.mutate(
+      { uuid, version: project.version },
+      {
+        onSuccess: () => toast.success('Proyek berhasil dieksekusi'),
+        onError: () => toast.error('Gagal mengeksekusi proyek'),
+      },
+    );
+  };
+
+  const handleCancel = () => {
+    if (!uuid || !project) return;
+    cancelProject.mutate(
+      { uuid, version: project.version },
+      {
+        onSuccess: () => toast.success('Proyek berhasil dibatalkan'),
+        onError: () => toast.error('Gagal membatalkan proyek'),
+      },
+    );
+  };
 
   if (isLoading) {
     return (
@@ -70,10 +134,36 @@ export function ProjectDetailPage() {
             <ArrowLeft className="mr-2 h-4 w-4" />
             Kembali
           </Button>
-          <Button variant="outline">
-            <Edit className="mr-2 h-4 w-4" />
-            Edit
-          </Button>
+          {can(P.PROJECTS_EDIT) && !['COMPLETED', 'CANCELLED'].includes(project.status) && (
+            <Button variant="outline" onClick={() => navigate(`/projects/${uuid}/edit`)}>
+              <Edit className="mr-2 h-4 w-4" />
+              Edit
+            </Button>
+          )}
+          {project.status === 'PENDING' && can(P.PROJECTS_APPROVE) && (
+            <>
+              <Button variant="default" onClick={handleApprove} disabled={approveProject.isPending}>
+                <CheckCircle className="mr-2 h-4 w-4" />
+                {approveProject.isPending ? 'Menyetujui...' : 'Approve'}
+              </Button>
+              <Button variant="destructive" onClick={() => setRejectOpen(true)}>
+                <XCircle className="mr-2 h-4 w-4" />
+                Reject
+              </Button>
+            </>
+          )}
+          {project.status === 'APPROVED' && can(P.PROJECTS_APPROVE) && (
+            <Button variant="secondary" onClick={handleExecute} disabled={executeProject.isPending}>
+              <Play className="mr-2 h-4 w-4" />
+              {executeProject.isPending ? 'Mengeksekusi...' : 'Eksekusi'}
+            </Button>
+          )}
+          {project.status === 'PENDING' && can(P.PROJECTS_CREATE) && (
+            <Button variant="outline" onClick={handleCancel} disabled={cancelProject.isPending}>
+              <Ban className="mr-2 h-4 w-4" />
+              {cancelProject.isPending ? 'Membatalkan...' : 'Batalkan'}
+            </Button>
+          )}
         </div>
       }
     >
@@ -209,6 +299,14 @@ export function ProjectDetailPage() {
         {/* Lampiran */}
         <AttachmentSection entityType="InfraProject" entityId={uuid} />
       </div>
+
+      <RejectDialog
+        open={rejectOpen}
+        onOpenChange={setRejectOpen}
+        onConfirm={handleReject}
+        isPending={rejectProject.isPending}
+        title="Tolak Proyek"
+      />
     </PageContainer>
   );
 }

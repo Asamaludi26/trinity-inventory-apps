@@ -570,7 +570,9 @@ export const AssetReturnScalarFieldEnum = {
   status: 'status',
   note: 'note',
   createdById: 'createdById',
+  rejectionReason: 'rejectionReason',
   isDeleted: 'isDeleted',
+  version: 'version',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 } as const;

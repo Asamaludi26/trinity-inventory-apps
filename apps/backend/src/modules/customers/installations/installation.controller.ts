@@ -20,8 +20,8 @@ import {
   UpdateInstallationDto,
   FilterInstallationDto,
 } from './dto';
-import { Roles, CurrentUser } from '../../../common/decorators';
-import { UserRole } from '../../../generated/prisma/client';
+import { AuthPermissions, CurrentUser } from '../../../common/decorators';
+import { PERMISSIONS } from '../../../common/constants';
 import { JwtPayload } from '../../../common/interfaces';
 
 @ApiTags('Installations')
@@ -31,7 +31,7 @@ export class InstallationController {
   constructor(private readonly installationService: InstallationService) {}
 
   @Get()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK, UserRole.LEADER)
+  @AuthPermissions(PERMISSIONS.INSTALLATIONS_VIEW)
   @ApiOperation({ summary: 'List instalasi' })
   @ApiResponse({
     status: 200,
@@ -42,14 +42,14 @@ export class InstallationController {
   }
 
   @Get(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK, UserRole.LEADER)
+  @AuthPermissions(PERMISSIONS.INSTALLATIONS_VIEW)
   @ApiOperation({ summary: 'Detail instalasi' })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.installationService.findOne(id);
   }
 
   @Post()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.ASSETS_INSTALL)
   @ApiOperation({ summary: 'Buat instalasi' })
   @ApiResponse({ status: 201, description: 'Instalasi berhasil dibuat' })
   async create(
@@ -60,7 +60,7 @@ export class InstallationController {
   }
 
   @Patch(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.ASSETS_INSTALL)
   @ApiOperation({ summary: 'Update instalasi' })
   async update(
     @Param('id', ParseIntPipe) id: number,

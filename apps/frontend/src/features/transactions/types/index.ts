@@ -75,7 +75,9 @@ export interface AssetReturn {
   status: TransactionStatus;
   note: string | null;
   createdById: number;
+  rejectionReason: string | null;
   isDeleted: boolean;
+  version: number;
   createdAt: string;
   updatedAt: string;
   loanRequest?: LoanRequest;

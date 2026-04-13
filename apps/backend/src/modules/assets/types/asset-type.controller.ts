@@ -21,8 +21,8 @@ import {
   UpdateAssetTypeDto,
   FilterAssetTypeDto,
 } from './dto';
-import { Roles } from '../../../common/decorators';
-import { UserRole } from '../../../generated/prisma/client';
+import { AuthPermissions } from '../../../common/decorators';
+import { PERMISSIONS } from '../../../common/constants';
 
 @ApiTags('Asset Types')
 @ApiBearerAuth('access-token')
@@ -31,7 +31,7 @@ export class AssetTypeController {
   constructor(private readonly assetTypeService: AssetTypeService) {}
 
   @Get()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CATEGORIES_VIEW)
   @ApiOperation({ summary: 'List tipe aset' })
   @ApiResponse({ status: 200, description: 'Berhasil mengambil data tipe' })
   async findAll(@Query() query: FilterAssetTypeDto) {
@@ -45,7 +45,7 @@ export class AssetTypeController {
   }
 
   @Post()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CATEGORIES_MANAGE)
   @ApiOperation({ summary: 'Buat tipe aset' })
   @ApiResponse({ status: 201, description: 'Tipe berhasil dibuat' })
   async create(@Body() dto: CreateAssetTypeDto) {
@@ -53,7 +53,7 @@ export class AssetTypeController {
   }
 
   @Patch(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CATEGORIES_MANAGE)
   @ApiOperation({ summary: 'Update tipe aset' })
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -63,7 +63,7 @@ export class AssetTypeController {
   }
 
   @Delete(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CATEGORIES_MANAGE)
   @ApiOperation({ summary: 'Hapus tipe aset' })
   async remove(@Param('id', ParseIntPipe) id: number) {
     return this.assetTypeService.remove(id);

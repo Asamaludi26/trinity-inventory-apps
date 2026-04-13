@@ -16,8 +16,8 @@ import {
 } from '@nestjs/swagger';
 import { ClientService } from './client.service';
 import { CreateClientDto, UpdateClientDto, FilterClientDto } from './dto';
-import { Roles } from '../../../common/decorators';
-import { UserRole } from '../../../generated/prisma/client';
+import { AuthPermissions } from '../../../common/decorators';
+import { PERMISSIONS } from '../../../common/constants';
 
 @ApiTags('Customers')
 @ApiBearerAuth('access-token')
@@ -26,7 +26,7 @@ export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
   @Get()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK, UserRole.LEADER)
+  @AuthPermissions(PERMISSIONS.CUSTOMERS_VIEW)
   @ApiOperation({ summary: 'List pelanggan' })
   @ApiResponse({
     status: 200,
@@ -37,14 +37,14 @@ export class ClientController {
   }
 
   @Get(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK, UserRole.LEADER)
+  @AuthPermissions(PERMISSIONS.CUSTOMERS_VIEW)
   @ApiOperation({ summary: 'Detail pelanggan' })
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.clientService.findOne(id);
   }
 
   @Post()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CUSTOMERS_CREATE)
   @ApiOperation({ summary: 'Buat pelanggan' })
   @ApiResponse({ status: 201, description: 'Pelanggan berhasil dibuat' })
   async create(@Body() dto: CreateClientDto) {
@@ -52,7 +52,7 @@ export class ClientController {
   }
 
   @Patch(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CUSTOMERS_EDIT)
   @ApiOperation({ summary: 'Update pelanggan' })
   async update(
     @Param('id', ParseUUIDPipe) id: string,

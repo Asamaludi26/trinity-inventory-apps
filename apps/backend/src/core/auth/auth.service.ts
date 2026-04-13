@@ -47,6 +47,9 @@ export class AuthService {
       sub: user.id,
       email: user.email,
       role: user.role,
+      permissions: Array.isArray(user.permissions)
+        ? (user.permissions as string[])
+        : [],
       tokenVersion: user.tokenVersion,
     };
 
@@ -112,6 +115,9 @@ export class AuthService {
         sub: user.id,
         email: user.email,
         role: user.role,
+        permissions: Array.isArray(user.permissions)
+          ? (user.permissions as string[])
+          : [],
         tokenVersion: user.tokenVersion,
       };
 

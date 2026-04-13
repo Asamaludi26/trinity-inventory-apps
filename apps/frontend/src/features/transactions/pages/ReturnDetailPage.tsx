@@ -16,8 +16,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useReturn, useVerifyReturn } from '../hooks';
+import { useReturn, useApproveReturn } from '../hooks';
 import { AttachmentSection } from '@/components/form';
+import { usePermissions } from '@/hooks';
+import { P } from '@/config/permissions';
 
 const CONDITION_LABELS: Record<string, string> = {
   NEW: 'Baru',
@@ -39,12 +41,13 @@ export function ReturnDetailPage() {
   const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
   const { data: ret, isLoading } = useReturn(uuid);
-  const verifyReturn = useVerifyReturn();
+  const approveReturn = useApproveReturn();
+  const { can } = usePermissions();
 
   const handleVerify = () => {
-    if (!uuid) return;
-    verifyReturn.mutate(
-      { uuid, data: {} },
+    if (!uuid || !ret) return;
+    approveReturn.mutate(
+      { uuid, version: ret.version },
       {
         onSuccess: () => toast.success('Pengembalian berhasil diverifikasi'),
         onError: () => toast.error('Gagal memverifikasi pengembalian'),
@@ -86,10 +89,10 @@ export function ReturnDetailPage() {
             <ArrowLeft className="mr-2 h-4 w-4" />
             Kembali
           </Button>
-          {ret.status === 'PENDING' && (
-            <Button variant="default" onClick={handleVerify} disabled={verifyReturn.isPending}>
+          {ret.status === 'PENDING' && can(P.RETURNS_APPROVE) && (
+            <Button variant="default" onClick={handleVerify} disabled={approveReturn.isPending}>
               <CheckCircle className="mr-2 h-4 w-4" />
-              {verifyReturn.isPending ? 'Memverifikasi...' : 'Verifikasi'}
+              {approveReturn.isPending ? 'Memverifikasi...' : 'Verifikasi'}
             </Button>
           )}
         </div>

@@ -17,8 +17,8 @@ import {
 } from '@nestjs/swagger';
 import { PurchaseService } from './purchase.service';
 import { CreatePurchaseDto, UpdatePurchaseDto, FilterPurchaseDto } from './dto';
-import { Roles, CurrentUser } from '../../../common/decorators';
-import { UserRole } from '../../../generated/prisma/client';
+import { AuthPermissions, CurrentUser } from '../../../common/decorators';
+import { PERMISSIONS } from '../../../common/constants';
 import { JwtPayload } from '../../../common/interfaces';
 
 @ApiTags('Purchases')
@@ -28,7 +28,7 @@ export class PurchaseController {
   constructor(private readonly purchaseService: PurchaseService) {}
 
   @Get()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_PURCHASE)
+  @AuthPermissions(PERMISSIONS.PURCHASES_VIEW)
   @ApiOperation({ summary: 'List data pembelian' })
   @ApiResponse({
     status: 200,
@@ -39,14 +39,14 @@ export class PurchaseController {
   }
 
   @Get(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_PURCHASE)
+  @AuthPermissions(PERMISSIONS.PURCHASES_VIEW)
   @ApiOperation({ summary: 'Detail data pembelian' })
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.purchaseService.findOne(id);
   }
 
   @Post()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_PURCHASE)
+  @AuthPermissions(PERMISSIONS.PURCHASES_CREATE)
   @ApiOperation({ summary: 'Buat data pembelian' })
   @ApiResponse({ status: 201, description: 'Data pembelian berhasil dibuat' })
   async create(
@@ -57,7 +57,7 @@ export class PurchaseController {
   }
 
   @Patch(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_PURCHASE)
+  @AuthPermissions(PERMISSIONS.PURCHASES_EDIT)
   @ApiOperation({ summary: 'Update data pembelian' })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -67,7 +67,7 @@ export class PurchaseController {
   }
 
   @Delete(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_PURCHASE)
+  @AuthPermissions(PERMISSIONS.PURCHASES_DELETE)
   @ApiOperation({ summary: 'Hapus data pembelian (soft delete)' })
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.purchaseService.remove(id);

@@ -18,8 +18,12 @@ import {
 } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ImportService } from './import.service';
-import { Roles, CurrentUser, SkipAudit } from '../../common/decorators';
-import { UserRole } from '../../generated/prisma/client';
+import {
+  AuthPermissions,
+  CurrentUser,
+  SkipAudit,
+} from '../../common/decorators';
+import { PERMISSIONS } from '../../common/constants';
 
 const MAX_IMPORT_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -30,7 +34,7 @@ export class ImportController {
   constructor(private readonly importService: ImportService) {}
 
   @Post('assets')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.DATA_IMPORT)
   @UseInterceptors(
     FileInterceptor('file', {
       limits: { fileSize: MAX_IMPORT_SIZE },
@@ -72,7 +76,7 @@ export class ImportController {
   }
 
   @Get('assets/template')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.DATA_IMPORT)
   @SkipAudit()
   @ApiOperation({ summary: 'Download template import aset' })
   @ApiResponse({ status: 200, description: 'Template berhasil diunduh' })

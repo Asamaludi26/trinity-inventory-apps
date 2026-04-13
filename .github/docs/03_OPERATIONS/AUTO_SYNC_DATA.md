@@ -735,31 +735,30 @@ Ketika SSE event diterima, baris di tabel yang berubah mendapat highlight sement
 
 ### Phase 1: Database & Backend Foundation
 
-- [ ] Migration: Tambah kolom `version` pada 6 tabel (Request, LoanRequest, AssetReturn, Handover, Repair, Asset)
-- [ ] `EventsModule` — Module registration
-- [ ] `EventsService` — Subject-based event emitter
-- [ ] `EventsController` — SSE endpoint `GET /events/stream`
-- [ ] Event type definitions dan DTO
-- [ ] Heartbeat mechanism (30s interval)
+- [x] Migration: Tambah kolom `version` pada 6 tabel (Request, LoanRequest, AssetReturn, Handover, Repair, Asset)
+- [x] `EventsModule` — Module registration
+- [x] `EventsService` — Subject-based event emitter
+- [x] `EventsController` — SSE endpoint `GET /events/stream`
+- [x] Event type definitions dan DTO
+- [x] Heartbeat mechanism (30s interval)
 
 ### Phase 2: Service Integration
 
-- [ ] `RequestService.approve/reject` — Optimistic lock + emit SSE
-- [ ] `LoanService.approve/reject/issue` — Optimistic lock + emit SSE
-- [ ] `AssetReturnService.process` — Optimistic lock + emit SSE
-- [ ] `HandoverService.approve` — Optimistic lock + emit SSE
-- [ ] `RepairService.update` — Optimistic lock + emit SSE
+- [x] `RequestService.approve/reject` — Optimistic lock + emit SSE
+- [x] `LoanService.approve/reject/issue` — Optimistic lock + emit SSE
+- [x] `AssetReturnService.approve/reject/execute/cancel` — Optimistic lock + emit SSE
+- [x] `HandoverService.approve/reject/execute` — Optimistic lock + emit SSE
+- [x] `RepairService.approve/reject/execute/complete/cancel` — Optimistic lock + emit SSE
 - [ ] `AssetService.update/register` — Optimistic lock + emit SSE
-- [ ] `ConflictException` handler — Format response 409
+- [x] `ConflictException` handler — Format response 409
 
 ### Phase 3: Frontend Integration
 
-- [ ] `useSSE` hook — Core SSE connection management
-- [ ] `useSSESync` hook — TanStack Query invalidation
-- [ ] SSE connection di `App.tsx` atau layout level
+- [x] `useSSE` hook — Core SSE connection management + TanStack Query invalidation
+- [x] SSE connection di `AppLayout` level
 - [ ] Connection status indicator di header
-- [ ] 409 Conflict handling di semua mutation hooks
-- [ ] Version tracking di form submission
+- [x] 409 Conflict handling di axios interceptor (global)
+- [x] Version tracking di form submission (semua transaction API)
 - [ ] Toast notification pada SSE events
 
 ### Phase 4: UX Polish
@@ -767,7 +766,7 @@ Ketika SSE event diterima, baris di tabel yang berubah mendapat highlight sement
 - [ ] Table row highlight pada perubahan real-time
 - [ ] Button state transition (active → disabled) saat data berubah
 - [ ] Reconnection indicator (hijau/kuning/merah)
-- [ ] Conflict modal/toast yang informatif
+- [x] Conflict modal/toast yang informatif (via axios interceptor)
 - [ ] Loading state saat refetch setelah SSE event
 
 ### Phase 5: Testing & Documentation
@@ -780,7 +779,7 @@ Ketika SSE event diterima, baris di tabel yang berubah mendapat highlight sement
 - [ ] Update ERROR_HANDLING.md — 409 Conflict
 - [ ] Update TECH_STACK_AND_ADR.md — ADR entry
 - [ ] Update SDD.md — Schema & sequence diagram
-- [ ] Update changelog
+- [x] Update changelog
 
 ---
 

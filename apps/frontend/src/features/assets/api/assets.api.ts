@@ -26,8 +26,8 @@ export const assetApi = {
 
   create: (data: Record<string, unknown>) => api.post<ApiResponse<Asset>>('/assets', data),
 
-  update: (id: string, data: Record<string, unknown>) =>
-    api.patch<ApiResponse<Asset>>(`/assets/${id}`, data),
+  update: (id: string, version: number, data: Record<string, unknown>) =>
+    api.patch<ApiResponse<Asset>>(`/assets/${id}`, { ...data, version }),
 
   remove: (id: string) => api.delete<ApiResponse<void>>(`/assets/${id}`),
 };
@@ -119,15 +119,15 @@ export const purchaseApi = {
 
 export const depreciationApi = {
   getAll: (params?: DepreciationFilterParams) =>
-    api.get<ApiResponse<PaginatedResponse<Depreciation>>>('/assets/depreciation', { params }),
+    api.get<ApiResponse<PaginatedResponse<Depreciation>>>('/assets/depreciations', { params }),
 
-  getById: (uuid: string) => api.get<ApiResponse<Depreciation>>(`/assets/depreciation/${uuid}`),
+  getById: (uuid: string) => api.get<ApiResponse<Depreciation>>(`/assets/depreciations/${uuid}`),
 
   create: (data: Record<string, unknown>) =>
-    api.post<ApiResponse<Depreciation>>('/assets/depreciation', data),
+    api.post<ApiResponse<Depreciation>>('/assets/depreciations', data),
 
   update: (uuid: string, data: Record<string, unknown>) =>
-    api.patch<ApiResponse<Depreciation>>(`/assets/depreciation/${uuid}`, data),
+    api.patch<ApiResponse<Depreciation>>(`/assets/depreciations/${uuid}`, data),
 
-  remove: (uuid: string) => api.delete<ApiResponse<void>>(`/assets/depreciation/${uuid}`),
+  remove: (uuid: string) => api.delete<ApiResponse<void>>(`/assets/depreciations/${uuid}`),
 };

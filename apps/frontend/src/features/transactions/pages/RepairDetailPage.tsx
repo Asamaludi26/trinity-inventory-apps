@@ -27,6 +27,8 @@ import {
 } from '../hooks';
 import type { Repair } from '../types';
 import { AttachmentSection } from '@/components/form';
+import { usePermissions } from '@/hooks';
+import { P } from '@/config/permissions';
 
 function formatDate(date: string | null) {
   if (!date) return '-';
@@ -57,6 +59,7 @@ export function RepairDetailPage() {
 
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
   const [rejectionReason, setRejectionReason] = useState('');
+  const { can } = usePermissions();
 
   if (isLoading) {
     return (
@@ -82,23 +85,28 @@ export function RepairDetailPage() {
     );
   }
 
-  const canApprove = ['PENDING', 'LOGISTIC_APPROVED'].includes(repair.status);
-  const canReject = !['REJECTED', 'CANCELLED', 'COMPLETED'].includes(repair.status);
-  const canExecute = repair.status === 'APPROVED';
-  const canCancel = repair.status === 'PENDING';
+  const canApprove =
+    ['PENDING', 'LOGISTIC_APPROVED'].includes(repair.status) && can(P.ASSETS_REPAIR_MANAGE);
+  const canReject =
+    !['REJECTED', 'CANCELLED', 'COMPLETED'].includes(repair.status) && can(P.ASSETS_REPAIR_MANAGE);
+  const canExecute = repair.status === 'APPROVED' && can(P.ASSETS_REPAIR_MANAGE);
+  const canCancel = repair.status === 'PENDING' && can(P.ASSETS_REPAIR_REPORT);
 
   function handleApprove() {
-    if (!uuid) return;
-    approveMutation.mutate(uuid, {
-      onSuccess: () => toast.success('Laporan berhasil di-approve'),
-      onError: () => toast.error('Gagal approve laporan'),
-    });
+    if (!uuid || !repair) return;
+    approveMutation.mutate(
+      { uuid, version: repair.version },
+      {
+        onSuccess: () => toast.success('Laporan berhasil di-approve'),
+        onError: () => toast.error('Gagal approve laporan'),
+      },
+    );
   }
 
   function handleReject() {
-    if (!uuid || !rejectionReason.trim()) return;
+    if (!uuid || !repair || !rejectionReason.trim()) return;
     rejectMutation.mutate(
-      { uuid, reason: rejectionReason },
+      { uuid, version: repair.version, reason: rejectionReason },
       {
         onSuccess: () => {
           toast.success('Laporan berhasil ditolak');
@@ -111,19 +119,25 @@ export function RepairDetailPage() {
   }
 
   function handleExecute() {
-    if (!uuid) return;
-    executeMutation.mutate(uuid, {
-      onSuccess: () => toast.success('Perbaikan dimulai'),
-      onError: () => toast.error('Gagal memulai perbaikan'),
-    });
+    if (!uuid || !repair) return;
+    executeMutation.mutate(
+      { uuid, version: repair.version },
+      {
+        onSuccess: () => toast.success('Perbaikan dimulai'),
+        onError: () => toast.error('Gagal memulai perbaikan'),
+      },
+    );
   }
 
   function handleCancel() {
-    if (!uuid) return;
-    cancelMutation.mutate(uuid, {
-      onSuccess: () => toast.success('Laporan berhasil dibatalkan'),
-      onError: () => toast.error('Gagal membatalkan laporan'),
-    });
+    if (!uuid || !repair) return;
+    cancelMutation.mutate(
+      { uuid, version: repair.version },
+      {
+        onSuccess: () => toast.success('Laporan berhasil dibatalkan'),
+        onError: () => toast.error('Gagal membatalkan laporan'),
+      },
+    );
   }
 
   return (

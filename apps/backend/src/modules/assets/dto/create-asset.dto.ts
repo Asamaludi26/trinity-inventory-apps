@@ -10,9 +10,9 @@ import { Type } from 'class-transformer';
 import { AssetStatus, AssetCondition } from '../../../generated/prisma/client';
 
 export class CreateAssetDto {
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  code: string;
+  code?: string;
 
   @IsString()
   @IsNotEmpty()
@@ -51,4 +51,8 @@ export class CreateAssetDto {
   @IsOptional()
   @IsEnum(AssetCondition)
   condition?: AssetCondition;
+
+  @IsOptional()
+  @IsString()
+  note?: string;
 }

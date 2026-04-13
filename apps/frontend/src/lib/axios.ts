@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'sonner';
 import { ENV } from '../config/env';
 
 const api = axios.create({
@@ -21,14 +22,34 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-// Response interceptor — handle token refresh
+// Response interceptor — handle token refresh, 409 conflict, and common errors
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    const status = error.response?.status;
+    const serverMessage = error.response?.data?.message;
+
+    // Handle 409 Conflict — optimistic locking failure
+    if (status === 409) {
+      toast.error(
+        serverMessage || 'Data ini baru saja diubah oleh pengguna lain. Silakan muat ulang.',
+        {
+          duration: 5000,
+          action: { label: 'Muat Ulang', onClick: () => window.location.reload() },
+        },
+      );
+      return Promise.reject(error);
+    }
+
+    // Handle 403 Forbidden — permission denied
+    if (status === 403) {
+      toast.error('Anda tidak memiliki izin untuk melakukan aksi ini.');
+      return Promise.reject(error);
+    }
 
     // If 401 and not already retried, attempt refresh
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
@@ -53,6 +74,12 @@ api.interceptors.response.use(
         window.location.href = '/login';
         return Promise.reject(error);
       }
+    }
+
+    // Handle network / timeout errors
+    if (!error.response) {
+      toast.error('Tidak dapat terhubung ke server. Periksa koneksi internet Anda.');
+      return Promise.reject(error);
     }
 
     return Promise.reject(error);

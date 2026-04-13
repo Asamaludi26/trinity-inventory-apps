@@ -30,11 +30,44 @@ export function useCreateReturn() {
   });
 }
 
-export function useVerifyReturn() {
+export function useApproveReturn() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ uuid, data }: { uuid: string; data: Record<string, unknown> }) =>
-      returnApi.verify(uuid, data),
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      returnApi.approve(uuid, version),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: RETURNS_KEY });
+    },
+  });
+}
+
+export function useRejectReturn() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, version, reason }: { uuid: string; version: number; reason: string }) =>
+      returnApi.reject(uuid, version, { reason }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: RETURNS_KEY });
+    },
+  });
+}
+
+export function useExecuteReturn() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      returnApi.execute(uuid, version),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: RETURNS_KEY });
+    },
+  });
+}
+
+export function useCancelReturn() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      returnApi.cancel(uuid, version),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: RETURNS_KEY });
     },

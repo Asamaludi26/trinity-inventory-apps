@@ -20,8 +20,8 @@ import {
   UpdateMaintenanceDto,
   FilterMaintenanceDto,
 } from './dto';
-import { Roles, CurrentUser } from '../../../common/decorators';
-import { UserRole } from '../../../generated/prisma/client';
+import { AuthPermissions, CurrentUser } from '../../../common/decorators';
+import { PERMISSIONS } from '../../../common/constants';
 import { JwtPayload } from '../../../common/interfaces';
 
 @ApiTags('Maintenance')
@@ -31,7 +31,7 @@ export class MaintenanceController {
   constructor(private readonly maintenanceService: MaintenanceService) {}
 
   @Get()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK, UserRole.LEADER)
+  @AuthPermissions(PERMISSIONS.MAINTENANCES_VIEW)
   @ApiOperation({ summary: 'List maintenance' })
   @ApiResponse({
     status: 200,
@@ -42,14 +42,14 @@ export class MaintenanceController {
   }
 
   @Get(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK, UserRole.LEADER)
+  @AuthPermissions(PERMISSIONS.MAINTENANCES_VIEW)
   @ApiOperation({ summary: 'Detail maintenance' })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.maintenanceService.findOne(id);
   }
 
   @Post()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.MAINTENANCES_CREATE)
   @ApiOperation({ summary: 'Buat maintenance' })
   @ApiResponse({ status: 201, description: 'Maintenance berhasil dibuat' })
   async create(
@@ -60,7 +60,7 @@ export class MaintenanceController {
   }
 
   @Patch(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.MAINTENANCES_CREATE)
   @ApiOperation({ summary: 'Update maintenance' })
   async update(
     @Param('id', ParseIntPipe) id: number,

@@ -47,6 +47,133 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-14] — Phase 3–5: Security Hardening (Optimistic Locking, Permission UI, Error Handling)
+
+#### Added
+
+- **ProjectService optimistic locking** — Semua method mutasi (approve, reject, execute, cancel, update) sekarang menggunakan `updateMany()` + version check → ConflictException 409 jika data telah diubah oleh user lain
+- **ProjectService SSE events** — Emit `transaction_updated` event dengan type `project` setiap kali status berubah, memungkinkan real-time UI sync antar admin
+- **AssetService optimistic locking** — Method `update()` sekarang menggunakan `updateMany()` + version check → ConflictException 409
+- **`usePermissions` hook** — Custom hook frontend untuk mengecek permission user (`can`, `canAny`, `canAll`) dengan auto-bypass untuk SUPERADMIN
+- **Frontend permission constants** (`config/permissions.ts`) — Mirror dari backend PERMISSIONS keys untuk type-safe permission checking di UI
+- **ProjectDetailPage action buttons** — Tambah tombol Approve, Reject, Execute, Batalkan dengan permission-based visibility dan version-aware mutation hooks
+- **AssetDetailPage delete wiring** — Tombol Delete sekarang berfungsi dengan `useDeleteAsset()` dan permission `ASSETS_DELETE`
+- **SSE `project` event type** — Ditambahkan ke `TransactionEventType` union type
+
+#### Changed
+
+- **6 detail pages migrated** ke permission-based UI — LoanDetailPage, RequestDetailPage, ReturnDetailPage, HandoverDetailPage, RepairDetailPage, ProjectDetailPage sekarang menyembunyikan action buttons jika user tidak punya permission yang sesuai
+- **AssetDetailPage** — Edit/Delete buttons tersembunyi jika user tidak punya `ASSETS_EDIT`/`ASSETS_DELETE`
+- **ProjectController** — Semua mutation endpoints (approve, reject, execute, cancel, update) sekarang menerima `version` dari request body
+- **AssetController** — Endpoint `update` sekarang menerima `version` dari request body
+- **Frontend `projectApi`** — Semua mutation functions (approve, reject, execute, cancel, update) sekarang mengirim `version` parameter
+- **Frontend `assetApi.update`** — Sekarang mengirim `version` parameter
+- **Frontend hooks** — `useUpdateProject`, `useUpdateAsset` sekarang membutuhkan `version`, ditambah hooks baru: `useApproveProject`, `useRejectProject`, `useExecuteProject`, `useCancelProject`
+- **Axios interceptor** — Ditingkatkan dengan: (1) error 403 → toast "Anda tidak memiliki izin", (2) error 409 → toast dengan tombol "Muat Ulang", (3) network error → toast "Tidak dapat terhubung ke server", (4) server message forwarding
+
+#### Security
+
+- **100% optimistic locking coverage** — Semua entitas transaksional (Request, Loan, Return, Handover, Repair, Project) + Asset kini menggunakan optimistic locking
+- **Permission-based UI** — Button visibility dikontrol oleh permission user, mencegah unauthorized action attempts
+- **403 Forbidden handling** — Auto-toast saat backend menolak aksi yang tidak memiliki izin
+- **Conflict resolution UX** — 409 error menampilkan toast dengan action button "Muat Ulang" untuk kemudahan user
+
+#### Agents Involved
+
+- `backend` — Optimistic locking implementation
+- `frontend` — Permission UI & error handling
+- `security` — Security audit compliance
+
+---
+
+### [2026-04-14] — Phase 1 & 2: Granular Permissions System + Error Handling & Resilience
+
+#### Added
+
+- **Granular Permissions System** — 85+ permission constants dengan 3-tier model (ROLE_DEFAULT_PERMISSIONS, ROLE_RESTRICTIONS, MANDATORY_PERMISSIONS) di `permissions.constants.ts`
+- **PermissionsGuard** — Guard yang meng-check permissions per-endpoint, mendukung SUPERADMIN bypass dan AND logic
+- **AuthPermissions Decorator** — Composite decorator menggabungkan JwtAuthGuard + PermissionsGuard + RequirePermissions
+- **Unified AllExceptionsFilter** — Filter tunggal menangani HttpException, PrismaErrors (P2002, P2003, P2014, P2025), connection errors, dan generic catch-all
+- **TimeoutInterceptor** — Global 30s timeout → 408 RequestTimeout
+- **LoggingInterceptor** — Log method, URL, userId, dan response time per-request
+- **Per-endpoint Rate Limiting** — Login: 5 req/min, Refresh: 10 req/min, Upload: 10 req/min, Export: 5 req/min
+
+#### Changed
+
+- **22 controllers migrated** dari `@Roles(UserRole.XXX)` ke `@AuthPermissions(PERMISSIONS.XXX)` — zero `@Roles()` remaining
+- **Transaction controllers** (6 files) yang sebelumnya TANPA access control sekarang memiliki proper permissions
+- **Settings controllers** — User & Division: class-level `@Roles(SUPERADMIN)` diganti per-method `@AuthPermissions()`
+- **JwtPayload interface** — Ditambah field `permissions: string[]`
+- **auth.service.ts** — Login & refresh token sekarang include permissions dari database
+- **main.ts** — Unified filter (AllExceptionsFilter) menggantikan HttpExceptionFilter + PrismaExceptionFilter terpisah; interceptor chain: Logging → Timeout → ResponseTransform
+
+#### Security
+
+- Transaction endpoints (requests, loans, returns, handovers, repairs, projects) yang sebelumnya terbuka untuk semua authenticated user sekarang dilindungi granular permissions
+- Brute-force protection: login endpoint dibatasi 5 requests/menit
+- File upload protection: 10 requests/menit
+- Export endpoint protection: 5 requests/menit
+
+#### Agents Involved
+
+- `backend` — Full implementation
+- `security` — RBAC matrix compliance
+
+---
+
+### [2026-04-13] — Complete SSE Auto Sync Data Implementation
+
+#### Added
+
+- **DB Migration** — Tambah kolom `version Int @default(1)` dan `rejectionReason` ke model `AssetReturn` (satu-satunya model yang belum punya)
+- **Heartbeat SSE** — EventsController mengirim heartbeat setiap 30 detik untuk menjaga koneksi tetap hidup (mencegah proxy/load balancer menutup idle connections)
+- **Frontend mutation hooks** — `useApproveReturn()`, `useRejectReturn()`, `useExecuteReturn()`, `useCancelReturn()` dengan optimistic locking (version parameter)
+- **Frontend returnApi** — Method `approve`, `reject`, `execute`, `cancel` dengan version-based optimistic locking
+
+#### Changed
+
+- **ReturnService** — Semua method mutasi (approve, reject, execute, cancel) sekarang menggunakan optimistic locking (`updateMany` + version check) dan emit SSE event via `EventsService`. Menggantikan `update()` biasa tanpa concurrency control
+- **ReturnController** — Endpoint approve, reject, execute, cancel sekarang menerima `version` dari request body
+- **EventsController** — SSE stream sekarang merge event stream + heartbeat interval menggunakan RxJS `merge()`
+- **AssetReturn type (frontend)** — Tambah field `version` dan `rejectionReason`
+- **ReturnDetailPage** — Migrasi dari `useVerifyReturn` ke `useApproveReturn` dengan version tracking
+
+#### Removed
+
+- **useVerifyReturn** — Diganti dengan `useApproveReturn` yang sesuai dengan backend endpoint (`/approve` bukan `/verify`)
+
+#### Agents Involved
+
+- `database`, `backend`, `frontend`
+
+### [2026-04-13] — Fix SSE EventsModule DI Error
+
+#### Fixed
+
+- **EventsModule** — `EventsController` inject `JwtService` untuk validasi token pada SSE endpoint, tapi `EventsModule` tidak import module yang menyediakan `JwtService`. Fix: import `AuthModule` (yang sudah export `JwtModule`) ke dalam `EventsModule`
+
+#### Agents Involved
+
+- `backend`
+
+### [2026-04-12] — Fix Asset Detail, Stock Page, & Create Asset
+
+#### Fixed
+
+- **Asset Detail Page** — Route param mismatch `:uuid` → `:id` di `protected.tsx`. `AssetDetailPage` menggunakan `useParams<{ id }>()` sehingga tidak cocok dengan route `:uuid`, menyebabkan `id = undefined` dan data tidak bisa di-fetch
+- **Stock Page kosong** — `getMainStock()` hanya query `IN_STORAGE` dan return struktur data salah (`{ modelId, status, count }` bukan `StockSummary`). Rewrite seluruh method `getMainStock()`, `getDivisionStock()`, `getPersonalStock()` menjadi shared `buildStockSummary()` yang return format benar (`modelName, brand, categoryName, typeName, totalQuantity, inStorage, inUse, underRepair, threshold`) dengan pagination dan search support
+- **Create Asset gagal 400** — Dua problem: (1) DTO require `code` non-empty tapi frontend tidak kirim → buat `code` optional + auto-generate format `AST-YYYYMM-NNNNN` di service; (2) DTO reject field `note` karena `forbidNonWhitelisted` → tambah `note?: string` optional di DTO, strip sebelum Prisma create karena schema Asset belum punya kolom `note`
+- **Depreciation API 404** — Frontend call `/assets/depreciation` (singular) tapi backend controller register di `/assets/depreciations` (plural). NestJS route matching mengarahkan ke `@Get(':id')` AssetController. Fix: update semua depreciation API path ke `/assets/depreciations`
+
+#### Changed
+
+- **Asset Controller** — `getStock()` sekarang menerima query params `page`, `limit`, `search` untuk pagination dan filtering
+- **Asset Service** — Tambah method `buildStockSummary()` (shared logic) dan `generateAssetCode()` untuk auto-generate kode aset
+
+#### Agents Involved
+
+- `frontend`, `backend`
+
 ### [2026-04-12] — Comprehensive README & Auto Sync Data Documentation
 
 #### Added

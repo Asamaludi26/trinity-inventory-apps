@@ -2,9 +2,11 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
 import { NotificationService } from '../../../core/notifications/notification.service';
+import { EventsService } from '../../../core/events/events.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { FilterProjectDto } from './dto/filter-project.dto';
@@ -19,6 +21,7 @@ export class ProjectService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly notificationService: NotificationService,
+    private readonly eventsService: EventsService,
   ) {}
 
   private async generateCode(): Promise<string> {
@@ -169,7 +172,7 @@ export class ProjectService {
     });
   }
 
-  async update(id: string, dto: UpdateProjectDto) {
+  async update(id: string, dto: UpdateProjectDto, version: number) {
     const existing = await this.findOne(id);
     if (
       existing.status === TransactionStatus.COMPLETED ||
@@ -179,28 +182,58 @@ export class ProjectService {
         'Proyek yang sudah selesai atau dibatalkan tidak dapat diubah',
       );
     }
-    return this.prisma.infraProject.update({
-      where: { id },
+
+    const { count } = await this.prisma.infraProject.updateMany({
+      where: { id, version },
       data: {
         ...dto,
         ...(dto.startDate && { startDate: new Date(dto.startDate) }),
         ...(dto.endDate && { endDate: new Date(dto.endDate) }),
         version: { increment: 1 },
       },
+    });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    return this.prisma.infraProject.findUnique({
+      where: { id },
       include: { customer: { select: { id: true, name: true } } },
     });
   }
 
-  async approve(id: string) {
+  async approve(id: string, version: number) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.PENDING) {
       throw new BadRequestException(
         'Proyek tidak dalam status yang dapat di-approve',
       );
     }
-    const result = await this.prisma.infraProject.update({
-      where: { id },
+
+    const { count } = await this.prisma.infraProject.updateMany({
+      where: { id, version },
       data: { status: TransactionStatus.APPROVED, version: { increment: 1 } },
+    });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.infraProject.findUnique({
+      where: { id },
+    });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'project',
+      status: TransactionStatus.APPROVED,
+      version: existing.version + 1,
     });
 
     this.notificationService
@@ -216,7 +249,7 @@ export class ProjectService {
     return result;
   }
 
-  async reject(id: string, _reason: string) {
+  async reject(id: string, _reason: string, version: number) {
     const existing = await this.findOne(id);
     if (
       existing.status === TransactionStatus.REJECTED ||
@@ -224,9 +257,28 @@ export class ProjectService {
     ) {
       throw new BadRequestException('Proyek sudah ditolak atau dibatalkan');
     }
-    const result = await this.prisma.infraProject.update({
-      where: { id },
+
+    const { count } = await this.prisma.infraProject.updateMany({
+      where: { id, version },
       data: { status: TransactionStatus.REJECTED, version: { increment: 1 } },
+    });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.infraProject.findUnique({
+      where: { id },
+    });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'project',
+      status: TransactionStatus.REJECTED,
+      version: existing.version + 1,
     });
 
     this.notificationService
@@ -243,19 +295,38 @@ export class ProjectService {
     return result;
   }
 
-  async execute(id: string) {
+  async execute(id: string, version: number) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.APPROVED) {
       throw new BadRequestException(
         'Hanya proyek yang sudah di-approve yang dapat dieksekusi',
       );
     }
-    const result = await this.prisma.infraProject.update({
-      where: { id },
+
+    const { count } = await this.prisma.infraProject.updateMany({
+      where: { id, version },
       data: {
         status: TransactionStatus.IN_PROGRESS,
         version: { increment: 1 },
       },
+    });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.infraProject.findUnique({
+      where: { id },
+    });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'project',
+      status: TransactionStatus.IN_PROGRESS,
+      version: existing.version + 1,
     });
 
     this.notificationService
@@ -271,7 +342,7 @@ export class ProjectService {
     return result;
   }
 
-  async cancel(id: string, userId: number) {
+  async cancel(id: string, userId: number, version: number) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.PENDING) {
       throw new BadRequestException(
@@ -283,9 +354,30 @@ export class ProjectService {
         'Hanya pembuat proyek yang dapat membatalkan',
       );
     }
-    return this.prisma.infraProject.update({
-      where: { id },
+
+    const { count } = await this.prisma.infraProject.updateMany({
+      where: { id, version },
       data: { status: TransactionStatus.CANCELLED, version: { increment: 1 } },
     });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.infraProject.findUnique({
+      where: { id },
+    });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'project',
+      status: TransactionStatus.CANCELLED,
+      version: existing.version + 1,
+    });
+
+    return result;
   }
 }

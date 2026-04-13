@@ -453,3 +453,53 @@ Setiap aksi signifikan dicatat dalam `ActivityLog`:
 ### 7.3 Soft Delete Policy
 
 Sesuai BR-01 (PRD 6.2): Aset dengan riwayat transaksi tidak boleh di-hard delete. Prisma soft delete extension mengintercept operasi `delete` dan mengubahnya menjadi status update (`DISPOSED` / `ARCHIVED`).
+
+---
+
+## 8. Concurrency Control — Optimistic Locking
+
+### 8.1 Implementasi
+
+Semua entitas transaksional menggunakan **Optimistic Locking** via kolom `version Int @default(1)` di database. Setiap mutation menggunakan `updateMany()` dengan version check:
+
+```typescript
+const { count } = await this.prisma.entity.updateMany({
+  where: { id, version },
+  data: { status: nextStatus, version: { increment: 1 } },
+});
+if (count === 0) {
+  throw new ConflictException('Data telah diubah oleh pengguna lain.');
+}
+```
+
+### 8.2 Coverage Matrix
+
+| Entitas      | `version` Field | Optimistic Lock | SSE Event | Status |
+| ------------ | --------------- | --------------- | --------- | ------ |
+| Request      | ✅              | ✅              | ✅        | ✅     |
+| LoanRequest  | ✅              | ✅              | ✅        | ✅     |
+| AssetReturn  | ✅              | ✅              | ✅        | ✅     |
+| Handover     | ✅              | ✅              | ✅        | ✅     |
+| Repair       | ✅              | ✅              | ✅        | ✅     |
+| InfraProject | ✅              | ✅              | ✅        | ✅     |
+| Asset        | ✅              | ✅              | —         | ✅     |
+
+### 8.3 Frontend Handling
+
+- **Axios interceptor** menangkap HTTP 409 → toast dengan action "Muat Ulang"
+- **Semua mutation hooks** mengirim `version` dari state entity yang sedang ditampilkan
+- **SSE stream** (`/api/v1/events/stream`) meng-update UI secara real-time saat entitas berubah
+
+### 8.4 Permission-Based UI
+
+Frontend menggunakan `usePermissions()` hook untuk menampilkan/menyembunyikan action buttons:
+
+| Page           | Permission Check                                       |
+| -------------- | ------------------------------------------------------ |
+| LoanDetail     | `LOAN_REQUESTS_APPROVE`, `LOAN_REQUESTS_CREATE`        |
+| RequestDetail  | `REQUESTS_APPROVE_*`, `REQUESTS_CANCEL_OWN`            |
+| ReturnDetail   | `RETURNS_APPROVE`                                      |
+| HandoverDetail | `ASSETS_HANDOVER`                                      |
+| RepairDetail   | `ASSETS_REPAIR_MANAGE`, `ASSETS_REPAIR_REPORT`         |
+| ProjectDetail  | `PROJECTS_APPROVE`, `PROJECTS_CREATE`, `PROJECTS_EDIT` |
+| AssetDetail    | `ASSETS_EDIT`, `ASSETS_DELETE`                         |

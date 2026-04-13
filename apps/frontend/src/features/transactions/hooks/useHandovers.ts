@@ -33,8 +33,8 @@ export function useCreateHandover() {
 export function useApproveHandover() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ uuid, note }: { uuid: string; note?: string }) =>
-      handoverApi.approve(uuid, { note }),
+    mutationFn: ({ uuid, version, note }: { uuid: string; version: number; note?: string }) =>
+      handoverApi.approve(uuid, version, { note }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: HANDOVERS_KEY });
     },
@@ -44,8 +44,8 @@ export function useApproveHandover() {
 export function useRejectHandover() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ uuid, reason }: { uuid: string; reason: string }) =>
-      handoverApi.reject(uuid, { reason }),
+    mutationFn: ({ uuid, version, reason }: { uuid: string; version: number; reason: string }) =>
+      handoverApi.reject(uuid, version, { reason }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: HANDOVERS_KEY });
     },

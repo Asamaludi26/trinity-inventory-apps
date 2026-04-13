@@ -2,9 +2,11 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
 import { NotificationService } from '../../../core/notifications/notification.service';
+import { EventsService } from '../../../core/events/events.service';
 import { CreateHandoverDto } from './dto/create-handover.dto';
 import { UpdateHandoverDto } from './dto/update-handover.dto';
 import { FilterHandoverDto } from './dto/filter-handover.dto';
@@ -21,6 +23,7 @@ export class HandoverService {
     private readonly prisma: PrismaService,
     private readonly approvalService: ApprovalService,
     private readonly notificationService: NotificationService,
+    private readonly eventsService: EventsService,
   ) {}
 
   private async generateCode(): Promise<string> {
@@ -152,7 +155,7 @@ export class HandoverService {
     });
   }
 
-  async approve(id: string) {
+  async approve(id: string, version: number) {
     const existing = await this.findOne(id);
     if (
       !(
@@ -171,9 +174,25 @@ export class HandoverService {
         ? TransactionStatus.LOGISTIC_APPROVED
         : TransactionStatus.APPROVED;
 
-    const result = await this.prisma.handover.update({
-      where: { id },
+    const { count } = await this.prisma.handover.updateMany({
+      where: { id, version },
       data: { status: nextStatus, version: { increment: 1 } },
+    });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.handover.findUnique({ where: { id } });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'handover',
+      status: nextStatus,
+      version: existing.version + 1,
     });
 
     this.notificationService
@@ -189,7 +208,7 @@ export class HandoverService {
     return result;
   }
 
-  async reject(id: string, reason: string) {
+  async reject(id: string, reason: string, version: number) {
     const existing = await this.findOne(id);
     if (
       existing.status === TransactionStatus.REJECTED ||
@@ -199,13 +218,30 @@ export class HandoverService {
         'Serah terima sudah ditolak atau dibatalkan',
       );
     }
-    const result = await this.prisma.handover.update({
-      where: { id },
+
+    const { count } = await this.prisma.handover.updateMany({
+      where: { id, version },
       data: {
         status: TransactionStatus.REJECTED,
         rejectionReason: reason,
         version: { increment: 1 },
       },
+    });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.handover.findUnique({ where: { id } });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'handover',
+      status: TransactionStatus.REJECTED,
+      version: existing.version + 1,
     });
 
     this.notificationService
@@ -222,16 +258,33 @@ export class HandoverService {
     return result;
   }
 
-  async execute(id: string) {
+  async execute(id: string, version: number) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.APPROVED) {
       throw new BadRequestException(
         'Hanya serah terima yang sudah di-approve yang dapat dieksekusi',
       );
     }
-    const result = await this.prisma.handover.update({
-      where: { id },
+
+    const { count } = await this.prisma.handover.updateMany({
+      where: { id, version },
       data: { status: TransactionStatus.COMPLETED, version: { increment: 1 } },
+    });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.handover.findUnique({ where: { id } });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'handover',
+      status: TransactionStatus.COMPLETED,
+      version: existing.version + 1,
     });
 
     this.notificationService
@@ -247,7 +300,7 @@ export class HandoverService {
     return result;
   }
 
-  async cancel(id: string, userId: number) {
+  async cancel(id: string, userId: number, version: number) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.PENDING) {
       throw new BadRequestException(
@@ -259,9 +312,26 @@ export class HandoverService {
         'Hanya pembuat serah terima yang dapat membatalkan',
       );
     }
-    return this.prisma.handover.update({
-      where: { id },
+
+    const { count } = await this.prisma.handover.updateMany({
+      where: { id, version },
       data: { status: TransactionStatus.CANCELLED, version: { increment: 1 } },
     });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'handover',
+      status: TransactionStatus.CANCELLED,
+      version: existing.version + 1,
+    });
+
+    return this.prisma.handover.findUnique({ where: { id } });
   }
 }

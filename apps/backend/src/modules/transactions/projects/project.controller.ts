@@ -16,7 +16,8 @@ import {
 } from '@nestjs/swagger';
 import { ProjectService } from './project.service';
 import { CreateProjectDto, UpdateProjectDto, FilterProjectDto } from './dto';
-import { CurrentUser } from '../../../common/decorators';
+import { AuthPermissions, CurrentUser } from '../../../common/decorators';
+import { PERMISSIONS } from '../../../common/constants';
 import { JwtPayload } from '../../../common/interfaces';
 
 @ApiTags('Projects')
@@ -26,6 +27,7 @@ export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Get()
+  @AuthPermissions(PERMISSIONS.PROJECTS_VIEW)
   @ApiOperation({ summary: 'List proyek infrastruktur' })
   @ApiResponse({ status: 200, description: 'Berhasil mengambil data proyek' })
   async findAll(
@@ -36,12 +38,14 @@ export class ProjectController {
   }
 
   @Get(':id')
+  @AuthPermissions(PERMISSIONS.PROJECTS_VIEW)
   @ApiOperation({ summary: 'Detail proyek' })
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.projectService.findOne(id);
   }
 
   @Post()
+  @AuthPermissions(PERMISSIONS.PROJECTS_CREATE)
   @ApiOperation({ summary: 'Buat proyek' })
   @ApiResponse({ status: 201, description: 'Proyek berhasil dibuat' })
   async create(@Body() dto: CreateProjectDto, @CurrentUser() user: JwtPayload) {
@@ -49,41 +53,55 @@ export class ProjectController {
   }
 
   @Patch(':id')
+  @AuthPermissions(PERMISSIONS.PROJECTS_EDIT)
   @ApiOperation({ summary: 'Update proyek' })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateProjectDto,
+    @Body('version') version: number,
   ) {
-    return this.projectService.update(id, dto);
+    return this.projectService.update(id, dto, version);
   }
 
   @Patch(':id/approve')
+  @AuthPermissions(PERMISSIONS.PROJECTS_APPROVE)
   @ApiOperation({ summary: 'Approve proyek' })
-  async approve(@Param('id', ParseUUIDPipe) id: string) {
-    return this.projectService.approve(id);
+  async approve(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('version') version: number,
+  ) {
+    return this.projectService.approve(id, version);
   }
 
   @Patch(':id/reject')
+  @AuthPermissions(PERMISSIONS.PROJECTS_APPROVE)
   @ApiOperation({ summary: 'Reject proyek' })
   async reject(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('reason') reason: string,
+    @Body('version') version: number,
   ) {
-    return this.projectService.reject(id, reason);
+    return this.projectService.reject(id, reason, version);
   }
 
   @Patch(':id/execute')
+  @AuthPermissions(PERMISSIONS.PROJECTS_APPROVE)
   @ApiOperation({ summary: 'Eksekusi proyek' })
-  async execute(@Param('id', ParseUUIDPipe) id: string) {
-    return this.projectService.execute(id);
+  async execute(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('version') version: number,
+  ) {
+    return this.projectService.execute(id, version);
   }
 
   @Patch(':id/cancel')
+  @AuthPermissions(PERMISSIONS.PROJECTS_CREATE)
   @ApiOperation({ summary: 'Batalkan proyek' })
   async cancel(
     @Param('id', ParseUUIDPipe) id: string,
+    @Body('version') version: number,
     @CurrentUser() user: JwtPayload,
   ) {
-    return this.projectService.cancel(id, user.sub);
+    return this.projectService.cancel(id, user.sub, version);
   }
 }

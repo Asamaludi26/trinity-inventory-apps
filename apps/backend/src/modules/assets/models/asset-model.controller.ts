@@ -21,8 +21,8 @@ import {
   UpdateAssetModelDto,
   FilterAssetModelDto,
 } from './dto';
-import { Roles } from '../../../common/decorators';
-import { UserRole } from '../../../generated/prisma/client';
+import { AuthPermissions } from '../../../common/decorators';
+import { PERMISSIONS } from '../../../common/constants';
 
 @ApiTags('Asset Models')
 @ApiBearerAuth('access-token')
@@ -31,7 +31,7 @@ export class AssetModelController {
   constructor(private readonly assetModelService: AssetModelService) {}
 
   @Get()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CATEGORIES_VIEW)
   @ApiOperation({ summary: 'List model aset' })
   @ApiResponse({ status: 200, description: 'Berhasil mengambil data model' })
   async findAll(@Query() query: FilterAssetModelDto) {
@@ -39,14 +39,14 @@ export class AssetModelController {
   }
 
   @Get(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CATEGORIES_VIEW)
   @ApiOperation({ summary: 'Detail model aset' })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.assetModelService.findOne(id);
   }
 
   @Post()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CATEGORIES_MANAGE)
   @ApiOperation({ summary: 'Buat model aset' })
   @ApiResponse({ status: 201, description: 'Model berhasil dibuat' })
   async create(@Body() dto: CreateAssetModelDto) {
@@ -54,7 +54,7 @@ export class AssetModelController {
   }
 
   @Patch(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CATEGORIES_MANAGE)
   @ApiOperation({ summary: 'Update model aset' })
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -64,7 +64,7 @@ export class AssetModelController {
   }
 
   @Delete(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK)
+  @AuthPermissions(PERMISSIONS.CATEGORIES_MANAGE)
   @ApiOperation({ summary: 'Hapus model aset (soft delete)' })
   async remove(@Param('id', ParseIntPipe) id: number) {
     return this.assetModelService.remove(id);

@@ -12,21 +12,23 @@ import {
   ExportTransactionQueryDto,
   ExportCustomerQueryDto,
 } from './dto';
-import { Roles } from '../../common/decorators';
-import { UserRole } from '../../generated/prisma/client';
+import { AuthPermissions } from '../../common/decorators';
+import { PERMISSIONS } from '../../common/constants';
+import { Throttle } from '@nestjs/throttler';
 import { SkipAudit } from '../../common/decorators';
 
 @ApiTags('Export')
 @ApiBearerAuth('access-token')
 @Controller('export')
 @SkipAudit()
+@Throttle({ default: { ttl: 60000, limit: 5 } })
 export class ExportController {
   constructor(private readonly exportService: ExportService) {}
 
   // ──────────────── Assets ────────────────
 
   @Get('assets')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK, UserRole.ADMIN_PURCHASE)
+  @AuthPermissions(PERMISSIONS.DATA_EXPORT)
   @ApiOperation({ summary: 'Export daftar aset (XLSX/CSV/PDF)' })
   @SwaggerResponse({ status: 200, description: 'File berhasil diexport' })
   async exportAssets(
@@ -47,12 +49,7 @@ export class ExportController {
   // ──────────────── Transactions ────────────────
 
   @Get('requests')
-  @Roles(
-    UserRole.SUPERADMIN,
-    UserRole.ADMIN_LOGISTIK,
-    UserRole.ADMIN_PURCHASE,
-    UserRole.LEADER,
-  )
+  @AuthPermissions(PERMISSIONS.DATA_EXPORT)
   @ApiOperation({ summary: 'Export daftar permintaan (XLSX/CSV/PDF)' })
   @SwaggerResponse({ status: 200, description: 'File berhasil diexport' })
   async exportRequests(
@@ -71,12 +68,7 @@ export class ExportController {
   }
 
   @Get('loans')
-  @Roles(
-    UserRole.SUPERADMIN,
-    UserRole.ADMIN_LOGISTIK,
-    UserRole.ADMIN_PURCHASE,
-    UserRole.LEADER,
-  )
+  @AuthPermissions(PERMISSIONS.DATA_EXPORT)
   @ApiOperation({ summary: 'Export daftar peminjaman (XLSX/CSV/PDF)' })
   @SwaggerResponse({ status: 200, description: 'File berhasil diexport' })
   async exportLoans(
@@ -97,12 +89,7 @@ export class ExportController {
   // ──────────────── Customers ────────────────
 
   @Get('customers')
-  @Roles(
-    UserRole.SUPERADMIN,
-    UserRole.ADMIN_LOGISTIK,
-    UserRole.ADMIN_PURCHASE,
-    UserRole.LEADER,
-  )
+  @AuthPermissions(PERMISSIONS.DATA_EXPORT)
   @ApiOperation({ summary: 'Export daftar pelanggan (XLSX/CSV/PDF)' })
   @SwaggerResponse({ status: 200, description: 'File berhasil diexport' })
   async exportCustomers(

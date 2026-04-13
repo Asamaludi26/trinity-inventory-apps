@@ -21,8 +21,8 @@ import {
   UpdateDepreciationDto,
   FilterDepreciationDto,
 } from './dto';
-import { Roles, CurrentUser } from '../../../common/decorators';
-import { UserRole } from '../../../generated/prisma/client';
+import { AuthPermissions, CurrentUser } from '../../../common/decorators';
+import { PERMISSIONS } from '../../../common/constants';
 import { JwtPayload } from '../../../common/interfaces';
 
 @ApiTags('Depreciations')
@@ -32,7 +32,7 @@ export class DepreciationController {
   constructor(private readonly depreciationService: DepreciationService) {}
 
   @Get()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_PURCHASE)
+  @AuthPermissions(PERMISSIONS.DEPRECIATION_VIEW)
   @ApiOperation({ summary: 'List data depresiasi' })
   @ApiResponse({
     status: 200,
@@ -43,14 +43,14 @@ export class DepreciationController {
   }
 
   @Get(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_PURCHASE)
+  @AuthPermissions(PERMISSIONS.DEPRECIATION_VIEW)
   @ApiOperation({ summary: 'Detail data depresiasi' })
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.depreciationService.findOne(id);
   }
 
   @Post()
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_PURCHASE)
+  @AuthPermissions(PERMISSIONS.DEPRECIATION_CREATE)
   @ApiOperation({ summary: 'Buat data depresiasi' })
   @ApiResponse({ status: 201, description: 'Data depresiasi berhasil dibuat' })
   async create(
@@ -61,7 +61,7 @@ export class DepreciationController {
   }
 
   @Patch(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_PURCHASE)
+  @AuthPermissions(PERMISSIONS.DEPRECIATION_EDIT)
   @ApiOperation({ summary: 'Update data depresiasi' })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -71,7 +71,7 @@ export class DepreciationController {
   }
 
   @Delete(':id')
-  @Roles(UserRole.SUPERADMIN, UserRole.ADMIN_PURCHASE)
+  @AuthPermissions(PERMISSIONS.DEPRECIATION_DELETE)
   @ApiOperation({ summary: 'Hapus data depresiasi' })
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.depreciationService.remove(id);

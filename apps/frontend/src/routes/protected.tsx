@@ -45,7 +45,7 @@ export const protectedRoutes: RouteObject[] = [
         lazy: () => import('../features/assets/pages/AssetFormPage'),
       },
       {
-        path: ':uuid',
+        path: ':id',
         lazy: () => import('../features/assets/pages/AssetDetailPage'),
       },
       {

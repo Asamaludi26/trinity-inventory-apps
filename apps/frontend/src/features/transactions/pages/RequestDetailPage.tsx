@@ -20,6 +20,8 @@ import {
 import { useRequest, useApproveRequest, useRejectRequest, useCancelRequest } from '../hooks';
 import { RejectDialog } from '../components';
 import { AttachmentSection } from '@/components/form';
+import { usePermissions } from '@/hooks';
+import { P } from '@/config/permissions';
 
 const PRIORITY_LABELS: Record<string, string> = {
   REGULAR: 'Regular',
@@ -45,11 +47,12 @@ export function RequestDetailPage() {
   const rejectRequest = useRejectRequest();
   const cancelRequest = useCancelRequest();
   const [rejectOpen, setRejectOpen] = useState(false);
+  const { canAny, can } = usePermissions();
 
   const handleApprove = () => {
-    if (!uuid) return;
+    if (!uuid || !request) return;
     approveRequest.mutate(
-      { uuid },
+      { uuid, version: request.version },
       {
         onSuccess: () => toast.success('Permintaan berhasil disetujui'),
         onError: () => toast.error('Gagal menyetujui permintaan'),
@@ -58,9 +61,9 @@ export function RequestDetailPage() {
   };
 
   const handleReject = (reason: string) => {
-    if (!uuid) return;
+    if (!uuid || !request) return;
     rejectRequest.mutate(
-      { uuid, reason },
+      { uuid, version: request.version, reason },
       {
         onSuccess: () => {
           toast.success('Permintaan berhasil ditolak');
@@ -72,11 +75,14 @@ export function RequestDetailPage() {
   };
 
   const handleCancel = () => {
-    if (!uuid) return;
-    cancelRequest.mutate(uuid, {
-      onSuccess: () => toast.success('Permintaan berhasil dibatalkan'),
-      onError: () => toast.error('Gagal membatalkan permintaan'),
-    });
+    if (!uuid || !request) return;
+    cancelRequest.mutate(
+      { uuid, version: request.version },
+      {
+        onSuccess: () => toast.success('Permintaan berhasil dibatalkan'),
+        onError: () => toast.error('Gagal membatalkan permintaan'),
+      },
+    );
   };
 
   if (isLoading) {
@@ -108,6 +114,10 @@ export function RequestDetailPage() {
   }
 
   const isPending = request.status === 'PENDING';
+  const canApprove =
+    isPending &&
+    canAny(P.REQUESTS_APPROVE_LOGISTIC, P.REQUESTS_APPROVE_PURCHASE, P.REQUESTS_APPROVE_FINAL);
+  const canCancel = isPending && can(P.REQUESTS_CANCEL_OWN);
 
   return (
     <PageContainer
@@ -119,7 +129,7 @@ export function RequestDetailPage() {
             <ArrowLeft className="mr-2 h-4 w-4" />
             Kembali
           </Button>
-          {isPending && (
+          {canApprove && (
             <>
               <Button variant="default" onClick={handleApprove} disabled={approveRequest.isPending}>
                 <CheckCircle className="mr-2 h-4 w-4" />
@@ -129,11 +139,13 @@ export function RequestDetailPage() {
                 <XCircle className="mr-2 h-4 w-4" />
                 Reject
               </Button>
-              <Button variant="outline" onClick={handleCancel} disabled={cancelRequest.isPending}>
-                <Ban className="mr-2 h-4 w-4" />
-                {cancelRequest.isPending ? 'Membatalkan...' : 'Batalkan'}
-              </Button>
             </>
+          )}
+          {canCancel && (
+            <Button variant="outline" onClick={handleCancel} disabled={cancelRequest.isPending}>
+              <Ban className="mr-2 h-4 w-4" />
+              {cancelRequest.isPending ? 'Membatalkan...' : 'Batalkan'}
+            </Button>
           )}
         </div>
       }

@@ -6,8 +6,8 @@ import {
   ApiResponse,
 } from '@nestjs/swagger';
 import { AuditService, FilterAuditDto } from './audit.service';
-import { Roles } from '../../../common/decorators';
-import { UserRole } from '../../../generated/prisma/client';
+import { AuthPermissions } from '../../../common/decorators';
+import { PERMISSIONS } from '../../../common/constants';
 
 @ApiTags('Audit')
 @ApiBearerAuth('access-token')
@@ -16,7 +16,7 @@ export class AuditController {
   constructor(private readonly auditService: AuditService) {}
 
   @Get()
-  @Roles(UserRole.SUPERADMIN)
+  @AuthPermissions(PERMISSIONS.SYSTEM_AUDIT_LOG)
   @ApiOperation({ summary: 'List activity log' })
   @ApiResponse({
     status: 200,

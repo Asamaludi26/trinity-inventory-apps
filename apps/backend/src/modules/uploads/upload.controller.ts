@@ -16,6 +16,7 @@ import {
   ApiConsumes,
   ApiBody,
 } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UploadService } from './upload.service';
 import { UploadQueryDto } from './dto';
@@ -35,6 +36,7 @@ export class UploadController {
   }
 
   @Post()
+  @Throttle({ default: { ttl: 60000, limit: 10 } })
   @ApiOperation({ summary: 'Upload file attachment' })
   @ApiConsumes('multipart/form-data')
   @ApiBody({

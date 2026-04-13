@@ -7,8 +7,10 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { Separator } from '@/components/ui/separator';
-import { useAsset } from '../hooks';
+import { useAsset, useDeleteAsset } from '../hooks';
 import { AttachmentSection, QrCodeSection } from '@/components/form';
+import { usePermissions } from '@/hooks';
+import { P } from '@/config/permissions';
 
 const CONDITION_LABELS: Record<string, string> = {
   NEW: 'Baru',
@@ -38,6 +40,8 @@ export function AssetDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: asset, isLoading } = useAsset(id);
+  const deleteAsset = useDeleteAsset();
+  const { can } = usePermissions();
 
   if (isLoading) {
     return (
@@ -81,13 +85,27 @@ export function AssetDetailPage() {
             <ArrowLeft className="mr-2 h-4 w-4" />
             Kembali
           </Button>
-          <Button variant="outline" onClick={() => navigate(`/assets/${id}/edit`)}>
-            <Edit className="mr-2 h-4 w-4" />
-            Edit
-          </Button>
-          <Button variant="destructive" size="icon">
-            <Trash2 className="h-4 w-4" />
-          </Button>
+          {can(P.ASSETS_EDIT) && (
+            <Button variant="outline" onClick={() => navigate(`/assets/${id}/edit`)}>
+              <Edit className="mr-2 h-4 w-4" />
+              Edit
+            </Button>
+          )}
+          {can(P.ASSETS_DELETE) && (
+            <Button
+              variant="destructive"
+              size="icon"
+              disabled={deleteAsset.isPending}
+              onClick={() => {
+                if (!id) return;
+                deleteAsset.mutate(id, {
+                  onSuccess: () => navigate('/assets'),
+                });
+              }}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       }
     >

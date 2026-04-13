@@ -33,8 +33,59 @@ export function useCreateProject() {
 export function useUpdateProject() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ uuid, data }: { uuid: string; data: Record<string, unknown> }) =>
-      projectApi.update(uuid, data).then((res) => res.data.data),
+    mutationFn: ({
+      uuid,
+      version,
+      data,
+    }: {
+      uuid: string;
+      version: number;
+      data: Record<string, unknown>;
+    }) => projectApi.update(uuid, version, data).then((res) => res.data.data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
+    },
+  });
+}
+
+export function useApproveProject() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, version, note }: { uuid: string; version: number; note?: string }) =>
+      projectApi.approve(uuid, version, note ? { note } : undefined),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
+    },
+  });
+}
+
+export function useRejectProject() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, version, reason }: { uuid: string; version: number; reason: string }) =>
+      projectApi.reject(uuid, version, { reason }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
+    },
+  });
+}
+
+export function useExecuteProject() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      projectApi.execute(uuid, version),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
+    },
+  });
+}
+
+export function useCancelProject() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      projectApi.cancel(uuid, version),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
     },

@@ -16,7 +16,8 @@ import {
 } from '@nestjs/swagger';
 import { ReturnService } from './return.service';
 import { CreateReturnDto, UpdateReturnDto, FilterReturnDto } from './dto';
-import { CurrentUser } from '../../../common/decorators';
+import { AuthPermissions, CurrentUser } from '../../../common/decorators';
+import { PERMISSIONS } from '../../../common/constants';
 import { JwtPayload } from '../../../common/interfaces';
 
 @ApiTags('Returns')
@@ -26,6 +27,7 @@ export class ReturnController {
   constructor(private readonly returnService: ReturnService) {}
 
   @Get()
+  @AuthPermissions(PERMISSIONS.RETURNS_VIEW)
   @ApiOperation({ summary: 'List pengembalian aset' })
   @ApiResponse({
     status: 200,
@@ -39,12 +41,14 @@ export class ReturnController {
   }
 
   @Get(':id')
+  @AuthPermissions(PERMISSIONS.RETURNS_VIEW)
   @ApiOperation({ summary: 'Detail pengembalian' })
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.returnService.findOne(id);
   }
 
   @Post()
+  @AuthPermissions(PERMISSIONS.RETURNS_CREATE)
   @ApiOperation({ summary: 'Buat pengembalian' })
   @ApiResponse({ status: 201, description: 'Pengembalian berhasil dibuat' })
   async create(@Body() dto: CreateReturnDto, @CurrentUser() user: JwtPayload) {
@@ -52,6 +56,7 @@ export class ReturnController {
   }
 
   @Patch(':id')
+  @AuthPermissions(PERMISSIONS.RETURNS_CREATE)
   @ApiOperation({ summary: 'Update pengembalian' })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -61,32 +66,44 @@ export class ReturnController {
   }
 
   @Patch(':id/approve')
+  @AuthPermissions(PERMISSIONS.RETURNS_APPROVE)
   @ApiOperation({ summary: 'Approve pengembalian' })
-  async approve(@Param('id', ParseUUIDPipe) id: string) {
-    return this.returnService.approve(id);
+  async approve(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('version') version: number,
+  ) {
+    return this.returnService.approve(id, version);
   }
 
   @Patch(':id/reject')
+  @AuthPermissions(PERMISSIONS.RETURNS_APPROVE)
   @ApiOperation({ summary: 'Reject pengembalian' })
   async reject(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('reason') reason: string,
+    @Body('version') version: number,
   ) {
-    return this.returnService.reject(id, reason);
+    return this.returnService.reject(id, reason, version);
   }
 
   @Patch(':id/execute')
+  @AuthPermissions(PERMISSIONS.RETURNS_APPROVE)
   @ApiOperation({ summary: 'Eksekusi pengembalian' })
-  async execute(@Param('id', ParseUUIDPipe) id: string) {
-    return this.returnService.execute(id);
+  async execute(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('version') version: number,
+  ) {
+    return this.returnService.execute(id, version);
   }
 
   @Patch(':id/cancel')
+  @AuthPermissions(PERMISSIONS.RETURNS_CREATE)
   @ApiOperation({ summary: 'Batalkan pengembalian' })
   async cancel(
     @Param('id', ParseUUIDPipe) id: string,
+    @Body('version') version: number,
     @CurrentUser() user: JwtPayload,
   ) {
-    return this.returnService.cancel(id, user.sub);
+    return this.returnService.cancel(id, user.sub, version);
   }
 }
