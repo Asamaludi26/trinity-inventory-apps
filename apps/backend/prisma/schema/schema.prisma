@@ -1,9 +1,3 @@
-// =============================================
-// CORE SCHEMA — Datasource, Generator, Global Enums & Cross-Cutting Models
-// Domain: Infrastructure & Cross-Cutting Concerns
-// Ref: SDD 4.1
-// =============================================
-
 generator client {
   provider = "prisma-client"
   output   = "../../src/generated/prisma"
@@ -13,9 +7,88 @@ datasource db {
   provider = "postgresql"
 }
 
-// =============================================
-// GLOBAL ENUMS
-// =============================================
+model StockThreshold {
+  id          Int        @id @default(autoincrement())
+  modelId     Int        @unique @map("model_id")
+  minQuantity Int        @map("min_quantity")
+  createdById Int        @map("created_by_id")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+  createdBy   User       @relation("StockThresholdCreatedBy", fields: [createdById], references: [id])
+  model       AssetModel @relation(fields: [modelId], references: [id])
+
+  @@map("stock_thresholds")
+}
+
+model StockMovement {
+  id          Int          @id @default(autoincrement())
+  assetId     String       @map("asset_id")
+  type        MovementType
+  quantity    Int          @default(1)
+  reference   String?      @db.VarChar(255)
+  note        String?
+  createdById Int          @map("created_by_id")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  asset       Asset        @relation(fields: [assetId], references: [id])
+  createdBy   User         @relation("StockMovementCreatedBy", fields: [createdById], references: [id])
+
+  @@index([assetId])
+  @@index([type])
+  @@index([createdAt])
+  @@map("stock_movements")
+}
+
+model Attachment {
+  id           Int      @id @default(autoincrement())
+  fileName     String   @map("file_name") @db.VarChar(255)
+  fileUrl      String   @map("file_url") @db.VarChar(500)
+  fileType     String   @map("file_type") @db.VarChar(50)
+  fileSize     Int      @map("file_size")
+  entityType   String   @map("entity_type") @db.VarChar(50)
+  entityId     String   @map("entity_id") @db.VarChar(50)
+  uploadedById Int      @map("uploaded_by_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+  uploadedBy   User     @relation("AttachmentUploadedBy", fields: [uploadedById], references: [id])
+
+  @@index([entityType, entityId])
+  @@map("attachments")
+}
+
+model ActivityLog {
+  id         Int      @id @default(autoincrement())
+  userId     Int      @map("user_id")
+  action     String   @db.VarChar(50)
+  entityType String   @map("entity_type") @db.VarChar(50)
+  entityId   String   @map("entity_id") @db.VarChar(50)
+  dataBefore Json?    @map("data_before")
+  dataAfter  Json?    @map("data_after")
+  ipAddress  String?  @map("ip_address") @db.VarChar(45)
+  userAgent  String?  @map("user_agent") @db.VarChar(500)
+  createdAt  DateTime @default(now()) @map("created_at")
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([entityType, entityId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("activity_logs")
+}
+
+model Notification {
+  id        Int              @id @default(autoincrement())
+  userId    Int              @map("user_id")
+  type      NotificationType
+  title     String           @db.VarChar(255)
+  message   String
+  isRead    Boolean          @default(false) @map("is_read")
+  link      String?          @db.VarChar(500)
+  createdAt DateTime         @default(now()) @map("created_at")
+  user      User             @relation(fields: [userId], references: [id])
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+  @@map("notifications")
+}
 
 enum AssetStatus {
   IN_STORAGE
@@ -55,6 +128,7 @@ enum TransactionStatus {
   AWAITING_HANDOVER
   IN_PROGRESS
   COMPLETED
+  ON_HOLD
 }
 
 enum NotificationType {
@@ -70,96 +144,4 @@ enum MovementType {
   OUT
   TRANSFER
   ADJUSTMENT
-}
-
-// =============================================
-// CROSS-CUTTING MODELS
-// =============================================
-
-model StockThreshold {
-  id          Int      @id @default(autoincrement())
-  modelId     Int      @unique @map("model_id")
-  minQuantity Int      @map("min_quantity")
-  createdById Int      @map("created_by_id")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  model     AssetModel @relation(fields: [modelId], references: [id], onDelete: Restrict)
-  createdBy User       @relation("StockThresholdCreatedBy", fields: [createdById], references: [id])
-
-  @@map("stock_thresholds")
-}
-
-model StockMovement {
-  id          Int          @id @default(autoincrement())
-  assetId     String       @map("asset_id")
-  type        MovementType
-  quantity    Int          @default(1)
-  reference   String?      @db.VarChar(255)
-  note        String?      @db.Text
-  createdById Int          @map("created_by_id")
-  createdAt   DateTime     @default(now()) @map("created_at")
-
-  asset     Asset @relation(fields: [assetId], references: [id], onDelete: Restrict)
-  createdBy User  @relation("StockMovementCreatedBy", fields: [createdById], references: [id])
-
-  @@index([assetId])
-  @@index([type])
-  @@index([createdAt])
-  @@map("stock_movements")
-}
-
-model Attachment {
-  id             Int      @id @default(autoincrement())
-  fileName       String   @map("file_name") @db.VarChar(255)
-  fileUrl        String   @map("file_url") @db.VarChar(500)
-  fileType       String   @map("file_type") @db.VarChar(50)
-  fileSize       Int      @map("file_size")
-  entityType     String   @map("entity_type") @db.VarChar(50)
-  entityId       String   @map("entity_id") @db.VarChar(50)
-  uploadedById   Int      @map("uploaded_by_id")
-  createdAt      DateTime @default(now()) @map("created_at")
-
-  uploadedBy User @relation("AttachmentUploadedBy", fields: [uploadedById], references: [id])
-
-  @@index([entityType, entityId])
-  @@map("attachments")
-}
-
-model ActivityLog {
-  id          Int      @id @default(autoincrement())
-  userId      Int      @map("user_id")
-  action      String   @db.VarChar(50)
-  entityType  String   @map("entity_type") @db.VarChar(50)
-  entityId    String   @map("entity_id") @db.VarChar(50)
-  dataBefore  Json?    @map("data_before")
-  dataAfter   Json?    @map("data_after")
-  ipAddress   String?  @map("ip_address") @db.VarChar(45)
-  userAgent   String?  @map("user_agent") @db.VarChar(500)
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  user User @relation(fields: [userId], references: [id])
-
-  @@index([userId])
-  @@index([entityType, entityId])
-  @@index([action])
-  @@index([createdAt])
-  @@map("activity_logs")
-}
-
-model Notification {
-  id        Int              @id @default(autoincrement())
-  userId    Int              @map("user_id")
-  type      NotificationType
-  title     String           @db.VarChar(255)
-  message   String           @db.Text
-  isRead    Boolean          @default(false) @map("is_read")
-  link      String?          @db.VarChar(500)
-  createdAt DateTime         @default(now()) @map("created_at")
-
-  user User @relation(fields: [userId], references: [id])
-
-  @@index([userId, isRead])
-  @@index([createdAt])
-  @@map("notifications")
 }

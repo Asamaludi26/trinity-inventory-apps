@@ -59,3 +59,36 @@ export const divisionsApi = {
 
   delete: (uuid: string) => api.delete<ApiResponse<null>>(`/settings/divisions/${uuid}`),
 };
+
+// ================================
+// Audit Filter
+// ================================
+export interface AuditFilterParams extends PaginationParams {
+  userId?: number;
+  action?: string;
+  entityType?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+export interface AuditLog {
+  id: number;
+  userId: number;
+  action: string;
+  entityType: string;
+  entityId: string;
+  dataBefore: Record<string, unknown> | null;
+  dataAfter: Record<string, unknown> | null;
+  ipAddress: string | null;
+  userAgent: string | null;
+  createdAt: string;
+  user?: { id: number; fullName: string; email: string };
+}
+
+// ================================
+// Audit API
+// ================================
+export const auditApi = {
+  getAll: (params?: AuditFilterParams) =>
+    api.get<ApiResponse<PaginatedResponse<AuditLog>>>('/settings/audit', { params }),
+};

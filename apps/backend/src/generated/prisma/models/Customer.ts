@@ -284,10 +284,10 @@ export type CustomerWhereInput = {
   isDeleted?: Prisma.BoolFilter<'Customer'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'Customer'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Customer'> | Date | string;
-  installations?: Prisma.InstallationListRelationFilter;
-  maintenances?: Prisma.MaintenanceListRelationFilter;
   dismantles?: Prisma.DismantleListRelationFilter;
   projects?: Prisma.InfraProjectListRelationFilter;
+  installations?: Prisma.InstallationListRelationFilter;
+  maintenances?: Prisma.MaintenanceListRelationFilter;
 };
 
 export type CustomerOrderByWithRelationInput = {
@@ -304,10 +304,10 @@ export type CustomerOrderByWithRelationInput = {
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
-  installations?: Prisma.InstallationOrderByRelationAggregateInput;
-  maintenances?: Prisma.MaintenanceOrderByRelationAggregateInput;
   dismantles?: Prisma.DismantleOrderByRelationAggregateInput;
   projects?: Prisma.InfraProjectOrderByRelationAggregateInput;
+  installations?: Prisma.InstallationOrderByRelationAggregateInput;
+  maintenances?: Prisma.MaintenanceOrderByRelationAggregateInput;
 };
 
 export type CustomerWhereUniqueInput = Prisma.AtLeast<
@@ -328,10 +328,10 @@ export type CustomerWhereUniqueInput = Prisma.AtLeast<
     isDeleted?: Prisma.BoolFilter<'Customer'> | boolean;
     createdAt?: Prisma.DateTimeFilter<'Customer'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Customer'> | Date | string;
-    installations?: Prisma.InstallationListRelationFilter;
-    maintenances?: Prisma.MaintenanceListRelationFilter;
     dismantles?: Prisma.DismantleListRelationFilter;
     projects?: Prisma.InfraProjectListRelationFilter;
+    installations?: Prisma.InstallationListRelationFilter;
+    maintenances?: Prisma.MaintenanceListRelationFilter;
   },
   'id' | 'uuid' | 'code'
 >;
@@ -402,10 +402,10 @@ export type CustomerCreateInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  installations?: Prisma.InstallationCreateNestedManyWithoutCustomerInput;
-  maintenances?: Prisma.MaintenanceCreateNestedManyWithoutCustomerInput;
   dismantles?: Prisma.DismantleCreateNestedManyWithoutCustomerInput;
   projects?: Prisma.InfraProjectCreateNestedManyWithoutCustomerInput;
+  installations?: Prisma.InstallationCreateNestedManyWithoutCustomerInput;
+  maintenances?: Prisma.MaintenanceCreateNestedManyWithoutCustomerInput;
 };
 
 export type CustomerUncheckedCreateInput = {
@@ -422,10 +422,10 @@ export type CustomerUncheckedCreateInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  installations?: Prisma.InstallationUncheckedCreateNestedManyWithoutCustomerInput;
-  maintenances?: Prisma.MaintenanceUncheckedCreateNestedManyWithoutCustomerInput;
   dismantles?: Prisma.DismantleUncheckedCreateNestedManyWithoutCustomerInput;
   projects?: Prisma.InfraProjectUncheckedCreateNestedManyWithoutCustomerInput;
+  installations?: Prisma.InstallationUncheckedCreateNestedManyWithoutCustomerInput;
+  maintenances?: Prisma.MaintenanceUncheckedCreateNestedManyWithoutCustomerInput;
 };
 
 export type CustomerUpdateInput = {
@@ -441,10 +441,10 @@ export type CustomerUpdateInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  installations?: Prisma.InstallationUpdateManyWithoutCustomerNestedInput;
-  maintenances?: Prisma.MaintenanceUpdateManyWithoutCustomerNestedInput;
   dismantles?: Prisma.DismantleUpdateManyWithoutCustomerNestedInput;
   projects?: Prisma.InfraProjectUpdateManyWithoutCustomerNestedInput;
+  installations?: Prisma.InstallationUpdateManyWithoutCustomerNestedInput;
+  maintenances?: Prisma.MaintenanceUpdateManyWithoutCustomerNestedInput;
 };
 
 export type CustomerUncheckedUpdateInput = {
@@ -461,10 +461,10 @@ export type CustomerUncheckedUpdateInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  installations?: Prisma.InstallationUncheckedUpdateManyWithoutCustomerNestedInput;
-  maintenances?: Prisma.MaintenanceUncheckedUpdateManyWithoutCustomerNestedInput;
   dismantles?: Prisma.DismantleUncheckedUpdateManyWithoutCustomerNestedInput;
   projects?: Prisma.InfraProjectUncheckedUpdateManyWithoutCustomerNestedInput;
+  installations?: Prisma.InstallationUncheckedUpdateManyWithoutCustomerNestedInput;
+  maintenances?: Prisma.MaintenanceUncheckedUpdateManyWithoutCustomerNestedInput;
 };
 
 export type CustomerCreateManyInput = {
@@ -699,9 +699,9 @@ export type CustomerCreateWithoutInstallationsInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  maintenances?: Prisma.MaintenanceCreateNestedManyWithoutCustomerInput;
   dismantles?: Prisma.DismantleCreateNestedManyWithoutCustomerInput;
   projects?: Prisma.InfraProjectCreateNestedManyWithoutCustomerInput;
+  maintenances?: Prisma.MaintenanceCreateNestedManyWithoutCustomerInput;
 };
 
 export type CustomerUncheckedCreateWithoutInstallationsInput = {
@@ -718,9 +718,9 @@ export type CustomerUncheckedCreateWithoutInstallationsInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  maintenances?: Prisma.MaintenanceUncheckedCreateNestedManyWithoutCustomerInput;
   dismantles?: Prisma.DismantleUncheckedCreateNestedManyWithoutCustomerInput;
   projects?: Prisma.InfraProjectUncheckedCreateNestedManyWithoutCustomerInput;
+  maintenances?: Prisma.MaintenanceUncheckedCreateNestedManyWithoutCustomerInput;
 };
 
 export type CustomerCreateOrConnectWithoutInstallationsInput = {
@@ -764,9 +764,9 @@ export type CustomerUpdateWithoutInstallationsInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  maintenances?: Prisma.MaintenanceUpdateManyWithoutCustomerNestedInput;
   dismantles?: Prisma.DismantleUpdateManyWithoutCustomerNestedInput;
   projects?: Prisma.InfraProjectUpdateManyWithoutCustomerNestedInput;
+  maintenances?: Prisma.MaintenanceUpdateManyWithoutCustomerNestedInput;
 };
 
 export type CustomerUncheckedUpdateWithoutInstallationsInput = {
@@ -783,9 +783,9 @@ export type CustomerUncheckedUpdateWithoutInstallationsInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  maintenances?: Prisma.MaintenanceUncheckedUpdateManyWithoutCustomerNestedInput;
   dismantles?: Prisma.DismantleUncheckedUpdateManyWithoutCustomerNestedInput;
   projects?: Prisma.InfraProjectUncheckedUpdateManyWithoutCustomerNestedInput;
+  maintenances?: Prisma.MaintenanceUncheckedUpdateManyWithoutCustomerNestedInput;
 };
 
 export type CustomerCreateWithoutMaintenancesInput = {
@@ -801,9 +801,9 @@ export type CustomerCreateWithoutMaintenancesInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  installations?: Prisma.InstallationCreateNestedManyWithoutCustomerInput;
   dismantles?: Prisma.DismantleCreateNestedManyWithoutCustomerInput;
   projects?: Prisma.InfraProjectCreateNestedManyWithoutCustomerInput;
+  installations?: Prisma.InstallationCreateNestedManyWithoutCustomerInput;
 };
 
 export type CustomerUncheckedCreateWithoutMaintenancesInput = {
@@ -820,9 +820,9 @@ export type CustomerUncheckedCreateWithoutMaintenancesInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  installations?: Prisma.InstallationUncheckedCreateNestedManyWithoutCustomerInput;
   dismantles?: Prisma.DismantleUncheckedCreateNestedManyWithoutCustomerInput;
   projects?: Prisma.InfraProjectUncheckedCreateNestedManyWithoutCustomerInput;
+  installations?: Prisma.InstallationUncheckedCreateNestedManyWithoutCustomerInput;
 };
 
 export type CustomerCreateOrConnectWithoutMaintenancesInput = {
@@ -866,9 +866,9 @@ export type CustomerUpdateWithoutMaintenancesInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  installations?: Prisma.InstallationUpdateManyWithoutCustomerNestedInput;
   dismantles?: Prisma.DismantleUpdateManyWithoutCustomerNestedInput;
   projects?: Prisma.InfraProjectUpdateManyWithoutCustomerNestedInput;
+  installations?: Prisma.InstallationUpdateManyWithoutCustomerNestedInput;
 };
 
 export type CustomerUncheckedUpdateWithoutMaintenancesInput = {
@@ -885,9 +885,9 @@ export type CustomerUncheckedUpdateWithoutMaintenancesInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  installations?: Prisma.InstallationUncheckedUpdateManyWithoutCustomerNestedInput;
   dismantles?: Prisma.DismantleUncheckedUpdateManyWithoutCustomerNestedInput;
   projects?: Prisma.InfraProjectUncheckedUpdateManyWithoutCustomerNestedInput;
+  installations?: Prisma.InstallationUncheckedUpdateManyWithoutCustomerNestedInput;
 };
 
 export type CustomerCreateWithoutDismantlesInput = {
@@ -903,9 +903,9 @@ export type CustomerCreateWithoutDismantlesInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  projects?: Prisma.InfraProjectCreateNestedManyWithoutCustomerInput;
   installations?: Prisma.InstallationCreateNestedManyWithoutCustomerInput;
   maintenances?: Prisma.MaintenanceCreateNestedManyWithoutCustomerInput;
-  projects?: Prisma.InfraProjectCreateNestedManyWithoutCustomerInput;
 };
 
 export type CustomerUncheckedCreateWithoutDismantlesInput = {
@@ -922,9 +922,9 @@ export type CustomerUncheckedCreateWithoutDismantlesInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  projects?: Prisma.InfraProjectUncheckedCreateNestedManyWithoutCustomerInput;
   installations?: Prisma.InstallationUncheckedCreateNestedManyWithoutCustomerInput;
   maintenances?: Prisma.MaintenanceUncheckedCreateNestedManyWithoutCustomerInput;
-  projects?: Prisma.InfraProjectUncheckedCreateNestedManyWithoutCustomerInput;
 };
 
 export type CustomerCreateOrConnectWithoutDismantlesInput = {
@@ -968,9 +968,9 @@ export type CustomerUpdateWithoutDismantlesInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  projects?: Prisma.InfraProjectUpdateManyWithoutCustomerNestedInput;
   installations?: Prisma.InstallationUpdateManyWithoutCustomerNestedInput;
   maintenances?: Prisma.MaintenanceUpdateManyWithoutCustomerNestedInput;
-  projects?: Prisma.InfraProjectUpdateManyWithoutCustomerNestedInput;
 };
 
 export type CustomerUncheckedUpdateWithoutDismantlesInput = {
@@ -987,9 +987,9 @@ export type CustomerUncheckedUpdateWithoutDismantlesInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  projects?: Prisma.InfraProjectUncheckedUpdateManyWithoutCustomerNestedInput;
   installations?: Prisma.InstallationUncheckedUpdateManyWithoutCustomerNestedInput;
   maintenances?: Prisma.MaintenanceUncheckedUpdateManyWithoutCustomerNestedInput;
-  projects?: Prisma.InfraProjectUncheckedUpdateManyWithoutCustomerNestedInput;
 };
 
 export type CustomerCreateWithoutProjectsInput = {
@@ -1005,9 +1005,9 @@ export type CustomerCreateWithoutProjectsInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  dismantles?: Prisma.DismantleCreateNestedManyWithoutCustomerInput;
   installations?: Prisma.InstallationCreateNestedManyWithoutCustomerInput;
   maintenances?: Prisma.MaintenanceCreateNestedManyWithoutCustomerInput;
-  dismantles?: Prisma.DismantleCreateNestedManyWithoutCustomerInput;
 };
 
 export type CustomerUncheckedCreateWithoutProjectsInput = {
@@ -1024,9 +1024,9 @@ export type CustomerUncheckedCreateWithoutProjectsInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  dismantles?: Prisma.DismantleUncheckedCreateNestedManyWithoutCustomerInput;
   installations?: Prisma.InstallationUncheckedCreateNestedManyWithoutCustomerInput;
   maintenances?: Prisma.MaintenanceUncheckedCreateNestedManyWithoutCustomerInput;
-  dismantles?: Prisma.DismantleUncheckedCreateNestedManyWithoutCustomerInput;
 };
 
 export type CustomerCreateOrConnectWithoutProjectsInput = {
@@ -1070,9 +1070,9 @@ export type CustomerUpdateWithoutProjectsInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  dismantles?: Prisma.DismantleUpdateManyWithoutCustomerNestedInput;
   installations?: Prisma.InstallationUpdateManyWithoutCustomerNestedInput;
   maintenances?: Prisma.MaintenanceUpdateManyWithoutCustomerNestedInput;
-  dismantles?: Prisma.DismantleUpdateManyWithoutCustomerNestedInput;
 };
 
 export type CustomerUncheckedUpdateWithoutProjectsInput = {
@@ -1089,9 +1089,9 @@ export type CustomerUncheckedUpdateWithoutProjectsInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  dismantles?: Prisma.DismantleUncheckedUpdateManyWithoutCustomerNestedInput;
   installations?: Prisma.InstallationUncheckedUpdateManyWithoutCustomerNestedInput;
   maintenances?: Prisma.MaintenanceUncheckedUpdateManyWithoutCustomerNestedInput;
-  dismantles?: Prisma.DismantleUncheckedUpdateManyWithoutCustomerNestedInput;
 };
 
 /**
@@ -1099,20 +1099,20 @@ export type CustomerUncheckedUpdateWithoutProjectsInput = {
  */
 
 export type CustomerCountOutputType = {
-  installations: number;
-  maintenances: number;
   dismantles: number;
   projects: number;
+  installations: number;
+  maintenances: number;
 };
 
 export type CustomerCountOutputTypeSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  installations?: boolean | CustomerCountOutputTypeCountInstallationsArgs;
-  maintenances?: boolean | CustomerCountOutputTypeCountMaintenancesArgs;
   dismantles?: boolean | CustomerCountOutputTypeCountDismantlesArgs;
   projects?: boolean | CustomerCountOutputTypeCountProjectsArgs;
+  installations?: boolean | CustomerCountOutputTypeCountInstallationsArgs;
+  maintenances?: boolean | CustomerCountOutputTypeCountMaintenancesArgs;
 };
 
 /**
@@ -1126,26 +1126,6 @@ export type CustomerCountOutputTypeDefaultArgs<
    * Select specific fields to fetch from the CustomerCountOutputType
    */
   select?: Prisma.CustomerCountOutputTypeSelect<ExtArgs> | null;
-};
-
-/**
- * CustomerCountOutputType without action
- */
-export type CustomerCountOutputTypeCountInstallationsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  where?: Prisma.InstallationWhereInput;
-};
-
-/**
- * CustomerCountOutputType without action
- */
-export type CustomerCountOutputTypeCountMaintenancesArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  where?: Prisma.MaintenanceWhereInput;
 };
 
 /**
@@ -1168,6 +1148,26 @@ export type CustomerCountOutputTypeCountProjectsArgs<
   where?: Prisma.InfraProjectWhereInput;
 };
 
+/**
+ * CustomerCountOutputType without action
+ */
+export type CustomerCountOutputTypeCountInstallationsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.InstallationWhereInput;
+};
+
+/**
+ * CustomerCountOutputType without action
+ */
+export type CustomerCountOutputTypeCountMaintenancesArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.MaintenanceWhereInput;
+};
+
 export type CustomerSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -1186,10 +1186,10 @@ export type CustomerSelect<
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    installations?: boolean | Prisma.Customer$installationsArgs<ExtArgs>;
-    maintenances?: boolean | Prisma.Customer$maintenancesArgs<ExtArgs>;
     dismantles?: boolean | Prisma.Customer$dismantlesArgs<ExtArgs>;
     projects?: boolean | Prisma.Customer$projectsArgs<ExtArgs>;
+    installations?: boolean | Prisma.Customer$installationsArgs<ExtArgs>;
+    maintenances?: boolean | Prisma.Customer$maintenancesArgs<ExtArgs>;
     _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['customer']
@@ -1278,10 +1278,10 @@ export type CustomerInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  installations?: boolean | Prisma.Customer$installationsArgs<ExtArgs>;
-  maintenances?: boolean | Prisma.Customer$maintenancesArgs<ExtArgs>;
   dismantles?: boolean | Prisma.Customer$dismantlesArgs<ExtArgs>;
   projects?: boolean | Prisma.Customer$projectsArgs<ExtArgs>;
+  installations?: boolean | Prisma.Customer$installationsArgs<ExtArgs>;
+  maintenances?: boolean | Prisma.Customer$maintenancesArgs<ExtArgs>;
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type CustomerIncludeCreateManyAndReturn<
@@ -1299,10 +1299,10 @@ export type $CustomerPayload<
 > = {
   name: 'Customer';
   objects: {
-    installations: Prisma.$InstallationPayload<ExtArgs>[];
-    maintenances: Prisma.$MaintenancePayload<ExtArgs>[];
     dismantles: Prisma.$DismantlePayload<ExtArgs>[];
     projects: Prisma.$InfraProjectPayload<ExtArgs>[];
+    installations: Prisma.$InstallationPayload<ExtArgs>[];
+    maintenances: Prisma.$MaintenancePayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1869,28 +1869,6 @@ export interface Prisma__CustomerClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
-  installations<T extends Prisma.Customer$installationsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.Customer$installationsArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$InstallationPayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
-  >;
-  maintenances<T extends Prisma.Customer$maintenancesArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.Customer$maintenancesArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$MaintenancePayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
-  >;
   dismantles<T extends Prisma.Customer$dismantlesArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.Customer$dismantlesArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
@@ -1907,6 +1885,28 @@ export interface Prisma__CustomerClient<
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
         Prisma.$InfraProjectPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  installations<T extends Prisma.Customer$installationsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Customer$installationsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$InstallationPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  maintenances<T extends Prisma.Customer$maintenancesArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Customer$maintenancesArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$MaintenancePayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -2426,68 +2426,6 @@ export type CustomerDeleteManyArgs<
 };
 
 /**
- * Customer.installations
- */
-export type Customer$installationsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  /**
-   * Select specific fields to fetch from the Installation
-   */
-  select?: Prisma.InstallationSelect<ExtArgs> | null;
-  /**
-   * Omit specific fields from the Installation
-   */
-  omit?: Prisma.InstallationOmit<ExtArgs> | null;
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.InstallationInclude<ExtArgs> | null;
-  where?: Prisma.InstallationWhereInput;
-  orderBy?:
-    | Prisma.InstallationOrderByWithRelationInput
-    | Prisma.InstallationOrderByWithRelationInput[];
-  cursor?: Prisma.InstallationWhereUniqueInput;
-  take?: number;
-  skip?: number;
-  distinct?:
-    | Prisma.InstallationScalarFieldEnum
-    | Prisma.InstallationScalarFieldEnum[];
-};
-
-/**
- * Customer.maintenances
- */
-export type Customer$maintenancesArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  /**
-   * Select specific fields to fetch from the Maintenance
-   */
-  select?: Prisma.MaintenanceSelect<ExtArgs> | null;
-  /**
-   * Omit specific fields from the Maintenance
-   */
-  omit?: Prisma.MaintenanceOmit<ExtArgs> | null;
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MaintenanceInclude<ExtArgs> | null;
-  where?: Prisma.MaintenanceWhereInput;
-  orderBy?:
-    | Prisma.MaintenanceOrderByWithRelationInput
-    | Prisma.MaintenanceOrderByWithRelationInput[];
-  cursor?: Prisma.MaintenanceWhereUniqueInput;
-  take?: number;
-  skip?: number;
-  distinct?:
-    | Prisma.MaintenanceScalarFieldEnum
-    | Prisma.MaintenanceScalarFieldEnum[];
-};
-
-/**
  * Customer.dismantles
  */
 export type Customer$dismantlesArgs<
@@ -2547,6 +2485,68 @@ export type Customer$projectsArgs<
   distinct?:
     | Prisma.InfraProjectScalarFieldEnum
     | Prisma.InfraProjectScalarFieldEnum[];
+};
+
+/**
+ * Customer.installations
+ */
+export type Customer$installationsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Installation
+   */
+  select?: Prisma.InstallationSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Installation
+   */
+  omit?: Prisma.InstallationOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstallationInclude<ExtArgs> | null;
+  where?: Prisma.InstallationWhereInput;
+  orderBy?:
+    | Prisma.InstallationOrderByWithRelationInput
+    | Prisma.InstallationOrderByWithRelationInput[];
+  cursor?: Prisma.InstallationWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.InstallationScalarFieldEnum
+    | Prisma.InstallationScalarFieldEnum[];
+};
+
+/**
+ * Customer.maintenances
+ */
+export type Customer$maintenancesArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Maintenance
+   */
+  select?: Prisma.MaintenanceSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Maintenance
+   */
+  omit?: Prisma.MaintenanceOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MaintenanceInclude<ExtArgs> | null;
+  where?: Prisma.MaintenanceWhereInput;
+  orderBy?:
+    | Prisma.MaintenanceOrderByWithRelationInput
+    | Prisma.MaintenanceOrderByWithRelationInput[];
+  cursor?: Prisma.MaintenanceWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.MaintenanceScalarFieldEnum
+    | Prisma.MaintenanceScalarFieldEnum[];
 };
 
 /**

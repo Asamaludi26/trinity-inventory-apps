@@ -4,14 +4,23 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
+import { StockMovementService } from '../../transactions/stock-movements/stock-movement.service';
 import { CreateMaintenanceDto } from './dto/create-maintenance.dto';
 import { UpdateMaintenanceDto } from './dto/update-maintenance.dto';
 import { FilterMaintenanceDto } from './dto/filter-maintenance.dto';
-import { Prisma, TransactionStatus } from '../../../generated/prisma/client';
+import {
+  Prisma,
+  TransactionStatus,
+  MovementType,
+  AssetStatus,
+} from '../../../generated/prisma/client';
 
 @Injectable()
 export class MaintenanceService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly stockMovementService: StockMovementService,
+  ) {}
 
   private async generateCode(): Promise<string> {
     const today = new Date();
@@ -138,6 +147,63 @@ export class MaintenanceService {
         ...(dto.scheduledAt && { scheduledAt: new Date(dto.scheduledAt) }),
       },
       include: { customer: { select: { id: true, name: true } } },
+    });
+  }
+
+  async complete(id: number, userId: number) {
+    const existing = await this.findOne(id);
+    if (existing.status === TransactionStatus.COMPLETED) {
+      throw new BadRequestException('Maintenance sudah selesai');
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      const maintenance = await tx.maintenance.update({
+        where: { id },
+        data: {
+          status: TransactionStatus.COMPLETED,
+          completedAt: new Date(),
+        },
+        include: {
+          customer: { select: { id: true, name: true } },
+          materials: true,
+          replacements: true,
+        },
+      });
+
+      // Stock movement OUT for replacement materials
+      for (const material of existing.materials) {
+        if (material.modelId) {
+          const assets = await tx.asset.findMany({
+            where: {
+              modelId: material.modelId,
+              status: AssetStatus.IN_STORAGE,
+              isDeleted: false,
+            },
+            take: material.quantity,
+          });
+
+          for (const asset of assets) {
+            await tx.asset.update({
+              where: { id: asset.id },
+              data: { status: AssetStatus.IN_USE },
+            });
+
+            await this.stockMovementService.create(
+              {
+                assetId: asset.id,
+                type: MovementType.OUT,
+                quantity: 1,
+                reference: existing.code,
+                note: `Maintenance ${existing.code} - ${material.description}`,
+                createdById: userId,
+              },
+              tx,
+            );
+          }
+        }
+      }
+
+      return maintenance;
     });
   }
 }

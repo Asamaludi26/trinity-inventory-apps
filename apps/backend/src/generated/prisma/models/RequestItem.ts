@@ -46,8 +46,8 @@ export type RequestItemMinAggregateOutputType = {
   modelId: number | null;
   description: string | null;
   quantity: number | null;
-  approvedQuantity: number | null;
   note: string | null;
+  approvedQuantity: number | null;
 };
 
 export type RequestItemMaxAggregateOutputType = {
@@ -56,8 +56,8 @@ export type RequestItemMaxAggregateOutputType = {
   modelId: number | null;
   description: string | null;
   quantity: number | null;
-  approvedQuantity: number | null;
   note: string | null;
+  approvedQuantity: number | null;
 };
 
 export type RequestItemCountAggregateOutputType = {
@@ -66,8 +66,8 @@ export type RequestItemCountAggregateOutputType = {
   modelId: number;
   description: number;
   quantity: number;
-  approvedQuantity: number;
   note: number;
+  approvedQuantity: number;
   _all: number;
 };
 
@@ -91,8 +91,8 @@ export type RequestItemMinAggregateInputType = {
   modelId?: true;
   description?: true;
   quantity?: true;
-  approvedQuantity?: true;
   note?: true;
+  approvedQuantity?: true;
 };
 
 export type RequestItemMaxAggregateInputType = {
@@ -101,8 +101,8 @@ export type RequestItemMaxAggregateInputType = {
   modelId?: true;
   description?: true;
   quantity?: true;
-  approvedQuantity?: true;
   note?: true;
+  approvedQuantity?: true;
 };
 
 export type RequestItemCountAggregateInputType = {
@@ -111,8 +111,8 @@ export type RequestItemCountAggregateInputType = {
   modelId?: true;
   description?: true;
   quantity?: true;
-  approvedQuantity?: true;
   note?: true;
+  approvedQuantity?: true;
   _all?: true;
 };
 
@@ -215,8 +215,8 @@ export type RequestItemGroupByOutputType = {
   modelId: number | null;
   description: string;
   quantity: number;
-  approvedQuantity: number | null;
   note: string | null;
+  approvedQuantity: number | null;
   _count: RequestItemCountAggregateOutputType | null;
   _avg: RequestItemAvgAggregateOutputType | null;
   _sum: RequestItemSumAggregateOutputType | null;
@@ -246,8 +246,8 @@ export type RequestItemWhereInput = {
   modelId?: Prisma.IntNullableFilter<'RequestItem'> | number | null;
   description?: Prisma.StringFilter<'RequestItem'> | string;
   quantity?: Prisma.IntFilter<'RequestItem'> | number;
-  approvedQuantity?: Prisma.IntNullableFilter<'RequestItem'> | number | null;
   note?: Prisma.StringNullableFilter<'RequestItem'> | string | null;
+  approvedQuantity?: Prisma.IntNullableFilter<'RequestItem'> | number | null;
   request?: Prisma.XOR<
     Prisma.RequestScalarRelationFilter,
     Prisma.RequestWhereInput
@@ -260,8 +260,8 @@ export type RequestItemOrderByWithRelationInput = {
   modelId?: Prisma.SortOrderInput | Prisma.SortOrder;
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
-  approvedQuantity?: Prisma.SortOrderInput | Prisma.SortOrder;
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
+  approvedQuantity?: Prisma.SortOrderInput | Prisma.SortOrder;
   request?: Prisma.RequestOrderByWithRelationInput;
 };
 
@@ -275,8 +275,8 @@ export type RequestItemWhereUniqueInput = Prisma.AtLeast<
     modelId?: Prisma.IntNullableFilter<'RequestItem'> | number | null;
     description?: Prisma.StringFilter<'RequestItem'> | string;
     quantity?: Prisma.IntFilter<'RequestItem'> | number;
-    approvedQuantity?: Prisma.IntNullableFilter<'RequestItem'> | number | null;
     note?: Prisma.StringNullableFilter<'RequestItem'> | string | null;
+    approvedQuantity?: Prisma.IntNullableFilter<'RequestItem'> | number | null;
     request?: Prisma.XOR<
       Prisma.RequestScalarRelationFilter,
       Prisma.RequestWhereInput
@@ -291,8 +291,8 @@ export type RequestItemOrderByWithAggregationInput = {
   modelId?: Prisma.SortOrderInput | Prisma.SortOrder;
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
-  approvedQuantity?: Prisma.SortOrderInput | Prisma.SortOrder;
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
+  approvedQuantity?: Prisma.SortOrderInput | Prisma.SortOrder;
   _count?: Prisma.RequestItemCountOrderByAggregateInput;
   _avg?: Prisma.RequestItemAvgOrderByAggregateInput;
   _max?: Prisma.RequestItemMaxOrderByAggregateInput;
@@ -316,13 +316,13 @@ export type RequestItemScalarWhereWithAggregatesInput = {
     | null;
   description?: Prisma.StringWithAggregatesFilter<'RequestItem'> | string;
   quantity?: Prisma.IntWithAggregatesFilter<'RequestItem'> | number;
-  approvedQuantity?:
-    | Prisma.IntNullableWithAggregatesFilter<'RequestItem'>
-    | number
-    | null;
   note?:
     | Prisma.StringNullableWithAggregatesFilter<'RequestItem'>
     | string
+    | null;
+  approvedQuantity?:
+    | Prisma.IntNullableWithAggregatesFilter<'RequestItem'>
+    | number
     | null;
 };
 
@@ -330,8 +330,8 @@ export type RequestItemCreateInput = {
   modelId?: number | null;
   description: string;
   quantity: number;
-  approvedQuantity?: number | null;
   note?: string | null;
+  approvedQuantity?: number | null;
   request: Prisma.RequestCreateNestedOneWithoutItemsInput;
 };
 
@@ -341,19 +341,19 @@ export type RequestItemUncheckedCreateInput = {
   modelId?: number | null;
   description: string;
   quantity: number;
-  approvedQuantity?: number | null;
   note?: string | null;
+  approvedQuantity?: number | null;
 };
 
 export type RequestItemUpdateInput = {
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   approvedQuantity?:
     | Prisma.NullableIntFieldUpdateOperationsInput
     | number
     | null;
-  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   request?: Prisma.RequestUpdateOneRequiredWithoutItemsNestedInput;
 };
 
@@ -363,11 +363,11 @@ export type RequestItemUncheckedUpdateInput = {
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   approvedQuantity?:
     | Prisma.NullableIntFieldUpdateOperationsInput
     | number
     | null;
-  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type RequestItemCreateManyInput = {
@@ -376,19 +376,19 @@ export type RequestItemCreateManyInput = {
   modelId?: number | null;
   description: string;
   quantity: number;
-  approvedQuantity?: number | null;
   note?: string | null;
+  approvedQuantity?: number | null;
 };
 
 export type RequestItemUpdateManyMutationInput = {
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   approvedQuantity?:
     | Prisma.NullableIntFieldUpdateOperationsInput
     | number
     | null;
-  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type RequestItemUncheckedUpdateManyInput = {
@@ -397,11 +397,11 @@ export type RequestItemUncheckedUpdateManyInput = {
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   approvedQuantity?:
     | Prisma.NullableIntFieldUpdateOperationsInput
     | number
     | null;
-  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type RequestItemListRelationFilter = {
@@ -420,8 +420,8 @@ export type RequestItemCountOrderByAggregateInput = {
   modelId?: Prisma.SortOrder;
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
-  approvedQuantity?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
+  approvedQuantity?: Prisma.SortOrder;
 };
 
 export type RequestItemAvgOrderByAggregateInput = {
@@ -437,8 +437,8 @@ export type RequestItemMaxOrderByAggregateInput = {
   modelId?: Prisma.SortOrder;
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
-  approvedQuantity?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
+  approvedQuantity?: Prisma.SortOrder;
 };
 
 export type RequestItemMinOrderByAggregateInput = {
@@ -447,8 +447,8 @@ export type RequestItemMinOrderByAggregateInput = {
   modelId?: Prisma.SortOrder;
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
-  approvedQuantity?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
+  approvedQuantity?: Prisma.SortOrder;
 };
 
 export type RequestItemSumOrderByAggregateInput = {
@@ -572,8 +572,8 @@ export type RequestItemCreateWithoutRequestInput = {
   modelId?: number | null;
   description: string;
   quantity: number;
-  approvedQuantity?: number | null;
   note?: string | null;
+  approvedQuantity?: number | null;
 };
 
 export type RequestItemUncheckedCreateWithoutRequestInput = {
@@ -581,8 +581,8 @@ export type RequestItemUncheckedCreateWithoutRequestInput = {
   modelId?: number | null;
   description: string;
   quantity: number;
-  approvedQuantity?: number | null;
   note?: string | null;
+  approvedQuantity?: number | null;
 };
 
 export type RequestItemCreateOrConnectWithoutRequestInput = {
@@ -641,8 +641,8 @@ export type RequestItemScalarWhereInput = {
   modelId?: Prisma.IntNullableFilter<'RequestItem'> | number | null;
   description?: Prisma.StringFilter<'RequestItem'> | string;
   quantity?: Prisma.IntFilter<'RequestItem'> | number;
-  approvedQuantity?: Prisma.IntNullableFilter<'RequestItem'> | number | null;
   note?: Prisma.StringNullableFilter<'RequestItem'> | string | null;
+  approvedQuantity?: Prisma.IntNullableFilter<'RequestItem'> | number | null;
 };
 
 export type RequestItemCreateManyRequestInput = {
@@ -650,19 +650,19 @@ export type RequestItemCreateManyRequestInput = {
   modelId?: number | null;
   description: string;
   quantity: number;
-  approvedQuantity?: number | null;
   note?: string | null;
+  approvedQuantity?: number | null;
 };
 
 export type RequestItemUpdateWithoutRequestInput = {
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   approvedQuantity?:
     | Prisma.NullableIntFieldUpdateOperationsInput
     | number
     | null;
-  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type RequestItemUncheckedUpdateWithoutRequestInput = {
@@ -670,11 +670,11 @@ export type RequestItemUncheckedUpdateWithoutRequestInput = {
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   approvedQuantity?:
     | Prisma.NullableIntFieldUpdateOperationsInput
     | number
     | null;
-  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type RequestItemUncheckedUpdateManyWithoutRequestInput = {
@@ -682,11 +682,11 @@ export type RequestItemUncheckedUpdateManyWithoutRequestInput = {
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   approvedQuantity?:
     | Prisma.NullableIntFieldUpdateOperationsInput
     | number
     | null;
-  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type RequestItemSelect<
@@ -699,8 +699,8 @@ export type RequestItemSelect<
     modelId?: boolean;
     description?: boolean;
     quantity?: boolean;
-    approvedQuantity?: boolean;
     note?: boolean;
+    approvedQuantity?: boolean;
     request?: boolean | Prisma.RequestDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['requestItem']
@@ -716,8 +716,8 @@ export type RequestItemSelectCreateManyAndReturn<
     modelId?: boolean;
     description?: boolean;
     quantity?: boolean;
-    approvedQuantity?: boolean;
     note?: boolean;
+    approvedQuantity?: boolean;
     request?: boolean | Prisma.RequestDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['requestItem']
@@ -733,8 +733,8 @@ export type RequestItemSelectUpdateManyAndReturn<
     modelId?: boolean;
     description?: boolean;
     quantity?: boolean;
-    approvedQuantity?: boolean;
     note?: boolean;
+    approvedQuantity?: boolean;
     request?: boolean | Prisma.RequestDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['requestItem']
@@ -746,8 +746,8 @@ export type RequestItemSelectScalar = {
   modelId?: boolean;
   description?: boolean;
   quantity?: boolean;
-  approvedQuantity?: boolean;
   note?: boolean;
+  approvedQuantity?: boolean;
 };
 
 export type RequestItemOmit<
@@ -759,8 +759,8 @@ export type RequestItemOmit<
   | 'modelId'
   | 'description'
   | 'quantity'
-  | 'approvedQuantity'
-  | 'note',
+  | 'note'
+  | 'approvedQuantity',
   ExtArgs['result']['requestItem']
 >;
 export type RequestItemInclude<
@@ -797,8 +797,8 @@ export type $RequestItemPayload<
       modelId: number | null;
       description: string;
       quantity: number;
-      approvedQuantity: number | null;
       note: string | null;
+      approvedQuantity: number | null;
     },
     ExtArgs['result']['requestItem']
   >;
@@ -1413,8 +1413,8 @@ export interface RequestItemFieldRefs {
   readonly modelId: Prisma.FieldRef<'RequestItem', 'Int'>;
   readonly description: Prisma.FieldRef<'RequestItem', 'String'>;
   readonly quantity: Prisma.FieldRef<'RequestItem', 'Int'>;
-  readonly approvedQuantity: Prisma.FieldRef<'RequestItem', 'Int'>;
   readonly note: Prisma.FieldRef<'RequestItem', 'String'>;
+  readonly approvedQuantity: Prisma.FieldRef<'RequestItem', 'Int'>;
 }
 
 // Custom InputTypes

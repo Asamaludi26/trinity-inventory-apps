@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useMaintenanceDetail } from '../hooks';
+import { useMaintenanceDetail, useCompleteMaintenance } from '../hooks';
 import { AttachmentSection } from '@/components/form';
 
 function formatDate(date: string | null) {
@@ -30,6 +31,15 @@ export function MaintenanceDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: maintenance, isLoading } = useMaintenanceDetail(id ? Number(id) : undefined);
+  const completeMaintenance = useCompleteMaintenance();
+
+  const handleComplete = () => {
+    if (!id) return;
+    completeMaintenance.mutate(Number(id), {
+      onSuccess: () => toast.success('Maintenance berhasil diselesaikan'),
+      onError: () => toast.error('Gagal menyelesaikan maintenance'),
+    });
+  };
 
   if (isLoading) {
     return (
@@ -59,10 +69,22 @@ export function MaintenanceDetailPage() {
     <PageContainer
       title={`Pemeliharaan ${maintenance.code}`}
       actions={
-        <Button variant="outline" onClick={() => navigate('/maintenance')}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Kembali
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" onClick={() => navigate('/maintenance')}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Kembali
+          </Button>
+          {maintenance.status === 'IN_PROGRESS' && (
+            <Button
+              variant="default"
+              onClick={handleComplete}
+              disabled={completeMaintenance.isPending}
+            >
+              <CheckCircle className="mr-2 h-4 w-4" />
+              {completeMaintenance.isPending ? 'Menyelesaikan...' : 'Selesaikan'}
+            </Button>
+          )}
+        </div>
       }
     >
       <div className="space-y-6">

@@ -86,7 +86,9 @@ export function ProjectListPage() {
           <SelectContent>
             <SelectItem value="all">Semua Status</SelectItem>
             <SelectItem value="PENDING">Draft</SelectItem>
+            <SelectItem value="APPROVED">Disetujui</SelectItem>
             <SelectItem value="IN_PROGRESS">Berlangsung</SelectItem>
+            <SelectItem value="ON_HOLD">Ditunda</SelectItem>
             <SelectItem value="COMPLETED">Selesai</SelectItem>
             <SelectItem value="CANCELLED">Dibatalkan</SelectItem>
           </SelectContent>

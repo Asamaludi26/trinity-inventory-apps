@@ -244,6 +244,9 @@ export type AssetModelWhereInput = {
     Prisma.AssetTypeScalarRelationFilter,
     Prisma.AssetTypeWhereInput
   >;
+  assets?: Prisma.AssetListRelationFilter;
+  installationMaterials?: Prisma.InstallationMaterialListRelationFilter;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialListRelationFilter;
   purchaseMasterData?: Prisma.XOR<
     Prisma.PurchaseMasterDataNullableScalarRelationFilter,
     Prisma.PurchaseMasterDataWhereInput
@@ -252,7 +255,6 @@ export type AssetModelWhereInput = {
     Prisma.StockThresholdNullableScalarRelationFilter,
     Prisma.StockThresholdWhereInput
   > | null;
-  assets?: Prisma.AssetListRelationFilter;
 };
 
 export type AssetModelOrderByWithRelationInput = {
@@ -264,9 +266,11 @@ export type AssetModelOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   type?: Prisma.AssetTypeOrderByWithRelationInput;
+  assets?: Prisma.AssetOrderByRelationAggregateInput;
+  installationMaterials?: Prisma.InstallationMaterialOrderByRelationAggregateInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialOrderByRelationAggregateInput;
   purchaseMasterData?: Prisma.PurchaseMasterDataOrderByWithRelationInput;
   stockThreshold?: Prisma.StockThresholdOrderByWithRelationInput;
-  assets?: Prisma.AssetOrderByRelationAggregateInput;
 };
 
 export type AssetModelWhereUniqueInput = Prisma.AtLeast<
@@ -286,6 +290,9 @@ export type AssetModelWhereUniqueInput = Prisma.AtLeast<
       Prisma.AssetTypeScalarRelationFilter,
       Prisma.AssetTypeWhereInput
     >;
+    assets?: Prisma.AssetListRelationFilter;
+    installationMaterials?: Prisma.InstallationMaterialListRelationFilter;
+    maintenanceMaterials?: Prisma.MaintenanceMaterialListRelationFilter;
     purchaseMasterData?: Prisma.XOR<
       Prisma.PurchaseMasterDataNullableScalarRelationFilter,
       Prisma.PurchaseMasterDataWhereInput
@@ -294,7 +301,6 @@ export type AssetModelWhereUniqueInput = Prisma.AtLeast<
       Prisma.StockThresholdNullableScalarRelationFilter,
       Prisma.StockThresholdWhereInput
     > | null;
-    assets?: Prisma.AssetListRelationFilter;
   },
   'id' | 'typeId_name_brand'
 >;
@@ -338,9 +344,11 @@ export type AssetModelCreateInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   type: Prisma.AssetTypeCreateNestedOneWithoutModelsInput;
+  assets?: Prisma.AssetCreateNestedManyWithoutModelInput;
+  installationMaterials?: Prisma.InstallationMaterialCreateNestedManyWithoutModelInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialCreateNestedManyWithoutModelInput;
   purchaseMasterData?: Prisma.PurchaseMasterDataCreateNestedOneWithoutModelInput;
   stockThreshold?: Prisma.StockThresholdCreateNestedOneWithoutModelInput;
-  assets?: Prisma.AssetCreateNestedManyWithoutModelInput;
 };
 
 export type AssetModelUncheckedCreateInput = {
@@ -351,9 +359,11 @@ export type AssetModelUncheckedCreateInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  assets?: Prisma.AssetUncheckedCreateNestedManyWithoutModelInput;
+  installationMaterials?: Prisma.InstallationMaterialUncheckedCreateNestedManyWithoutModelInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUncheckedCreateNestedManyWithoutModelInput;
   purchaseMasterData?: Prisma.PurchaseMasterDataUncheckedCreateNestedOneWithoutModelInput;
   stockThreshold?: Prisma.StockThresholdUncheckedCreateNestedOneWithoutModelInput;
-  assets?: Prisma.AssetUncheckedCreateNestedManyWithoutModelInput;
 };
 
 export type AssetModelUpdateInput = {
@@ -363,9 +373,11 @@ export type AssetModelUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   type?: Prisma.AssetTypeUpdateOneRequiredWithoutModelsNestedInput;
+  assets?: Prisma.AssetUpdateManyWithoutModelNestedInput;
+  installationMaterials?: Prisma.InstallationMaterialUpdateManyWithoutModelNestedInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUpdateManyWithoutModelNestedInput;
   purchaseMasterData?: Prisma.PurchaseMasterDataUpdateOneWithoutModelNestedInput;
   stockThreshold?: Prisma.StockThresholdUpdateOneWithoutModelNestedInput;
-  assets?: Prisma.AssetUpdateManyWithoutModelNestedInput;
 };
 
 export type AssetModelUncheckedUpdateInput = {
@@ -376,9 +388,11 @@ export type AssetModelUncheckedUpdateInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  assets?: Prisma.AssetUncheckedUpdateManyWithoutModelNestedInput;
+  installationMaterials?: Prisma.InstallationMaterialUncheckedUpdateManyWithoutModelNestedInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUncheckedUpdateManyWithoutModelNestedInput;
   purchaseMasterData?: Prisma.PurchaseMasterDataUncheckedUpdateOneWithoutModelNestedInput;
   stockThreshold?: Prisma.StockThresholdUncheckedUpdateOneWithoutModelNestedInput;
-  assets?: Prisma.AssetUncheckedUpdateManyWithoutModelNestedInput;
 };
 
 export type AssetModelCreateManyInput = {
@@ -609,6 +623,62 @@ export type AssetModelUpdateOneWithoutAssetsNestedInput = {
   >;
 };
 
+export type AssetModelCreateNestedOneWithoutInstallationMaterialsInput = {
+  create?: Prisma.XOR<
+    Prisma.AssetModelCreateWithoutInstallationMaterialsInput,
+    Prisma.AssetModelUncheckedCreateWithoutInstallationMaterialsInput
+  >;
+  connectOrCreate?: Prisma.AssetModelCreateOrConnectWithoutInstallationMaterialsInput;
+  connect?: Prisma.AssetModelWhereUniqueInput;
+};
+
+export type AssetModelUpdateOneWithoutInstallationMaterialsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.AssetModelCreateWithoutInstallationMaterialsInput,
+    Prisma.AssetModelUncheckedCreateWithoutInstallationMaterialsInput
+  >;
+  connectOrCreate?: Prisma.AssetModelCreateOrConnectWithoutInstallationMaterialsInput;
+  upsert?: Prisma.AssetModelUpsertWithoutInstallationMaterialsInput;
+  disconnect?: Prisma.AssetModelWhereInput | boolean;
+  delete?: Prisma.AssetModelWhereInput | boolean;
+  connect?: Prisma.AssetModelWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.AssetModelUpdateToOneWithWhereWithoutInstallationMaterialsInput,
+      Prisma.AssetModelUpdateWithoutInstallationMaterialsInput
+    >,
+    Prisma.AssetModelUncheckedUpdateWithoutInstallationMaterialsInput
+  >;
+};
+
+export type AssetModelCreateNestedOneWithoutMaintenanceMaterialsInput = {
+  create?: Prisma.XOR<
+    Prisma.AssetModelCreateWithoutMaintenanceMaterialsInput,
+    Prisma.AssetModelUncheckedCreateWithoutMaintenanceMaterialsInput
+  >;
+  connectOrCreate?: Prisma.AssetModelCreateOrConnectWithoutMaintenanceMaterialsInput;
+  connect?: Prisma.AssetModelWhereUniqueInput;
+};
+
+export type AssetModelUpdateOneWithoutMaintenanceMaterialsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.AssetModelCreateWithoutMaintenanceMaterialsInput,
+    Prisma.AssetModelUncheckedCreateWithoutMaintenanceMaterialsInput
+  >;
+  connectOrCreate?: Prisma.AssetModelCreateOrConnectWithoutMaintenanceMaterialsInput;
+  upsert?: Prisma.AssetModelUpsertWithoutMaintenanceMaterialsInput;
+  disconnect?: Prisma.AssetModelWhereInput | boolean;
+  delete?: Prisma.AssetModelWhereInput | boolean;
+  connect?: Prisma.AssetModelWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.AssetModelUpdateToOneWithWhereWithoutMaintenanceMaterialsInput,
+      Prisma.AssetModelUpdateWithoutMaintenanceMaterialsInput
+    >,
+    Prisma.AssetModelUncheckedUpdateWithoutMaintenanceMaterialsInput
+  >;
+};
+
 export type AssetModelCreateNestedOneWithoutPurchaseMasterDataInput = {
   create?: Prisma.XOR<
     Prisma.AssetModelCreateWithoutPurchaseMasterDataInput,
@@ -667,9 +737,11 @@ export type AssetModelCreateWithoutTypeInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  assets?: Prisma.AssetCreateNestedManyWithoutModelInput;
+  installationMaterials?: Prisma.InstallationMaterialCreateNestedManyWithoutModelInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialCreateNestedManyWithoutModelInput;
   purchaseMasterData?: Prisma.PurchaseMasterDataCreateNestedOneWithoutModelInput;
   stockThreshold?: Prisma.StockThresholdCreateNestedOneWithoutModelInput;
-  assets?: Prisma.AssetCreateNestedManyWithoutModelInput;
 };
 
 export type AssetModelUncheckedCreateWithoutTypeInput = {
@@ -679,9 +751,11 @@ export type AssetModelUncheckedCreateWithoutTypeInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  assets?: Prisma.AssetUncheckedCreateNestedManyWithoutModelInput;
+  installationMaterials?: Prisma.InstallationMaterialUncheckedCreateNestedManyWithoutModelInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUncheckedCreateNestedManyWithoutModelInput;
   purchaseMasterData?: Prisma.PurchaseMasterDataUncheckedCreateNestedOneWithoutModelInput;
   stockThreshold?: Prisma.StockThresholdUncheckedCreateNestedOneWithoutModelInput;
-  assets?: Prisma.AssetUncheckedCreateNestedManyWithoutModelInput;
 };
 
 export type AssetModelCreateOrConnectWithoutTypeInput = {
@@ -747,6 +821,8 @@ export type AssetModelCreateWithoutAssetsInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   type: Prisma.AssetTypeCreateNestedOneWithoutModelsInput;
+  installationMaterials?: Prisma.InstallationMaterialCreateNestedManyWithoutModelInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialCreateNestedManyWithoutModelInput;
   purchaseMasterData?: Prisma.PurchaseMasterDataCreateNestedOneWithoutModelInput;
   stockThreshold?: Prisma.StockThresholdCreateNestedOneWithoutModelInput;
 };
@@ -759,6 +835,8 @@ export type AssetModelUncheckedCreateWithoutAssetsInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  installationMaterials?: Prisma.InstallationMaterialUncheckedCreateNestedManyWithoutModelInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUncheckedCreateNestedManyWithoutModelInput;
   purchaseMasterData?: Prisma.PurchaseMasterDataUncheckedCreateNestedOneWithoutModelInput;
   stockThreshold?: Prisma.StockThresholdUncheckedCreateNestedOneWithoutModelInput;
 };
@@ -798,6 +876,8 @@ export type AssetModelUpdateWithoutAssetsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   type?: Prisma.AssetTypeUpdateOneRequiredWithoutModelsNestedInput;
+  installationMaterials?: Prisma.InstallationMaterialUpdateManyWithoutModelNestedInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUpdateManyWithoutModelNestedInput;
   purchaseMasterData?: Prisma.PurchaseMasterDataUpdateOneWithoutModelNestedInput;
   stockThreshold?: Prisma.StockThresholdUpdateOneWithoutModelNestedInput;
 };
@@ -810,6 +890,172 @@ export type AssetModelUncheckedUpdateWithoutAssetsInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  installationMaterials?: Prisma.InstallationMaterialUncheckedUpdateManyWithoutModelNestedInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUncheckedUpdateManyWithoutModelNestedInput;
+  purchaseMasterData?: Prisma.PurchaseMasterDataUncheckedUpdateOneWithoutModelNestedInput;
+  stockThreshold?: Prisma.StockThresholdUncheckedUpdateOneWithoutModelNestedInput;
+};
+
+export type AssetModelCreateWithoutInstallationMaterialsInput = {
+  name: string;
+  brand: string;
+  isDeleted?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  type: Prisma.AssetTypeCreateNestedOneWithoutModelsInput;
+  assets?: Prisma.AssetCreateNestedManyWithoutModelInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialCreateNestedManyWithoutModelInput;
+  purchaseMasterData?: Prisma.PurchaseMasterDataCreateNestedOneWithoutModelInput;
+  stockThreshold?: Prisma.StockThresholdCreateNestedOneWithoutModelInput;
+};
+
+export type AssetModelUncheckedCreateWithoutInstallationMaterialsInput = {
+  id?: number;
+  typeId: number;
+  name: string;
+  brand: string;
+  isDeleted?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  assets?: Prisma.AssetUncheckedCreateNestedManyWithoutModelInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUncheckedCreateNestedManyWithoutModelInput;
+  purchaseMasterData?: Prisma.PurchaseMasterDataUncheckedCreateNestedOneWithoutModelInput;
+  stockThreshold?: Prisma.StockThresholdUncheckedCreateNestedOneWithoutModelInput;
+};
+
+export type AssetModelCreateOrConnectWithoutInstallationMaterialsInput = {
+  where: Prisma.AssetModelWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.AssetModelCreateWithoutInstallationMaterialsInput,
+    Prisma.AssetModelUncheckedCreateWithoutInstallationMaterialsInput
+  >;
+};
+
+export type AssetModelUpsertWithoutInstallationMaterialsInput = {
+  update: Prisma.XOR<
+    Prisma.AssetModelUpdateWithoutInstallationMaterialsInput,
+    Prisma.AssetModelUncheckedUpdateWithoutInstallationMaterialsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.AssetModelCreateWithoutInstallationMaterialsInput,
+    Prisma.AssetModelUncheckedCreateWithoutInstallationMaterialsInput
+  >;
+  where?: Prisma.AssetModelWhereInput;
+};
+
+export type AssetModelUpdateToOneWithWhereWithoutInstallationMaterialsInput = {
+  where?: Prisma.AssetModelWhereInput;
+  data: Prisma.XOR<
+    Prisma.AssetModelUpdateWithoutInstallationMaterialsInput,
+    Prisma.AssetModelUncheckedUpdateWithoutInstallationMaterialsInput
+  >;
+};
+
+export type AssetModelUpdateWithoutInstallationMaterialsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  type?: Prisma.AssetTypeUpdateOneRequiredWithoutModelsNestedInput;
+  assets?: Prisma.AssetUpdateManyWithoutModelNestedInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUpdateManyWithoutModelNestedInput;
+  purchaseMasterData?: Prisma.PurchaseMasterDataUpdateOneWithoutModelNestedInput;
+  stockThreshold?: Prisma.StockThresholdUpdateOneWithoutModelNestedInput;
+};
+
+export type AssetModelUncheckedUpdateWithoutInstallationMaterialsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  typeId?: Prisma.IntFieldUpdateOperationsInput | number;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  assets?: Prisma.AssetUncheckedUpdateManyWithoutModelNestedInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUncheckedUpdateManyWithoutModelNestedInput;
+  purchaseMasterData?: Prisma.PurchaseMasterDataUncheckedUpdateOneWithoutModelNestedInput;
+  stockThreshold?: Prisma.StockThresholdUncheckedUpdateOneWithoutModelNestedInput;
+};
+
+export type AssetModelCreateWithoutMaintenanceMaterialsInput = {
+  name: string;
+  brand: string;
+  isDeleted?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  type: Prisma.AssetTypeCreateNestedOneWithoutModelsInput;
+  assets?: Prisma.AssetCreateNestedManyWithoutModelInput;
+  installationMaterials?: Prisma.InstallationMaterialCreateNestedManyWithoutModelInput;
+  purchaseMasterData?: Prisma.PurchaseMasterDataCreateNestedOneWithoutModelInput;
+  stockThreshold?: Prisma.StockThresholdCreateNestedOneWithoutModelInput;
+};
+
+export type AssetModelUncheckedCreateWithoutMaintenanceMaterialsInput = {
+  id?: number;
+  typeId: number;
+  name: string;
+  brand: string;
+  isDeleted?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  assets?: Prisma.AssetUncheckedCreateNestedManyWithoutModelInput;
+  installationMaterials?: Prisma.InstallationMaterialUncheckedCreateNestedManyWithoutModelInput;
+  purchaseMasterData?: Prisma.PurchaseMasterDataUncheckedCreateNestedOneWithoutModelInput;
+  stockThreshold?: Prisma.StockThresholdUncheckedCreateNestedOneWithoutModelInput;
+};
+
+export type AssetModelCreateOrConnectWithoutMaintenanceMaterialsInput = {
+  where: Prisma.AssetModelWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.AssetModelCreateWithoutMaintenanceMaterialsInput,
+    Prisma.AssetModelUncheckedCreateWithoutMaintenanceMaterialsInput
+  >;
+};
+
+export type AssetModelUpsertWithoutMaintenanceMaterialsInput = {
+  update: Prisma.XOR<
+    Prisma.AssetModelUpdateWithoutMaintenanceMaterialsInput,
+    Prisma.AssetModelUncheckedUpdateWithoutMaintenanceMaterialsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.AssetModelCreateWithoutMaintenanceMaterialsInput,
+    Prisma.AssetModelUncheckedCreateWithoutMaintenanceMaterialsInput
+  >;
+  where?: Prisma.AssetModelWhereInput;
+};
+
+export type AssetModelUpdateToOneWithWhereWithoutMaintenanceMaterialsInput = {
+  where?: Prisma.AssetModelWhereInput;
+  data: Prisma.XOR<
+    Prisma.AssetModelUpdateWithoutMaintenanceMaterialsInput,
+    Prisma.AssetModelUncheckedUpdateWithoutMaintenanceMaterialsInput
+  >;
+};
+
+export type AssetModelUpdateWithoutMaintenanceMaterialsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  type?: Prisma.AssetTypeUpdateOneRequiredWithoutModelsNestedInput;
+  assets?: Prisma.AssetUpdateManyWithoutModelNestedInput;
+  installationMaterials?: Prisma.InstallationMaterialUpdateManyWithoutModelNestedInput;
+  purchaseMasterData?: Prisma.PurchaseMasterDataUpdateOneWithoutModelNestedInput;
+  stockThreshold?: Prisma.StockThresholdUpdateOneWithoutModelNestedInput;
+};
+
+export type AssetModelUncheckedUpdateWithoutMaintenanceMaterialsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  typeId?: Prisma.IntFieldUpdateOperationsInput | number;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  assets?: Prisma.AssetUncheckedUpdateManyWithoutModelNestedInput;
+  installationMaterials?: Prisma.InstallationMaterialUncheckedUpdateManyWithoutModelNestedInput;
   purchaseMasterData?: Prisma.PurchaseMasterDataUncheckedUpdateOneWithoutModelNestedInput;
   stockThreshold?: Prisma.StockThresholdUncheckedUpdateOneWithoutModelNestedInput;
 };
@@ -821,8 +1067,10 @@ export type AssetModelCreateWithoutPurchaseMasterDataInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   type: Prisma.AssetTypeCreateNestedOneWithoutModelsInput;
-  stockThreshold?: Prisma.StockThresholdCreateNestedOneWithoutModelInput;
   assets?: Prisma.AssetCreateNestedManyWithoutModelInput;
+  installationMaterials?: Prisma.InstallationMaterialCreateNestedManyWithoutModelInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialCreateNestedManyWithoutModelInput;
+  stockThreshold?: Prisma.StockThresholdCreateNestedOneWithoutModelInput;
 };
 
 export type AssetModelUncheckedCreateWithoutPurchaseMasterDataInput = {
@@ -833,8 +1081,10 @@ export type AssetModelUncheckedCreateWithoutPurchaseMasterDataInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  stockThreshold?: Prisma.StockThresholdUncheckedCreateNestedOneWithoutModelInput;
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutModelInput;
+  installationMaterials?: Prisma.InstallationMaterialUncheckedCreateNestedManyWithoutModelInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUncheckedCreateNestedManyWithoutModelInput;
+  stockThreshold?: Prisma.StockThresholdUncheckedCreateNestedOneWithoutModelInput;
 };
 
 export type AssetModelCreateOrConnectWithoutPurchaseMasterDataInput = {
@@ -872,8 +1122,10 @@ export type AssetModelUpdateWithoutPurchaseMasterDataInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   type?: Prisma.AssetTypeUpdateOneRequiredWithoutModelsNestedInput;
-  stockThreshold?: Prisma.StockThresholdUpdateOneWithoutModelNestedInput;
   assets?: Prisma.AssetUpdateManyWithoutModelNestedInput;
+  installationMaterials?: Prisma.InstallationMaterialUpdateManyWithoutModelNestedInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUpdateManyWithoutModelNestedInput;
+  stockThreshold?: Prisma.StockThresholdUpdateOneWithoutModelNestedInput;
 };
 
 export type AssetModelUncheckedUpdateWithoutPurchaseMasterDataInput = {
@@ -884,8 +1136,10 @@ export type AssetModelUncheckedUpdateWithoutPurchaseMasterDataInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  stockThreshold?: Prisma.StockThresholdUncheckedUpdateOneWithoutModelNestedInput;
   assets?: Prisma.AssetUncheckedUpdateManyWithoutModelNestedInput;
+  installationMaterials?: Prisma.InstallationMaterialUncheckedUpdateManyWithoutModelNestedInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUncheckedUpdateManyWithoutModelNestedInput;
+  stockThreshold?: Prisma.StockThresholdUncheckedUpdateOneWithoutModelNestedInput;
 };
 
 export type AssetModelCreateWithoutStockThresholdInput = {
@@ -895,8 +1149,10 @@ export type AssetModelCreateWithoutStockThresholdInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   type: Prisma.AssetTypeCreateNestedOneWithoutModelsInput;
-  purchaseMasterData?: Prisma.PurchaseMasterDataCreateNestedOneWithoutModelInput;
   assets?: Prisma.AssetCreateNestedManyWithoutModelInput;
+  installationMaterials?: Prisma.InstallationMaterialCreateNestedManyWithoutModelInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialCreateNestedManyWithoutModelInput;
+  purchaseMasterData?: Prisma.PurchaseMasterDataCreateNestedOneWithoutModelInput;
 };
 
 export type AssetModelUncheckedCreateWithoutStockThresholdInput = {
@@ -907,8 +1163,10 @@ export type AssetModelUncheckedCreateWithoutStockThresholdInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  purchaseMasterData?: Prisma.PurchaseMasterDataUncheckedCreateNestedOneWithoutModelInput;
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutModelInput;
+  installationMaterials?: Prisma.InstallationMaterialUncheckedCreateNestedManyWithoutModelInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUncheckedCreateNestedManyWithoutModelInput;
+  purchaseMasterData?: Prisma.PurchaseMasterDataUncheckedCreateNestedOneWithoutModelInput;
 };
 
 export type AssetModelCreateOrConnectWithoutStockThresholdInput = {
@@ -946,8 +1204,10 @@ export type AssetModelUpdateWithoutStockThresholdInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   type?: Prisma.AssetTypeUpdateOneRequiredWithoutModelsNestedInput;
-  purchaseMasterData?: Prisma.PurchaseMasterDataUpdateOneWithoutModelNestedInput;
   assets?: Prisma.AssetUpdateManyWithoutModelNestedInput;
+  installationMaterials?: Prisma.InstallationMaterialUpdateManyWithoutModelNestedInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUpdateManyWithoutModelNestedInput;
+  purchaseMasterData?: Prisma.PurchaseMasterDataUpdateOneWithoutModelNestedInput;
 };
 
 export type AssetModelUncheckedUpdateWithoutStockThresholdInput = {
@@ -958,8 +1218,10 @@ export type AssetModelUncheckedUpdateWithoutStockThresholdInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  purchaseMasterData?: Prisma.PurchaseMasterDataUncheckedUpdateOneWithoutModelNestedInput;
   assets?: Prisma.AssetUncheckedUpdateManyWithoutModelNestedInput;
+  installationMaterials?: Prisma.InstallationMaterialUncheckedUpdateManyWithoutModelNestedInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUncheckedUpdateManyWithoutModelNestedInput;
+  purchaseMasterData?: Prisma.PurchaseMasterDataUncheckedUpdateOneWithoutModelNestedInput;
 };
 
 export type AssetModelCreateManyTypeInput = {
@@ -977,9 +1239,11 @@ export type AssetModelUpdateWithoutTypeInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  assets?: Prisma.AssetUpdateManyWithoutModelNestedInput;
+  installationMaterials?: Prisma.InstallationMaterialUpdateManyWithoutModelNestedInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUpdateManyWithoutModelNestedInput;
   purchaseMasterData?: Prisma.PurchaseMasterDataUpdateOneWithoutModelNestedInput;
   stockThreshold?: Prisma.StockThresholdUpdateOneWithoutModelNestedInput;
-  assets?: Prisma.AssetUpdateManyWithoutModelNestedInput;
 };
 
 export type AssetModelUncheckedUpdateWithoutTypeInput = {
@@ -989,9 +1253,11 @@ export type AssetModelUncheckedUpdateWithoutTypeInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  assets?: Prisma.AssetUncheckedUpdateManyWithoutModelNestedInput;
+  installationMaterials?: Prisma.InstallationMaterialUncheckedUpdateManyWithoutModelNestedInput;
+  maintenanceMaterials?: Prisma.MaintenanceMaterialUncheckedUpdateManyWithoutModelNestedInput;
   purchaseMasterData?: Prisma.PurchaseMasterDataUncheckedUpdateOneWithoutModelNestedInput;
   stockThreshold?: Prisma.StockThresholdUncheckedUpdateOneWithoutModelNestedInput;
-  assets?: Prisma.AssetUncheckedUpdateManyWithoutModelNestedInput;
 };
 
 export type AssetModelUncheckedUpdateManyWithoutTypeInput = {
@@ -1009,6 +1275,8 @@ export type AssetModelUncheckedUpdateManyWithoutTypeInput = {
 
 export type AssetModelCountOutputType = {
   assets: number;
+  installationMaterials: number;
+  maintenanceMaterials: number;
 };
 
 export type AssetModelCountOutputTypeSelect<
@@ -1016,6 +1284,12 @@ export type AssetModelCountOutputTypeSelect<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   assets?: boolean | AssetModelCountOutputTypeCountAssetsArgs;
+  installationMaterials?:
+    | boolean
+    | AssetModelCountOutputTypeCountInstallationMaterialsArgs;
+  maintenanceMaterials?:
+    | boolean
+    | AssetModelCountOutputTypeCountMaintenanceMaterialsArgs;
 };
 
 /**
@@ -1041,6 +1315,26 @@ export type AssetModelCountOutputTypeCountAssetsArgs<
   where?: Prisma.AssetWhereInput;
 };
 
+/**
+ * AssetModelCountOutputType without action
+ */
+export type AssetModelCountOutputTypeCountInstallationMaterialsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.InstallationMaterialWhereInput;
+};
+
+/**
+ * AssetModelCountOutputType without action
+ */
+export type AssetModelCountOutputTypeCountMaintenanceMaterialsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.MaintenanceMaterialWhereInput;
+};
+
 export type AssetModelSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -1054,11 +1348,17 @@ export type AssetModelSelect<
     createdAt?: boolean;
     updatedAt?: boolean;
     type?: boolean | Prisma.AssetTypeDefaultArgs<ExtArgs>;
+    assets?: boolean | Prisma.AssetModel$assetsArgs<ExtArgs>;
+    installationMaterials?:
+      | boolean
+      | Prisma.AssetModel$installationMaterialsArgs<ExtArgs>;
+    maintenanceMaterials?:
+      | boolean
+      | Prisma.AssetModel$maintenanceMaterialsArgs<ExtArgs>;
     purchaseMasterData?:
       | boolean
       | Prisma.AssetModel$purchaseMasterDataArgs<ExtArgs>;
     stockThreshold?: boolean | Prisma.AssetModel$stockThresholdArgs<ExtArgs>;
-    assets?: boolean | Prisma.AssetModel$assetsArgs<ExtArgs>;
     _count?: boolean | Prisma.AssetModelCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['assetModel']
@@ -1120,11 +1420,17 @@ export type AssetModelInclude<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   type?: boolean | Prisma.AssetTypeDefaultArgs<ExtArgs>;
+  assets?: boolean | Prisma.AssetModel$assetsArgs<ExtArgs>;
+  installationMaterials?:
+    | boolean
+    | Prisma.AssetModel$installationMaterialsArgs<ExtArgs>;
+  maintenanceMaterials?:
+    | boolean
+    | Prisma.AssetModel$maintenanceMaterialsArgs<ExtArgs>;
   purchaseMasterData?:
     | boolean
     | Prisma.AssetModel$purchaseMasterDataArgs<ExtArgs>;
   stockThreshold?: boolean | Prisma.AssetModel$stockThresholdArgs<ExtArgs>;
-  assets?: boolean | Prisma.AssetModel$assetsArgs<ExtArgs>;
   _count?: boolean | Prisma.AssetModelCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type AssetModelIncludeCreateManyAndReturn<
@@ -1147,9 +1453,11 @@ export type $AssetModelPayload<
   name: 'AssetModel';
   objects: {
     type: Prisma.$AssetTypePayload<ExtArgs>;
+    assets: Prisma.$AssetPayload<ExtArgs>[];
+    installationMaterials: Prisma.$InstallationMaterialPayload<ExtArgs>[];
+    maintenanceMaterials: Prisma.$MaintenanceMaterialPayload<ExtArgs>[];
     purchaseMasterData: Prisma.$PurchaseMasterDataPayload<ExtArgs> | null;
     stockThreshold: Prisma.$StockThresholdPayload<ExtArgs> | null;
-    assets: Prisma.$AssetPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1724,6 +2032,49 @@ export interface Prisma__AssetModelClient<
     ExtArgs,
     GlobalOmitOptions
   >;
+  assets<T extends Prisma.AssetModel$assetsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.AssetModel$assetsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$AssetPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  installationMaterials<
+    T extends Prisma.AssetModel$installationMaterialsArgs<ExtArgs> = {},
+  >(
+    args?: Prisma.Subset<
+      T,
+      Prisma.AssetModel$installationMaterialsArgs<ExtArgs>
+    >,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$InstallationMaterialPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  maintenanceMaterials<
+    T extends Prisma.AssetModel$maintenanceMaterialsArgs<ExtArgs> = {},
+  >(
+    args?: Prisma.Subset<
+      T,
+      Prisma.AssetModel$maintenanceMaterialsArgs<ExtArgs>
+    >,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$MaintenanceMaterialPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   purchaseMasterData<
     T extends Prisma.AssetModel$purchaseMasterDataArgs<ExtArgs> = {},
   >(
@@ -1751,17 +2102,6 @@ export interface Prisma__AssetModelClient<
     null,
     ExtArgs,
     GlobalOmitOptions
-  >;
-  assets<T extends Prisma.AssetModel$assetsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.AssetModel$assetsArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$AssetPayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
   >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2284,6 +2624,97 @@ export type AssetModelDeleteManyArgs<
 };
 
 /**
+ * AssetModel.assets
+ */
+export type AssetModel$assetsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Asset
+   */
+  select?: Prisma.AssetSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Asset
+   */
+  omit?: Prisma.AssetOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetInclude<ExtArgs> | null;
+  where?: Prisma.AssetWhereInput;
+  orderBy?:
+    | Prisma.AssetOrderByWithRelationInput
+    | Prisma.AssetOrderByWithRelationInput[];
+  cursor?: Prisma.AssetWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.AssetScalarFieldEnum | Prisma.AssetScalarFieldEnum[];
+};
+
+/**
+ * AssetModel.installationMaterials
+ */
+export type AssetModel$installationMaterialsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the InstallationMaterial
+   */
+  select?: Prisma.InstallationMaterialSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the InstallationMaterial
+   */
+  omit?: Prisma.InstallationMaterialOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstallationMaterialInclude<ExtArgs> | null;
+  where?: Prisma.InstallationMaterialWhereInput;
+  orderBy?:
+    | Prisma.InstallationMaterialOrderByWithRelationInput
+    | Prisma.InstallationMaterialOrderByWithRelationInput[];
+  cursor?: Prisma.InstallationMaterialWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.InstallationMaterialScalarFieldEnum
+    | Prisma.InstallationMaterialScalarFieldEnum[];
+};
+
+/**
+ * AssetModel.maintenanceMaterials
+ */
+export type AssetModel$maintenanceMaterialsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the MaintenanceMaterial
+   */
+  select?: Prisma.MaintenanceMaterialSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the MaintenanceMaterial
+   */
+  omit?: Prisma.MaintenanceMaterialOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MaintenanceMaterialInclude<ExtArgs> | null;
+  where?: Prisma.MaintenanceMaterialWhereInput;
+  orderBy?:
+    | Prisma.MaintenanceMaterialOrderByWithRelationInput
+    | Prisma.MaintenanceMaterialOrderByWithRelationInput[];
+  cursor?: Prisma.MaintenanceMaterialWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.MaintenanceMaterialScalarFieldEnum
+    | Prisma.MaintenanceMaterialScalarFieldEnum[];
+};
+
+/**
  * AssetModel.purchaseMasterData
  */
 export type AssetModel$purchaseMasterDataArgs<
@@ -2325,35 +2756,6 @@ export type AssetModel$stockThresholdArgs<
    */
   include?: Prisma.StockThresholdInclude<ExtArgs> | null;
   where?: Prisma.StockThresholdWhereInput;
-};
-
-/**
- * AssetModel.assets
- */
-export type AssetModel$assetsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  /**
-   * Select specific fields to fetch from the Asset
-   */
-  select?: Prisma.AssetSelect<ExtArgs> | null;
-  /**
-   * Omit specific fields from the Asset
-   */
-  omit?: Prisma.AssetOmit<ExtArgs> | null;
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AssetInclude<ExtArgs> | null;
-  where?: Prisma.AssetWhereInput;
-  orderBy?:
-    | Prisma.AssetOrderByWithRelationInput
-    | Prisma.AssetOrderByWithRelationInput[];
-  cursor?: Prisma.AssetWhereUniqueInput;
-  take?: number;
-  skip?: number;
-  distinct?: Prisma.AssetScalarFieldEnum | Prisma.AssetScalarFieldEnum[];
 };
 
 /**

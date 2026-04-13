@@ -45,3 +45,15 @@ export function useUpdateDismantleStatus() {
     onError: () => toast.error('Gagal memperbarui status dismantle'),
   });
 }
+
+export function useCompleteDismantle() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => dismantleApi.complete(id),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: QUERY_KEY });
+      toast.success('Dismantle berhasil diselesaikan');
+    },
+    onError: () => toast.error('Gagal menyelesaikan dismantle'),
+  });
+}

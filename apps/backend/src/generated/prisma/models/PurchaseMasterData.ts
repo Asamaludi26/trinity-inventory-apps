@@ -340,18 +340,18 @@ export type PurchaseMasterDataWhereInput = {
   isDeleted?: Prisma.BoolFilter<'PurchaseMasterData'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'PurchaseMasterData'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'PurchaseMasterData'> | Date | string;
-  model?: Prisma.XOR<
-    Prisma.AssetModelScalarRelationFilter,
-    Prisma.AssetModelWhereInput
-  >;
-  createdBy?: Prisma.XOR<
-    Prisma.UserScalarRelationFilter,
-    Prisma.UserWhereInput
-  >;
   depreciation?: Prisma.XOR<
     Prisma.DepreciationNullableScalarRelationFilter,
     Prisma.DepreciationWhereInput
   > | null;
+  createdBy?: Prisma.XOR<
+    Prisma.UserScalarRelationFilter,
+    Prisma.UserWhereInput
+  >;
+  model?: Prisma.XOR<
+    Prisma.AssetModelScalarRelationFilter,
+    Prisma.AssetModelWhereInput
+  >;
 };
 
 export type PurchaseMasterDataOrderByWithRelationInput = {
@@ -369,9 +369,9 @@ export type PurchaseMasterDataOrderByWithRelationInput = {
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
-  model?: Prisma.AssetModelOrderByWithRelationInput;
-  createdBy?: Prisma.UserOrderByWithRelationInput;
   depreciation?: Prisma.DepreciationOrderByWithRelationInput;
+  createdBy?: Prisma.UserOrderByWithRelationInput;
+  model?: Prisma.AssetModelOrderByWithRelationInput;
 };
 
 export type PurchaseMasterDataWhereUniqueInput = Prisma.AtLeast<
@@ -413,18 +413,18 @@ export type PurchaseMasterDataWhereUniqueInput = Prisma.AtLeast<
     isDeleted?: Prisma.BoolFilter<'PurchaseMasterData'> | boolean;
     createdAt?: Prisma.DateTimeFilter<'PurchaseMasterData'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'PurchaseMasterData'> | Date | string;
-    model?: Prisma.XOR<
-      Prisma.AssetModelScalarRelationFilter,
-      Prisma.AssetModelWhereInput
-    >;
-    createdBy?: Prisma.XOR<
-      Prisma.UserScalarRelationFilter,
-      Prisma.UserWhereInput
-    >;
     depreciation?: Prisma.XOR<
       Prisma.DepreciationNullableScalarRelationFilter,
       Prisma.DepreciationWhereInput
     > | null;
+    createdBy?: Prisma.XOR<
+      Prisma.UserScalarRelationFilter,
+      Prisma.UserWhereInput
+    >;
+    model?: Prisma.XOR<
+      Prisma.AssetModelScalarRelationFilter,
+      Prisma.AssetModelWhereInput
+    >;
   },
   'id' | 'modelId'
 >;
@@ -516,9 +516,9 @@ export type PurchaseMasterDataCreateInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  model: Prisma.AssetModelCreateNestedOneWithoutPurchaseMasterDataInput;
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedPurchasesInput;
   depreciation?: Prisma.DepreciationCreateNestedOneWithoutPurchaseInput;
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedPurchasesInput;
+  model: Prisma.AssetModelCreateNestedOneWithoutPurchaseMasterDataInput;
 };
 
 export type PurchaseMasterDataUncheckedCreateInput = {
@@ -565,9 +565,9 @@ export type PurchaseMasterDataUpdateInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  model?: Prisma.AssetModelUpdateOneRequiredWithoutPurchaseMasterDataNestedInput;
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedPurchasesNestedInput;
   depreciation?: Prisma.DepreciationUpdateOneWithoutPurchaseNestedInput;
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedPurchasesNestedInput;
+  model?: Prisma.AssetModelUpdateOneRequiredWithoutPurchaseMasterDataNestedInput;
 };
 
 export type PurchaseMasterDataUncheckedUpdateInput = {
@@ -979,8 +979,8 @@ export type PurchaseMasterDataCreateWithoutModelInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedPurchasesInput;
   depreciation?: Prisma.DepreciationCreateNestedOneWithoutPurchaseInput;
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedPurchasesInput;
 };
 
 export type PurchaseMasterDataUncheckedCreateWithoutModelInput = {
@@ -1054,8 +1054,8 @@ export type PurchaseMasterDataUpdateWithoutModelInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedPurchasesNestedInput;
   depreciation?: Prisma.DepreciationUpdateOneWithoutPurchaseNestedInput;
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedPurchasesNestedInput;
 };
 
 export type PurchaseMasterDataUncheckedUpdateWithoutModelInput = {
@@ -1101,8 +1101,8 @@ export type PurchaseMasterDataCreateWithoutCreatedByInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  model: Prisma.AssetModelCreateNestedOneWithoutPurchaseMasterDataInput;
   depreciation?: Prisma.DepreciationCreateNestedOneWithoutPurchaseInput;
+  model: Prisma.AssetModelCreateNestedOneWithoutPurchaseMasterDataInput;
 };
 
 export type PurchaseMasterDataUncheckedCreateWithoutCreatedByInput = {
@@ -1218,8 +1218,8 @@ export type PurchaseMasterDataCreateWithoutDepreciationInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  model: Prisma.AssetModelCreateNestedOneWithoutPurchaseMasterDataInput;
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedPurchasesInput;
+  model: Prisma.AssetModelCreateNestedOneWithoutPurchaseMasterDataInput;
 };
 
 export type PurchaseMasterDataUncheckedCreateWithoutDepreciationInput = {
@@ -1293,8 +1293,8 @@ export type PurchaseMasterDataUpdateWithoutDepreciationInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  model?: Prisma.AssetModelUpdateOneRequiredWithoutPurchaseMasterDataNestedInput;
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedPurchasesNestedInput;
+  model?: Prisma.AssetModelUpdateOneRequiredWithoutPurchaseMasterDataNestedInput;
 };
 
 export type PurchaseMasterDataUncheckedUpdateWithoutDepreciationInput = {
@@ -1369,8 +1369,8 @@ export type PurchaseMasterDataUpdateWithoutCreatedByInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  model?: Prisma.AssetModelUpdateOneRequiredWithoutPurchaseMasterDataNestedInput;
   depreciation?: Prisma.DepreciationUpdateOneWithoutPurchaseNestedInput;
+  model?: Prisma.AssetModelUpdateOneRequiredWithoutPurchaseMasterDataNestedInput;
 };
 
 export type PurchaseMasterDataUncheckedUpdateWithoutCreatedByInput = {
@@ -1451,11 +1451,11 @@ export type PurchaseMasterDataSelect<
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
-    createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     depreciation?:
       | boolean
       | Prisma.PurchaseMasterData$depreciationArgs<ExtArgs>;
+    createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['purchaseMasterData']
 >;
@@ -1479,8 +1479,8 @@ export type PurchaseMasterDataSelectCreateManyAndReturn<
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
     createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['purchaseMasterData']
 >;
@@ -1504,8 +1504,8 @@ export type PurchaseMasterDataSelectUpdateManyAndReturn<
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
     createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['purchaseMasterData']
 >;
@@ -1551,23 +1551,23 @@ export type PurchaseMasterDataInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   depreciation?: boolean | Prisma.PurchaseMasterData$depreciationArgs<ExtArgs>;
+  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+  model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
 };
 export type PurchaseMasterDataIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+  model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
 };
 export type PurchaseMasterDataIncludeUpdateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+  model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
 };
 
 export type $PurchaseMasterDataPayload<
@@ -1576,9 +1576,9 @@ export type $PurchaseMasterDataPayload<
 > = {
   name: 'PurchaseMasterData';
   objects: {
-    model: Prisma.$AssetModelPayload<ExtArgs>;
-    createdBy: Prisma.$UserPayload<ExtArgs>;
     depreciation: Prisma.$DepreciationPayload<ExtArgs> | null;
+    createdBy: Prisma.$UserPayload<ExtArgs>;
+    model: Prisma.$AssetModelPayload<ExtArgs>;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -2168,17 +2168,21 @@ export interface Prisma__PurchaseMasterDataClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
-  model<T extends Prisma.AssetModelDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.AssetModelDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__AssetModelClient<
-    | runtime.Types.Result.GetResult<
-        Prisma.$AssetModelPayload<ExtArgs>,
-        T,
-        'findUniqueOrThrow',
-        GlobalOmitOptions
-      >
-    | Null,
-    Null,
+  depreciation<
+    T extends Prisma.PurchaseMasterData$depreciationArgs<ExtArgs> = {},
+  >(
+    args?: Prisma.Subset<
+      T,
+      Prisma.PurchaseMasterData$depreciationArgs<ExtArgs>
+    >,
+  ): Prisma.Prisma__DepreciationClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$DepreciationPayload<ExtArgs>,
+      T,
+      'findUniqueOrThrow',
+      GlobalOmitOptions
+    > | null,
+    null,
     ExtArgs,
     GlobalOmitOptions
   >;
@@ -2196,21 +2200,17 @@ export interface Prisma__PurchaseMasterDataClient<
     ExtArgs,
     GlobalOmitOptions
   >;
-  depreciation<
-    T extends Prisma.PurchaseMasterData$depreciationArgs<ExtArgs> = {},
-  >(
-    args?: Prisma.Subset<
-      T,
-      Prisma.PurchaseMasterData$depreciationArgs<ExtArgs>
-    >,
-  ): Prisma.Prisma__DepreciationClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$DepreciationPayload<ExtArgs>,
-      T,
-      'findUniqueOrThrow',
-      GlobalOmitOptions
-    > | null,
-    null,
+  model<T extends Prisma.AssetModelDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.AssetModelDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__AssetModelClient<
+    | runtime.Types.Result.GetResult<
+        Prisma.$AssetModelPayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        GlobalOmitOptions
+      >
+    | Null,
+    Null,
     ExtArgs,
     GlobalOmitOptions
   >;

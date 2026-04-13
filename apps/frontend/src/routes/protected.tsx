@@ -332,6 +332,16 @@ export const protectedRoutes: RouteObject[] = [
           },
         ],
       },
+      {
+        path: 'audit-log',
+        element: <RoleProtectedRoute allowedRoles={['SUPERADMIN']} />,
+        children: [
+          {
+            index: true,
+            lazy: () => import('../features/settings/pages/AuditLogPage'),
+          },
+        ],
+      },
     ],
   },
 ];

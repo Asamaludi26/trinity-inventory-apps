@@ -45,3 +45,15 @@ export function useUpdateMaintenanceStatus() {
     onError: () => toast.error('Gagal memperbarui status maintenance'),
   });
 }
+
+export function useCompleteMaintenance() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => maintenanceApi.complete(id),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: QUERY_KEY });
+      toast.success('Maintenance berhasil diselesaikan');
+    },
+    onError: () => toast.error('Gagal menyelesaikan maintenance'),
+  });
+}

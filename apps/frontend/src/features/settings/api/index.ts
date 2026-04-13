@@ -1,1 +1,8 @@
-export { usersApi, divisionsApi, type UserFilterParams } from './settings.api';
+export {
+  usersApi,
+  divisionsApi,
+  auditApi,
+  type UserFilterParams,
+  type AuditFilterParams,
+  type AuditLog,
+} from './settings.api';

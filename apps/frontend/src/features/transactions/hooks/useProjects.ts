@@ -92,6 +92,39 @@ export function useCancelProject() {
   });
 }
 
+export function useCompleteProject() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      projectApi.complete(uuid, version),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
+    },
+  });
+}
+
+export function useHoldProject() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, version, reason }: { uuid: string; version: number; reason?: string }) =>
+      projectApi.hold(uuid, version, reason ? { reason } : undefined),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
+    },
+  });
+}
+
+export function useResumeProject() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      projectApi.resume(uuid, version),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
+    },
+  });
+}
+
 export function useDeleteProject() {
   const queryClient = useQueryClient();
   return useMutation({

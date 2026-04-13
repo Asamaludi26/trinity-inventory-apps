@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Edit, CheckCircle, XCircle, Play, Ban } from 'lucide-react';
+import { ArrowLeft, Edit, CheckCircle, XCircle, Play, Ban, Pause, RotateCcw } from 'lucide-react';
 import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -23,6 +23,9 @@ import {
   useRejectProject,
   useExecuteProject,
   useCancelProject,
+  useCompleteProject,
+  useHoldProject,
+  useResumeProject,
 } from '../hooks';
 import { RejectDialog } from '../components';
 import { AttachmentSection } from '@/components/form';
@@ -46,6 +49,9 @@ export function ProjectDetailPage() {
   const rejectProject = useRejectProject();
   const executeProject = useExecuteProject();
   const cancelProject = useCancelProject();
+  const completeProject = useCompleteProject();
+  const holdProject = useHoldProject();
+  const resumeProject = useResumeProject();
   const [rejectOpen, setRejectOpen] = useState(false);
   const { can } = usePermissions();
 
@@ -92,6 +98,39 @@ export function ProjectDetailPage() {
       {
         onSuccess: () => toast.success('Proyek berhasil dibatalkan'),
         onError: () => toast.error('Gagal membatalkan proyek'),
+      },
+    );
+  };
+
+  const handleComplete = () => {
+    if (!uuid || !project) return;
+    completeProject.mutate(
+      { uuid, version: project.version },
+      {
+        onSuccess: () => toast.success('Proyek berhasil diselesaikan'),
+        onError: () => toast.error('Gagal menyelesaikan proyek'),
+      },
+    );
+  };
+
+  const handleHold = () => {
+    if (!uuid || !project) return;
+    holdProject.mutate(
+      { uuid, version: project.version },
+      {
+        onSuccess: () => toast.success('Proyek ditunda'),
+        onError: () => toast.error('Gagal menunda proyek'),
+      },
+    );
+  };
+
+  const handleResume = () => {
+    if (!uuid || !project) return;
+    resumeProject.mutate(
+      { uuid, version: project.version },
+      {
+        onSuccess: () => toast.success('Proyek dilanjutkan'),
+        onError: () => toast.error('Gagal melanjutkan proyek'),
       },
     );
   };
@@ -162,6 +201,28 @@ export function ProjectDetailPage() {
             <Button variant="outline" onClick={handleCancel} disabled={cancelProject.isPending}>
               <Ban className="mr-2 h-4 w-4" />
               {cancelProject.isPending ? 'Membatalkan...' : 'Batalkan'}
+            </Button>
+          )}
+          {project.status === 'IN_PROGRESS' && can(P.PROJECTS_APPROVE) && (
+            <>
+              <Button
+                variant="default"
+                onClick={handleComplete}
+                disabled={completeProject.isPending}
+              >
+                <CheckCircle className="mr-2 h-4 w-4" />
+                {completeProject.isPending ? 'Menyelesaikan...' : 'Selesaikan'}
+              </Button>
+              <Button variant="outline" onClick={handleHold} disabled={holdProject.isPending}>
+                <Pause className="mr-2 h-4 w-4" />
+                {holdProject.isPending ? 'Menunda...' : 'Tunda'}
+              </Button>
+            </>
+          )}
+          {project.status === 'ON_HOLD' && can(P.PROJECTS_APPROVE) && (
+            <Button variant="secondary" onClick={handleResume} disabled={resumeProject.isPending}>
+              <RotateCcw className="mr-2 h-4 w-4" />
+              {resumeProject.isPending ? 'Melanjutkan...' : 'Lanjutkan'}
             </Button>
           )}
         </div>

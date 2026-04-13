@@ -43,11 +43,11 @@ export type AssetReturnMinAggregateOutputType = {
   status: $Enums.TransactionStatus | null;
   note: string | null;
   createdById: number | null;
-  rejectionReason: string | null;
   isDeleted: boolean | null;
-  version: number | null;
   createdAt: Date | null;
   updatedAt: Date | null;
+  rejectionReason: string | null;
+  version: number | null;
 };
 
 export type AssetReturnMaxAggregateOutputType = {
@@ -57,11 +57,11 @@ export type AssetReturnMaxAggregateOutputType = {
   status: $Enums.TransactionStatus | null;
   note: string | null;
   createdById: number | null;
-  rejectionReason: string | null;
   isDeleted: boolean | null;
-  version: number | null;
   createdAt: Date | null;
   updatedAt: Date | null;
+  rejectionReason: string | null;
+  version: number | null;
 };
 
 export type AssetReturnCountAggregateOutputType = {
@@ -71,11 +71,11 @@ export type AssetReturnCountAggregateOutputType = {
   status: number;
   note: number;
   createdById: number;
-  rejectionReason: number;
   isDeleted: number;
-  version: number;
   createdAt: number;
   updatedAt: number;
+  rejectionReason: number;
+  version: number;
   _all: number;
 };
 
@@ -96,11 +96,11 @@ export type AssetReturnMinAggregateInputType = {
   status?: true;
   note?: true;
   createdById?: true;
-  rejectionReason?: true;
   isDeleted?: true;
-  version?: true;
   createdAt?: true;
   updatedAt?: true;
+  rejectionReason?: true;
+  version?: true;
 };
 
 export type AssetReturnMaxAggregateInputType = {
@@ -110,11 +110,11 @@ export type AssetReturnMaxAggregateInputType = {
   status?: true;
   note?: true;
   createdById?: true;
-  rejectionReason?: true;
   isDeleted?: true;
-  version?: true;
   createdAt?: true;
   updatedAt?: true;
+  rejectionReason?: true;
+  version?: true;
 };
 
 export type AssetReturnCountAggregateInputType = {
@@ -124,11 +124,11 @@ export type AssetReturnCountAggregateInputType = {
   status?: true;
   note?: true;
   createdById?: true;
-  rejectionReason?: true;
   isDeleted?: true;
-  version?: true;
   createdAt?: true;
   updatedAt?: true;
+  rejectionReason?: true;
+  version?: true;
   _all?: true;
 };
 
@@ -232,11 +232,11 @@ export type AssetReturnGroupByOutputType = {
   status: $Enums.TransactionStatus;
   note: string | null;
   createdById: number;
-  rejectionReason: string | null;
   isDeleted: boolean;
-  version: number;
   createdAt: Date;
   updatedAt: Date;
+  rejectionReason: string | null;
+  version: number;
   _count: AssetReturnCountAggregateOutputType | null;
   _avg: AssetReturnAvgAggregateOutputType | null;
   _sum: AssetReturnSumAggregateOutputType | null;
@@ -269,20 +269,20 @@ export type AssetReturnWhereInput = {
     | $Enums.TransactionStatus;
   note?: Prisma.StringNullableFilter<'AssetReturn'> | string | null;
   createdById?: Prisma.IntFilter<'AssetReturn'> | number;
-  rejectionReason?: Prisma.StringNullableFilter<'AssetReturn'> | string | null;
   isDeleted?: Prisma.BoolFilter<'AssetReturn'> | boolean;
-  version?: Prisma.IntFilter<'AssetReturn'> | number;
   createdAt?: Prisma.DateTimeFilter<'AssetReturn'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'AssetReturn'> | Date | string;
-  loanRequest?: Prisma.XOR<
-    Prisma.LoanRequestScalarRelationFilter,
-    Prisma.LoanRequestWhereInput
-  >;
+  rejectionReason?: Prisma.StringNullableFilter<'AssetReturn'> | string | null;
+  version?: Prisma.IntFilter<'AssetReturn'> | number;
+  items?: Prisma.AssetReturnItemListRelationFilter;
   createdBy?: Prisma.XOR<
     Prisma.UserScalarRelationFilter,
     Prisma.UserWhereInput
   >;
-  items?: Prisma.AssetReturnItemListRelationFilter;
+  loanRequest?: Prisma.XOR<
+    Prisma.LoanRequestScalarRelationFilter,
+    Prisma.LoanRequestWhereInput
+  >;
 };
 
 export type AssetReturnOrderByWithRelationInput = {
@@ -292,14 +292,14 @@ export type AssetReturnOrderByWithRelationInput = {
   status?: Prisma.SortOrder;
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
-  rejectionReason?: Prisma.SortOrderInput | Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
-  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
-  loanRequest?: Prisma.LoanRequestOrderByWithRelationInput;
-  createdBy?: Prisma.UserOrderByWithRelationInput;
+  rejectionReason?: Prisma.SortOrderInput | Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   items?: Prisma.AssetReturnItemOrderByRelationAggregateInput;
+  createdBy?: Prisma.UserOrderByWithRelationInput;
+  loanRequest?: Prisma.LoanRequestOrderByWithRelationInput;
 };
 
 export type AssetReturnWhereUniqueInput = Prisma.AtLeast<
@@ -315,23 +315,23 @@ export type AssetReturnWhereUniqueInput = Prisma.AtLeast<
       | $Enums.TransactionStatus;
     note?: Prisma.StringNullableFilter<'AssetReturn'> | string | null;
     createdById?: Prisma.IntFilter<'AssetReturn'> | number;
+    isDeleted?: Prisma.BoolFilter<'AssetReturn'> | boolean;
+    createdAt?: Prisma.DateTimeFilter<'AssetReturn'> | Date | string;
+    updatedAt?: Prisma.DateTimeFilter<'AssetReturn'> | Date | string;
     rejectionReason?:
       | Prisma.StringNullableFilter<'AssetReturn'>
       | string
       | null;
-    isDeleted?: Prisma.BoolFilter<'AssetReturn'> | boolean;
     version?: Prisma.IntFilter<'AssetReturn'> | number;
-    createdAt?: Prisma.DateTimeFilter<'AssetReturn'> | Date | string;
-    updatedAt?: Prisma.DateTimeFilter<'AssetReturn'> | Date | string;
-    loanRequest?: Prisma.XOR<
-      Prisma.LoanRequestScalarRelationFilter,
-      Prisma.LoanRequestWhereInput
-    >;
+    items?: Prisma.AssetReturnItemListRelationFilter;
     createdBy?: Prisma.XOR<
       Prisma.UserScalarRelationFilter,
       Prisma.UserWhereInput
     >;
-    items?: Prisma.AssetReturnItemListRelationFilter;
+    loanRequest?: Prisma.XOR<
+      Prisma.LoanRequestScalarRelationFilter,
+      Prisma.LoanRequestWhereInput
+    >;
   },
   'id' | 'code'
 >;
@@ -343,11 +343,11 @@ export type AssetReturnOrderByWithAggregationInput = {
   status?: Prisma.SortOrder;
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
-  rejectionReason?: Prisma.SortOrderInput | Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
-  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
+  rejectionReason?: Prisma.SortOrderInput | Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   _count?: Prisma.AssetReturnCountOrderByAggregateInput;
   _avg?: Prisma.AssetReturnAvgOrderByAggregateInput;
   _max?: Prisma.AssetReturnMaxOrderByAggregateInput;
@@ -374,12 +374,7 @@ export type AssetReturnScalarWhereWithAggregatesInput = {
     | string
     | null;
   createdById?: Prisma.IntWithAggregatesFilter<'AssetReturn'> | number;
-  rejectionReason?:
-    | Prisma.StringNullableWithAggregatesFilter<'AssetReturn'>
-    | string
-    | null;
   isDeleted?: Prisma.BoolWithAggregatesFilter<'AssetReturn'> | boolean;
-  version?: Prisma.IntWithAggregatesFilter<'AssetReturn'> | number;
   createdAt?:
     | Prisma.DateTimeWithAggregatesFilter<'AssetReturn'>
     | Date
@@ -388,6 +383,11 @@ export type AssetReturnScalarWhereWithAggregatesInput = {
     | Prisma.DateTimeWithAggregatesFilter<'AssetReturn'>
     | Date
     | string;
+  rejectionReason?:
+    | Prisma.StringNullableWithAggregatesFilter<'AssetReturn'>
+    | string
+    | null;
+  version?: Prisma.IntWithAggregatesFilter<'AssetReturn'> | number;
 };
 
 export type AssetReturnCreateInput = {
@@ -395,14 +395,14 @@ export type AssetReturnCreateInput = {
   code: string;
   status?: $Enums.TransactionStatus;
   note?: string | null;
-  rejectionReason?: string | null;
   isDeleted?: boolean;
-  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  loanRequest: Prisma.LoanRequestCreateNestedOneWithoutReturnsInput;
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedAssetReturnsInput;
+  rejectionReason?: string | null;
+  version?: number;
   items?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetReturnInput;
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedAssetReturnsInput;
+  loanRequest: Prisma.LoanRequestCreateNestedOneWithoutReturnsInput;
 };
 
 export type AssetReturnUncheckedCreateInput = {
@@ -412,11 +412,11 @@ export type AssetReturnUncheckedCreateInput = {
   status?: $Enums.TransactionStatus;
   note?: string | null;
   createdById: number;
-  rejectionReason?: string | null;
   isDeleted?: boolean;
-  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  rejectionReason?: string | null;
+  version?: number;
   items?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetReturnInput;
 };
 
@@ -427,17 +427,17 @@ export type AssetReturnUpdateInput = {
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   rejectionReason?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  loanRequest?: Prisma.LoanRequestUpdateOneRequiredWithoutReturnsNestedInput;
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedAssetReturnsNestedInput;
   items?: Prisma.AssetReturnItemUpdateManyWithoutAssetReturnNestedInput;
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedAssetReturnsNestedInput;
+  loanRequest?: Prisma.LoanRequestUpdateOneRequiredWithoutReturnsNestedInput;
 };
 
 export type AssetReturnUncheckedUpdateInput = {
@@ -449,14 +449,14 @@ export type AssetReturnUncheckedUpdateInput = {
     | $Enums.TransactionStatus;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   rejectionReason?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetReturnNestedInput;
 };
 
@@ -467,11 +467,11 @@ export type AssetReturnCreateManyInput = {
   status?: $Enums.TransactionStatus;
   note?: string | null;
   createdById: number;
-  rejectionReason?: string | null;
   isDeleted?: boolean;
-  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  rejectionReason?: string | null;
+  version?: number;
 };
 
 export type AssetReturnUpdateManyMutationInput = {
@@ -481,14 +481,14 @@ export type AssetReturnUpdateManyMutationInput = {
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   rejectionReason?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 
 export type AssetReturnUncheckedUpdateManyInput = {
@@ -500,14 +500,14 @@ export type AssetReturnUncheckedUpdateManyInput = {
     | $Enums.TransactionStatus;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   rejectionReason?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 
 export type AssetReturnListRelationFilter = {
@@ -527,11 +527,11 @@ export type AssetReturnCountOrderByAggregateInput = {
   status?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
-  rejectionReason?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
-  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
+  rejectionReason?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
 };
 
 export type AssetReturnAvgOrderByAggregateInput = {
@@ -546,11 +546,11 @@ export type AssetReturnMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
-  rejectionReason?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
-  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
+  rejectionReason?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
 };
 
 export type AssetReturnMinOrderByAggregateInput = {
@@ -560,11 +560,11 @@ export type AssetReturnMinOrderByAggregateInput = {
   status?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
-  rejectionReason?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
-  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
+  rejectionReason?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
 };
 
 export type AssetReturnSumOrderByAggregateInput = {
@@ -828,13 +828,13 @@ export type AssetReturnCreateWithoutCreatedByInput = {
   code: string;
   status?: $Enums.TransactionStatus;
   note?: string | null;
-  rejectionReason?: string | null;
   isDeleted?: boolean;
-  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  loanRequest: Prisma.LoanRequestCreateNestedOneWithoutReturnsInput;
+  rejectionReason?: string | null;
+  version?: number;
   items?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetReturnInput;
+  loanRequest: Prisma.LoanRequestCreateNestedOneWithoutReturnsInput;
 };
 
 export type AssetReturnUncheckedCreateWithoutCreatedByInput = {
@@ -843,11 +843,11 @@ export type AssetReturnUncheckedCreateWithoutCreatedByInput = {
   loanRequestId: string;
   status?: $Enums.TransactionStatus;
   note?: string | null;
-  rejectionReason?: string | null;
   isDeleted?: boolean;
-  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  rejectionReason?: string | null;
+  version?: number;
   items?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetReturnInput;
 };
 
@@ -910,11 +910,11 @@ export type AssetReturnScalarWhereInput = {
     | $Enums.TransactionStatus;
   note?: Prisma.StringNullableFilter<'AssetReturn'> | string | null;
   createdById?: Prisma.IntFilter<'AssetReturn'> | number;
-  rejectionReason?: Prisma.StringNullableFilter<'AssetReturn'> | string | null;
   isDeleted?: Prisma.BoolFilter<'AssetReturn'> | boolean;
-  version?: Prisma.IntFilter<'AssetReturn'> | number;
   createdAt?: Prisma.DateTimeFilter<'AssetReturn'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'AssetReturn'> | Date | string;
+  rejectionReason?: Prisma.StringNullableFilter<'AssetReturn'> | string | null;
+  version?: Prisma.IntFilter<'AssetReturn'> | number;
 };
 
 export type AssetReturnCreateWithoutLoanRequestInput = {
@@ -922,13 +922,13 @@ export type AssetReturnCreateWithoutLoanRequestInput = {
   code: string;
   status?: $Enums.TransactionStatus;
   note?: string | null;
-  rejectionReason?: string | null;
   isDeleted?: boolean;
-  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedAssetReturnsInput;
+  rejectionReason?: string | null;
+  version?: number;
   items?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetReturnInput;
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedAssetReturnsInput;
 };
 
 export type AssetReturnUncheckedCreateWithoutLoanRequestInput = {
@@ -937,11 +937,11 @@ export type AssetReturnUncheckedCreateWithoutLoanRequestInput = {
   status?: $Enums.TransactionStatus;
   note?: string | null;
   createdById: number;
-  rejectionReason?: string | null;
   isDeleted?: boolean;
-  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  rejectionReason?: string | null;
+  version?: number;
   items?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetReturnInput;
 };
 
@@ -993,13 +993,13 @@ export type AssetReturnCreateWithoutItemsInput = {
   code: string;
   status?: $Enums.TransactionStatus;
   note?: string | null;
-  rejectionReason?: string | null;
   isDeleted?: boolean;
-  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  loanRequest: Prisma.LoanRequestCreateNestedOneWithoutReturnsInput;
+  rejectionReason?: string | null;
+  version?: number;
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedAssetReturnsInput;
+  loanRequest: Prisma.LoanRequestCreateNestedOneWithoutReturnsInput;
 };
 
 export type AssetReturnUncheckedCreateWithoutItemsInput = {
@@ -1009,11 +1009,11 @@ export type AssetReturnUncheckedCreateWithoutItemsInput = {
   status?: $Enums.TransactionStatus;
   note?: string | null;
   createdById: number;
-  rejectionReason?: string | null;
   isDeleted?: boolean;
-  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  rejectionReason?: string | null;
+  version?: number;
 };
 
 export type AssetReturnCreateOrConnectWithoutItemsInput = {
@@ -1051,16 +1051,16 @@ export type AssetReturnUpdateWithoutItemsInput = {
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   rejectionReason?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  loanRequest?: Prisma.LoanRequestUpdateOneRequiredWithoutReturnsNestedInput;
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedAssetReturnsNestedInput;
+  loanRequest?: Prisma.LoanRequestUpdateOneRequiredWithoutReturnsNestedInput;
 };
 
 export type AssetReturnUncheckedUpdateWithoutItemsInput = {
@@ -1072,14 +1072,14 @@ export type AssetReturnUncheckedUpdateWithoutItemsInput = {
     | $Enums.TransactionStatus;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   rejectionReason?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 
 export type AssetReturnCreateManyCreatedByInput = {
@@ -1088,11 +1088,11 @@ export type AssetReturnCreateManyCreatedByInput = {
   loanRequestId: string;
   status?: $Enums.TransactionStatus;
   note?: string | null;
-  rejectionReason?: string | null;
   isDeleted?: boolean;
-  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  rejectionReason?: string | null;
+  version?: number;
 };
 
 export type AssetReturnUpdateWithoutCreatedByInput = {
@@ -1102,16 +1102,16 @@ export type AssetReturnUpdateWithoutCreatedByInput = {
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   rejectionReason?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  loanRequest?: Prisma.LoanRequestUpdateOneRequiredWithoutReturnsNestedInput;
   items?: Prisma.AssetReturnItemUpdateManyWithoutAssetReturnNestedInput;
+  loanRequest?: Prisma.LoanRequestUpdateOneRequiredWithoutReturnsNestedInput;
 };
 
 export type AssetReturnUncheckedUpdateWithoutCreatedByInput = {
@@ -1122,14 +1122,14 @@ export type AssetReturnUncheckedUpdateWithoutCreatedByInput = {
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   rejectionReason?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetReturnNestedInput;
 };
 
@@ -1141,14 +1141,14 @@ export type AssetReturnUncheckedUpdateManyWithoutCreatedByInput = {
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   rejectionReason?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 
 export type AssetReturnCreateManyLoanRequestInput = {
@@ -1157,11 +1157,11 @@ export type AssetReturnCreateManyLoanRequestInput = {
   status?: $Enums.TransactionStatus;
   note?: string | null;
   createdById: number;
-  rejectionReason?: string | null;
   isDeleted?: boolean;
-  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  rejectionReason?: string | null;
+  version?: number;
 };
 
 export type AssetReturnUpdateWithoutLoanRequestInput = {
@@ -1171,16 +1171,16 @@ export type AssetReturnUpdateWithoutLoanRequestInput = {
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   rejectionReason?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedAssetReturnsNestedInput;
   items?: Prisma.AssetReturnItemUpdateManyWithoutAssetReturnNestedInput;
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedAssetReturnsNestedInput;
 };
 
 export type AssetReturnUncheckedUpdateWithoutLoanRequestInput = {
@@ -1191,14 +1191,14 @@ export type AssetReturnUncheckedUpdateWithoutLoanRequestInput = {
     | $Enums.TransactionStatus;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   rejectionReason?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetReturnNestedInput;
 };
 
@@ -1210,14 +1210,14 @@ export type AssetReturnUncheckedUpdateManyWithoutLoanRequestInput = {
     | $Enums.TransactionStatus;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   rejectionReason?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 
 /**
@@ -1269,14 +1269,14 @@ export type AssetReturnSelect<
     status?: boolean;
     note?: boolean;
     createdById?: boolean;
-    rejectionReason?: boolean;
     isDeleted?: boolean;
-    version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
-    createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    rejectionReason?: boolean;
+    version?: boolean;
     items?: boolean | Prisma.AssetReturn$itemsArgs<ExtArgs>;
+    createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
     _count?: boolean | Prisma.AssetReturnCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['assetReturn']
@@ -1293,13 +1293,13 @@ export type AssetReturnSelectCreateManyAndReturn<
     status?: boolean;
     note?: boolean;
     createdById?: boolean;
-    rejectionReason?: boolean;
     isDeleted?: boolean;
-    version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
+    rejectionReason?: boolean;
+    version?: boolean;
     createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['assetReturn']
 >;
@@ -1315,13 +1315,13 @@ export type AssetReturnSelectUpdateManyAndReturn<
     status?: boolean;
     note?: boolean;
     createdById?: boolean;
-    rejectionReason?: boolean;
     isDeleted?: boolean;
-    version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
+    rejectionReason?: boolean;
+    version?: boolean;
     createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['assetReturn']
 >;
@@ -1333,11 +1333,11 @@ export type AssetReturnSelectScalar = {
   status?: boolean;
   note?: boolean;
   createdById?: boolean;
-  rejectionReason?: boolean;
   isDeleted?: boolean;
-  version?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
+  rejectionReason?: boolean;
+  version?: boolean;
 };
 
 export type AssetReturnOmit<
@@ -1350,35 +1350,35 @@ export type AssetReturnOmit<
   | 'status'
   | 'note'
   | 'createdById'
-  | 'rejectionReason'
   | 'isDeleted'
-  | 'version'
   | 'createdAt'
-  | 'updatedAt',
+  | 'updatedAt'
+  | 'rejectionReason'
+  | 'version',
   ExtArgs['result']['assetReturn']
 >;
 export type AssetReturnInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   items?: boolean | Prisma.AssetReturn$itemsArgs<ExtArgs>;
+  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+  loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
   _count?: boolean | Prisma.AssetReturnCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type AssetReturnIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+  loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
 };
 export type AssetReturnIncludeUpdateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+  loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
 };
 
 export type $AssetReturnPayload<
@@ -1387,9 +1387,9 @@ export type $AssetReturnPayload<
 > = {
   name: 'AssetReturn';
   objects: {
-    loanRequest: Prisma.$LoanRequestPayload<ExtArgs>;
-    createdBy: Prisma.$UserPayload<ExtArgs>;
     items: Prisma.$AssetReturnItemPayload<ExtArgs>[];
+    createdBy: Prisma.$UserPayload<ExtArgs>;
+    loanRequest: Prisma.$LoanRequestPayload<ExtArgs>;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1399,11 +1399,11 @@ export type $AssetReturnPayload<
       status: $Enums.TransactionStatus;
       note: string | null;
       createdById: number;
-      rejectionReason: string | null;
       isDeleted: boolean;
-      version: number;
       createdAt: Date;
       updatedAt: Date;
+      rejectionReason: string | null;
+      version: number;
     },
     ExtArgs['result']['assetReturn']
   >;
@@ -1957,19 +1957,16 @@ export interface Prisma__AssetReturnClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
-  loanRequest<T extends Prisma.LoanRequestDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.LoanRequestDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__LoanRequestClient<
+  items<T extends Prisma.AssetReturn$itemsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.AssetReturn$itemsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
-        Prisma.$LoanRequestPayload<ExtArgs>,
+        Prisma.$AssetReturnItemPayload<ExtArgs>,
         T,
-        'findUniqueOrThrow',
+        'findMany',
         GlobalOmitOptions
       >
-    | Null,
-    Null,
-    ExtArgs,
-    GlobalOmitOptions
+    | Null
   >;
   createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>,
@@ -1985,16 +1982,19 @@ export interface Prisma__AssetReturnClient<
     ExtArgs,
     GlobalOmitOptions
   >;
-  items<T extends Prisma.AssetReturn$itemsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.AssetReturn$itemsArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
+  loanRequest<T extends Prisma.LoanRequestDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.LoanRequestDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__LoanRequestClient<
     | runtime.Types.Result.GetResult<
-        Prisma.$AssetReturnItemPayload<ExtArgs>,
+        Prisma.$LoanRequestPayload<ExtArgs>,
         T,
-        'findMany',
+        'findUniqueOrThrow',
         GlobalOmitOptions
       >
-    | Null
+    | Null,
+    Null,
+    ExtArgs,
+    GlobalOmitOptions
   >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2044,11 +2044,11 @@ export interface AssetReturnFieldRefs {
   readonly status: Prisma.FieldRef<'AssetReturn', 'TransactionStatus'>;
   readonly note: Prisma.FieldRef<'AssetReturn', 'String'>;
   readonly createdById: Prisma.FieldRef<'AssetReturn', 'Int'>;
-  readonly rejectionReason: Prisma.FieldRef<'AssetReturn', 'String'>;
   readonly isDeleted: Prisma.FieldRef<'AssetReturn', 'Boolean'>;
-  readonly version: Prisma.FieldRef<'AssetReturn', 'Int'>;
   readonly createdAt: Prisma.FieldRef<'AssetReturn', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'AssetReturn', 'DateTime'>;
+  readonly rejectionReason: Prisma.FieldRef<'AssetReturn', 'String'>;
+  readonly version: Prisma.FieldRef<'AssetReturn', 'Int'>;
 }
 
 // Custom InputTypes

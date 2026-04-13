@@ -68,4 +68,18 @@ export class MaintenanceController {
   ) {
     return this.maintenanceService.update(id, dto);
   }
+
+  @Patch(':id/complete')
+  @AuthPermissions(PERMISSIONS.MAINTENANCES_CREATE)
+  @ApiOperation({ summary: 'Selesaikan maintenance — deduksi stok material' })
+  @ApiResponse({
+    status: 200,
+    description: 'Maintenance berhasil diselesaikan',
+  })
+  async complete(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.maintenanceService.complete(id, user.sub);
+  }
 }

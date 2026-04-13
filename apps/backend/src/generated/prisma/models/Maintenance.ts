@@ -294,12 +294,12 @@ export type MaintenanceWhereInput = {
   isDeleted?: Prisma.BoolFilter<'Maintenance'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'Maintenance'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Maintenance'> | Date | string;
+  materials?: Prisma.MaintenanceMaterialListRelationFilter;
+  replacements?: Prisma.MaintenanceReplacementListRelationFilter;
   customer?: Prisma.XOR<
     Prisma.CustomerScalarRelationFilter,
     Prisma.CustomerWhereInput
   >;
-  materials?: Prisma.MaintenanceMaterialListRelationFilter;
-  replacements?: Prisma.MaintenanceReplacementListRelationFilter;
 };
 
 export type MaintenanceOrderByWithRelationInput = {
@@ -315,9 +315,9 @@ export type MaintenanceOrderByWithRelationInput = {
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
-  customer?: Prisma.CustomerOrderByWithRelationInput;
   materials?: Prisma.MaintenanceMaterialOrderByRelationAggregateInput;
   replacements?: Prisma.MaintenanceReplacementOrderByRelationAggregateInput;
+  customer?: Prisma.CustomerOrderByWithRelationInput;
 };
 
 export type MaintenanceWhereUniqueInput = Prisma.AtLeast<
@@ -347,12 +347,12 @@ export type MaintenanceWhereUniqueInput = Prisma.AtLeast<
     isDeleted?: Prisma.BoolFilter<'Maintenance'> | boolean;
     createdAt?: Prisma.DateTimeFilter<'Maintenance'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Maintenance'> | Date | string;
+    materials?: Prisma.MaintenanceMaterialListRelationFilter;
+    replacements?: Prisma.MaintenanceReplacementListRelationFilter;
     customer?: Prisma.XOR<
       Prisma.CustomerScalarRelationFilter,
       Prisma.CustomerWhereInput
     >;
-    materials?: Prisma.MaintenanceMaterialListRelationFilter;
-    replacements?: Prisma.MaintenanceReplacementListRelationFilter;
   },
   'id' | 'code'
 >;
@@ -432,9 +432,9 @@ export type MaintenanceCreateInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  customer: Prisma.CustomerCreateNestedOneWithoutMaintenancesInput;
   materials?: Prisma.MaintenanceMaterialCreateNestedManyWithoutMaintenanceInput;
   replacements?: Prisma.MaintenanceReplacementCreateNestedManyWithoutMaintenanceInput;
+  customer: Prisma.CustomerCreateNestedOneWithoutMaintenancesInput;
 };
 
 export type MaintenanceUncheckedCreateInput = {
@@ -475,9 +475,9 @@ export type MaintenanceUpdateInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  customer?: Prisma.CustomerUpdateOneRequiredWithoutMaintenancesNestedInput;
   materials?: Prisma.MaintenanceMaterialUpdateManyWithoutMaintenanceNestedInput;
   replacements?: Prisma.MaintenanceReplacementUpdateManyWithoutMaintenanceNestedInput;
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutMaintenancesNestedInput;
 };
 
 export type MaintenanceUncheckedUpdateInput = {
@@ -921,8 +921,8 @@ export type MaintenanceCreateWithoutMaterialsInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  customer: Prisma.CustomerCreateNestedOneWithoutMaintenancesInput;
   replacements?: Prisma.MaintenanceReplacementCreateNestedManyWithoutMaintenanceInput;
+  customer: Prisma.CustomerCreateNestedOneWithoutMaintenancesInput;
 };
 
 export type MaintenanceUncheckedCreateWithoutMaterialsInput = {
@@ -990,8 +990,8 @@ export type MaintenanceUpdateWithoutMaterialsInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  customer?: Prisma.CustomerUpdateOneRequiredWithoutMaintenancesNestedInput;
   replacements?: Prisma.MaintenanceReplacementUpdateManyWithoutMaintenanceNestedInput;
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutMaintenancesNestedInput;
 };
 
 export type MaintenanceUncheckedUpdateWithoutMaterialsInput = {
@@ -1031,8 +1031,8 @@ export type MaintenanceCreateWithoutReplacementsInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  customer: Prisma.CustomerCreateNestedOneWithoutMaintenancesInput;
   materials?: Prisma.MaintenanceMaterialCreateNestedManyWithoutMaintenanceInput;
+  customer: Prisma.CustomerCreateNestedOneWithoutMaintenancesInput;
 };
 
 export type MaintenanceUncheckedCreateWithoutReplacementsInput = {
@@ -1100,8 +1100,8 @@ export type MaintenanceUpdateWithoutReplacementsInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  customer?: Prisma.CustomerUpdateOneRequiredWithoutMaintenancesNestedInput;
   materials?: Prisma.MaintenanceMaterialUpdateManyWithoutMaintenanceNestedInput;
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutMaintenancesNestedInput;
 };
 
 export type MaintenanceUncheckedUpdateWithoutReplacementsInput = {
@@ -1286,9 +1286,9 @@ export type MaintenanceSelect<
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
     materials?: boolean | Prisma.Maintenance$materialsArgs<ExtArgs>;
     replacements?: boolean | Prisma.Maintenance$replacementsArgs<ExtArgs>;
+    customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
     _count?: boolean | Prisma.MaintenanceCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['maintenance']
@@ -1375,9 +1375,9 @@ export type MaintenanceInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
   materials?: boolean | Prisma.Maintenance$materialsArgs<ExtArgs>;
   replacements?: boolean | Prisma.Maintenance$replacementsArgs<ExtArgs>;
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
   _count?: boolean | Prisma.MaintenanceCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type MaintenanceIncludeCreateManyAndReturn<
@@ -1399,9 +1399,9 @@ export type $MaintenancePayload<
 > = {
   name: 'Maintenance';
   objects: {
-    customer: Prisma.$CustomerPayload<ExtArgs>;
     materials: Prisma.$MaintenanceMaterialPayload<ExtArgs>[];
     replacements: Prisma.$MaintenanceReplacementPayload<ExtArgs>[];
+    customer: Prisma.$CustomerPayload<ExtArgs>;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1970,20 +1970,6 @@ export interface Prisma__MaintenanceClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
-  customer<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__CustomerClient<
-    | runtime.Types.Result.GetResult<
-        Prisma.$CustomerPayload<ExtArgs>,
-        T,
-        'findUniqueOrThrow',
-        GlobalOmitOptions
-      >
-    | Null,
-    Null,
-    ExtArgs,
-    GlobalOmitOptions
-  >;
   materials<T extends Prisma.Maintenance$materialsArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.Maintenance$materialsArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
@@ -2005,6 +1991,20 @@ export interface Prisma__MaintenanceClient<
         GlobalOmitOptions
       >
     | Null
+  >;
+  customer<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__CustomerClient<
+    | runtime.Types.Result.GetResult<
+        Prisma.$CustomerPayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        GlobalOmitOptions
+      >
+    | Null,
+    Null,
+    ExtArgs,
+    GlobalOmitOptions
   >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.

@@ -1,12 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { Separator } from '@/components/ui/separator';
-import { useDismantle } from '../hooks';
+import { useDismantle, useCompleteDismantle } from '../hooks';
 import { AttachmentSection } from '@/components/form';
 
 function formatDate(date: string | null) {
@@ -22,6 +23,15 @@ export function DismantleDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: dismantle, isLoading } = useDismantle(id ? Number(id) : undefined);
+  const completeDismantle = useCompleteDismantle();
+
+  const handleComplete = () => {
+    if (!id) return;
+    completeDismantle.mutate(Number(id), {
+      onSuccess: () => toast.success('Dismantle berhasil diselesaikan'),
+      onError: () => toast.error('Gagal menyelesaikan dismantle'),
+    });
+  };
 
   if (isLoading) {
     return (
@@ -51,10 +61,22 @@ export function DismantleDetailPage() {
     <PageContainer
       title={`Pembongkaran ${dismantle.code}`}
       actions={
-        <Button variant="outline" onClick={() => navigate('/dismantle')}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Kembali
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" onClick={() => navigate('/dismantle')}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Kembali
+          </Button>
+          {dismantle.status === 'IN_PROGRESS' && (
+            <Button
+              variant="default"
+              onClick={handleComplete}
+              disabled={completeDismantle.isPending}
+            >
+              <CheckCircle className="mr-2 h-4 w-4" />
+              {completeDismantle.isPending ? 'Menyelesaikan...' : 'Selesaikan'}
+            </Button>
+          )}
+        </div>
       }
     >
       <div className="grid gap-6 md:grid-cols-2">

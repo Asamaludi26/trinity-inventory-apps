@@ -294,6 +294,7 @@ export type DismantleWhereInput = {
   isDeleted?: Prisma.BoolFilter<'Dismantle'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'Dismantle'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Dismantle'> | Date | string;
+  items?: Prisma.DismantleItemListRelationFilter;
   customer?: Prisma.XOR<
     Prisma.CustomerScalarRelationFilter,
     Prisma.CustomerWhereInput
@@ -313,6 +314,7 @@ export type DismantleOrderByWithRelationInput = {
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
+  items?: Prisma.DismantleItemOrderByRelationAggregateInput;
   customer?: Prisma.CustomerOrderByWithRelationInput;
 };
 
@@ -343,6 +345,7 @@ export type DismantleWhereUniqueInput = Prisma.AtLeast<
     isDeleted?: Prisma.BoolFilter<'Dismantle'> | boolean;
     createdAt?: Prisma.DateTimeFilter<'Dismantle'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Dismantle'> | Date | string;
+    items?: Prisma.DismantleItemListRelationFilter;
     customer?: Prisma.XOR<
       Prisma.CustomerScalarRelationFilter,
       Prisma.CustomerWhereInput
@@ -417,6 +420,7 @@ export type DismantleCreateInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  items?: Prisma.DismantleItemCreateNestedManyWithoutDismantleInput;
   customer: Prisma.CustomerCreateNestedOneWithoutDismantlesInput;
 };
 
@@ -433,6 +437,7 @@ export type DismantleUncheckedCreateInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  items?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutDismantleInput;
 };
 
 export type DismantleUpdateInput = {
@@ -456,6 +461,7 @@ export type DismantleUpdateInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.DismantleItemUpdateManyWithoutDismantleNestedInput;
   customer?: Prisma.CustomerUpdateOneRequiredWithoutDismantlesNestedInput;
 };
 
@@ -482,6 +488,7 @@ export type DismantleUncheckedUpdateInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.DismantleItemUncheckedUpdateManyWithoutDismantleNestedInput;
 };
 
 export type DismantleCreateManyInput = {
@@ -614,6 +621,11 @@ export type DismantleSumOrderByAggregateInput = {
   createdById?: Prisma.SortOrder;
 };
 
+export type DismantleScalarRelationFilter = {
+  is?: Prisma.DismantleWhereInput;
+  isNot?: Prisma.DismantleWhereInput;
+};
+
 export type DismantleCreateNestedManyWithoutCustomerInput = {
   create?:
     | Prisma.XOR<
@@ -720,6 +732,32 @@ export type DismantleUncheckedUpdateManyWithoutCustomerNestedInput = {
     | Prisma.DismantleScalarWhereInput[];
 };
 
+export type DismantleCreateNestedOneWithoutItemsInput = {
+  create?: Prisma.XOR<
+    Prisma.DismantleCreateWithoutItemsInput,
+    Prisma.DismantleUncheckedCreateWithoutItemsInput
+  >;
+  connectOrCreate?: Prisma.DismantleCreateOrConnectWithoutItemsInput;
+  connect?: Prisma.DismantleWhereUniqueInput;
+};
+
+export type DismantleUpdateOneRequiredWithoutItemsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.DismantleCreateWithoutItemsInput,
+    Prisma.DismantleUncheckedCreateWithoutItemsInput
+  >;
+  connectOrCreate?: Prisma.DismantleCreateOrConnectWithoutItemsInput;
+  upsert?: Prisma.DismantleUpsertWithoutItemsInput;
+  connect?: Prisma.DismantleWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.DismantleUpdateToOneWithWhereWithoutItemsInput,
+      Prisma.DismantleUpdateWithoutItemsInput
+    >,
+    Prisma.DismantleUncheckedUpdateWithoutItemsInput
+  >;
+};
+
 export type DismantleCreateWithoutCustomerInput = {
   code: string;
   status?: $Enums.TransactionStatus;
@@ -731,6 +769,7 @@ export type DismantleCreateWithoutCustomerInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  items?: Prisma.DismantleItemCreateNestedManyWithoutDismantleInput;
 };
 
 export type DismantleUncheckedCreateWithoutCustomerInput = {
@@ -745,6 +784,7 @@ export type DismantleUncheckedCreateWithoutCustomerInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  items?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutDismantleInput;
 };
 
 export type DismantleCreateOrConnectWithoutCustomerInput = {
@@ -818,6 +858,112 @@ export type DismantleScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<'Dismantle'> | Date | string;
 };
 
+export type DismantleCreateWithoutItemsInput = {
+  code: string;
+  status?: $Enums.TransactionStatus;
+  scheduledAt?: Date | string | null;
+  completedAt?: Date | string | null;
+  reason?: string | null;
+  note?: string | null;
+  createdById: number;
+  isDeleted?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  customer: Prisma.CustomerCreateNestedOneWithoutDismantlesInput;
+};
+
+export type DismantleUncheckedCreateWithoutItemsInput = {
+  id?: number;
+  code: string;
+  customerId: number;
+  status?: $Enums.TransactionStatus;
+  scheduledAt?: Date | string | null;
+  completedAt?: Date | string | null;
+  reason?: string | null;
+  note?: string | null;
+  createdById: number;
+  isDeleted?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+};
+
+export type DismantleCreateOrConnectWithoutItemsInput = {
+  where: Prisma.DismantleWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.DismantleCreateWithoutItemsInput,
+    Prisma.DismantleUncheckedCreateWithoutItemsInput
+  >;
+};
+
+export type DismantleUpsertWithoutItemsInput = {
+  update: Prisma.XOR<
+    Prisma.DismantleUpdateWithoutItemsInput,
+    Prisma.DismantleUncheckedUpdateWithoutItemsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.DismantleCreateWithoutItemsInput,
+    Prisma.DismantleUncheckedCreateWithoutItemsInput
+  >;
+  where?: Prisma.DismantleWhereInput;
+};
+
+export type DismantleUpdateToOneWithWhereWithoutItemsInput = {
+  where?: Prisma.DismantleWhereInput;
+  data: Prisma.XOR<
+    Prisma.DismantleUpdateWithoutItemsInput,
+    Prisma.DismantleUncheckedUpdateWithoutItemsInput
+  >;
+};
+
+export type DismantleUpdateWithoutItemsInput = {
+  code?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?:
+    | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
+    | $Enums.TransactionStatus;
+  scheduledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  completedAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  createdById?: Prisma.IntFieldUpdateOperationsInput | number;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutDismantlesNestedInput;
+};
+
+export type DismantleUncheckedUpdateWithoutItemsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  code?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerId?: Prisma.IntFieldUpdateOperationsInput | number;
+  status?:
+    | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
+    | $Enums.TransactionStatus;
+  scheduledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  completedAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  createdById?: Prisma.IntFieldUpdateOperationsInput | number;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+
 export type DismantleCreateManyCustomerInput = {
   id?: number;
   code: string;
@@ -853,6 +999,7 @@ export type DismantleUpdateWithoutCustomerInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.DismantleItemUpdateManyWithoutDismantleNestedInput;
 };
 
 export type DismantleUncheckedUpdateWithoutCustomerInput = {
@@ -877,6 +1024,7 @@ export type DismantleUncheckedUpdateWithoutCustomerInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.DismantleItemUncheckedUpdateManyWithoutDismantleNestedInput;
 };
 
 export type DismantleUncheckedUpdateManyWithoutCustomerInput = {
@@ -903,6 +1051,44 @@ export type DismantleUncheckedUpdateManyWithoutCustomerInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 
+/**
+ * Count Type DismantleCountOutputType
+ */
+
+export type DismantleCountOutputType = {
+  items: number;
+};
+
+export type DismantleCountOutputTypeSelect<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  items?: boolean | DismantleCountOutputTypeCountItemsArgs;
+};
+
+/**
+ * DismantleCountOutputType without action
+ */
+export type DismantleCountOutputTypeDefaultArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the DismantleCountOutputType
+   */
+  select?: Prisma.DismantleCountOutputTypeSelect<ExtArgs> | null;
+};
+
+/**
+ * DismantleCountOutputType without action
+ */
+export type DismantleCountOutputTypeCountItemsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.DismantleItemWhereInput;
+};
+
 export type DismantleSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -920,7 +1106,9 @@ export type DismantleSelect<
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
+    items?: boolean | Prisma.Dismantle$itemsArgs<ExtArgs>;
     customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
+    _count?: boolean | Prisma.DismantleCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['dismantle']
 >;
@@ -1006,7 +1194,9 @@ export type DismantleInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
+  items?: boolean | Prisma.Dismantle$itemsArgs<ExtArgs>;
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
+  _count?: boolean | Prisma.DismantleCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type DismantleIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
@@ -1027,6 +1217,7 @@ export type $DismantlePayload<
 > = {
   name: 'Dismantle';
   objects: {
+    items: Prisma.$DismantleItemPayload<ExtArgs>[];
     customer: Prisma.$CustomerPayload<ExtArgs>;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
@@ -1593,6 +1784,17 @@ export interface Prisma__DismantleClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
+  items<T extends Prisma.Dismantle$itemsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Dismantle$itemsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$DismantleItemPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   customer<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>,
   ): Prisma.Prisma__CustomerClient<
@@ -2130,6 +2332,37 @@ export type DismantleDeleteManyArgs<
    * Limit how many Dismantles to delete.
    */
   limit?: number;
+};
+
+/**
+ * Dismantle.items
+ */
+export type Dismantle$itemsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the DismantleItem
+   */
+  select?: Prisma.DismantleItemSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the DismantleItem
+   */
+  omit?: Prisma.DismantleItemOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DismantleItemInclude<ExtArgs> | null;
+  where?: Prisma.DismantleItemWhereInput;
+  orderBy?:
+    | Prisma.DismantleItemOrderByWithRelationInput
+    | Prisma.DismantleItemOrderByWithRelationInput[];
+  cursor?: Prisma.DismantleItemWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.DismantleItemScalarFieldEnum
+    | Prisma.DismantleItemScalarFieldEnum[];
 };
 
 /**

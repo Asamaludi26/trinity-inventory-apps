@@ -7,3 +7,4 @@ export {
   useUpdateDivision,
   useDeleteDivision,
 } from './useDivisions';
+export { useAuditLogs } from './useAuditLogs';

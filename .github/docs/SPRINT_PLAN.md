@@ -144,12 +144,12 @@ Berikut gap yang ditemukan antara 4 dokumen referensi dan kode saat ini:
 
 **Acceptance Criteria Sprint 3:**
 
-- [ ] Project lifecycle state machine berfungsi lengkap
-- [ ] Task CRUD dalam project berjalan
-- [ ] Material di instalasi/maintenance mengurangi stok
-- [ ] Dismantle mengembalikan aset ke gudang
-- [ ] 5 dashboard variants menampilkan data sesuai SOP §4.1-4.5
-- [ ] Quality Gate passed
+- [x] Project lifecycle state machine berfungsi lengkap
+- [x] Task CRUD dalam project berjalan
+- [x] Material di instalasi/maintenance mengurangi stok
+- [x] Dismantle mengembalikan aset ke gudang
+- [x] 5 dashboard variants menampilkan data sesuai SOP §4.1-4.5
+- [x] Quality Gate passed
 
 ---
 
@@ -171,12 +171,12 @@ Berikut gap yang ditemukan antara 4 dokumen referensi dan kode saat ini:
 
 **Acceptance Criteria Sprint 4:**
 
-- [ ] QR code tampil di detail aset, bisa dicetak
+- [x] QR code tampil di detail aset, bisa dicetak
 - [ ] Scan QR dari HP/webcam redirect ke detail aset
-- [ ] Export asset/stock/transaction ke XLSX berfungsi
-- [ ] Bulk import aset dari XLSX dengan validasi
-- [ ] Audit trail page menampilkan activity logs
-- [ ] Quality Gate passed
+- [x] Export asset/stock/transaction ke XLSX berfungsi
+- [x] Bulk import aset dari XLSX dengan validasi
+- [x] Audit trail page menampilkan activity logs
+- [x] Quality Gate passed
 
 ---
 

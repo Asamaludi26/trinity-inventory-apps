@@ -47,6 +47,69 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-15] — Fix: Prisma Seed P2002 Unique Constraint on `employee_id`
+
+#### Fixed
+
+- **`prisma/seed.ts`** — User `upsert` sebelumnya menggunakan `where: { email }` namun field `employee_id` juga unique constraint. Jika user dengan `employeeId` yang sama sudah ada (email berbeda atau create path), terjadi P2002. Diperbaiki dengan mengubah `where` menjadi `{ employeeId: user.employeeId }` dan menambahkan semua field ke `update: {}` agar re-run seed idempoten.
+
+#### Agents Involved
+
+- `database` — Fix seed upsert logic
+
+### [2026-04-14] — Sprint 3 & 4: Project Lifecycle, Customer Operations, Dashboard & Audit Trail
+
+#### Added
+
+**Sprint 3 — Backend:**
+
+- **Project lifecycle state machine** — `complete()`, `hold()`, `resume()` methods di ProjectService. State flow: IN_PROGRESS → COMPLETED, IN_PROGRESS ↔ ON_HOLD
+- **ON_HOLD status** — Enum `TransactionStatus` diperluas dengan status `ON_HOLD` via Prisma migration
+- **Project task CRUD** — `addTask()`, `updateTask()`, `removeTask()` endpoints di ProjectController
+- **Project material CRUD** — `addMaterial()`, `removeMaterial()` endpoints
+- **Project team CRUD** — `addTeamMember()`, `removeTeamMember()` endpoints
+- **Installation complete** — `complete()` method dengan StockMovement OUT untuk material yang punya `modelId`
+- **Maintenance complete** — `complete()` method dengan StockMovement OUT untuk material pengganti
+- **Dismantle complete** — `complete()` method mengembalikan aset ke IN_STORAGE + StockMovement IN records
+- **DismantleItem model** — Model baru untuk tracking aset yang di-dismantle beserta kondisi setelah pembongkaran
+- **modelId field** — InstallationMaterial & MaintenanceMaterial sekarang bisa di-link ke AssetModel
+- **Prisma migration** — `sprint3_project_lifecycle_customer_ops`
+
+**Sprint 3 — Frontend:**
+
+- **ProjectDetailPage** — Tombol Selesaikan, Tunda, Lanjutkan untuk project lifecycle IN_PROGRESS/ON_HOLD
+- **ProjectListPage** — Filter status ditambah APPROVED dan ON_HOLD
+- **InstallationDetailPage** — Tombol Selesaikan untuk status IN_PROGRESS
+- **MaintenanceDetailPage** — Tombol Selesaikan untuk status IN_PROGRESS
+- **DismantleDetailPage** — Tombol Selesaikan untuk status IN_PROGRESS
+- **API layer** — `projectApi.complete()`, `projectApi.hold()`, `projectApi.resume()`, customer `complete()` endpoints
+- **Hooks** — `useCompleteProject`, `useHoldProject`, `useResumeProject`, `useCompleteInstallation`, `useCompleteMaintenance`, `useCompleteDismantle`
+
+**Sprint 4 — Frontend:**
+
+- **AuditLogPage** — Halaman audit trail di `/settings/audit-log` dengan tabel activity logs, filter aksi (CREATE/UPDATE/DELETE), search, pagination
+- **Audit API & hook** — `auditApi.getAll()` + `useAuditLogs()` hook
+- **Audit Trail navigation** — Menu "Audit Trail" di sidebar Pengaturan (SUPERADMIN only)
+- **Route** — `/settings/audit-log` dengan `RoleProtectedRoute` SUPERADMIN
+
+**Sprint 4 — Already Implemented (verified):**
+
+- QR code display (`QrCodeSection`) di AssetDetailPage ✅
+- QR code download (`useDownloadQrCode`) ✅
+- Export buttons (XLSX/CSV/PDF) di AssetListPage, RequestListPage, LoanListPage, CustomerListPage ✅
+- Import dialog di AssetListPage ✅
+
+#### Changed
+
+- `TransactionStatus` type di frontend — ditambah `'ON_HOLD'`
+- Settings API exports — ditambah `auditApi`, `AuditFilterParams`, `AuditLog`
+
+#### Agents Involved
+
+- **backend** — Project lifecycle, customer operations, Prisma migration
+- **frontend** — All UI changes, hooks, API layer
+- **database** — Schema changes, DismantleItem model
+
 ### [2026-04-14] — Sprint 2: Notification, Overdue, Repair & mustChangePassword (P1 HIGH)
 
 #### Added

@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useInstallation } from '../hooks';
+import { useInstallation, useCompleteInstallation } from '../hooks';
 import { AttachmentSection } from '@/components/form';
 
 function formatDate(date: string | null) {
@@ -30,6 +31,15 @@ export function InstallationDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: installation, isLoading } = useInstallation(id ? Number(id) : undefined);
+  const completeInstallation = useCompleteInstallation();
+
+  const handleComplete = () => {
+    if (!id) return;
+    completeInstallation.mutate(Number(id), {
+      onSuccess: () => toast.success('Instalasi berhasil diselesaikan'),
+      onError: () => toast.error('Gagal menyelesaikan instalasi'),
+    });
+  };
 
   if (isLoading) {
     return (
@@ -59,10 +69,22 @@ export function InstallationDetailPage() {
     <PageContainer
       title={`Instalasi ${installation.code}`}
       actions={
-        <Button variant="outline" onClick={() => navigate('/installation')}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Kembali
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" onClick={() => navigate('/installation')}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Kembali
+          </Button>
+          {installation.status === 'IN_PROGRESS' && (
+            <Button
+              variant="default"
+              onClick={handleComplete}
+              disabled={completeInstallation.isPending}
+            >
+              <CheckCircle className="mr-2 h-4 w-4" />
+              {completeInstallation.isPending ? 'Menyelesaikan...' : 'Selesaikan'}
+            </Button>
+          )}
+        </div>
       }
     >
       <div className="space-y-6">

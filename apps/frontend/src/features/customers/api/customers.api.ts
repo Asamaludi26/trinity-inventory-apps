@@ -47,6 +47,8 @@ export const installationApi = {
 
   updateStatus: (id: number, data: Record<string, unknown>) =>
     api.patch<ApiResponse<void>>(`/installation/${id}/status`, data),
+
+  complete: (id: number) => api.patch<ApiResponse<void>>(`/installation/${id}/complete`),
 };
 
 // ================================
@@ -67,6 +69,8 @@ export const maintenanceApi = {
 
   updateStatus: (id: number, data: Record<string, unknown>) =>
     api.patch<ApiResponse<void>>(`/maintenance/${id}/status`, data),
+
+  complete: (id: number) => api.patch<ApiResponse<void>>(`/maintenance/${id}/complete`),
 };
 
 // ================================
@@ -86,4 +90,6 @@ export const dismantleApi = {
 
   updateStatus: (id: number, data: Record<string, unknown>) =>
     api.patch<ApiResponse<void>>(`/dismantle/${id}/status`, data),
+
+  complete: (id: number) => api.patch<ApiResponse<void>>(`/dismantle/${id}/complete`),
 };

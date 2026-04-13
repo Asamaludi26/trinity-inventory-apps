@@ -30,12 +30,14 @@ export type InstallationMaterialAvgAggregateOutputType = {
   id: number | null;
   installationId: number | null;
   quantity: number | null;
+  modelId: number | null;
 };
 
 export type InstallationMaterialSumAggregateOutputType = {
   id: number | null;
   installationId: number | null;
   quantity: number | null;
+  modelId: number | null;
 };
 
 export type InstallationMaterialMinAggregateOutputType = {
@@ -44,6 +46,7 @@ export type InstallationMaterialMinAggregateOutputType = {
   description: string | null;
   quantity: number | null;
   note: string | null;
+  modelId: number | null;
 };
 
 export type InstallationMaterialMaxAggregateOutputType = {
@@ -52,6 +55,7 @@ export type InstallationMaterialMaxAggregateOutputType = {
   description: string | null;
   quantity: number | null;
   note: string | null;
+  modelId: number | null;
 };
 
 export type InstallationMaterialCountAggregateOutputType = {
@@ -60,6 +64,7 @@ export type InstallationMaterialCountAggregateOutputType = {
   description: number;
   quantity: number;
   note: number;
+  modelId: number;
   _all: number;
 };
 
@@ -67,12 +72,14 @@ export type InstallationMaterialAvgAggregateInputType = {
   id?: true;
   installationId?: true;
   quantity?: true;
+  modelId?: true;
 };
 
 export type InstallationMaterialSumAggregateInputType = {
   id?: true;
   installationId?: true;
   quantity?: true;
+  modelId?: true;
 };
 
 export type InstallationMaterialMinAggregateInputType = {
@@ -81,6 +88,7 @@ export type InstallationMaterialMinAggregateInputType = {
   description?: true;
   quantity?: true;
   note?: true;
+  modelId?: true;
 };
 
 export type InstallationMaterialMaxAggregateInputType = {
@@ -89,6 +97,7 @@ export type InstallationMaterialMaxAggregateInputType = {
   description?: true;
   quantity?: true;
   note?: true;
+  modelId?: true;
 };
 
 export type InstallationMaterialCountAggregateInputType = {
@@ -97,6 +106,7 @@ export type InstallationMaterialCountAggregateInputType = {
   description?: true;
   quantity?: true;
   note?: true;
+  modelId?: true;
   _all?: true;
 };
 
@@ -205,6 +215,7 @@ export type InstallationMaterialGroupByOutputType = {
   description: string;
   quantity: number;
   note: string | null;
+  modelId: number | null;
   _count: InstallationMaterialCountAggregateOutputType | null;
   _avg: InstallationMaterialAvgAggregateOutputType | null;
   _sum: InstallationMaterialSumAggregateOutputType | null;
@@ -240,10 +251,15 @@ export type InstallationMaterialWhereInput = {
   description?: Prisma.StringFilter<'InstallationMaterial'> | string;
   quantity?: Prisma.IntFilter<'InstallationMaterial'> | number;
   note?: Prisma.StringNullableFilter<'InstallationMaterial'> | string | null;
+  modelId?: Prisma.IntNullableFilter<'InstallationMaterial'> | number | null;
   installation?: Prisma.XOR<
     Prisma.InstallationScalarRelationFilter,
     Prisma.InstallationWhereInput
   >;
+  model?: Prisma.XOR<
+    Prisma.AssetModelNullableScalarRelationFilter,
+    Prisma.AssetModelWhereInput
+  > | null;
 };
 
 export type InstallationMaterialOrderByWithRelationInput = {
@@ -252,7 +268,9 @@ export type InstallationMaterialOrderByWithRelationInput = {
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
+  modelId?: Prisma.SortOrderInput | Prisma.SortOrder;
   installation?: Prisma.InstallationOrderByWithRelationInput;
+  model?: Prisma.AssetModelOrderByWithRelationInput;
 };
 
 export type InstallationMaterialWhereUniqueInput = Prisma.AtLeast<
@@ -269,10 +287,15 @@ export type InstallationMaterialWhereUniqueInput = Prisma.AtLeast<
     description?: Prisma.StringFilter<'InstallationMaterial'> | string;
     quantity?: Prisma.IntFilter<'InstallationMaterial'> | number;
     note?: Prisma.StringNullableFilter<'InstallationMaterial'> | string | null;
+    modelId?: Prisma.IntNullableFilter<'InstallationMaterial'> | number | null;
     installation?: Prisma.XOR<
       Prisma.InstallationScalarRelationFilter,
       Prisma.InstallationWhereInput
     >;
+    model?: Prisma.XOR<
+      Prisma.AssetModelNullableScalarRelationFilter,
+      Prisma.AssetModelWhereInput
+    > | null;
   },
   'id'
 >;
@@ -283,6 +306,7 @@ export type InstallationMaterialOrderByWithAggregationInput = {
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
+  modelId?: Prisma.SortOrderInput | Prisma.SortOrder;
   _count?: Prisma.InstallationMaterialCountOrderByAggregateInput;
   _avg?: Prisma.InstallationMaterialAvgOrderByAggregateInput;
   _max?: Prisma.InstallationMaterialMaxOrderByAggregateInput;
@@ -310,6 +334,10 @@ export type InstallationMaterialScalarWhereWithAggregatesInput = {
     | Prisma.StringNullableWithAggregatesFilter<'InstallationMaterial'>
     | string
     | null;
+  modelId?:
+    | Prisma.IntNullableWithAggregatesFilter<'InstallationMaterial'>
+    | number
+    | null;
 };
 
 export type InstallationMaterialCreateInput = {
@@ -317,6 +345,7 @@ export type InstallationMaterialCreateInput = {
   quantity: number;
   note?: string | null;
   installation: Prisma.InstallationCreateNestedOneWithoutMaterialsInput;
+  model?: Prisma.AssetModelCreateNestedOneWithoutInstallationMaterialsInput;
 };
 
 export type InstallationMaterialUncheckedCreateInput = {
@@ -325,6 +354,7 @@ export type InstallationMaterialUncheckedCreateInput = {
   description: string;
   quantity: number;
   note?: string | null;
+  modelId?: number | null;
 };
 
 export type InstallationMaterialUpdateInput = {
@@ -332,6 +362,7 @@ export type InstallationMaterialUpdateInput = {
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   installation?: Prisma.InstallationUpdateOneRequiredWithoutMaterialsNestedInput;
+  model?: Prisma.AssetModelUpdateOneWithoutInstallationMaterialsNestedInput;
 };
 
 export type InstallationMaterialUncheckedUpdateInput = {
@@ -340,6 +371,7 @@ export type InstallationMaterialUncheckedUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
 };
 
 export type InstallationMaterialCreateManyInput = {
@@ -348,6 +380,7 @@ export type InstallationMaterialCreateManyInput = {
   description: string;
   quantity: number;
   note?: string | null;
+  modelId?: number | null;
 };
 
 export type InstallationMaterialUpdateManyMutationInput = {
@@ -362,6 +395,7 @@ export type InstallationMaterialUncheckedUpdateManyInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
 };
 
 export type InstallationMaterialListRelationFilter = {
@@ -380,12 +414,14 @@ export type InstallationMaterialCountOrderByAggregateInput = {
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
+  modelId?: Prisma.SortOrder;
 };
 
 export type InstallationMaterialAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   installationId?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
+  modelId?: Prisma.SortOrder;
 };
 
 export type InstallationMaterialMaxOrderByAggregateInput = {
@@ -394,6 +430,7 @@ export type InstallationMaterialMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
+  modelId?: Prisma.SortOrder;
 };
 
 export type InstallationMaterialMinOrderByAggregateInput = {
@@ -402,12 +439,124 @@ export type InstallationMaterialMinOrderByAggregateInput = {
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
+  modelId?: Prisma.SortOrder;
 };
 
 export type InstallationMaterialSumOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   installationId?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
+  modelId?: Prisma.SortOrder;
+};
+
+export type InstallationMaterialCreateNestedManyWithoutModelInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.InstallationMaterialCreateWithoutModelInput,
+        Prisma.InstallationMaterialUncheckedCreateWithoutModelInput
+      >
+    | Prisma.InstallationMaterialCreateWithoutModelInput[]
+    | Prisma.InstallationMaterialUncheckedCreateWithoutModelInput[];
+  connectOrCreate?:
+    | Prisma.InstallationMaterialCreateOrConnectWithoutModelInput
+    | Prisma.InstallationMaterialCreateOrConnectWithoutModelInput[];
+  createMany?: Prisma.InstallationMaterialCreateManyModelInputEnvelope;
+  connect?:
+    | Prisma.InstallationMaterialWhereUniqueInput
+    | Prisma.InstallationMaterialWhereUniqueInput[];
+};
+
+export type InstallationMaterialUncheckedCreateNestedManyWithoutModelInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.InstallationMaterialCreateWithoutModelInput,
+        Prisma.InstallationMaterialUncheckedCreateWithoutModelInput
+      >
+    | Prisma.InstallationMaterialCreateWithoutModelInput[]
+    | Prisma.InstallationMaterialUncheckedCreateWithoutModelInput[];
+  connectOrCreate?:
+    | Prisma.InstallationMaterialCreateOrConnectWithoutModelInput
+    | Prisma.InstallationMaterialCreateOrConnectWithoutModelInput[];
+  createMany?: Prisma.InstallationMaterialCreateManyModelInputEnvelope;
+  connect?:
+    | Prisma.InstallationMaterialWhereUniqueInput
+    | Prisma.InstallationMaterialWhereUniqueInput[];
+};
+
+export type InstallationMaterialUpdateManyWithoutModelNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.InstallationMaterialCreateWithoutModelInput,
+        Prisma.InstallationMaterialUncheckedCreateWithoutModelInput
+      >
+    | Prisma.InstallationMaterialCreateWithoutModelInput[]
+    | Prisma.InstallationMaterialUncheckedCreateWithoutModelInput[];
+  connectOrCreate?:
+    | Prisma.InstallationMaterialCreateOrConnectWithoutModelInput
+    | Prisma.InstallationMaterialCreateOrConnectWithoutModelInput[];
+  upsert?:
+    | Prisma.InstallationMaterialUpsertWithWhereUniqueWithoutModelInput
+    | Prisma.InstallationMaterialUpsertWithWhereUniqueWithoutModelInput[];
+  createMany?: Prisma.InstallationMaterialCreateManyModelInputEnvelope;
+  set?:
+    | Prisma.InstallationMaterialWhereUniqueInput
+    | Prisma.InstallationMaterialWhereUniqueInput[];
+  disconnect?:
+    | Prisma.InstallationMaterialWhereUniqueInput
+    | Prisma.InstallationMaterialWhereUniqueInput[];
+  delete?:
+    | Prisma.InstallationMaterialWhereUniqueInput
+    | Prisma.InstallationMaterialWhereUniqueInput[];
+  connect?:
+    | Prisma.InstallationMaterialWhereUniqueInput
+    | Prisma.InstallationMaterialWhereUniqueInput[];
+  update?:
+    | Prisma.InstallationMaterialUpdateWithWhereUniqueWithoutModelInput
+    | Prisma.InstallationMaterialUpdateWithWhereUniqueWithoutModelInput[];
+  updateMany?:
+    | Prisma.InstallationMaterialUpdateManyWithWhereWithoutModelInput
+    | Prisma.InstallationMaterialUpdateManyWithWhereWithoutModelInput[];
+  deleteMany?:
+    | Prisma.InstallationMaterialScalarWhereInput
+    | Prisma.InstallationMaterialScalarWhereInput[];
+};
+
+export type InstallationMaterialUncheckedUpdateManyWithoutModelNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.InstallationMaterialCreateWithoutModelInput,
+        Prisma.InstallationMaterialUncheckedCreateWithoutModelInput
+      >
+    | Prisma.InstallationMaterialCreateWithoutModelInput[]
+    | Prisma.InstallationMaterialUncheckedCreateWithoutModelInput[];
+  connectOrCreate?:
+    | Prisma.InstallationMaterialCreateOrConnectWithoutModelInput
+    | Prisma.InstallationMaterialCreateOrConnectWithoutModelInput[];
+  upsert?:
+    | Prisma.InstallationMaterialUpsertWithWhereUniqueWithoutModelInput
+    | Prisma.InstallationMaterialUpsertWithWhereUniqueWithoutModelInput[];
+  createMany?: Prisma.InstallationMaterialCreateManyModelInputEnvelope;
+  set?:
+    | Prisma.InstallationMaterialWhereUniqueInput
+    | Prisma.InstallationMaterialWhereUniqueInput[];
+  disconnect?:
+    | Prisma.InstallationMaterialWhereUniqueInput
+    | Prisma.InstallationMaterialWhereUniqueInput[];
+  delete?:
+    | Prisma.InstallationMaterialWhereUniqueInput
+    | Prisma.InstallationMaterialWhereUniqueInput[];
+  connect?:
+    | Prisma.InstallationMaterialWhereUniqueInput
+    | Prisma.InstallationMaterialWhereUniqueInput[];
+  update?:
+    | Prisma.InstallationMaterialUpdateWithWhereUniqueWithoutModelInput
+    | Prisma.InstallationMaterialUpdateWithWhereUniqueWithoutModelInput[];
+  updateMany?:
+    | Prisma.InstallationMaterialUpdateManyWithWhereWithoutModelInput
+    | Prisma.InstallationMaterialUpdateManyWithWhereWithoutModelInput[];
+  deleteMany?:
+    | Prisma.InstallationMaterialScalarWhereInput
+    | Prisma.InstallationMaterialScalarWhereInput[];
 };
 
 export type InstallationMaterialCreateNestedManyWithoutInstallationInput = {
@@ -522,10 +671,85 @@ export type InstallationMaterialUncheckedUpdateManyWithoutInstallationNestedInpu
       | Prisma.InstallationMaterialScalarWhereInput[];
   };
 
+export type InstallationMaterialCreateWithoutModelInput = {
+  description: string;
+  quantity: number;
+  note?: string | null;
+  installation: Prisma.InstallationCreateNestedOneWithoutMaterialsInput;
+};
+
+export type InstallationMaterialUncheckedCreateWithoutModelInput = {
+  id?: number;
+  installationId: number;
+  description: string;
+  quantity: number;
+  note?: string | null;
+};
+
+export type InstallationMaterialCreateOrConnectWithoutModelInput = {
+  where: Prisma.InstallationMaterialWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.InstallationMaterialCreateWithoutModelInput,
+    Prisma.InstallationMaterialUncheckedCreateWithoutModelInput
+  >;
+};
+
+export type InstallationMaterialCreateManyModelInputEnvelope = {
+  data:
+    | Prisma.InstallationMaterialCreateManyModelInput
+    | Prisma.InstallationMaterialCreateManyModelInput[];
+  skipDuplicates?: boolean;
+};
+
+export type InstallationMaterialUpsertWithWhereUniqueWithoutModelInput = {
+  where: Prisma.InstallationMaterialWhereUniqueInput;
+  update: Prisma.XOR<
+    Prisma.InstallationMaterialUpdateWithoutModelInput,
+    Prisma.InstallationMaterialUncheckedUpdateWithoutModelInput
+  >;
+  create: Prisma.XOR<
+    Prisma.InstallationMaterialCreateWithoutModelInput,
+    Prisma.InstallationMaterialUncheckedCreateWithoutModelInput
+  >;
+};
+
+export type InstallationMaterialUpdateWithWhereUniqueWithoutModelInput = {
+  where: Prisma.InstallationMaterialWhereUniqueInput;
+  data: Prisma.XOR<
+    Prisma.InstallationMaterialUpdateWithoutModelInput,
+    Prisma.InstallationMaterialUncheckedUpdateWithoutModelInput
+  >;
+};
+
+export type InstallationMaterialUpdateManyWithWhereWithoutModelInput = {
+  where: Prisma.InstallationMaterialScalarWhereInput;
+  data: Prisma.XOR<
+    Prisma.InstallationMaterialUpdateManyMutationInput,
+    Prisma.InstallationMaterialUncheckedUpdateManyWithoutModelInput
+  >;
+};
+
+export type InstallationMaterialScalarWhereInput = {
+  AND?:
+    | Prisma.InstallationMaterialScalarWhereInput
+    | Prisma.InstallationMaterialScalarWhereInput[];
+  OR?: Prisma.InstallationMaterialScalarWhereInput[];
+  NOT?:
+    | Prisma.InstallationMaterialScalarWhereInput
+    | Prisma.InstallationMaterialScalarWhereInput[];
+  id?: Prisma.IntFilter<'InstallationMaterial'> | number;
+  installationId?: Prisma.IntFilter<'InstallationMaterial'> | number;
+  description?: Prisma.StringFilter<'InstallationMaterial'> | string;
+  quantity?: Prisma.IntFilter<'InstallationMaterial'> | number;
+  note?: Prisma.StringNullableFilter<'InstallationMaterial'> | string | null;
+  modelId?: Prisma.IntNullableFilter<'InstallationMaterial'> | number | null;
+};
+
 export type InstallationMaterialCreateWithoutInstallationInput = {
   description: string;
   quantity: number;
   note?: string | null;
+  model?: Prisma.AssetModelCreateNestedOneWithoutInstallationMaterialsInput;
 };
 
 export type InstallationMaterialUncheckedCreateWithoutInstallationInput = {
@@ -533,6 +757,7 @@ export type InstallationMaterialUncheckedCreateWithoutInstallationInput = {
   description: string;
   quantity: number;
   note?: string | null;
+  modelId?: number | null;
 };
 
 export type InstallationMaterialCreateOrConnectWithoutInstallationInput = {
@@ -580,19 +805,35 @@ export type InstallationMaterialUpdateManyWithWhereWithoutInstallationInput = {
   >;
 };
 
-export type InstallationMaterialScalarWhereInput = {
-  AND?:
-    | Prisma.InstallationMaterialScalarWhereInput
-    | Prisma.InstallationMaterialScalarWhereInput[];
-  OR?: Prisma.InstallationMaterialScalarWhereInput[];
-  NOT?:
-    | Prisma.InstallationMaterialScalarWhereInput
-    | Prisma.InstallationMaterialScalarWhereInput[];
-  id?: Prisma.IntFilter<'InstallationMaterial'> | number;
-  installationId?: Prisma.IntFilter<'InstallationMaterial'> | number;
-  description?: Prisma.StringFilter<'InstallationMaterial'> | string;
-  quantity?: Prisma.IntFilter<'InstallationMaterial'> | number;
-  note?: Prisma.StringNullableFilter<'InstallationMaterial'> | string | null;
+export type InstallationMaterialCreateManyModelInput = {
+  id?: number;
+  installationId: number;
+  description: string;
+  quantity: number;
+  note?: string | null;
+};
+
+export type InstallationMaterialUpdateWithoutModelInput = {
+  description?: Prisma.StringFieldUpdateOperationsInput | string;
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  installation?: Prisma.InstallationUpdateOneRequiredWithoutMaterialsNestedInput;
+};
+
+export type InstallationMaterialUncheckedUpdateWithoutModelInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  installationId?: Prisma.IntFieldUpdateOperationsInput | number;
+  description?: Prisma.StringFieldUpdateOperationsInput | string;
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+};
+
+export type InstallationMaterialUncheckedUpdateManyWithoutModelInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  installationId?: Prisma.IntFieldUpdateOperationsInput | number;
+  description?: Prisma.StringFieldUpdateOperationsInput | string;
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type InstallationMaterialCreateManyInstallationInput = {
@@ -600,12 +841,14 @@ export type InstallationMaterialCreateManyInstallationInput = {
   description: string;
   quantity: number;
   note?: string | null;
+  modelId?: number | null;
 };
 
 export type InstallationMaterialUpdateWithoutInstallationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  model?: Prisma.AssetModelUpdateOneWithoutInstallationMaterialsNestedInput;
 };
 
 export type InstallationMaterialUncheckedUpdateWithoutInstallationInput = {
@@ -613,6 +856,7 @@ export type InstallationMaterialUncheckedUpdateWithoutInstallationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
 };
 
 export type InstallationMaterialUncheckedUpdateManyWithoutInstallationInput = {
@@ -620,6 +864,7 @@ export type InstallationMaterialUncheckedUpdateManyWithoutInstallationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
 };
 
 export type InstallationMaterialSelect<
@@ -632,7 +877,9 @@ export type InstallationMaterialSelect<
     description?: boolean;
     quantity?: boolean;
     note?: boolean;
+    modelId?: boolean;
     installation?: boolean | Prisma.InstallationDefaultArgs<ExtArgs>;
+    model?: boolean | Prisma.InstallationMaterial$modelArgs<ExtArgs>;
   },
   ExtArgs['result']['installationMaterial']
 >;
@@ -647,7 +894,9 @@ export type InstallationMaterialSelectCreateManyAndReturn<
     description?: boolean;
     quantity?: boolean;
     note?: boolean;
+    modelId?: boolean;
     installation?: boolean | Prisma.InstallationDefaultArgs<ExtArgs>;
+    model?: boolean | Prisma.InstallationMaterial$modelArgs<ExtArgs>;
   },
   ExtArgs['result']['installationMaterial']
 >;
@@ -662,7 +911,9 @@ export type InstallationMaterialSelectUpdateManyAndReturn<
     description?: boolean;
     quantity?: boolean;
     note?: boolean;
+    modelId?: boolean;
     installation?: boolean | Prisma.InstallationDefaultArgs<ExtArgs>;
+    model?: boolean | Prisma.InstallationMaterial$modelArgs<ExtArgs>;
   },
   ExtArgs['result']['installationMaterial']
 >;
@@ -673,13 +924,14 @@ export type InstallationMaterialSelectScalar = {
   description?: boolean;
   quantity?: boolean;
   note?: boolean;
+  modelId?: boolean;
 };
 
 export type InstallationMaterialOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  'id' | 'installationId' | 'description' | 'quantity' | 'note',
+  'id' | 'installationId' | 'description' | 'quantity' | 'note' | 'modelId',
   ExtArgs['result']['installationMaterial']
 >;
 export type InstallationMaterialInclude<
@@ -687,18 +939,21 @@ export type InstallationMaterialInclude<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   installation?: boolean | Prisma.InstallationDefaultArgs<ExtArgs>;
+  model?: boolean | Prisma.InstallationMaterial$modelArgs<ExtArgs>;
 };
 export type InstallationMaterialIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   installation?: boolean | Prisma.InstallationDefaultArgs<ExtArgs>;
+  model?: boolean | Prisma.InstallationMaterial$modelArgs<ExtArgs>;
 };
 export type InstallationMaterialIncludeUpdateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   installation?: boolean | Prisma.InstallationDefaultArgs<ExtArgs>;
+  model?: boolean | Prisma.InstallationMaterial$modelArgs<ExtArgs>;
 };
 
 export type $InstallationMaterialPayload<
@@ -708,6 +963,7 @@ export type $InstallationMaterialPayload<
   name: 'InstallationMaterial';
   objects: {
     installation: Prisma.$InstallationPayload<ExtArgs>;
+    model: Prisma.$AssetModelPayload<ExtArgs> | null;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -716,6 +972,7 @@ export type $InstallationMaterialPayload<
       description: string;
       quantity: number;
       note: string | null;
+      modelId: number | null;
     },
     ExtArgs['result']['installationMaterial']
   >;
@@ -1302,6 +1559,19 @@ export interface Prisma__InstallationMaterialClient<
     ExtArgs,
     GlobalOmitOptions
   >;
+  model<T extends Prisma.InstallationMaterial$modelArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.InstallationMaterial$modelArgs<ExtArgs>>,
+  ): Prisma.Prisma__AssetModelClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$AssetModelPayload<ExtArgs>,
+      T,
+      'findUniqueOrThrow',
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1349,6 +1619,7 @@ export interface InstallationMaterialFieldRefs {
   readonly description: Prisma.FieldRef<'InstallationMaterial', 'String'>;
   readonly quantity: Prisma.FieldRef<'InstallationMaterial', 'Int'>;
   readonly note: Prisma.FieldRef<'InstallationMaterial', 'String'>;
+  readonly modelId: Prisma.FieldRef<'InstallationMaterial', 'Int'>;
 }
 
 // Custom InputTypes
@@ -1822,6 +2093,28 @@ export type InstallationMaterialDeleteManyArgs<
    * Limit how many InstallationMaterials to delete.
    */
   limit?: number;
+};
+
+/**
+ * InstallationMaterial.model
+ */
+export type InstallationMaterial$modelArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the AssetModel
+   */
+  select?: Prisma.AssetModelSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the AssetModel
+   */
+  omit?: Prisma.AssetModelOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetModelInclude<ExtArgs> | null;
+  where?: Prisma.AssetModelWhereInput;
 };
 
 /**

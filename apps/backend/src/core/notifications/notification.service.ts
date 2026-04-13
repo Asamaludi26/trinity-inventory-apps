@@ -78,7 +78,9 @@ export class NotificationService {
       | 'ASSETS_ASSIGNED'
       | 'PURCHASING'
       | 'IN_DELIVERY'
-      | 'ARRIVED';
+      | 'ARRIVED'
+      | 'ON_HOLD'
+      | 'RESUMED';
     link: string;
     reason?: string;
   }) {
@@ -138,6 +140,16 @@ export class NotificationService {
       ARRIVED: {
         title: `${transactionType} Telah Tiba`,
         message: `${transactionType} ${transactionCode} telah tiba dan siap diproses.`,
+        type: NotificationType.STATUS_CHANGE,
+      },
+      ON_HOLD: {
+        title: `${transactionType} Ditunda`,
+        message: `${transactionType} ${transactionCode} sedang ditunda sementara.`,
+        type: NotificationType.STATUS_CHANGE,
+      },
+      RESUMED: {
+        title: `${transactionType} Dilanjutkan`,
+        message: `${transactionType} ${transactionCode} telah dilanjutkan kembali.`,
         type: NotificationType.STATUS_CHANGE,
       },
     };

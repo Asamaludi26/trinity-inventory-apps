@@ -602,6 +602,49 @@ export type EnumTransactionStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumTransactionStatusFilter<$PrismaModel>;
 };
 
+export type EnumAssetConditionNullableFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.AssetCondition
+    | Prisma.EnumAssetConditionFieldRefInput<$PrismaModel>
+    | null;
+  in?:
+    | $Enums.AssetCondition[]
+    | Prisma.ListEnumAssetConditionFieldRefInput<$PrismaModel>
+    | null;
+  notIn?:
+    | $Enums.AssetCondition[]
+    | Prisma.ListEnumAssetConditionFieldRefInput<$PrismaModel>
+    | null;
+  not?:
+    | Prisma.NestedEnumAssetConditionNullableFilter<$PrismaModel>
+    | $Enums.AssetCondition
+    | null;
+};
+
+export type EnumAssetConditionNullableWithAggregatesFilter<
+  $PrismaModel = never,
+> = {
+  equals?:
+    | $Enums.AssetCondition
+    | Prisma.EnumAssetConditionFieldRefInput<$PrismaModel>
+    | null;
+  in?:
+    | $Enums.AssetCondition[]
+    | Prisma.ListEnumAssetConditionFieldRefInput<$PrismaModel>
+    | null;
+  notIn?:
+    | $Enums.AssetCondition[]
+    | Prisma.ListEnumAssetConditionFieldRefInput<$PrismaModel>
+    | null;
+  not?:
+    | Prisma.NestedEnumAssetConditionNullableWithAggregatesFilter<$PrismaModel>
+    | $Enums.AssetCondition
+    | null;
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumAssetConditionNullableFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumAssetConditionNullableFilter<$PrismaModel>;
+};
+
 export type DecimalFilter<$PrismaModel = never> = {
   equals?:
     | runtime.Decimal
@@ -1363,6 +1406,49 @@ export type NestedEnumTransactionStatusWithAggregatesFilter<
   _count?: Prisma.NestedIntFilter<$PrismaModel>;
   _min?: Prisma.NestedEnumTransactionStatusFilter<$PrismaModel>;
   _max?: Prisma.NestedEnumTransactionStatusFilter<$PrismaModel>;
+};
+
+export type NestedEnumAssetConditionNullableFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.AssetCondition
+    | Prisma.EnumAssetConditionFieldRefInput<$PrismaModel>
+    | null;
+  in?:
+    | $Enums.AssetCondition[]
+    | Prisma.ListEnumAssetConditionFieldRefInput<$PrismaModel>
+    | null;
+  notIn?:
+    | $Enums.AssetCondition[]
+    | Prisma.ListEnumAssetConditionFieldRefInput<$PrismaModel>
+    | null;
+  not?:
+    | Prisma.NestedEnumAssetConditionNullableFilter<$PrismaModel>
+    | $Enums.AssetCondition
+    | null;
+};
+
+export type NestedEnumAssetConditionNullableWithAggregatesFilter<
+  $PrismaModel = never,
+> = {
+  equals?:
+    | $Enums.AssetCondition
+    | Prisma.EnumAssetConditionFieldRefInput<$PrismaModel>
+    | null;
+  in?:
+    | $Enums.AssetCondition[]
+    | Prisma.ListEnumAssetConditionFieldRefInput<$PrismaModel>
+    | null;
+  notIn?:
+    | $Enums.AssetCondition[]
+    | Prisma.ListEnumAssetConditionFieldRefInput<$PrismaModel>
+    | null;
+  not?:
+    | Prisma.NestedEnumAssetConditionNullableWithAggregatesFilter<$PrismaModel>
+    | $Enums.AssetCondition
+    | null;
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumAssetConditionNullableFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumAssetConditionNullableFilter<$PrismaModel>;
 };
 
 export type NestedDecimalFilter<$PrismaModel = never> = {

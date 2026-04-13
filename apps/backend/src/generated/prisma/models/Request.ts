@@ -294,6 +294,8 @@ export type RequestWhereInput = {
   version?: Prisma.IntFilter<'Request'> | number;
   createdAt?: Prisma.DateTimeFilter<'Request'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Request'> | Date | string;
+  assetRegistrations?: Prisma.AssetRegistrationListRelationFilter;
+  items?: Prisma.RequestItemListRelationFilter;
   createdBy?: Prisma.XOR<
     Prisma.UserScalarRelationFilter,
     Prisma.UserWhereInput
@@ -302,8 +304,6 @@ export type RequestWhereInput = {
     Prisma.InfraProjectNullableScalarRelationFilter,
     Prisma.InfraProjectWhereInput
   > | null;
-  items?: Prisma.RequestItemListRelationFilter;
-  assetRegistrations?: Prisma.AssetRegistrationListRelationFilter;
 };
 
 export type RequestOrderByWithRelationInput = {
@@ -321,10 +321,10 @@ export type RequestOrderByWithRelationInput = {
   version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
+  assetRegistrations?: Prisma.AssetRegistrationOrderByRelationAggregateInput;
+  items?: Prisma.RequestItemOrderByRelationAggregateInput;
   createdBy?: Prisma.UserOrderByWithRelationInput;
   project?: Prisma.InfraProjectOrderByWithRelationInput;
-  items?: Prisma.RequestItemOrderByRelationAggregateInput;
-  assetRegistrations?: Prisma.AssetRegistrationOrderByRelationAggregateInput;
 };
 
 export type RequestWhereUniqueInput = Prisma.AtLeast<
@@ -348,6 +348,8 @@ export type RequestWhereUniqueInput = Prisma.AtLeast<
     version?: Prisma.IntFilter<'Request'> | number;
     createdAt?: Prisma.DateTimeFilter<'Request'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Request'> | Date | string;
+    assetRegistrations?: Prisma.AssetRegistrationListRelationFilter;
+    items?: Prisma.RequestItemListRelationFilter;
     createdBy?: Prisma.XOR<
       Prisma.UserScalarRelationFilter,
       Prisma.UserWhereInput
@@ -356,8 +358,6 @@ export type RequestWhereUniqueInput = Prisma.AtLeast<
       Prisma.InfraProjectNullableScalarRelationFilter,
       Prisma.InfraProjectWhereInput
     > | null;
-    items?: Prisma.RequestItemListRelationFilter;
-    assetRegistrations?: Prisma.AssetRegistrationListRelationFilter;
   },
   'id' | 'code'
 >;
@@ -432,10 +432,10 @@ export type RequestCreateInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  assetRegistrations?: Prisma.AssetRegistrationCreateNestedManyWithoutRequestInput;
+  items?: Prisma.RequestItemCreateNestedManyWithoutRequestInput;
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedRequestsInput;
   project?: Prisma.InfraProjectCreateNestedOneWithoutRequestsInput;
-  items?: Prisma.RequestItemCreateNestedManyWithoutRequestInput;
-  assetRegistrations?: Prisma.AssetRegistrationCreateNestedManyWithoutRequestInput;
 };
 
 export type RequestUncheckedCreateInput = {
@@ -453,8 +453,8 @@ export type RequestUncheckedCreateInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  items?: Prisma.RequestItemUncheckedCreateNestedManyWithoutRequestInput;
   assetRegistrations?: Prisma.AssetRegistrationUncheckedCreateNestedManyWithoutRequestInput;
+  items?: Prisma.RequestItemUncheckedCreateNestedManyWithoutRequestInput;
 };
 
 export type RequestUpdateInput = {
@@ -475,10 +475,10 @@ export type RequestUpdateInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  assetRegistrations?: Prisma.AssetRegistrationUpdateManyWithoutRequestNestedInput;
+  items?: Prisma.RequestItemUpdateManyWithoutRequestNestedInput;
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedRequestsNestedInput;
   project?: Prisma.InfraProjectUpdateOneWithoutRequestsNestedInput;
-  items?: Prisma.RequestItemUpdateManyWithoutRequestNestedInput;
-  assetRegistrations?: Prisma.AssetRegistrationUpdateManyWithoutRequestNestedInput;
 };
 
 export type RequestUncheckedUpdateInput = {
@@ -501,8 +501,8 @@ export type RequestUncheckedUpdateInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  items?: Prisma.RequestItemUncheckedUpdateManyWithoutRequestNestedInput;
   assetRegistrations?: Prisma.AssetRegistrationUncheckedUpdateManyWithoutRequestNestedInput;
+  items?: Prisma.RequestItemUncheckedUpdateManyWithoutRequestNestedInput;
 };
 
 export type RequestCreateManyInput = {
@@ -891,9 +891,9 @@ export type RequestCreateWithoutAssetRegistrationsInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  items?: Prisma.RequestItemCreateNestedManyWithoutRequestInput;
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedRequestsInput;
   project?: Prisma.InfraProjectCreateNestedOneWithoutRequestsInput;
-  items?: Prisma.RequestItemCreateNestedManyWithoutRequestInput;
 };
 
 export type RequestUncheckedCreateWithoutAssetRegistrationsInput = {
@@ -960,9 +960,9 @@ export type RequestUpdateWithoutAssetRegistrationsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.RequestItemUpdateManyWithoutRequestNestedInput;
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedRequestsNestedInput;
   project?: Prisma.InfraProjectUpdateOneWithoutRequestsNestedInput;
-  items?: Prisma.RequestItemUpdateManyWithoutRequestNestedInput;
 };
 
 export type RequestUncheckedUpdateWithoutAssetRegistrationsInput = {
@@ -1001,9 +1001,9 @@ export type RequestCreateWithoutCreatedByInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  project?: Prisma.InfraProjectCreateNestedOneWithoutRequestsInput;
-  items?: Prisma.RequestItemCreateNestedManyWithoutRequestInput;
   assetRegistrations?: Prisma.AssetRegistrationCreateNestedManyWithoutRequestInput;
+  items?: Prisma.RequestItemCreateNestedManyWithoutRequestInput;
+  project?: Prisma.InfraProjectCreateNestedOneWithoutRequestsInput;
 };
 
 export type RequestUncheckedCreateWithoutCreatedByInput = {
@@ -1020,8 +1020,8 @@ export type RequestUncheckedCreateWithoutCreatedByInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  items?: Prisma.RequestItemUncheckedCreateNestedManyWithoutRequestInput;
   assetRegistrations?: Prisma.AssetRegistrationUncheckedCreateNestedManyWithoutRequestInput;
+  items?: Prisma.RequestItemUncheckedCreateNestedManyWithoutRequestInput;
 };
 
 export type RequestCreateOrConnectWithoutCreatedByInput = {
@@ -1102,9 +1102,9 @@ export type RequestCreateWithoutProjectInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedRequestsInput;
-  items?: Prisma.RequestItemCreateNestedManyWithoutRequestInput;
   assetRegistrations?: Prisma.AssetRegistrationCreateNestedManyWithoutRequestInput;
+  items?: Prisma.RequestItemCreateNestedManyWithoutRequestInput;
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedRequestsInput;
 };
 
 export type RequestUncheckedCreateWithoutProjectInput = {
@@ -1121,8 +1121,8 @@ export type RequestUncheckedCreateWithoutProjectInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  items?: Prisma.RequestItemUncheckedCreateNestedManyWithoutRequestInput;
   assetRegistrations?: Prisma.AssetRegistrationUncheckedCreateNestedManyWithoutRequestInput;
+  items?: Prisma.RequestItemUncheckedCreateNestedManyWithoutRequestInput;
 };
 
 export type RequestCreateOrConnectWithoutProjectInput = {
@@ -1181,9 +1181,9 @@ export type RequestCreateWithoutItemsInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  assetRegistrations?: Prisma.AssetRegistrationCreateNestedManyWithoutRequestInput;
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedRequestsInput;
   project?: Prisma.InfraProjectCreateNestedOneWithoutRequestsInput;
-  assetRegistrations?: Prisma.AssetRegistrationCreateNestedManyWithoutRequestInput;
 };
 
 export type RequestUncheckedCreateWithoutItemsInput = {
@@ -1250,9 +1250,9 @@ export type RequestUpdateWithoutItemsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  assetRegistrations?: Prisma.AssetRegistrationUpdateManyWithoutRequestNestedInput;
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedRequestsNestedInput;
   project?: Prisma.InfraProjectUpdateOneWithoutRequestsNestedInput;
-  assetRegistrations?: Prisma.AssetRegistrationUpdateManyWithoutRequestNestedInput;
 };
 
 export type RequestUncheckedUpdateWithoutItemsInput = {
@@ -1312,9 +1312,9 @@ export type RequestUpdateWithoutCreatedByInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  project?: Prisma.InfraProjectUpdateOneWithoutRequestsNestedInput;
-  items?: Prisma.RequestItemUpdateManyWithoutRequestNestedInput;
   assetRegistrations?: Prisma.AssetRegistrationUpdateManyWithoutRequestNestedInput;
+  items?: Prisma.RequestItemUpdateManyWithoutRequestNestedInput;
+  project?: Prisma.InfraProjectUpdateOneWithoutRequestsNestedInput;
 };
 
 export type RequestUncheckedUpdateWithoutCreatedByInput = {
@@ -1336,8 +1336,8 @@ export type RequestUncheckedUpdateWithoutCreatedByInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  items?: Prisma.RequestItemUncheckedUpdateManyWithoutRequestNestedInput;
   assetRegistrations?: Prisma.AssetRegistrationUncheckedUpdateManyWithoutRequestNestedInput;
+  items?: Prisma.RequestItemUncheckedUpdateManyWithoutRequestNestedInput;
 };
 
 export type RequestUncheckedUpdateManyWithoutCreatedByInput = {
@@ -1395,9 +1395,9 @@ export type RequestUpdateWithoutProjectInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedRequestsNestedInput;
-  items?: Prisma.RequestItemUpdateManyWithoutRequestNestedInput;
   assetRegistrations?: Prisma.AssetRegistrationUpdateManyWithoutRequestNestedInput;
+  items?: Prisma.RequestItemUpdateManyWithoutRequestNestedInput;
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedRequestsNestedInput;
 };
 
 export type RequestUncheckedUpdateWithoutProjectInput = {
@@ -1419,8 +1419,8 @@ export type RequestUncheckedUpdateWithoutProjectInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  items?: Prisma.RequestItemUncheckedUpdateManyWithoutRequestNestedInput;
   assetRegistrations?: Prisma.AssetRegistrationUncheckedUpdateManyWithoutRequestNestedInput;
+  items?: Prisma.RequestItemUncheckedUpdateManyWithoutRequestNestedInput;
 };
 
 export type RequestUncheckedUpdateManyWithoutProjectInput = {
@@ -1449,18 +1449,18 @@ export type RequestUncheckedUpdateManyWithoutProjectInput = {
  */
 
 export type RequestCountOutputType = {
-  items: number;
   assetRegistrations: number;
+  items: number;
 };
 
 export type RequestCountOutputTypeSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  items?: boolean | RequestCountOutputTypeCountItemsArgs;
   assetRegistrations?:
     | boolean
     | RequestCountOutputTypeCountAssetRegistrationsArgs;
+  items?: boolean | RequestCountOutputTypeCountItemsArgs;
 };
 
 /**
@@ -1479,21 +1479,21 @@ export type RequestCountOutputTypeDefaultArgs<
 /**
  * RequestCountOutputType without action
  */
-export type RequestCountOutputTypeCountItemsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  where?: Prisma.RequestItemWhereInput;
-};
-
-/**
- * RequestCountOutputType without action
- */
 export type RequestCountOutputTypeCountAssetRegistrationsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   where?: Prisma.AssetRegistrationWhereInput;
+};
+
+/**
+ * RequestCountOutputType without action
+ */
+export type RequestCountOutputTypeCountItemsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.RequestItemWhereInput;
 };
 
 export type RequestSelect<
@@ -1515,12 +1515,12 @@ export type RequestSelect<
     version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
-    project?: boolean | Prisma.Request$projectArgs<ExtArgs>;
-    items?: boolean | Prisma.Request$itemsArgs<ExtArgs>;
     assetRegistrations?:
       | boolean
       | Prisma.Request$assetRegistrationsArgs<ExtArgs>;
+    items?: boolean | Prisma.Request$itemsArgs<ExtArgs>;
+    createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    project?: boolean | Prisma.Request$projectArgs<ExtArgs>;
     _count?: boolean | Prisma.RequestCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['request']
@@ -1617,10 +1617,10 @@ export type RequestInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
+  assetRegistrations?: boolean | Prisma.Request$assetRegistrationsArgs<ExtArgs>;
+  items?: boolean | Prisma.Request$itemsArgs<ExtArgs>;
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   project?: boolean | Prisma.Request$projectArgs<ExtArgs>;
-  items?: boolean | Prisma.Request$itemsArgs<ExtArgs>;
-  assetRegistrations?: boolean | Prisma.Request$assetRegistrationsArgs<ExtArgs>;
   _count?: boolean | Prisma.RequestCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type RequestIncludeCreateManyAndReturn<
@@ -1644,10 +1644,10 @@ export type $RequestPayload<
 > = {
   name: 'Request';
   objects: {
+    assetRegistrations: Prisma.$AssetRegistrationPayload<ExtArgs>[];
+    items: Prisma.$RequestItemPayload<ExtArgs>[];
     createdBy: Prisma.$UserPayload<ExtArgs>;
     project: Prisma.$InfraProjectPayload<ExtArgs> | null;
-    items: Prisma.$RequestItemPayload<ExtArgs>[];
-    assetRegistrations: Prisma.$AssetRegistrationPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -2215,6 +2215,30 @@ export interface Prisma__RequestClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
+  assetRegistrations<
+    T extends Prisma.Request$assetRegistrationsArgs<ExtArgs> = {},
+  >(
+    args?: Prisma.Subset<T, Prisma.Request$assetRegistrationsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$AssetRegistrationPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  items<T extends Prisma.Request$itemsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Request$itemsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$RequestItemPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>,
   ): Prisma.Prisma__UserClient<
@@ -2241,30 +2265,6 @@ export interface Prisma__RequestClient<
     null,
     ExtArgs,
     GlobalOmitOptions
-  >;
-  items<T extends Prisma.Request$itemsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.Request$itemsArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$RequestItemPayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
-  >;
-  assetRegistrations<
-    T extends Prisma.Request$assetRegistrationsArgs<ExtArgs> = {},
-  >(
-    args?: Prisma.Subset<T, Prisma.Request$assetRegistrationsArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$AssetRegistrationPayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
   >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2788,25 +2788,34 @@ export type RequestDeleteManyArgs<
 };
 
 /**
- * Request.project
+ * Request.assetRegistrations
  */
-export type Request$projectArgs<
+export type Request$assetRegistrationsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
-   * Select specific fields to fetch from the InfraProject
+   * Select specific fields to fetch from the AssetRegistration
    */
-  select?: Prisma.InfraProjectSelect<ExtArgs> | null;
+  select?: Prisma.AssetRegistrationSelect<ExtArgs> | null;
   /**
-   * Omit specific fields from the InfraProject
+   * Omit specific fields from the AssetRegistration
    */
-  omit?: Prisma.InfraProjectOmit<ExtArgs> | null;
+  omit?: Prisma.AssetRegistrationOmit<ExtArgs> | null;
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InfraProjectInclude<ExtArgs> | null;
-  where?: Prisma.InfraProjectWhereInput;
+  include?: Prisma.AssetRegistrationInclude<ExtArgs> | null;
+  where?: Prisma.AssetRegistrationWhereInput;
+  orderBy?:
+    | Prisma.AssetRegistrationOrderByWithRelationInput
+    | Prisma.AssetRegistrationOrderByWithRelationInput[];
+  cursor?: Prisma.AssetRegistrationWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.AssetRegistrationScalarFieldEnum
+    | Prisma.AssetRegistrationScalarFieldEnum[];
 };
 
 /**
@@ -2841,34 +2850,25 @@ export type Request$itemsArgs<
 };
 
 /**
- * Request.assetRegistrations
+ * Request.project
  */
-export type Request$assetRegistrationsArgs<
+export type Request$projectArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
-   * Select specific fields to fetch from the AssetRegistration
+   * Select specific fields to fetch from the InfraProject
    */
-  select?: Prisma.AssetRegistrationSelect<ExtArgs> | null;
+  select?: Prisma.InfraProjectSelect<ExtArgs> | null;
   /**
-   * Omit specific fields from the AssetRegistration
+   * Omit specific fields from the InfraProject
    */
-  omit?: Prisma.AssetRegistrationOmit<ExtArgs> | null;
+  omit?: Prisma.InfraProjectOmit<ExtArgs> | null;
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.AssetRegistrationInclude<ExtArgs> | null;
-  where?: Prisma.AssetRegistrationWhereInput;
-  orderBy?:
-    | Prisma.AssetRegistrationOrderByWithRelationInput
-    | Prisma.AssetRegistrationOrderByWithRelationInput[];
-  cursor?: Prisma.AssetRegistrationWhereUniqueInput;
-  take?: number;
-  skip?: number;
-  distinct?:
-    | Prisma.AssetRegistrationScalarFieldEnum
-    | Prisma.AssetRegistrationScalarFieldEnum[];
+  include?: Prisma.InfraProjectInclude<ExtArgs> | null;
+  where?: Prisma.InfraProjectWhereInput;
 };
 
 /**

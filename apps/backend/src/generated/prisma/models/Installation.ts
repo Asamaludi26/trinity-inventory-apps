@@ -295,11 +295,11 @@ export type InstallationWhereInput = {
   isDeleted?: Prisma.BoolFilter<'Installation'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'Installation'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Installation'> | Date | string;
+  materials?: Prisma.InstallationMaterialListRelationFilter;
   customer?: Prisma.XOR<
     Prisma.CustomerScalarRelationFilter,
     Prisma.CustomerWhereInput
   >;
-  materials?: Prisma.InstallationMaterialListRelationFilter;
 };
 
 export type InstallationOrderByWithRelationInput = {
@@ -315,8 +315,8 @@ export type InstallationOrderByWithRelationInput = {
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
-  customer?: Prisma.CustomerOrderByWithRelationInput;
   materials?: Prisma.InstallationMaterialOrderByRelationAggregateInput;
+  customer?: Prisma.CustomerOrderByWithRelationInput;
 };
 
 export type InstallationWhereUniqueInput = Prisma.AtLeast<
@@ -346,11 +346,11 @@ export type InstallationWhereUniqueInput = Prisma.AtLeast<
     isDeleted?: Prisma.BoolFilter<'Installation'> | boolean;
     createdAt?: Prisma.DateTimeFilter<'Installation'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Installation'> | Date | string;
+    materials?: Prisma.InstallationMaterialListRelationFilter;
     customer?: Prisma.XOR<
       Prisma.CustomerScalarRelationFilter,
       Prisma.CustomerWhereInput
     >;
-    materials?: Prisma.InstallationMaterialListRelationFilter;
   },
   'id' | 'code'
 >;
@@ -430,8 +430,8 @@ export type InstallationCreateInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  customer: Prisma.CustomerCreateNestedOneWithoutInstallationsInput;
   materials?: Prisma.InstallationMaterialCreateNestedManyWithoutInstallationInput;
+  customer: Prisma.CustomerCreateNestedOneWithoutInstallationsInput;
 };
 
 export type InstallationUncheckedCreateInput = {
@@ -471,8 +471,8 @@ export type InstallationUpdateInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  customer?: Prisma.CustomerUpdateOneRequiredWithoutInstallationsNestedInput;
   materials?: Prisma.InstallationMaterialUpdateManyWithoutInstallationNestedInput;
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutInstallationsNestedInput;
 };
 
 export type InstallationUncheckedUpdateInput = {
@@ -1128,8 +1128,8 @@ export type InstallationSelect<
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
     materials?: boolean | Prisma.Installation$materialsArgs<ExtArgs>;
+    customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
     _count?: boolean | Prisma.InstallationCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['installation']
@@ -1216,8 +1216,8 @@ export type InstallationInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
   materials?: boolean | Prisma.Installation$materialsArgs<ExtArgs>;
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
   _count?: boolean | Prisma.InstallationCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type InstallationIncludeCreateManyAndReturn<
@@ -1239,8 +1239,8 @@ export type $InstallationPayload<
 > = {
   name: 'Installation';
   objects: {
-    customer: Prisma.$CustomerPayload<ExtArgs>;
     materials: Prisma.$InstallationMaterialPayload<ExtArgs>[];
+    customer: Prisma.$CustomerPayload<ExtArgs>;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1812,6 +1812,17 @@ export interface Prisma__InstallationClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
+  materials<T extends Prisma.Installation$materialsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Installation$materialsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$InstallationMaterialPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   customer<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>,
   ): Prisma.Prisma__CustomerClient<
@@ -1825,17 +1836,6 @@ export interface Prisma__InstallationClient<
     Null,
     ExtArgs,
     GlobalOmitOptions
-  >;
-  materials<T extends Prisma.Installation$materialsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.Installation$materialsArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$InstallationMaterialPayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
   >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.

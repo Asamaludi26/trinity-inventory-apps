@@ -68,4 +68,21 @@ export class DismantleController {
   ) {
     return this.dismantleService.update(id, dto);
   }
+
+  @Patch(':id/complete')
+  @AuthPermissions(PERMISSIONS.ASSETS_DISMANTLE)
+  @ApiOperation({ summary: 'Selesaikan dismantle — kembalikan aset ke gudang' })
+  @ApiResponse({ status: 200, description: 'Dismantle berhasil diselesaikan' })
+  async complete(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('itemConditions')
+    itemConditions: Array<{ assetId: string; conditionAfter: string }>,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.dismantleService.complete(
+      id,
+      user.sub,
+      itemConditions as never,
+    );
+  }
 }

@@ -311,13 +311,13 @@ export type InfraProjectWhereInput = {
   version?: Prisma.IntFilter<'InfraProject'> | number;
   createdAt?: Prisma.DateTimeFilter<'InfraProject'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'InfraProject'> | Date | string;
+  materials?: Prisma.InfraProjectMaterialListRelationFilter;
+  tasks?: Prisma.InfraProjectTaskListRelationFilter;
+  team?: Prisma.InfraProjectTeamMemberListRelationFilter;
   customer?: Prisma.XOR<
     Prisma.CustomerNullableScalarRelationFilter,
     Prisma.CustomerWhereInput
   > | null;
-  tasks?: Prisma.InfraProjectTaskListRelationFilter;
-  materials?: Prisma.InfraProjectMaterialListRelationFilter;
-  team?: Prisma.InfraProjectTeamMemberListRelationFilter;
   requests?: Prisma.RequestListRelationFilter;
 };
 
@@ -336,10 +336,10 @@ export type InfraProjectOrderByWithRelationInput = {
   version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
-  customer?: Prisma.CustomerOrderByWithRelationInput;
-  tasks?: Prisma.InfraProjectTaskOrderByRelationAggregateInput;
   materials?: Prisma.InfraProjectMaterialOrderByRelationAggregateInput;
+  tasks?: Prisma.InfraProjectTaskOrderByRelationAggregateInput;
   team?: Prisma.InfraProjectTeamMemberOrderByRelationAggregateInput;
+  customer?: Prisma.CustomerOrderByWithRelationInput;
   requests?: Prisma.RequestOrderByRelationAggregateInput;
 };
 
@@ -372,13 +372,13 @@ export type InfraProjectWhereUniqueInput = Prisma.AtLeast<
     version?: Prisma.IntFilter<'InfraProject'> | number;
     createdAt?: Prisma.DateTimeFilter<'InfraProject'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'InfraProject'> | Date | string;
+    materials?: Prisma.InfraProjectMaterialListRelationFilter;
+    tasks?: Prisma.InfraProjectTaskListRelationFilter;
+    team?: Prisma.InfraProjectTeamMemberListRelationFilter;
     customer?: Prisma.XOR<
       Prisma.CustomerNullableScalarRelationFilter,
       Prisma.CustomerWhereInput
     > | null;
-    tasks?: Prisma.InfraProjectTaskListRelationFilter;
-    materials?: Prisma.InfraProjectMaterialListRelationFilter;
-    team?: Prisma.InfraProjectTeamMemberListRelationFilter;
     requests?: Prisma.RequestListRelationFilter;
   },
   'id' | 'code'
@@ -469,10 +469,10 @@ export type InfraProjectCreateInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  customer?: Prisma.CustomerCreateNestedOneWithoutProjectsInput;
-  tasks?: Prisma.InfraProjectTaskCreateNestedManyWithoutProjectInput;
   materials?: Prisma.InfraProjectMaterialCreateNestedManyWithoutProjectInput;
+  tasks?: Prisma.InfraProjectTaskCreateNestedManyWithoutProjectInput;
   team?: Prisma.InfraProjectTeamMemberCreateNestedManyWithoutProjectInput;
+  customer?: Prisma.CustomerCreateNestedOneWithoutProjectsInput;
   requests?: Prisma.RequestCreateNestedManyWithoutProjectInput;
 };
 
@@ -491,8 +491,8 @@ export type InfraProjectUncheckedCreateInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  tasks?: Prisma.InfraProjectTaskUncheckedCreateNestedManyWithoutProjectInput;
   materials?: Prisma.InfraProjectMaterialUncheckedCreateNestedManyWithoutProjectInput;
+  tasks?: Prisma.InfraProjectTaskUncheckedCreateNestedManyWithoutProjectInput;
   team?: Prisma.InfraProjectTeamMemberUncheckedCreateNestedManyWithoutProjectInput;
   requests?: Prisma.RequestUncheckedCreateNestedManyWithoutProjectInput;
 };
@@ -521,10 +521,10 @@ export type InfraProjectUpdateInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  customer?: Prisma.CustomerUpdateOneWithoutProjectsNestedInput;
-  tasks?: Prisma.InfraProjectTaskUpdateManyWithoutProjectNestedInput;
   materials?: Prisma.InfraProjectMaterialUpdateManyWithoutProjectNestedInput;
+  tasks?: Prisma.InfraProjectTaskUpdateManyWithoutProjectNestedInput;
   team?: Prisma.InfraProjectTeamMemberUpdateManyWithoutProjectNestedInput;
+  customer?: Prisma.CustomerUpdateOneWithoutProjectsNestedInput;
   requests?: Prisma.RequestUpdateManyWithoutProjectNestedInput;
 };
 
@@ -553,8 +553,8 @@ export type InfraProjectUncheckedUpdateInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  tasks?: Prisma.InfraProjectTaskUncheckedUpdateManyWithoutProjectNestedInput;
   materials?: Prisma.InfraProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput;
+  tasks?: Prisma.InfraProjectTaskUncheckedUpdateManyWithoutProjectNestedInput;
   team?: Prisma.InfraProjectTeamMemberUncheckedUpdateManyWithoutProjectNestedInput;
   requests?: Prisma.RequestUncheckedUpdateManyWithoutProjectNestedInput;
 };
@@ -942,8 +942,8 @@ export type InfraProjectCreateWithoutCustomerInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  tasks?: Prisma.InfraProjectTaskCreateNestedManyWithoutProjectInput;
   materials?: Prisma.InfraProjectMaterialCreateNestedManyWithoutProjectInput;
+  tasks?: Prisma.InfraProjectTaskCreateNestedManyWithoutProjectInput;
   team?: Prisma.InfraProjectTeamMemberCreateNestedManyWithoutProjectInput;
   requests?: Prisma.RequestCreateNestedManyWithoutProjectInput;
 };
@@ -962,8 +962,8 @@ export type InfraProjectUncheckedCreateWithoutCustomerInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  tasks?: Prisma.InfraProjectTaskUncheckedCreateNestedManyWithoutProjectInput;
   materials?: Prisma.InfraProjectMaterialUncheckedCreateNestedManyWithoutProjectInput;
+  tasks?: Prisma.InfraProjectTaskUncheckedCreateNestedManyWithoutProjectInput;
   team?: Prisma.InfraProjectTeamMemberUncheckedCreateNestedManyWithoutProjectInput;
   requests?: Prisma.RequestUncheckedCreateNestedManyWithoutProjectInput;
 };
@@ -1059,9 +1059,9 @@ export type InfraProjectCreateWithoutTasksInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  customer?: Prisma.CustomerCreateNestedOneWithoutProjectsInput;
   materials?: Prisma.InfraProjectMaterialCreateNestedManyWithoutProjectInput;
   team?: Prisma.InfraProjectTeamMemberCreateNestedManyWithoutProjectInput;
+  customer?: Prisma.CustomerCreateNestedOneWithoutProjectsInput;
   requests?: Prisma.RequestCreateNestedManyWithoutProjectInput;
 };
 
@@ -1137,9 +1137,9 @@ export type InfraProjectUpdateWithoutTasksInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  customer?: Prisma.CustomerUpdateOneWithoutProjectsNestedInput;
   materials?: Prisma.InfraProjectMaterialUpdateManyWithoutProjectNestedInput;
   team?: Prisma.InfraProjectTeamMemberUpdateManyWithoutProjectNestedInput;
+  customer?: Prisma.CustomerUpdateOneWithoutProjectsNestedInput;
   requests?: Prisma.RequestUpdateManyWithoutProjectNestedInput;
 };
 
@@ -1187,9 +1187,9 @@ export type InfraProjectCreateWithoutMaterialsInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  customer?: Prisma.CustomerCreateNestedOneWithoutProjectsInput;
   tasks?: Prisma.InfraProjectTaskCreateNestedManyWithoutProjectInput;
   team?: Prisma.InfraProjectTeamMemberCreateNestedManyWithoutProjectInput;
+  customer?: Prisma.CustomerCreateNestedOneWithoutProjectsInput;
   requests?: Prisma.RequestCreateNestedManyWithoutProjectInput;
 };
 
@@ -1265,9 +1265,9 @@ export type InfraProjectUpdateWithoutMaterialsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  customer?: Prisma.CustomerUpdateOneWithoutProjectsNestedInput;
   tasks?: Prisma.InfraProjectTaskUpdateManyWithoutProjectNestedInput;
   team?: Prisma.InfraProjectTeamMemberUpdateManyWithoutProjectNestedInput;
+  customer?: Prisma.CustomerUpdateOneWithoutProjectsNestedInput;
   requests?: Prisma.RequestUpdateManyWithoutProjectNestedInput;
 };
 
@@ -1315,9 +1315,9 @@ export type InfraProjectCreateWithoutTeamInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  customer?: Prisma.CustomerCreateNestedOneWithoutProjectsInput;
-  tasks?: Prisma.InfraProjectTaskCreateNestedManyWithoutProjectInput;
   materials?: Prisma.InfraProjectMaterialCreateNestedManyWithoutProjectInput;
+  tasks?: Prisma.InfraProjectTaskCreateNestedManyWithoutProjectInput;
+  customer?: Prisma.CustomerCreateNestedOneWithoutProjectsInput;
   requests?: Prisma.RequestCreateNestedManyWithoutProjectInput;
 };
 
@@ -1336,8 +1336,8 @@ export type InfraProjectUncheckedCreateWithoutTeamInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  tasks?: Prisma.InfraProjectTaskUncheckedCreateNestedManyWithoutProjectInput;
   materials?: Prisma.InfraProjectMaterialUncheckedCreateNestedManyWithoutProjectInput;
+  tasks?: Prisma.InfraProjectTaskUncheckedCreateNestedManyWithoutProjectInput;
   requests?: Prisma.RequestUncheckedCreateNestedManyWithoutProjectInput;
 };
 
@@ -1393,9 +1393,9 @@ export type InfraProjectUpdateWithoutTeamInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  customer?: Prisma.CustomerUpdateOneWithoutProjectsNestedInput;
-  tasks?: Prisma.InfraProjectTaskUpdateManyWithoutProjectNestedInput;
   materials?: Prisma.InfraProjectMaterialUpdateManyWithoutProjectNestedInput;
+  tasks?: Prisma.InfraProjectTaskUpdateManyWithoutProjectNestedInput;
+  customer?: Prisma.CustomerUpdateOneWithoutProjectsNestedInput;
   requests?: Prisma.RequestUpdateManyWithoutProjectNestedInput;
 };
 
@@ -1424,8 +1424,8 @@ export type InfraProjectUncheckedUpdateWithoutTeamInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  tasks?: Prisma.InfraProjectTaskUncheckedUpdateManyWithoutProjectNestedInput;
   materials?: Prisma.InfraProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput;
+  tasks?: Prisma.InfraProjectTaskUncheckedUpdateManyWithoutProjectNestedInput;
   requests?: Prisma.RequestUncheckedUpdateManyWithoutProjectNestedInput;
 };
 
@@ -1443,10 +1443,10 @@ export type InfraProjectCreateWithoutRequestsInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  customer?: Prisma.CustomerCreateNestedOneWithoutProjectsInput;
-  tasks?: Prisma.InfraProjectTaskCreateNestedManyWithoutProjectInput;
   materials?: Prisma.InfraProjectMaterialCreateNestedManyWithoutProjectInput;
+  tasks?: Prisma.InfraProjectTaskCreateNestedManyWithoutProjectInput;
   team?: Prisma.InfraProjectTeamMemberCreateNestedManyWithoutProjectInput;
+  customer?: Prisma.CustomerCreateNestedOneWithoutProjectsInput;
 };
 
 export type InfraProjectUncheckedCreateWithoutRequestsInput = {
@@ -1464,8 +1464,8 @@ export type InfraProjectUncheckedCreateWithoutRequestsInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  tasks?: Prisma.InfraProjectTaskUncheckedCreateNestedManyWithoutProjectInput;
   materials?: Prisma.InfraProjectMaterialUncheckedCreateNestedManyWithoutProjectInput;
+  tasks?: Prisma.InfraProjectTaskUncheckedCreateNestedManyWithoutProjectInput;
   team?: Prisma.InfraProjectTeamMemberUncheckedCreateNestedManyWithoutProjectInput;
 };
 
@@ -1521,10 +1521,10 @@ export type InfraProjectUpdateWithoutRequestsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  customer?: Prisma.CustomerUpdateOneWithoutProjectsNestedInput;
-  tasks?: Prisma.InfraProjectTaskUpdateManyWithoutProjectNestedInput;
   materials?: Prisma.InfraProjectMaterialUpdateManyWithoutProjectNestedInput;
+  tasks?: Prisma.InfraProjectTaskUpdateManyWithoutProjectNestedInput;
   team?: Prisma.InfraProjectTeamMemberUpdateManyWithoutProjectNestedInput;
+  customer?: Prisma.CustomerUpdateOneWithoutProjectsNestedInput;
 };
 
 export type InfraProjectUncheckedUpdateWithoutRequestsInput = {
@@ -1552,8 +1552,8 @@ export type InfraProjectUncheckedUpdateWithoutRequestsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  tasks?: Prisma.InfraProjectTaskUncheckedUpdateManyWithoutProjectNestedInput;
   materials?: Prisma.InfraProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput;
+  tasks?: Prisma.InfraProjectTaskUncheckedUpdateManyWithoutProjectNestedInput;
   team?: Prisma.InfraProjectTeamMemberUncheckedUpdateManyWithoutProjectNestedInput;
 };
 
@@ -1597,8 +1597,8 @@ export type InfraProjectUpdateWithoutCustomerInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  tasks?: Prisma.InfraProjectTaskUpdateManyWithoutProjectNestedInput;
   materials?: Prisma.InfraProjectMaterialUpdateManyWithoutProjectNestedInput;
+  tasks?: Prisma.InfraProjectTaskUpdateManyWithoutProjectNestedInput;
   team?: Prisma.InfraProjectTeamMemberUpdateManyWithoutProjectNestedInput;
   requests?: Prisma.RequestUpdateManyWithoutProjectNestedInput;
 };
@@ -1627,8 +1627,8 @@ export type InfraProjectUncheckedUpdateWithoutCustomerInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  tasks?: Prisma.InfraProjectTaskUncheckedUpdateManyWithoutProjectNestedInput;
   materials?: Prisma.InfraProjectMaterialUncheckedUpdateManyWithoutProjectNestedInput;
+  tasks?: Prisma.InfraProjectTaskUncheckedUpdateManyWithoutProjectNestedInput;
   team?: Prisma.InfraProjectTeamMemberUncheckedUpdateManyWithoutProjectNestedInput;
   requests?: Prisma.RequestUncheckedUpdateManyWithoutProjectNestedInput;
 };
@@ -1664,8 +1664,8 @@ export type InfraProjectUncheckedUpdateManyWithoutCustomerInput = {
  */
 
 export type InfraProjectCountOutputType = {
-  tasks: number;
   materials: number;
+  tasks: number;
   team: number;
   requests: number;
 };
@@ -1674,8 +1674,8 @@ export type InfraProjectCountOutputTypeSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  tasks?: boolean | InfraProjectCountOutputTypeCountTasksArgs;
   materials?: boolean | InfraProjectCountOutputTypeCountMaterialsArgs;
+  tasks?: boolean | InfraProjectCountOutputTypeCountTasksArgs;
   team?: boolean | InfraProjectCountOutputTypeCountTeamArgs;
   requests?: boolean | InfraProjectCountOutputTypeCountRequestsArgs;
 };
@@ -1696,21 +1696,21 @@ export type InfraProjectCountOutputTypeDefaultArgs<
 /**
  * InfraProjectCountOutputType without action
  */
-export type InfraProjectCountOutputTypeCountTasksArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  where?: Prisma.InfraProjectTaskWhereInput;
-};
-
-/**
- * InfraProjectCountOutputType without action
- */
 export type InfraProjectCountOutputTypeCountMaterialsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   where?: Prisma.InfraProjectMaterialWhereInput;
+};
+
+/**
+ * InfraProjectCountOutputType without action
+ */
+export type InfraProjectCountOutputTypeCountTasksArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.InfraProjectTaskWhereInput;
 };
 
 /**
@@ -1752,10 +1752,10 @@ export type InfraProjectSelect<
     version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    customer?: boolean | Prisma.InfraProject$customerArgs<ExtArgs>;
-    tasks?: boolean | Prisma.InfraProject$tasksArgs<ExtArgs>;
     materials?: boolean | Prisma.InfraProject$materialsArgs<ExtArgs>;
+    tasks?: boolean | Prisma.InfraProject$tasksArgs<ExtArgs>;
     team?: boolean | Prisma.InfraProject$teamArgs<ExtArgs>;
+    customer?: boolean | Prisma.InfraProject$customerArgs<ExtArgs>;
     requests?: boolean | Prisma.InfraProject$requestsArgs<ExtArgs>;
     _count?: boolean | Prisma.InfraProjectCountOutputTypeDefaultArgs<ExtArgs>;
   },
@@ -1851,10 +1851,10 @@ export type InfraProjectInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  customer?: boolean | Prisma.InfraProject$customerArgs<ExtArgs>;
-  tasks?: boolean | Prisma.InfraProject$tasksArgs<ExtArgs>;
   materials?: boolean | Prisma.InfraProject$materialsArgs<ExtArgs>;
+  tasks?: boolean | Prisma.InfraProject$tasksArgs<ExtArgs>;
   team?: boolean | Prisma.InfraProject$teamArgs<ExtArgs>;
+  customer?: boolean | Prisma.InfraProject$customerArgs<ExtArgs>;
   requests?: boolean | Prisma.InfraProject$requestsArgs<ExtArgs>;
   _count?: boolean | Prisma.InfraProjectCountOutputTypeDefaultArgs<ExtArgs>;
 };
@@ -1877,10 +1877,10 @@ export type $InfraProjectPayload<
 > = {
   name: 'InfraProject';
   objects: {
-    customer: Prisma.$CustomerPayload<ExtArgs> | null;
-    tasks: Prisma.$InfraProjectTaskPayload<ExtArgs>[];
     materials: Prisma.$InfraProjectMaterialPayload<ExtArgs>[];
+    tasks: Prisma.$InfraProjectTaskPayload<ExtArgs>[];
     team: Prisma.$InfraProjectTeamMemberPayload<ExtArgs>[];
+    customer: Prisma.$CustomerPayload<ExtArgs> | null;
     requests: Prisma.$RequestPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
@@ -2455,35 +2455,22 @@ export interface Prisma__InfraProjectClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
-  customer<T extends Prisma.InfraProject$customerArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.InfraProject$customerArgs<ExtArgs>>,
-  ): Prisma.Prisma__CustomerClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$CustomerPayload<ExtArgs>,
-      T,
-      'findUniqueOrThrow',
-      GlobalOmitOptions
-    > | null,
-    null,
-    ExtArgs,
-    GlobalOmitOptions
-  >;
-  tasks<T extends Prisma.InfraProject$tasksArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.InfraProject$tasksArgs<ExtArgs>>,
+  materials<T extends Prisma.InfraProject$materialsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.InfraProject$materialsArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
-        Prisma.$InfraProjectTaskPayload<ExtArgs>,
+        Prisma.$InfraProjectMaterialPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
       >
     | Null
   >;
-  materials<T extends Prisma.InfraProject$materialsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.InfraProject$materialsArgs<ExtArgs>>,
+  tasks<T extends Prisma.InfraProject$tasksArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.InfraProject$tasksArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
-        Prisma.$InfraProjectMaterialPayload<ExtArgs>,
+        Prisma.$InfraProjectTaskPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -2500,6 +2487,19 @@ export interface Prisma__InfraProjectClient<
         GlobalOmitOptions
       >
     | Null
+  >;
+  customer<T extends Prisma.InfraProject$customerArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.InfraProject$customerArgs<ExtArgs>>,
+  ): Prisma.Prisma__CustomerClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$CustomerPayload<ExtArgs>,
+      T,
+      'findUniqueOrThrow',
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
   >;
   requests<T extends Prisma.InfraProject$requestsArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.InfraProject$requestsArgs<ExtArgs>>,
@@ -3044,25 +3044,34 @@ export type InfraProjectDeleteManyArgs<
 };
 
 /**
- * InfraProject.customer
+ * InfraProject.materials
  */
-export type InfraProject$customerArgs<
+export type InfraProject$materialsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
-   * Select specific fields to fetch from the Customer
+   * Select specific fields to fetch from the InfraProjectMaterial
    */
-  select?: Prisma.CustomerSelect<ExtArgs> | null;
+  select?: Prisma.InfraProjectMaterialSelect<ExtArgs> | null;
   /**
-   * Omit specific fields from the Customer
+   * Omit specific fields from the InfraProjectMaterial
    */
-  omit?: Prisma.CustomerOmit<ExtArgs> | null;
+  omit?: Prisma.InfraProjectMaterialOmit<ExtArgs> | null;
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.CustomerInclude<ExtArgs> | null;
-  where?: Prisma.CustomerWhereInput;
+  include?: Prisma.InfraProjectMaterialInclude<ExtArgs> | null;
+  where?: Prisma.InfraProjectMaterialWhereInput;
+  orderBy?:
+    | Prisma.InfraProjectMaterialOrderByWithRelationInput
+    | Prisma.InfraProjectMaterialOrderByWithRelationInput[];
+  cursor?: Prisma.InfraProjectMaterialWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.InfraProjectMaterialScalarFieldEnum
+    | Prisma.InfraProjectMaterialScalarFieldEnum[];
 };
 
 /**
@@ -3097,37 +3106,6 @@ export type InfraProject$tasksArgs<
 };
 
 /**
- * InfraProject.materials
- */
-export type InfraProject$materialsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  /**
-   * Select specific fields to fetch from the InfraProjectMaterial
-   */
-  select?: Prisma.InfraProjectMaterialSelect<ExtArgs> | null;
-  /**
-   * Omit specific fields from the InfraProjectMaterial
-   */
-  omit?: Prisma.InfraProjectMaterialOmit<ExtArgs> | null;
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.InfraProjectMaterialInclude<ExtArgs> | null;
-  where?: Prisma.InfraProjectMaterialWhereInput;
-  orderBy?:
-    | Prisma.InfraProjectMaterialOrderByWithRelationInput
-    | Prisma.InfraProjectMaterialOrderByWithRelationInput[];
-  cursor?: Prisma.InfraProjectMaterialWhereUniqueInput;
-  take?: number;
-  skip?: number;
-  distinct?:
-    | Prisma.InfraProjectMaterialScalarFieldEnum
-    | Prisma.InfraProjectMaterialScalarFieldEnum[];
-};
-
-/**
  * InfraProject.team
  */
 export type InfraProject$teamArgs<
@@ -3156,6 +3134,28 @@ export type InfraProject$teamArgs<
   distinct?:
     | Prisma.InfraProjectTeamMemberScalarFieldEnum
     | Prisma.InfraProjectTeamMemberScalarFieldEnum[];
+};
+
+/**
+ * InfraProject.customer
+ */
+export type InfraProject$customerArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Customer
+   */
+  select?: Prisma.CustomerSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Customer
+   */
+  omit?: Prisma.CustomerOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CustomerInclude<ExtArgs> | null;
+  where?: Prisma.CustomerWhereInput;
 };
 
 /**

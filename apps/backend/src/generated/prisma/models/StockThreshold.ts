@@ -245,13 +245,13 @@ export type StockThresholdWhereInput = {
   createdById?: Prisma.IntFilter<'StockThreshold'> | number;
   createdAt?: Prisma.DateTimeFilter<'StockThreshold'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'StockThreshold'> | Date | string;
-  model?: Prisma.XOR<
-    Prisma.AssetModelScalarRelationFilter,
-    Prisma.AssetModelWhereInput
-  >;
   createdBy?: Prisma.XOR<
     Prisma.UserScalarRelationFilter,
     Prisma.UserWhereInput
+  >;
+  model?: Prisma.XOR<
+    Prisma.AssetModelScalarRelationFilter,
+    Prisma.AssetModelWhereInput
   >;
 };
 
@@ -262,8 +262,8 @@ export type StockThresholdOrderByWithRelationInput = {
   createdById?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
-  model?: Prisma.AssetModelOrderByWithRelationInput;
   createdBy?: Prisma.UserOrderByWithRelationInput;
+  model?: Prisma.AssetModelOrderByWithRelationInput;
 };
 
 export type StockThresholdWhereUniqueInput = Prisma.AtLeast<
@@ -277,13 +277,13 @@ export type StockThresholdWhereUniqueInput = Prisma.AtLeast<
     createdById?: Prisma.IntFilter<'StockThreshold'> | number;
     createdAt?: Prisma.DateTimeFilter<'StockThreshold'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'StockThreshold'> | Date | string;
-    model?: Prisma.XOR<
-      Prisma.AssetModelScalarRelationFilter,
-      Prisma.AssetModelWhereInput
-    >;
     createdBy?: Prisma.XOR<
       Prisma.UserScalarRelationFilter,
       Prisma.UserWhereInput
+    >;
+    model?: Prisma.XOR<
+      Prisma.AssetModelScalarRelationFilter,
+      Prisma.AssetModelWhereInput
     >;
   },
   'id' | 'modelId'
@@ -329,8 +329,8 @@ export type StockThresholdCreateInput = {
   minQuantity: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  model: Prisma.AssetModelCreateNestedOneWithoutStockThresholdInput;
   createdBy: Prisma.UserCreateNestedOneWithoutStockThresholdsInput;
+  model: Prisma.AssetModelCreateNestedOneWithoutStockThresholdInput;
 };
 
 export type StockThresholdUncheckedCreateInput = {
@@ -346,8 +346,8 @@ export type StockThresholdUpdateInput = {
   minQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  model?: Prisma.AssetModelUpdateOneRequiredWithoutStockThresholdNestedInput;
   createdBy?: Prisma.UserUpdateOneRequiredWithoutStockThresholdsNestedInput;
+  model?: Prisma.AssetModelUpdateOneRequiredWithoutStockThresholdNestedInput;
 };
 
 export type StockThresholdUncheckedUpdateInput = {
@@ -779,8 +779,8 @@ export type StockThresholdSelect<
     createdById?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
     createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['stockThreshold']
 >;
@@ -796,8 +796,8 @@ export type StockThresholdSelectCreateManyAndReturn<
     createdById?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
     createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['stockThreshold']
 >;
@@ -813,8 +813,8 @@ export type StockThresholdSelectUpdateManyAndReturn<
     createdById?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
     createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['stockThreshold']
 >;
@@ -839,22 +839,22 @@ export type StockThresholdInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+  model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
 };
 export type StockThresholdIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+  model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
 };
 export type StockThresholdIncludeUpdateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+  model?: boolean | Prisma.AssetModelDefaultArgs<ExtArgs>;
 };
 
 export type $StockThresholdPayload<
@@ -863,8 +863,8 @@ export type $StockThresholdPayload<
 > = {
   name: 'StockThreshold';
   objects: {
-    model: Prisma.$AssetModelPayload<ExtArgs>;
     createdBy: Prisma.$UserPayload<ExtArgs>;
+    model: Prisma.$AssetModelPayload<ExtArgs>;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1436,11 +1436,11 @@ export interface Prisma__StockThresholdClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
-  model<T extends Prisma.AssetModelDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.AssetModelDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__AssetModelClient<
+  createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__UserClient<
     | runtime.Types.Result.GetResult<
-        Prisma.$AssetModelPayload<ExtArgs>,
+        Prisma.$UserPayload<ExtArgs>,
         T,
         'findUniqueOrThrow',
         GlobalOmitOptions
@@ -1450,11 +1450,11 @@ export interface Prisma__StockThresholdClient<
     ExtArgs,
     GlobalOmitOptions
   >;
-  createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__UserClient<
+  model<T extends Prisma.AssetModelDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.AssetModelDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__AssetModelClient<
     | runtime.Types.Result.GetResult<
-        Prisma.$UserPayload<ExtArgs>,
+        Prisma.$AssetModelPayload<ExtArgs>,
         T,
         'findUniqueOrThrow',
         GlobalOmitOptions

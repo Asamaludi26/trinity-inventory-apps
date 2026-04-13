@@ -238,11 +238,11 @@ export type AssetReturnItemWhereInput = {
     | Prisma.EnumAssetConditionFilter<'AssetReturnItem'>
     | $Enums.AssetCondition;
   note?: Prisma.StringNullableFilter<'AssetReturnItem'> | string | null;
+  asset?: Prisma.XOR<Prisma.AssetScalarRelationFilter, Prisma.AssetWhereInput>;
   assetReturn?: Prisma.XOR<
     Prisma.AssetReturnScalarRelationFilter,
     Prisma.AssetReturnWhereInput
   >;
-  asset?: Prisma.XOR<Prisma.AssetScalarRelationFilter, Prisma.AssetWhereInput>;
 };
 
 export type AssetReturnItemOrderByWithRelationInput = {
@@ -252,8 +252,8 @@ export type AssetReturnItemOrderByWithRelationInput = {
   conditionBefore?: Prisma.SortOrder;
   conditionAfter?: Prisma.SortOrder;
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
-  assetReturn?: Prisma.AssetReturnOrderByWithRelationInput;
   asset?: Prisma.AssetOrderByWithRelationInput;
+  assetReturn?: Prisma.AssetReturnOrderByWithRelationInput;
 };
 
 export type AssetReturnItemWhereUniqueInput = Prisma.AtLeast<
@@ -271,13 +271,13 @@ export type AssetReturnItemWhereUniqueInput = Prisma.AtLeast<
       | Prisma.EnumAssetConditionFilter<'AssetReturnItem'>
       | $Enums.AssetCondition;
     note?: Prisma.StringNullableFilter<'AssetReturnItem'> | string | null;
-    assetReturn?: Prisma.XOR<
-      Prisma.AssetReturnScalarRelationFilter,
-      Prisma.AssetReturnWhereInput
-    >;
     asset?: Prisma.XOR<
       Prisma.AssetScalarRelationFilter,
       Prisma.AssetWhereInput
+    >;
+    assetReturn?: Prisma.XOR<
+      Prisma.AssetReturnScalarRelationFilter,
+      Prisma.AssetReturnWhereInput
     >;
   },
   'id'
@@ -324,8 +324,8 @@ export type AssetReturnItemCreateInput = {
   conditionBefore: $Enums.AssetCondition;
   conditionAfter: $Enums.AssetCondition;
   note?: string | null;
-  assetReturn: Prisma.AssetReturnCreateNestedOneWithoutItemsInput;
   asset: Prisma.AssetCreateNestedOneWithoutAssetReturnItemsInput;
+  assetReturn: Prisma.AssetReturnCreateNestedOneWithoutItemsInput;
 };
 
 export type AssetReturnItemUncheckedCreateInput = {
@@ -345,8 +345,8 @@ export type AssetReturnItemUpdateInput = {
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  assetReturn?: Prisma.AssetReturnUpdateOneRequiredWithoutItemsNestedInput;
   asset?: Prisma.AssetUpdateOneRequiredWithoutAssetReturnItemsNestedInput;
+  assetReturn?: Prisma.AssetReturnUpdateOneRequiredWithoutItemsNestedInput;
 };
 
 export type AssetReturnItemUncheckedUpdateInput = {
@@ -892,8 +892,8 @@ export type AssetReturnItemSelect<
     conditionBefore?: boolean;
     conditionAfter?: boolean;
     note?: boolean;
-    assetReturn?: boolean | Prisma.AssetReturnDefaultArgs<ExtArgs>;
     asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+    assetReturn?: boolean | Prisma.AssetReturnDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['assetReturnItem']
 >;
@@ -909,8 +909,8 @@ export type AssetReturnItemSelectCreateManyAndReturn<
     conditionBefore?: boolean;
     conditionAfter?: boolean;
     note?: boolean;
-    assetReturn?: boolean | Prisma.AssetReturnDefaultArgs<ExtArgs>;
     asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+    assetReturn?: boolean | Prisma.AssetReturnDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['assetReturnItem']
 >;
@@ -926,8 +926,8 @@ export type AssetReturnItemSelectUpdateManyAndReturn<
     conditionBefore?: boolean;
     conditionAfter?: boolean;
     note?: boolean;
-    assetReturn?: boolean | Prisma.AssetReturnDefaultArgs<ExtArgs>;
     asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+    assetReturn?: boolean | Prisma.AssetReturnDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['assetReturnItem']
 >;
@@ -952,22 +952,22 @@ export type AssetReturnItemInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  assetReturn?: boolean | Prisma.AssetReturnDefaultArgs<ExtArgs>;
   asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+  assetReturn?: boolean | Prisma.AssetReturnDefaultArgs<ExtArgs>;
 };
 export type AssetReturnItemIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  assetReturn?: boolean | Prisma.AssetReturnDefaultArgs<ExtArgs>;
   asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+  assetReturn?: boolean | Prisma.AssetReturnDefaultArgs<ExtArgs>;
 };
 export type AssetReturnItemIncludeUpdateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  assetReturn?: boolean | Prisma.AssetReturnDefaultArgs<ExtArgs>;
   asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+  assetReturn?: boolean | Prisma.AssetReturnDefaultArgs<ExtArgs>;
 };
 
 export type $AssetReturnItemPayload<
@@ -976,8 +976,8 @@ export type $AssetReturnItemPayload<
 > = {
   name: 'AssetReturnItem';
   objects: {
-    assetReturn: Prisma.$AssetReturnPayload<ExtArgs>;
     asset: Prisma.$AssetPayload<ExtArgs>;
+    assetReturn: Prisma.$AssetReturnPayload<ExtArgs>;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1549,11 +1549,11 @@ export interface Prisma__AssetReturnItemClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
-  assetReturn<T extends Prisma.AssetReturnDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.AssetReturnDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__AssetReturnClient<
+  asset<T extends Prisma.AssetDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.AssetDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__AssetClient<
     | runtime.Types.Result.GetResult<
-        Prisma.$AssetReturnPayload<ExtArgs>,
+        Prisma.$AssetPayload<ExtArgs>,
         T,
         'findUniqueOrThrow',
         GlobalOmitOptions
@@ -1563,11 +1563,11 @@ export interface Prisma__AssetReturnItemClient<
     ExtArgs,
     GlobalOmitOptions
   >;
-  asset<T extends Prisma.AssetDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.AssetDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__AssetClient<
+  assetReturn<T extends Prisma.AssetReturnDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.AssetReturnDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__AssetReturnClient<
     | runtime.Types.Result.GetResult<
-        Prisma.$AssetPayload<ExtArgs>,
+        Prisma.$AssetReturnPayload<ExtArgs>,
         T,
         'findUniqueOrThrow',
         GlobalOmitOptions

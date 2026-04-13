@@ -49,13 +49,13 @@ export type UserMinAggregateOutputType = {
   divisionId: number | null;
   phone: string | null;
   avatarUrl: string | null;
-  mustChangePassword: boolean | null;
   isActive: boolean | null;
   isDeleted: boolean | null;
   tokenVersion: number | null;
   lastLoginAt: Date | null;
   createdAt: Date | null;
   updatedAt: Date | null;
+  mustChangePassword: boolean | null;
 };
 
 export type UserMaxAggregateOutputType = {
@@ -69,13 +69,13 @@ export type UserMaxAggregateOutputType = {
   divisionId: number | null;
   phone: string | null;
   avatarUrl: string | null;
-  mustChangePassword: boolean | null;
   isActive: boolean | null;
   isDeleted: boolean | null;
   tokenVersion: number | null;
   lastLoginAt: Date | null;
   createdAt: Date | null;
   updatedAt: Date | null;
+  mustChangePassword: boolean | null;
 };
 
 export type UserCountAggregateOutputType = {
@@ -90,13 +90,13 @@ export type UserCountAggregateOutputType = {
   permissions: number;
   phone: number;
   avatarUrl: number;
-  mustChangePassword: number;
   isActive: number;
   isDeleted: number;
   tokenVersion: number;
   lastLoginAt: number;
   createdAt: number;
   updatedAt: number;
+  mustChangePassword: number;
   _all: number;
 };
 
@@ -123,13 +123,13 @@ export type UserMinAggregateInputType = {
   divisionId?: true;
   phone?: true;
   avatarUrl?: true;
-  mustChangePassword?: true;
   isActive?: true;
   isDeleted?: true;
   tokenVersion?: true;
   lastLoginAt?: true;
   createdAt?: true;
   updatedAt?: true;
+  mustChangePassword?: true;
 };
 
 export type UserMaxAggregateInputType = {
@@ -143,13 +143,13 @@ export type UserMaxAggregateInputType = {
   divisionId?: true;
   phone?: true;
   avatarUrl?: true;
-  mustChangePassword?: true;
   isActive?: true;
   isDeleted?: true;
   tokenVersion?: true;
   lastLoginAt?: true;
   createdAt?: true;
   updatedAt?: true;
+  mustChangePassword?: true;
 };
 
 export type UserCountAggregateInputType = {
@@ -164,13 +164,13 @@ export type UserCountAggregateInputType = {
   permissions?: true;
   phone?: true;
   avatarUrl?: true;
-  mustChangePassword?: true;
   isActive?: true;
   isDeleted?: true;
   tokenVersion?: true;
   lastLoginAt?: true;
   createdAt?: true;
   updatedAt?: true;
+  mustChangePassword?: true;
   _all?: true;
 };
 
@@ -279,13 +279,13 @@ export type UserGroupByOutputType = {
   permissions: runtime.JsonValue | null;
   phone: string | null;
   avatarUrl: string | null;
-  mustChangePassword: boolean;
   isActive: boolean;
   isDeleted: boolean;
   tokenVersion: number;
   lastLoginAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
+  mustChangePassword: boolean;
   _count: UserCountAggregateOutputType | null;
   _avg: UserAvgAggregateOutputType | null;
   _sum: UserSumAggregateOutputType | null;
@@ -321,33 +321,33 @@ export type UserWhereInput = {
   permissions?: Prisma.JsonNullableFilter<'User'>;
   phone?: Prisma.StringNullableFilter<'User'> | string | null;
   avatarUrl?: Prisma.StringNullableFilter<'User'> | string | null;
-  mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
   isActive?: Prisma.BoolFilter<'User'> | boolean;
   isDeleted?: Prisma.BoolFilter<'User'> | boolean;
   tokenVersion?: Prisma.IntFilter<'User'> | number;
   lastLoginAt?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
   createdAt?: Prisma.DateTimeFilter<'User'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'User'> | Date | string;
+  mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
+  activityLogs?: Prisma.ActivityLogListRelationFilter;
+  createdAssetReturns?: Prisma.AssetReturnListRelationFilter;
+  currentAssets?: Prisma.AssetListRelationFilter;
+  recordedAssets?: Prisma.AssetListRelationFilter;
+  attachments?: Prisma.AttachmentListRelationFilter;
+  createdDepreciations?: Prisma.DepreciationListRelationFilter;
+  handoversFrom?: Prisma.HandoverListRelationFilter;
+  handoversTo?: Prisma.HandoverListRelationFilter;
+  handoversWitness?: Prisma.HandoverListRelationFilter;
+  createdLoanRequests?: Prisma.LoanRequestListRelationFilter;
+  notifications?: Prisma.NotificationListRelationFilter;
+  createdPurchases?: Prisma.PurchaseMasterDataListRelationFilter;
+  createdRepairs?: Prisma.RepairListRelationFilter;
+  createdRequests?: Prisma.RequestListRelationFilter;
+  stockMovements?: Prisma.StockMovementListRelationFilter;
+  stockThresholds?: Prisma.StockThresholdListRelationFilter;
   division?: Prisma.XOR<
     Prisma.DivisionNullableScalarRelationFilter,
     Prisma.DivisionWhereInput
   > | null;
-  recordedAssets?: Prisma.AssetListRelationFilter;
-  currentAssets?: Prisma.AssetListRelationFilter;
-  stockThresholds?: Prisma.StockThresholdListRelationFilter;
-  stockMovements?: Prisma.StockMovementListRelationFilter;
-  attachments?: Prisma.AttachmentListRelationFilter;
-  activityLogs?: Prisma.ActivityLogListRelationFilter;
-  notifications?: Prisma.NotificationListRelationFilter;
-  createdRequests?: Prisma.RequestListRelationFilter;
-  createdLoanRequests?: Prisma.LoanRequestListRelationFilter;
-  createdAssetReturns?: Prisma.AssetReturnListRelationFilter;
-  handoversFrom?: Prisma.HandoverListRelationFilter;
-  handoversTo?: Prisma.HandoverListRelationFilter;
-  handoversWitness?: Prisma.HandoverListRelationFilter;
-  createdDepreciations?: Prisma.DepreciationListRelationFilter;
-  createdPurchases?: Prisma.PurchaseMasterDataListRelationFilter;
-  createdRepairs?: Prisma.RepairListRelationFilter;
 };
 
 export type UserOrderByWithRelationInput = {
@@ -362,30 +362,30 @@ export type UserOrderByWithRelationInput = {
   permissions?: Prisma.SortOrderInput | Prisma.SortOrder;
   phone?: Prisma.SortOrderInput | Prisma.SortOrder;
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
-  mustChangePassword?: Prisma.SortOrder;
   isActive?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
-  division?: Prisma.DivisionOrderByWithRelationInput;
-  recordedAssets?: Prisma.AssetOrderByRelationAggregateInput;
-  currentAssets?: Prisma.AssetOrderByRelationAggregateInput;
-  stockThresholds?: Prisma.StockThresholdOrderByRelationAggregateInput;
-  stockMovements?: Prisma.StockMovementOrderByRelationAggregateInput;
-  attachments?: Prisma.AttachmentOrderByRelationAggregateInput;
+  mustChangePassword?: Prisma.SortOrder;
   activityLogs?: Prisma.ActivityLogOrderByRelationAggregateInput;
-  notifications?: Prisma.NotificationOrderByRelationAggregateInput;
-  createdRequests?: Prisma.RequestOrderByRelationAggregateInput;
-  createdLoanRequests?: Prisma.LoanRequestOrderByRelationAggregateInput;
   createdAssetReturns?: Prisma.AssetReturnOrderByRelationAggregateInput;
+  currentAssets?: Prisma.AssetOrderByRelationAggregateInput;
+  recordedAssets?: Prisma.AssetOrderByRelationAggregateInput;
+  attachments?: Prisma.AttachmentOrderByRelationAggregateInput;
+  createdDepreciations?: Prisma.DepreciationOrderByRelationAggregateInput;
   handoversFrom?: Prisma.HandoverOrderByRelationAggregateInput;
   handoversTo?: Prisma.HandoverOrderByRelationAggregateInput;
   handoversWitness?: Prisma.HandoverOrderByRelationAggregateInput;
-  createdDepreciations?: Prisma.DepreciationOrderByRelationAggregateInput;
+  createdLoanRequests?: Prisma.LoanRequestOrderByRelationAggregateInput;
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput;
   createdPurchases?: Prisma.PurchaseMasterDataOrderByRelationAggregateInput;
   createdRepairs?: Prisma.RepairOrderByRelationAggregateInput;
+  createdRequests?: Prisma.RequestOrderByRelationAggregateInput;
+  stockMovements?: Prisma.StockMovementOrderByRelationAggregateInput;
+  stockThresholds?: Prisma.StockThresholdOrderByRelationAggregateInput;
+  division?: Prisma.DivisionOrderByWithRelationInput;
 };
 
 export type UserWhereUniqueInput = Prisma.AtLeast<
@@ -404,33 +404,33 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     permissions?: Prisma.JsonNullableFilter<'User'>;
     phone?: Prisma.StringNullableFilter<'User'> | string | null;
     avatarUrl?: Prisma.StringNullableFilter<'User'> | string | null;
-    mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
     isActive?: Prisma.BoolFilter<'User'> | boolean;
     isDeleted?: Prisma.BoolFilter<'User'> | boolean;
     tokenVersion?: Prisma.IntFilter<'User'> | number;
     lastLoginAt?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
     createdAt?: Prisma.DateTimeFilter<'User'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'User'> | Date | string;
+    mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
+    activityLogs?: Prisma.ActivityLogListRelationFilter;
+    createdAssetReturns?: Prisma.AssetReturnListRelationFilter;
+    currentAssets?: Prisma.AssetListRelationFilter;
+    recordedAssets?: Prisma.AssetListRelationFilter;
+    attachments?: Prisma.AttachmentListRelationFilter;
+    createdDepreciations?: Prisma.DepreciationListRelationFilter;
+    handoversFrom?: Prisma.HandoverListRelationFilter;
+    handoversTo?: Prisma.HandoverListRelationFilter;
+    handoversWitness?: Prisma.HandoverListRelationFilter;
+    createdLoanRequests?: Prisma.LoanRequestListRelationFilter;
+    notifications?: Prisma.NotificationListRelationFilter;
+    createdPurchases?: Prisma.PurchaseMasterDataListRelationFilter;
+    createdRepairs?: Prisma.RepairListRelationFilter;
+    createdRequests?: Prisma.RequestListRelationFilter;
+    stockMovements?: Prisma.StockMovementListRelationFilter;
+    stockThresholds?: Prisma.StockThresholdListRelationFilter;
     division?: Prisma.XOR<
       Prisma.DivisionNullableScalarRelationFilter,
       Prisma.DivisionWhereInput
     > | null;
-    recordedAssets?: Prisma.AssetListRelationFilter;
-    currentAssets?: Prisma.AssetListRelationFilter;
-    stockThresholds?: Prisma.StockThresholdListRelationFilter;
-    stockMovements?: Prisma.StockMovementListRelationFilter;
-    attachments?: Prisma.AttachmentListRelationFilter;
-    activityLogs?: Prisma.ActivityLogListRelationFilter;
-    notifications?: Prisma.NotificationListRelationFilter;
-    createdRequests?: Prisma.RequestListRelationFilter;
-    createdLoanRequests?: Prisma.LoanRequestListRelationFilter;
-    createdAssetReturns?: Prisma.AssetReturnListRelationFilter;
-    handoversFrom?: Prisma.HandoverListRelationFilter;
-    handoversTo?: Prisma.HandoverListRelationFilter;
-    handoversWitness?: Prisma.HandoverListRelationFilter;
-    createdDepreciations?: Prisma.DepreciationListRelationFilter;
-    createdPurchases?: Prisma.PurchaseMasterDataListRelationFilter;
-    createdRepairs?: Prisma.RepairListRelationFilter;
   },
   'id' | 'uuid' | 'employeeId' | 'email'
 >;
@@ -447,13 +447,13 @@ export type UserOrderByWithAggregationInput = {
   permissions?: Prisma.SortOrderInput | Prisma.SortOrder;
   phone?: Prisma.SortOrderInput | Prisma.SortOrder;
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
-  mustChangePassword?: Prisma.SortOrder;
   isActive?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
+  mustChangePassword?: Prisma.SortOrder;
   _count?: Prisma.UserCountOrderByAggregateInput;
   _avg?: Prisma.UserAvgOrderByAggregateInput;
   _max?: Prisma.UserMaxOrderByAggregateInput;
@@ -480,7 +480,6 @@ export type UserScalarWhereWithAggregatesInput = {
   permissions?: Prisma.JsonNullableWithAggregatesFilter<'User'>;
   phone?: Prisma.StringNullableWithAggregatesFilter<'User'> | string | null;
   avatarUrl?: Prisma.StringNullableWithAggregatesFilter<'User'> | string | null;
-  mustChangePassword?: Prisma.BoolWithAggregatesFilter<'User'> | boolean;
   isActive?: Prisma.BoolWithAggregatesFilter<'User'> | boolean;
   isDeleted?: Prisma.BoolWithAggregatesFilter<'User'> | boolean;
   tokenVersion?: Prisma.IntWithAggregatesFilter<'User'> | number;
@@ -491,6 +490,7 @@ export type UserScalarWhereWithAggregatesInput = {
     | null;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<'User'> | Date | string;
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<'User'> | Date | string;
+  mustChangePassword?: Prisma.BoolWithAggregatesFilter<'User'> | boolean;
 };
 
 export type UserCreateInput = {
@@ -503,30 +503,30 @@ export type UserCreateInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateInput = {
@@ -541,29 +541,29 @@ export type UserUncheckedCreateInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUpdateInput = {
@@ -576,7 +576,6 @@ export type UserUpdateInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -587,23 +586,24 @@ export type UserUpdateInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateInput = {
@@ -618,7 +618,6 @@ export type UserUncheckedUpdateInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -629,22 +628,23 @@ export type UserUncheckedUpdateInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateManyInput = {
@@ -659,13 +659,13 @@ export type UserCreateManyInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  mustChangePassword?: boolean;
 };
 
 export type UserUpdateManyMutationInput = {
@@ -678,7 +678,6 @@ export type UserUpdateManyMutationInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -689,6 +688,7 @@ export type UserUpdateManyMutationInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
 };
 
 export type UserUncheckedUpdateManyInput = {
@@ -703,7 +703,6 @@ export type UserUncheckedUpdateManyInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -714,6 +713,7 @@ export type UserUncheckedUpdateManyInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
 };
 
 export type UserNullableScalarRelationFilter = {
@@ -738,13 +738,13 @@ export type UserCountOrderByAggregateInput = {
   permissions?: Prisma.SortOrder;
   phone?: Prisma.SortOrder;
   avatarUrl?: Prisma.SortOrder;
-  mustChangePassword?: Prisma.SortOrder;
   isActive?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
   lastLoginAt?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
+  mustChangePassword?: Prisma.SortOrder;
 };
 
 export type UserAvgOrderByAggregateInput = {
@@ -764,13 +764,13 @@ export type UserMaxOrderByAggregateInput = {
   divisionId?: Prisma.SortOrder;
   phone?: Prisma.SortOrder;
   avatarUrl?: Prisma.SortOrder;
-  mustChangePassword?: Prisma.SortOrder;
   isActive?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
   lastLoginAt?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
+  mustChangePassword?: Prisma.SortOrder;
 };
 
 export type UserMinOrderByAggregateInput = {
@@ -784,13 +784,13 @@ export type UserMinOrderByAggregateInput = {
   divisionId?: Prisma.SortOrder;
   phone?: Prisma.SortOrder;
   avatarUrl?: Prisma.SortOrder;
-  mustChangePassword?: Prisma.SortOrder;
   isActive?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
   lastLoginAt?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
+  mustChangePassword?: Prisma.SortOrder;
 };
 
 export type UserSumOrderByAggregateInput = {
@@ -1329,29 +1329,29 @@ export type UserCreateWithoutCurrentAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutCurrentAssetsInput = {
@@ -1366,28 +1366,28 @@ export type UserUncheckedCreateWithoutCurrentAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutCurrentAssetsInput = {
@@ -1408,29 +1408,29 @@ export type UserCreateWithoutRecordedAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutRecordedAssetsInput = {
@@ -1445,28 +1445,28 @@ export type UserUncheckedCreateWithoutRecordedAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutRecordedAssetsInput = {
@@ -1507,7 +1507,6 @@ export type UserUpdateWithoutCurrentAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -1518,22 +1517,23 @@ export type UserUpdateWithoutCurrentAssetsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCurrentAssetsInput = {
@@ -1548,7 +1548,6 @@ export type UserUncheckedUpdateWithoutCurrentAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -1559,21 +1558,22 @@ export type UserUncheckedUpdateWithoutCurrentAssetsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUpsertWithoutRecordedAssetsInput = {
@@ -1606,7 +1606,6 @@ export type UserUpdateWithoutRecordedAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -1617,22 +1616,23 @@ export type UserUpdateWithoutRecordedAssetsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutRecordedAssetsInput = {
@@ -1647,7 +1647,6 @@ export type UserUncheckedUpdateWithoutRecordedAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -1658,21 +1657,22 @@ export type UserUncheckedUpdateWithoutRecordedAssetsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutDivisionInput = {
@@ -1685,29 +1685,29 @@ export type UserCreateWithoutDivisionInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutDivisionInput = {
@@ -1721,29 +1721,29 @@ export type UserUncheckedCreateWithoutDivisionInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutDivisionInput = {
@@ -1804,13 +1804,13 @@ export type UserScalarWhereInput = {
   permissions?: Prisma.JsonNullableFilter<'User'>;
   phone?: Prisma.StringNullableFilter<'User'> | string | null;
   avatarUrl?: Prisma.StringNullableFilter<'User'> | string | null;
-  mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
   isActive?: Prisma.BoolFilter<'User'> | boolean;
   isDeleted?: Prisma.BoolFilter<'User'> | boolean;
   tokenVersion?: Prisma.IntFilter<'User'> | number;
   lastLoginAt?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
   createdAt?: Prisma.DateTimeFilter<'User'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'User'> | Date | string;
+  mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
 };
 
 export type UserCreateWithoutCreatedPurchasesInput = {
@@ -1823,29 +1823,29 @@ export type UserCreateWithoutCreatedPurchasesInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutCreatedPurchasesInput = {
@@ -1860,28 +1860,28 @@ export type UserUncheckedCreateWithoutCreatedPurchasesInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedPurchasesInput = {
@@ -1922,7 +1922,6 @@ export type UserUpdateWithoutCreatedPurchasesInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -1933,22 +1932,23 @@ export type UserUpdateWithoutCreatedPurchasesInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCreatedPurchasesInput = {
@@ -1963,7 +1963,6 @@ export type UserUncheckedUpdateWithoutCreatedPurchasesInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -1974,21 +1973,22 @@ export type UserUncheckedUpdateWithoutCreatedPurchasesInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutCreatedDepreciationsInput = {
@@ -2001,29 +2001,29 @@ export type UserCreateWithoutCreatedDepreciationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutCreatedDepreciationsInput = {
@@ -2038,28 +2038,28 @@ export type UserUncheckedCreateWithoutCreatedDepreciationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedDepreciationsInput = {
@@ -2100,7 +2100,6 @@ export type UserUpdateWithoutCreatedDepreciationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2111,22 +2110,23 @@ export type UserUpdateWithoutCreatedDepreciationsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCreatedDepreciationsInput = {
@@ -2141,7 +2141,6 @@ export type UserUncheckedUpdateWithoutCreatedDepreciationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2152,21 +2151,22 @@ export type UserUncheckedUpdateWithoutCreatedDepreciationsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutStockThresholdsInput = {
@@ -2179,29 +2179,29 @@ export type UserCreateWithoutStockThresholdsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutStockThresholdsInput = {
@@ -2216,28 +2216,28 @@ export type UserUncheckedCreateWithoutStockThresholdsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutStockThresholdsInput = {
@@ -2278,7 +2278,6 @@ export type UserUpdateWithoutStockThresholdsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2289,22 +2288,23 @@ export type UserUpdateWithoutStockThresholdsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutStockThresholdsInput = {
@@ -2319,7 +2319,6 @@ export type UserUncheckedUpdateWithoutStockThresholdsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2330,21 +2329,22 @@ export type UserUncheckedUpdateWithoutStockThresholdsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutStockMovementsInput = {
@@ -2357,29 +2357,29 @@ export type UserCreateWithoutStockMovementsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutStockMovementsInput = {
@@ -2394,28 +2394,28 @@ export type UserUncheckedCreateWithoutStockMovementsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutStockMovementsInput = {
@@ -2456,7 +2456,6 @@ export type UserUpdateWithoutStockMovementsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2467,22 +2466,23 @@ export type UserUpdateWithoutStockMovementsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutStockMovementsInput = {
@@ -2497,7 +2497,6 @@ export type UserUncheckedUpdateWithoutStockMovementsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2508,21 +2507,22 @@ export type UserUncheckedUpdateWithoutStockMovementsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutAttachmentsInput = {
@@ -2535,29 +2535,29 @@ export type UserCreateWithoutAttachmentsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutAttachmentsInput = {
@@ -2572,28 +2572,28 @@ export type UserUncheckedCreateWithoutAttachmentsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutAttachmentsInput = {
@@ -2634,7 +2634,6 @@ export type UserUpdateWithoutAttachmentsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2645,22 +2644,23 @@ export type UserUpdateWithoutAttachmentsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutAttachmentsInput = {
@@ -2675,7 +2675,6 @@ export type UserUncheckedUpdateWithoutAttachmentsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2686,21 +2685,22 @@ export type UserUncheckedUpdateWithoutAttachmentsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutActivityLogsInput = {
@@ -2713,29 +2713,29 @@ export type UserCreateWithoutActivityLogsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  mustChangePassword?: boolean;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutActivityLogsInput = {
@@ -2750,28 +2750,28 @@ export type UserUncheckedCreateWithoutActivityLogsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  mustChangePassword?: boolean;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutActivityLogsInput = {
@@ -2812,7 +2812,6 @@ export type UserUpdateWithoutActivityLogsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2823,22 +2822,23 @@ export type UserUpdateWithoutActivityLogsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutActivityLogsInput = {
@@ -2853,7 +2853,6 @@ export type UserUncheckedUpdateWithoutActivityLogsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2864,21 +2863,22 @@ export type UserUncheckedUpdateWithoutActivityLogsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutNotificationsInput = {
@@ -2891,29 +2891,29 @@ export type UserCreateWithoutNotificationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -2928,28 +2928,28 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -2990,7 +2990,6 @@ export type UserUpdateWithoutNotificationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3001,22 +3000,23 @@ export type UserUpdateWithoutNotificationsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -3031,7 +3031,6 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3042,21 +3041,22 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutCreatedRequestsInput = {
@@ -3069,29 +3069,29 @@ export type UserCreateWithoutCreatedRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutCreatedRequestsInput = {
@@ -3106,28 +3106,28 @@ export type UserUncheckedCreateWithoutCreatedRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedRequestsInput = {
@@ -3168,7 +3168,6 @@ export type UserUpdateWithoutCreatedRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3179,22 +3178,23 @@ export type UserUpdateWithoutCreatedRequestsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCreatedRequestsInput = {
@@ -3209,7 +3209,6 @@ export type UserUncheckedUpdateWithoutCreatedRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3220,21 +3219,22 @@ export type UserUncheckedUpdateWithoutCreatedRequestsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutCreatedLoanRequestsInput = {
@@ -3247,29 +3247,29 @@ export type UserCreateWithoutCreatedLoanRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutCreatedLoanRequestsInput = {
@@ -3284,28 +3284,28 @@ export type UserUncheckedCreateWithoutCreatedLoanRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedLoanRequestsInput = {
@@ -3346,7 +3346,6 @@ export type UserUpdateWithoutCreatedLoanRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3357,22 +3356,23 @@ export type UserUpdateWithoutCreatedLoanRequestsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCreatedLoanRequestsInput = {
@@ -3387,7 +3387,6 @@ export type UserUncheckedUpdateWithoutCreatedLoanRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3398,21 +3397,22 @@ export type UserUncheckedUpdateWithoutCreatedLoanRequestsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutCreatedAssetReturnsInput = {
@@ -3425,29 +3425,29 @@ export type UserCreateWithoutCreatedAssetReturnsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutCreatedAssetReturnsInput = {
@@ -3462,28 +3462,28 @@ export type UserUncheckedCreateWithoutCreatedAssetReturnsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedAssetReturnsInput = {
@@ -3524,7 +3524,6 @@ export type UserUpdateWithoutCreatedAssetReturnsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3535,22 +3534,23 @@ export type UserUpdateWithoutCreatedAssetReturnsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCreatedAssetReturnsInput = {
@@ -3565,7 +3565,6 @@ export type UserUncheckedUpdateWithoutCreatedAssetReturnsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3576,21 +3575,22 @@ export type UserUncheckedUpdateWithoutCreatedAssetReturnsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutHandoversFromInput = {
@@ -3603,29 +3603,29 @@ export type UserCreateWithoutHandoversFromInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutHandoversFromInput = {
@@ -3640,28 +3640,28 @@ export type UserUncheckedCreateWithoutHandoversFromInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutHandoversFromInput = {
@@ -3682,29 +3682,29 @@ export type UserCreateWithoutHandoversToInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutHandoversToInput = {
@@ -3719,28 +3719,28 @@ export type UserUncheckedCreateWithoutHandoversToInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutHandoversToInput = {
@@ -3761,29 +3761,29 @@ export type UserCreateWithoutHandoversWitnessInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutHandoversWitnessInput = {
@@ -3798,28 +3798,28 @@ export type UserUncheckedCreateWithoutHandoversWitnessInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutHandoversWitnessInput = {
@@ -3860,7 +3860,6 @@ export type UserUpdateWithoutHandoversFromInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3871,22 +3870,23 @@ export type UserUpdateWithoutHandoversFromInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutHandoversFromInput = {
@@ -3901,7 +3901,6 @@ export type UserUncheckedUpdateWithoutHandoversFromInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3912,21 +3911,22 @@ export type UserUncheckedUpdateWithoutHandoversFromInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUpsertWithoutHandoversToInput = {
@@ -3959,7 +3959,6 @@ export type UserUpdateWithoutHandoversToInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3970,22 +3969,23 @@ export type UserUpdateWithoutHandoversToInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutHandoversToInput = {
@@ -4000,7 +4000,6 @@ export type UserUncheckedUpdateWithoutHandoversToInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4011,21 +4010,22 @@ export type UserUncheckedUpdateWithoutHandoversToInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUpsertWithoutHandoversWitnessInput = {
@@ -4058,7 +4058,6 @@ export type UserUpdateWithoutHandoversWitnessInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4069,22 +4068,23 @@ export type UserUpdateWithoutHandoversWitnessInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutHandoversWitnessInput = {
@@ -4099,7 +4099,6 @@ export type UserUncheckedUpdateWithoutHandoversWitnessInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4110,21 +4109,22 @@ export type UserUncheckedUpdateWithoutHandoversWitnessInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutCreatedRepairsInput = {
@@ -4137,29 +4137,29 @@ export type UserCreateWithoutCreatedRepairsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
-  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
 export type UserUncheckedCreateWithoutCreatedRepairsInput = {
@@ -4174,28 +4174,28 @@ export type UserUncheckedCreateWithoutCreatedRepairsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
-  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
-  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  mustChangePassword?: boolean;
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
-  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
   handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
   handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
   handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedRepairsInput = {
@@ -4236,7 +4236,6 @@ export type UserUpdateWithoutCreatedRepairsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4247,22 +4246,23 @@ export type UserUpdateWithoutCreatedRepairsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCreatedRepairsInput = {
@@ -4277,7 +4277,6 @@ export type UserUncheckedUpdateWithoutCreatedRepairsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4288,21 +4287,22 @@ export type UserUncheckedUpdateWithoutCreatedRepairsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateManyDivisionInput = {
@@ -4316,13 +4316,13 @@ export type UserCreateManyDivisionInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  mustChangePassword?: boolean;
 };
 
 export type UserUpdateWithoutDivisionInput = {
@@ -4335,7 +4335,6 @@ export type UserUpdateWithoutDivisionInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4346,22 +4345,23 @@ export type UserUpdateWithoutDivisionInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutDivisionInput = {
@@ -4375,7 +4375,6 @@ export type UserUncheckedUpdateWithoutDivisionInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4386,22 +4385,23 @@ export type UserUncheckedUpdateWithoutDivisionInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
-  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
-  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
-  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
-  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
-  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
   handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
   handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
   handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
-  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
   createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateManyWithoutDivisionInput = {
@@ -4415,7 +4415,6 @@ export type UserUncheckedUpdateManyWithoutDivisionInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4426,6 +4425,7 @@ export type UserUncheckedUpdateManyWithoutDivisionInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
 };
 
 /**
@@ -4433,50 +4433,50 @@ export type UserUncheckedUpdateManyWithoutDivisionInput = {
  */
 
 export type UserCountOutputType = {
-  recordedAssets: number;
-  currentAssets: number;
-  stockThresholds: number;
-  stockMovements: number;
-  attachments: number;
   activityLogs: number;
-  notifications: number;
-  createdRequests: number;
-  createdLoanRequests: number;
   createdAssetReturns: number;
+  currentAssets: number;
+  recordedAssets: number;
+  attachments: number;
+  createdDepreciations: number;
   handoversFrom: number;
   handoversTo: number;
   handoversWitness: number;
-  createdDepreciations: number;
+  createdLoanRequests: number;
+  notifications: number;
   createdPurchases: number;
   createdRepairs: number;
+  createdRequests: number;
+  stockMovements: number;
+  stockThresholds: number;
 };
 
 export type UserCountOutputTypeSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  recordedAssets?: boolean | UserCountOutputTypeCountRecordedAssetsArgs;
-  currentAssets?: boolean | UserCountOutputTypeCountCurrentAssetsArgs;
-  stockThresholds?: boolean | UserCountOutputTypeCountStockThresholdsArgs;
-  stockMovements?: boolean | UserCountOutputTypeCountStockMovementsArgs;
-  attachments?: boolean | UserCountOutputTypeCountAttachmentsArgs;
   activityLogs?: boolean | UserCountOutputTypeCountActivityLogsArgs;
-  notifications?: boolean | UserCountOutputTypeCountNotificationsArgs;
-  createdRequests?: boolean | UserCountOutputTypeCountCreatedRequestsArgs;
-  createdLoanRequests?:
-    | boolean
-    | UserCountOutputTypeCountCreatedLoanRequestsArgs;
   createdAssetReturns?:
     | boolean
     | UserCountOutputTypeCountCreatedAssetReturnsArgs;
-  handoversFrom?: boolean | UserCountOutputTypeCountHandoversFromArgs;
-  handoversTo?: boolean | UserCountOutputTypeCountHandoversToArgs;
-  handoversWitness?: boolean | UserCountOutputTypeCountHandoversWitnessArgs;
+  currentAssets?: boolean | UserCountOutputTypeCountCurrentAssetsArgs;
+  recordedAssets?: boolean | UserCountOutputTypeCountRecordedAssetsArgs;
+  attachments?: boolean | UserCountOutputTypeCountAttachmentsArgs;
   createdDepreciations?:
     | boolean
     | UserCountOutputTypeCountCreatedDepreciationsArgs;
+  handoversFrom?: boolean | UserCountOutputTypeCountHandoversFromArgs;
+  handoversTo?: boolean | UserCountOutputTypeCountHandoversToArgs;
+  handoversWitness?: boolean | UserCountOutputTypeCountHandoversWitnessArgs;
+  createdLoanRequests?:
+    | boolean
+    | UserCountOutputTypeCountCreatedLoanRequestsArgs;
+  notifications?: boolean | UserCountOutputTypeCountNotificationsArgs;
   createdPurchases?: boolean | UserCountOutputTypeCountCreatedPurchasesArgs;
   createdRepairs?: boolean | UserCountOutputTypeCountCreatedRepairsArgs;
+  createdRequests?: boolean | UserCountOutputTypeCountCreatedRequestsArgs;
+  stockMovements?: boolean | UserCountOutputTypeCountStockMovementsArgs;
+  stockThresholds?: boolean | UserCountOutputTypeCountStockThresholdsArgs;
 };
 
 /**
@@ -4495,11 +4495,21 @@ export type UserCountOutputTypeDefaultArgs<
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountRecordedAssetsArgs<
+export type UserCountOutputTypeCountActivityLogsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  where?: Prisma.AssetWhereInput;
+  where?: Prisma.ActivityLogWhereInput;
+};
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCreatedAssetReturnsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.AssetReturnWhereInput;
 };
 
 /**
@@ -4515,21 +4525,11 @@ export type UserCountOutputTypeCountCurrentAssetsArgs<
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountStockThresholdsArgs<
+export type UserCountOutputTypeCountRecordedAssetsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  where?: Prisma.StockThresholdWhereInput;
-};
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountStockMovementsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  where?: Prisma.StockMovementWhereInput;
+  where?: Prisma.AssetWhereInput;
 };
 
 /**
@@ -4545,51 +4545,11 @@ export type UserCountOutputTypeCountAttachmentsArgs<
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountActivityLogsArgs<
+export type UserCountOutputTypeCountCreatedDepreciationsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  where?: Prisma.ActivityLogWhereInput;
-};
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountNotificationsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  where?: Prisma.NotificationWhereInput;
-};
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCreatedRequestsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  where?: Prisma.RequestWhereInput;
-};
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCreatedLoanRequestsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  where?: Prisma.LoanRequestWhereInput;
-};
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCreatedAssetReturnsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  where?: Prisma.AssetReturnWhereInput;
+  where?: Prisma.DepreciationWhereInput;
 };
 
 /**
@@ -4625,11 +4585,21 @@ export type UserCountOutputTypeCountHandoversWitnessArgs<
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountCreatedDepreciationsArgs<
+export type UserCountOutputTypeCountCreatedLoanRequestsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  where?: Prisma.DepreciationWhereInput;
+  where?: Prisma.LoanRequestWhereInput;
+};
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountNotificationsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.NotificationWhereInput;
 };
 
 /**
@@ -4652,6 +4622,36 @@ export type UserCountOutputTypeCountCreatedRepairsArgs<
   where?: Prisma.RepairWhereInput;
 };
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCreatedRequestsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.RequestWhereInput;
+};
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountStockMovementsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.StockMovementWhereInput;
+};
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountStockThresholdsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.StockThresholdWhereInput;
+};
+
 export type UserSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -4668,36 +4668,36 @@ export type UserSelect<
     permissions?: boolean;
     phone?: boolean;
     avatarUrl?: boolean;
-    mustChangePassword?: boolean;
     isActive?: boolean;
     isDeleted?: boolean;
     tokenVersion?: boolean;
     lastLoginAt?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    division?: boolean | Prisma.User$divisionArgs<ExtArgs>;
-    recordedAssets?: boolean | Prisma.User$recordedAssetsArgs<ExtArgs>;
-    currentAssets?: boolean | Prisma.User$currentAssetsArgs<ExtArgs>;
-    stockThresholds?: boolean | Prisma.User$stockThresholdsArgs<ExtArgs>;
-    stockMovements?: boolean | Prisma.User$stockMovementsArgs<ExtArgs>;
-    attachments?: boolean | Prisma.User$attachmentsArgs<ExtArgs>;
+    mustChangePassword?: boolean;
     activityLogs?: boolean | Prisma.User$activityLogsArgs<ExtArgs>;
-    notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>;
-    createdRequests?: boolean | Prisma.User$createdRequestsArgs<ExtArgs>;
-    createdLoanRequests?:
-      | boolean
-      | Prisma.User$createdLoanRequestsArgs<ExtArgs>;
     createdAssetReturns?:
       | boolean
       | Prisma.User$createdAssetReturnsArgs<ExtArgs>;
-    handoversFrom?: boolean | Prisma.User$handoversFromArgs<ExtArgs>;
-    handoversTo?: boolean | Prisma.User$handoversToArgs<ExtArgs>;
-    handoversWitness?: boolean | Prisma.User$handoversWitnessArgs<ExtArgs>;
+    currentAssets?: boolean | Prisma.User$currentAssetsArgs<ExtArgs>;
+    recordedAssets?: boolean | Prisma.User$recordedAssetsArgs<ExtArgs>;
+    attachments?: boolean | Prisma.User$attachmentsArgs<ExtArgs>;
     createdDepreciations?:
       | boolean
       | Prisma.User$createdDepreciationsArgs<ExtArgs>;
+    handoversFrom?: boolean | Prisma.User$handoversFromArgs<ExtArgs>;
+    handoversTo?: boolean | Prisma.User$handoversToArgs<ExtArgs>;
+    handoversWitness?: boolean | Prisma.User$handoversWitnessArgs<ExtArgs>;
+    createdLoanRequests?:
+      | boolean
+      | Prisma.User$createdLoanRequestsArgs<ExtArgs>;
+    notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>;
     createdPurchases?: boolean | Prisma.User$createdPurchasesArgs<ExtArgs>;
     createdRepairs?: boolean | Prisma.User$createdRepairsArgs<ExtArgs>;
+    createdRequests?: boolean | Prisma.User$createdRequestsArgs<ExtArgs>;
+    stockMovements?: boolean | Prisma.User$stockMovementsArgs<ExtArgs>;
+    stockThresholds?: boolean | Prisma.User$stockThresholdsArgs<ExtArgs>;
+    division?: boolean | Prisma.User$divisionArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['user']
@@ -4719,13 +4719,13 @@ export type UserSelectCreateManyAndReturn<
     permissions?: boolean;
     phone?: boolean;
     avatarUrl?: boolean;
-    mustChangePassword?: boolean;
     isActive?: boolean;
     isDeleted?: boolean;
     tokenVersion?: boolean;
     lastLoginAt?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
+    mustChangePassword?: boolean;
     division?: boolean | Prisma.User$divisionArgs<ExtArgs>;
   },
   ExtArgs['result']['user']
@@ -4747,13 +4747,13 @@ export type UserSelectUpdateManyAndReturn<
     permissions?: boolean;
     phone?: boolean;
     avatarUrl?: boolean;
-    mustChangePassword?: boolean;
     isActive?: boolean;
     isDeleted?: boolean;
     tokenVersion?: boolean;
     lastLoginAt?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
+    mustChangePassword?: boolean;
     division?: boolean | Prisma.User$divisionArgs<ExtArgs>;
   },
   ExtArgs['result']['user']
@@ -4771,13 +4771,13 @@ export type UserSelectScalar = {
   permissions?: boolean;
   phone?: boolean;
   avatarUrl?: boolean;
-  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: boolean;
   lastLoginAt?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
+  mustChangePassword?: boolean;
 };
 
 export type UserOmit<
@@ -4795,38 +4795,38 @@ export type UserOmit<
   | 'permissions'
   | 'phone'
   | 'avatarUrl'
-  | 'mustChangePassword'
   | 'isActive'
   | 'isDeleted'
   | 'tokenVersion'
   | 'lastLoginAt'
   | 'createdAt'
-  | 'updatedAt',
+  | 'updatedAt'
+  | 'mustChangePassword',
   ExtArgs['result']['user']
 >;
 export type UserInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  division?: boolean | Prisma.User$divisionArgs<ExtArgs>;
-  recordedAssets?: boolean | Prisma.User$recordedAssetsArgs<ExtArgs>;
-  currentAssets?: boolean | Prisma.User$currentAssetsArgs<ExtArgs>;
-  stockThresholds?: boolean | Prisma.User$stockThresholdsArgs<ExtArgs>;
-  stockMovements?: boolean | Prisma.User$stockMovementsArgs<ExtArgs>;
-  attachments?: boolean | Prisma.User$attachmentsArgs<ExtArgs>;
   activityLogs?: boolean | Prisma.User$activityLogsArgs<ExtArgs>;
-  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>;
-  createdRequests?: boolean | Prisma.User$createdRequestsArgs<ExtArgs>;
-  createdLoanRequests?: boolean | Prisma.User$createdLoanRequestsArgs<ExtArgs>;
   createdAssetReturns?: boolean | Prisma.User$createdAssetReturnsArgs<ExtArgs>;
-  handoversFrom?: boolean | Prisma.User$handoversFromArgs<ExtArgs>;
-  handoversTo?: boolean | Prisma.User$handoversToArgs<ExtArgs>;
-  handoversWitness?: boolean | Prisma.User$handoversWitnessArgs<ExtArgs>;
+  currentAssets?: boolean | Prisma.User$currentAssetsArgs<ExtArgs>;
+  recordedAssets?: boolean | Prisma.User$recordedAssetsArgs<ExtArgs>;
+  attachments?: boolean | Prisma.User$attachmentsArgs<ExtArgs>;
   createdDepreciations?:
     | boolean
     | Prisma.User$createdDepreciationsArgs<ExtArgs>;
+  handoversFrom?: boolean | Prisma.User$handoversFromArgs<ExtArgs>;
+  handoversTo?: boolean | Prisma.User$handoversToArgs<ExtArgs>;
+  handoversWitness?: boolean | Prisma.User$handoversWitnessArgs<ExtArgs>;
+  createdLoanRequests?: boolean | Prisma.User$createdLoanRequestsArgs<ExtArgs>;
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>;
   createdPurchases?: boolean | Prisma.User$createdPurchasesArgs<ExtArgs>;
   createdRepairs?: boolean | Prisma.User$createdRepairsArgs<ExtArgs>;
+  createdRequests?: boolean | Prisma.User$createdRequestsArgs<ExtArgs>;
+  stockMovements?: boolean | Prisma.User$stockMovementsArgs<ExtArgs>;
+  stockThresholds?: boolean | Prisma.User$stockThresholdsArgs<ExtArgs>;
+  division?: boolean | Prisma.User$divisionArgs<ExtArgs>;
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<
@@ -4848,23 +4848,23 @@ export type $UserPayload<
 > = {
   name: 'User';
   objects: {
-    division: Prisma.$DivisionPayload<ExtArgs> | null;
-    recordedAssets: Prisma.$AssetPayload<ExtArgs>[];
-    currentAssets: Prisma.$AssetPayload<ExtArgs>[];
-    stockThresholds: Prisma.$StockThresholdPayload<ExtArgs>[];
-    stockMovements: Prisma.$StockMovementPayload<ExtArgs>[];
-    attachments: Prisma.$AttachmentPayload<ExtArgs>[];
     activityLogs: Prisma.$ActivityLogPayload<ExtArgs>[];
-    notifications: Prisma.$NotificationPayload<ExtArgs>[];
-    createdRequests: Prisma.$RequestPayload<ExtArgs>[];
-    createdLoanRequests: Prisma.$LoanRequestPayload<ExtArgs>[];
     createdAssetReturns: Prisma.$AssetReturnPayload<ExtArgs>[];
+    currentAssets: Prisma.$AssetPayload<ExtArgs>[];
+    recordedAssets: Prisma.$AssetPayload<ExtArgs>[];
+    attachments: Prisma.$AttachmentPayload<ExtArgs>[];
+    createdDepreciations: Prisma.$DepreciationPayload<ExtArgs>[];
     handoversFrom: Prisma.$HandoverPayload<ExtArgs>[];
     handoversTo: Prisma.$HandoverPayload<ExtArgs>[];
     handoversWitness: Prisma.$HandoverPayload<ExtArgs>[];
-    createdDepreciations: Prisma.$DepreciationPayload<ExtArgs>[];
+    createdLoanRequests: Prisma.$LoanRequestPayload<ExtArgs>[];
+    notifications: Prisma.$NotificationPayload<ExtArgs>[];
     createdPurchases: Prisma.$PurchaseMasterDataPayload<ExtArgs>[];
     createdRepairs: Prisma.$RepairPayload<ExtArgs>[];
+    createdRequests: Prisma.$RequestPayload<ExtArgs>[];
+    stockMovements: Prisma.$StockMovementPayload<ExtArgs>[];
+    stockThresholds: Prisma.$StockThresholdPayload<ExtArgs>[];
+    division: Prisma.$DivisionPayload<ExtArgs> | null;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -4879,13 +4879,13 @@ export type $UserPayload<
       permissions: runtime.JsonValue | null;
       phone: string | null;
       avatarUrl: string | null;
-      mustChangePassword: boolean;
       isActive: boolean;
       isDeleted: boolean;
       tokenVersion: number;
       lastLoginAt: Date | null;
       createdAt: Date;
       updatedAt: Date;
+      mustChangePassword: boolean;
     },
     ExtArgs['result']['user']
   >;
@@ -5436,24 +5436,24 @@ export interface Prisma__UserClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
-  division<T extends Prisma.User$divisionArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.User$divisionArgs<ExtArgs>>,
-  ): Prisma.Prisma__DivisionClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$DivisionPayload<ExtArgs>,
-      T,
-      'findUniqueOrThrow',
-      GlobalOmitOptions
-    > | null,
-    null,
-    ExtArgs,
-    GlobalOmitOptions
-  >;
-  recordedAssets<T extends Prisma.User$recordedAssetsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.User$recordedAssetsArgs<ExtArgs>>,
+  activityLogs<T extends Prisma.User$activityLogsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$activityLogsArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
-        Prisma.$AssetPayload<ExtArgs>,
+        Prisma.$ActivityLogPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  createdAssetReturns<
+    T extends Prisma.User$createdAssetReturnsArgs<ExtArgs> = {},
+  >(
+    args?: Prisma.Subset<T, Prisma.User$createdAssetReturnsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$AssetReturnPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -5471,22 +5471,11 @@ export interface Prisma__UserClient<
       >
     | Null
   >;
-  stockThresholds<T extends Prisma.User$stockThresholdsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.User$stockThresholdsArgs<ExtArgs>>,
+  recordedAssets<T extends Prisma.User$recordedAssetsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$recordedAssetsArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
-        Prisma.$StockThresholdPayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
-  >;
-  stockMovements<T extends Prisma.User$stockMovementsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.User$stockMovementsArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$StockMovementPayload<ExtArgs>,
+        Prisma.$AssetPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -5504,59 +5493,13 @@ export interface Prisma__UserClient<
       >
     | Null
   >;
-  activityLogs<T extends Prisma.User$activityLogsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.User$activityLogsArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$ActivityLogPayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
-  >;
-  notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$NotificationPayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
-  >;
-  createdRequests<T extends Prisma.User$createdRequestsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.User$createdRequestsArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$RequestPayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
-  >;
-  createdLoanRequests<
-    T extends Prisma.User$createdLoanRequestsArgs<ExtArgs> = {},
+  createdDepreciations<
+    T extends Prisma.User$createdDepreciationsArgs<ExtArgs> = {},
   >(
-    args?: Prisma.Subset<T, Prisma.User$createdLoanRequestsArgs<ExtArgs>>,
+    args?: Prisma.Subset<T, Prisma.User$createdDepreciationsArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
-        Prisma.$LoanRequestPayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
-  >;
-  createdAssetReturns<
-    T extends Prisma.User$createdAssetReturnsArgs<ExtArgs> = {},
-  >(
-    args?: Prisma.Subset<T, Prisma.User$createdAssetReturnsArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$AssetReturnPayload<ExtArgs>,
+        Prisma.$DepreciationPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -5596,13 +5539,24 @@ export interface Prisma__UserClient<
       >
     | Null
   >;
-  createdDepreciations<
-    T extends Prisma.User$createdDepreciationsArgs<ExtArgs> = {},
+  createdLoanRequests<
+    T extends Prisma.User$createdLoanRequestsArgs<ExtArgs> = {},
   >(
-    args?: Prisma.Subset<T, Prisma.User$createdDepreciationsArgs<ExtArgs>>,
+    args?: Prisma.Subset<T, Prisma.User$createdLoanRequestsArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
-        Prisma.$DepreciationPayload<ExtArgs>,
+        Prisma.$LoanRequestPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$NotificationPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -5630,6 +5584,52 @@ export interface Prisma__UserClient<
         GlobalOmitOptions
       >
     | Null
+  >;
+  createdRequests<T extends Prisma.User$createdRequestsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$createdRequestsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$RequestPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  stockMovements<T extends Prisma.User$stockMovementsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$stockMovementsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$StockMovementPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  stockThresholds<T extends Prisma.User$stockThresholdsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$stockThresholdsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$StockThresholdPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  division<T extends Prisma.User$divisionArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$divisionArgs<ExtArgs>>,
+  ): Prisma.Prisma__DivisionClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$DivisionPayload<ExtArgs>,
+      T,
+      'findUniqueOrThrow',
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
   >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -5684,13 +5684,13 @@ export interface UserFieldRefs {
   readonly permissions: Prisma.FieldRef<'User', 'Json'>;
   readonly phone: Prisma.FieldRef<'User', 'String'>;
   readonly avatarUrl: Prisma.FieldRef<'User', 'String'>;
-  readonly mustChangePassword: Prisma.FieldRef<'User', 'Boolean'>;
   readonly isActive: Prisma.FieldRef<'User', 'Boolean'>;
   readonly isDeleted: Prisma.FieldRef<'User', 'Boolean'>;
   readonly tokenVersion: Prisma.FieldRef<'User', 'Int'>;
   readonly lastLoginAt: Prisma.FieldRef<'User', 'DateTime'>;
   readonly createdAt: Prisma.FieldRef<'User', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'User', 'DateTime'>;
+  readonly mustChangePassword: Prisma.FieldRef<'User', 'Boolean'>;
 }
 
 // Custom InputTypes
@@ -6145,54 +6145,65 @@ export type UserDeleteManyArgs<
 };
 
 /**
- * User.division
+ * User.activityLogs
  */
-export type User$divisionArgs<
+export type User$activityLogsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
-   * Select specific fields to fetch from the Division
+   * Select specific fields to fetch from the ActivityLog
    */
-  select?: Prisma.DivisionSelect<ExtArgs> | null;
+  select?: Prisma.ActivityLogSelect<ExtArgs> | null;
   /**
-   * Omit specific fields from the Division
+   * Omit specific fields from the ActivityLog
    */
-  omit?: Prisma.DivisionOmit<ExtArgs> | null;
+  omit?: Prisma.ActivityLogOmit<ExtArgs> | null;
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.DivisionInclude<ExtArgs> | null;
-  where?: Prisma.DivisionWhereInput;
+  include?: Prisma.ActivityLogInclude<ExtArgs> | null;
+  where?: Prisma.ActivityLogWhereInput;
+  orderBy?:
+    | Prisma.ActivityLogOrderByWithRelationInput
+    | Prisma.ActivityLogOrderByWithRelationInput[];
+  cursor?: Prisma.ActivityLogWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.ActivityLogScalarFieldEnum
+    | Prisma.ActivityLogScalarFieldEnum[];
 };
 
 /**
- * User.recordedAssets
+ * User.createdAssetReturns
  */
-export type User$recordedAssetsArgs<
+export type User$createdAssetReturnsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
-   * Select specific fields to fetch from the Asset
+   * Select specific fields to fetch from the AssetReturn
    */
-  select?: Prisma.AssetSelect<ExtArgs> | null;
+  select?: Prisma.AssetReturnSelect<ExtArgs> | null;
   /**
-   * Omit specific fields from the Asset
+   * Omit specific fields from the AssetReturn
    */
-  omit?: Prisma.AssetOmit<ExtArgs> | null;
+  omit?: Prisma.AssetReturnOmit<ExtArgs> | null;
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.AssetInclude<ExtArgs> | null;
-  where?: Prisma.AssetWhereInput;
+  include?: Prisma.AssetReturnInclude<ExtArgs> | null;
+  where?: Prisma.AssetReturnWhereInput;
   orderBy?:
-    | Prisma.AssetOrderByWithRelationInput
-    | Prisma.AssetOrderByWithRelationInput[];
-  cursor?: Prisma.AssetWhereUniqueInput;
+    | Prisma.AssetReturnOrderByWithRelationInput
+    | Prisma.AssetReturnOrderByWithRelationInput[];
+  cursor?: Prisma.AssetReturnWhereUniqueInput;
   take?: number;
   skip?: number;
-  distinct?: Prisma.AssetScalarFieldEnum | Prisma.AssetScalarFieldEnum[];
+  distinct?:
+    | Prisma.AssetReturnScalarFieldEnum
+    | Prisma.AssetReturnScalarFieldEnum[];
 };
 
 /**
@@ -6225,65 +6236,32 @@ export type User$currentAssetsArgs<
 };
 
 /**
- * User.stockThresholds
+ * User.recordedAssets
  */
-export type User$stockThresholdsArgs<
+export type User$recordedAssetsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
-   * Select specific fields to fetch from the StockThreshold
+   * Select specific fields to fetch from the Asset
    */
-  select?: Prisma.StockThresholdSelect<ExtArgs> | null;
+  select?: Prisma.AssetSelect<ExtArgs> | null;
   /**
-   * Omit specific fields from the StockThreshold
+   * Omit specific fields from the Asset
    */
-  omit?: Prisma.StockThresholdOmit<ExtArgs> | null;
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.StockThresholdInclude<ExtArgs> | null;
-  where?: Prisma.StockThresholdWhereInput;
-  orderBy?:
-    | Prisma.StockThresholdOrderByWithRelationInput
-    | Prisma.StockThresholdOrderByWithRelationInput[];
-  cursor?: Prisma.StockThresholdWhereUniqueInput;
-  take?: number;
-  skip?: number;
-  distinct?:
-    | Prisma.StockThresholdScalarFieldEnum
-    | Prisma.StockThresholdScalarFieldEnum[];
-};
-
-/**
- * User.stockMovements
- */
-export type User$stockMovementsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  /**
-   * Select specific fields to fetch from the StockMovement
-   */
-  select?: Prisma.StockMovementSelect<ExtArgs> | null;
-  /**
-   * Omit specific fields from the StockMovement
-   */
-  omit?: Prisma.StockMovementOmit<ExtArgs> | null;
+  omit?: Prisma.AssetOmit<ExtArgs> | null;
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.StockMovementInclude<ExtArgs> | null;
-  where?: Prisma.StockMovementWhereInput;
+  include?: Prisma.AssetInclude<ExtArgs> | null;
+  where?: Prisma.AssetWhereInput;
   orderBy?:
-    | Prisma.StockMovementOrderByWithRelationInput
-    | Prisma.StockMovementOrderByWithRelationInput[];
-  cursor?: Prisma.StockMovementWhereUniqueInput;
+    | Prisma.AssetOrderByWithRelationInput
+    | Prisma.AssetOrderByWithRelationInput[];
+  cursor?: Prisma.AssetWhereUniqueInput;
   take?: number;
   skip?: number;
-  distinct?:
-    | Prisma.StockMovementScalarFieldEnum
-    | Prisma.StockMovementScalarFieldEnum[];
+  distinct?: Prisma.AssetScalarFieldEnum | Prisma.AssetScalarFieldEnum[];
 };
 
 /**
@@ -6318,156 +6296,34 @@ export type User$attachmentsArgs<
 };
 
 /**
- * User.activityLogs
+ * User.createdDepreciations
  */
-export type User$activityLogsArgs<
+export type User$createdDepreciationsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
-   * Select specific fields to fetch from the ActivityLog
+   * Select specific fields to fetch from the Depreciation
    */
-  select?: Prisma.ActivityLogSelect<ExtArgs> | null;
+  select?: Prisma.DepreciationSelect<ExtArgs> | null;
   /**
-   * Omit specific fields from the ActivityLog
+   * Omit specific fields from the Depreciation
    */
-  omit?: Prisma.ActivityLogOmit<ExtArgs> | null;
+  omit?: Prisma.DepreciationOmit<ExtArgs> | null;
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ActivityLogInclude<ExtArgs> | null;
-  where?: Prisma.ActivityLogWhereInput;
+  include?: Prisma.DepreciationInclude<ExtArgs> | null;
+  where?: Prisma.DepreciationWhereInput;
   orderBy?:
-    | Prisma.ActivityLogOrderByWithRelationInput
-    | Prisma.ActivityLogOrderByWithRelationInput[];
-  cursor?: Prisma.ActivityLogWhereUniqueInput;
+    | Prisma.DepreciationOrderByWithRelationInput
+    | Prisma.DepreciationOrderByWithRelationInput[];
+  cursor?: Prisma.DepreciationWhereUniqueInput;
   take?: number;
   skip?: number;
   distinct?:
-    | Prisma.ActivityLogScalarFieldEnum
-    | Prisma.ActivityLogScalarFieldEnum[];
-};
-
-/**
- * User.notifications
- */
-export type User$notificationsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  /**
-   * Select specific fields to fetch from the Notification
-   */
-  select?: Prisma.NotificationSelect<ExtArgs> | null;
-  /**
-   * Omit specific fields from the Notification
-   */
-  omit?: Prisma.NotificationOmit<ExtArgs> | null;
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.NotificationInclude<ExtArgs> | null;
-  where?: Prisma.NotificationWhereInput;
-  orderBy?:
-    | Prisma.NotificationOrderByWithRelationInput
-    | Prisma.NotificationOrderByWithRelationInput[];
-  cursor?: Prisma.NotificationWhereUniqueInput;
-  take?: number;
-  skip?: number;
-  distinct?:
-    | Prisma.NotificationScalarFieldEnum
-    | Prisma.NotificationScalarFieldEnum[];
-};
-
-/**
- * User.createdRequests
- */
-export type User$createdRequestsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  /**
-   * Select specific fields to fetch from the Request
-   */
-  select?: Prisma.RequestSelect<ExtArgs> | null;
-  /**
-   * Omit specific fields from the Request
-   */
-  omit?: Prisma.RequestOmit<ExtArgs> | null;
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.RequestInclude<ExtArgs> | null;
-  where?: Prisma.RequestWhereInput;
-  orderBy?:
-    | Prisma.RequestOrderByWithRelationInput
-    | Prisma.RequestOrderByWithRelationInput[];
-  cursor?: Prisma.RequestWhereUniqueInput;
-  take?: number;
-  skip?: number;
-  distinct?: Prisma.RequestScalarFieldEnum | Prisma.RequestScalarFieldEnum[];
-};
-
-/**
- * User.createdLoanRequests
- */
-export type User$createdLoanRequestsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  /**
-   * Select specific fields to fetch from the LoanRequest
-   */
-  select?: Prisma.LoanRequestSelect<ExtArgs> | null;
-  /**
-   * Omit specific fields from the LoanRequest
-   */
-  omit?: Prisma.LoanRequestOmit<ExtArgs> | null;
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.LoanRequestInclude<ExtArgs> | null;
-  where?: Prisma.LoanRequestWhereInput;
-  orderBy?:
-    | Prisma.LoanRequestOrderByWithRelationInput
-    | Prisma.LoanRequestOrderByWithRelationInput[];
-  cursor?: Prisma.LoanRequestWhereUniqueInput;
-  take?: number;
-  skip?: number;
-  distinct?:
-    | Prisma.LoanRequestScalarFieldEnum
-    | Prisma.LoanRequestScalarFieldEnum[];
-};
-
-/**
- * User.createdAssetReturns
- */
-export type User$createdAssetReturnsArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  /**
-   * Select specific fields to fetch from the AssetReturn
-   */
-  select?: Prisma.AssetReturnSelect<ExtArgs> | null;
-  /**
-   * Omit specific fields from the AssetReturn
-   */
-  omit?: Prisma.AssetReturnOmit<ExtArgs> | null;
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AssetReturnInclude<ExtArgs> | null;
-  where?: Prisma.AssetReturnWhereInput;
-  orderBy?:
-    | Prisma.AssetReturnOrderByWithRelationInput
-    | Prisma.AssetReturnOrderByWithRelationInput[];
-  cursor?: Prisma.AssetReturnWhereUniqueInput;
-  take?: number;
-  skip?: number;
-  distinct?:
-    | Prisma.AssetReturnScalarFieldEnum
-    | Prisma.AssetReturnScalarFieldEnum[];
+    | Prisma.DepreciationScalarFieldEnum
+    | Prisma.DepreciationScalarFieldEnum[];
 };
 
 /**
@@ -6558,34 +6414,65 @@ export type User$handoversWitnessArgs<
 };
 
 /**
- * User.createdDepreciations
+ * User.createdLoanRequests
  */
-export type User$createdDepreciationsArgs<
+export type User$createdLoanRequestsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
-   * Select specific fields to fetch from the Depreciation
+   * Select specific fields to fetch from the LoanRequest
    */
-  select?: Prisma.DepreciationSelect<ExtArgs> | null;
+  select?: Prisma.LoanRequestSelect<ExtArgs> | null;
   /**
-   * Omit specific fields from the Depreciation
+   * Omit specific fields from the LoanRequest
    */
-  omit?: Prisma.DepreciationOmit<ExtArgs> | null;
+  omit?: Prisma.LoanRequestOmit<ExtArgs> | null;
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.DepreciationInclude<ExtArgs> | null;
-  where?: Prisma.DepreciationWhereInput;
+  include?: Prisma.LoanRequestInclude<ExtArgs> | null;
+  where?: Prisma.LoanRequestWhereInput;
   orderBy?:
-    | Prisma.DepreciationOrderByWithRelationInput
-    | Prisma.DepreciationOrderByWithRelationInput[];
-  cursor?: Prisma.DepreciationWhereUniqueInput;
+    | Prisma.LoanRequestOrderByWithRelationInput
+    | Prisma.LoanRequestOrderByWithRelationInput[];
+  cursor?: Prisma.LoanRequestWhereUniqueInput;
   take?: number;
   skip?: number;
   distinct?:
-    | Prisma.DepreciationScalarFieldEnum
-    | Prisma.DepreciationScalarFieldEnum[];
+    | Prisma.LoanRequestScalarFieldEnum
+    | Prisma.LoanRequestScalarFieldEnum[];
+};
+
+/**
+ * User.notifications
+ */
+export type User$notificationsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null;
+  where?: Prisma.NotificationWhereInput;
+  orderBy?:
+    | Prisma.NotificationOrderByWithRelationInput
+    | Prisma.NotificationOrderByWithRelationInput[];
+  cursor?: Prisma.NotificationWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.NotificationScalarFieldEnum
+    | Prisma.NotificationScalarFieldEnum[];
 };
 
 /**
@@ -6646,6 +6533,119 @@ export type User$createdRepairsArgs<
   take?: number;
   skip?: number;
   distinct?: Prisma.RepairScalarFieldEnum | Prisma.RepairScalarFieldEnum[];
+};
+
+/**
+ * User.createdRequests
+ */
+export type User$createdRequestsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Request
+   */
+  select?: Prisma.RequestSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Request
+   */
+  omit?: Prisma.RequestOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RequestInclude<ExtArgs> | null;
+  where?: Prisma.RequestWhereInput;
+  orderBy?:
+    | Prisma.RequestOrderByWithRelationInput
+    | Prisma.RequestOrderByWithRelationInput[];
+  cursor?: Prisma.RequestWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.RequestScalarFieldEnum | Prisma.RequestScalarFieldEnum[];
+};
+
+/**
+ * User.stockMovements
+ */
+export type User$stockMovementsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the StockMovement
+   */
+  select?: Prisma.StockMovementSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the StockMovement
+   */
+  omit?: Prisma.StockMovementOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StockMovementInclude<ExtArgs> | null;
+  where?: Prisma.StockMovementWhereInput;
+  orderBy?:
+    | Prisma.StockMovementOrderByWithRelationInput
+    | Prisma.StockMovementOrderByWithRelationInput[];
+  cursor?: Prisma.StockMovementWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.StockMovementScalarFieldEnum
+    | Prisma.StockMovementScalarFieldEnum[];
+};
+
+/**
+ * User.stockThresholds
+ */
+export type User$stockThresholdsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the StockThreshold
+   */
+  select?: Prisma.StockThresholdSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the StockThreshold
+   */
+  omit?: Prisma.StockThresholdOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StockThresholdInclude<ExtArgs> | null;
+  where?: Prisma.StockThresholdWhereInput;
+  orderBy?:
+    | Prisma.StockThresholdOrderByWithRelationInput
+    | Prisma.StockThresholdOrderByWithRelationInput[];
+  cursor?: Prisma.StockThresholdWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.StockThresholdScalarFieldEnum
+    | Prisma.StockThresholdScalarFieldEnum[];
+};
+
+/**
+ * User.division
+ */
+export type User$divisionArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Division
+   */
+  select?: Prisma.DivisionSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Division
+   */
+  omit?: Prisma.DivisionOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DivisionInclude<ExtArgs> | null;
+  where?: Prisma.DivisionWhereInput;
 };
 
 /**

@@ -4,14 +4,23 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
+import { StockMovementService } from '../../transactions/stock-movements/stock-movement.service';
 import { CreateInstallationDto } from './dto/create-installation.dto';
 import { UpdateInstallationDto } from './dto/update-installation.dto';
 import { FilterInstallationDto } from './dto/filter-installation.dto';
-import { Prisma, TransactionStatus } from '../../../generated/prisma/client';
+import {
+  Prisma,
+  TransactionStatus,
+  MovementType,
+  AssetStatus,
+} from '../../../generated/prisma/client';
 
 @Injectable()
 export class InstallationService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly stockMovementService: StockMovementService,
+  ) {}
 
   private async generateCode(): Promise<string> {
     const today = new Date();
@@ -127,6 +136,64 @@ export class InstallationService {
         ...(dto.scheduledAt && { scheduledAt: new Date(dto.scheduledAt) }),
       },
       include: { customer: { select: { id: true, name: true } } },
+    });
+  }
+
+  async complete(id: number, userId: number) {
+    const existing = await this.findOne(id);
+    if (existing.status === TransactionStatus.COMPLETED) {
+      throw new BadRequestException('Instalasi sudah selesai');
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      // Update installation status
+      const installation = await tx.installation.update({
+        where: { id },
+        data: {
+          status: TransactionStatus.COMPLETED,
+          completedAt: new Date(),
+        },
+        include: {
+          customer: { select: { id: true, name: true } },
+          materials: true,
+        },
+      });
+
+      // Create stock movement OUT for each material linked to a model
+      for (const material of existing.materials) {
+        if (material.modelId) {
+          // Find available assets of this model in storage
+          const assets = await tx.asset.findMany({
+            where: {
+              modelId: material.modelId,
+              status: AssetStatus.IN_STORAGE,
+              isDeleted: false,
+            },
+            take: material.quantity,
+          });
+
+          for (const asset of assets) {
+            await tx.asset.update({
+              where: { id: asset.id },
+              data: { status: AssetStatus.IN_USE },
+            });
+
+            await this.stockMovementService.create(
+              {
+                assetId: asset.id,
+                type: MovementType.OUT,
+                quantity: 1,
+                reference: existing.code,
+                note: `Instalasi ${existing.code} - ${material.description}`,
+                createdById: userId,
+              },
+              tx,
+            );
+          }
+        }
+      }
+
+      return installation;
     });
   }
 }

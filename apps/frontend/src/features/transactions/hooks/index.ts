@@ -53,5 +53,8 @@ export {
   useRejectProject,
   useExecuteProject,
   useCancelProject,
+  useCompleteProject,
+  useHoldProject,
+  useResumeProject,
   useDeleteProject,
 } from './useProjects';

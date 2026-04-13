@@ -294,13 +294,13 @@ export type HandoverWhereInput = {
   version?: Prisma.IntFilter<'Handover'> | number;
   createdAt?: Prisma.DateTimeFilter<'Handover'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Handover'> | Date | string;
+  items?: Prisma.HandoverItemListRelationFilter;
   fromUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
   toUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
   witnessUser?: Prisma.XOR<
     Prisma.UserNullableScalarRelationFilter,
     Prisma.UserWhereInput
   > | null;
-  items?: Prisma.HandoverItemListRelationFilter;
 };
 
 export type HandoverOrderByWithRelationInput = {
@@ -317,10 +317,10 @@ export type HandoverOrderByWithRelationInput = {
   version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
+  items?: Prisma.HandoverItemOrderByRelationAggregateInput;
   fromUser?: Prisma.UserOrderByWithRelationInput;
   toUser?: Prisma.UserOrderByWithRelationInput;
   witnessUser?: Prisma.UserOrderByWithRelationInput;
-  items?: Prisma.HandoverItemOrderByRelationAggregateInput;
 };
 
 export type HandoverWhereUniqueInput = Prisma.AtLeast<
@@ -343,6 +343,7 @@ export type HandoverWhereUniqueInput = Prisma.AtLeast<
     version?: Prisma.IntFilter<'Handover'> | number;
     createdAt?: Prisma.DateTimeFilter<'Handover'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Handover'> | Date | string;
+    items?: Prisma.HandoverItemListRelationFilter;
     fromUser?: Prisma.XOR<
       Prisma.UserScalarRelationFilter,
       Prisma.UserWhereInput
@@ -352,7 +353,6 @@ export type HandoverWhereUniqueInput = Prisma.AtLeast<
       Prisma.UserNullableScalarRelationFilter,
       Prisma.UserWhereInput
     > | null;
-    items?: Prisma.HandoverItemListRelationFilter;
   },
   'id' | 'code'
 >;
@@ -420,10 +420,10 @@ export type HandoverCreateInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  items?: Prisma.HandoverItemCreateNestedManyWithoutHandoverInput;
   fromUser: Prisma.UserCreateNestedOneWithoutHandoversFromInput;
   toUser: Prisma.UserCreateNestedOneWithoutHandoversToInput;
   witnessUser?: Prisma.UserCreateNestedOneWithoutHandoversWitnessInput;
-  items?: Prisma.HandoverItemCreateNestedManyWithoutHandoverInput;
 };
 
 export type HandoverUncheckedCreateInput = {
@@ -459,10 +459,10 @@ export type HandoverUpdateInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.HandoverItemUpdateManyWithoutHandoverNestedInput;
   fromUser?: Prisma.UserUpdateOneRequiredWithoutHandoversFromNestedInput;
   toUser?: Prisma.UserUpdateOneRequiredWithoutHandoversToNestedInput;
   witnessUser?: Prisma.UserUpdateOneWithoutHandoversWitnessNestedInput;
-  items?: Prisma.HandoverItemUpdateManyWithoutHandoverNestedInput;
 };
 
 export type HandoverUncheckedUpdateInput = {
@@ -936,9 +936,9 @@ export type HandoverCreateWithoutFromUserInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  items?: Prisma.HandoverItemCreateNestedManyWithoutHandoverInput;
   toUser: Prisma.UserCreateNestedOneWithoutHandoversToInput;
   witnessUser?: Prisma.UserCreateNestedOneWithoutHandoversWitnessInput;
-  items?: Prisma.HandoverItemCreateNestedManyWithoutHandoverInput;
 };
 
 export type HandoverUncheckedCreateWithoutFromUserInput = {
@@ -983,9 +983,9 @@ export type HandoverCreateWithoutToUserInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  items?: Prisma.HandoverItemCreateNestedManyWithoutHandoverInput;
   fromUser: Prisma.UserCreateNestedOneWithoutHandoversFromInput;
   witnessUser?: Prisma.UserCreateNestedOneWithoutHandoversWitnessInput;
-  items?: Prisma.HandoverItemCreateNestedManyWithoutHandoverInput;
 };
 
 export type HandoverUncheckedCreateWithoutToUserInput = {
@@ -1030,9 +1030,9 @@ export type HandoverCreateWithoutWitnessUserInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  items?: Prisma.HandoverItemCreateNestedManyWithoutHandoverInput;
   fromUser: Prisma.UserCreateNestedOneWithoutHandoversFromInput;
   toUser: Prisma.UserCreateNestedOneWithoutHandoversToInput;
-  items?: Prisma.HandoverItemCreateNestedManyWithoutHandoverInput;
 };
 
 export type HandoverUncheckedCreateWithoutWitnessUserInput = {
@@ -1334,9 +1334,9 @@ export type HandoverUpdateWithoutFromUserInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.HandoverItemUpdateManyWithoutHandoverNestedInput;
   toUser?: Prisma.UserUpdateOneRequiredWithoutHandoversToNestedInput;
   witnessUser?: Prisma.UserUpdateOneWithoutHandoversWitnessNestedInput;
-  items?: Prisma.HandoverItemUpdateManyWithoutHandoverNestedInput;
 };
 
 export type HandoverUncheckedUpdateWithoutFromUserInput = {
@@ -1396,9 +1396,9 @@ export type HandoverUpdateWithoutToUserInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.HandoverItemUpdateManyWithoutHandoverNestedInput;
   fromUser?: Prisma.UserUpdateOneRequiredWithoutHandoversFromNestedInput;
   witnessUser?: Prisma.UserUpdateOneWithoutHandoversWitnessNestedInput;
-  items?: Prisma.HandoverItemUpdateManyWithoutHandoverNestedInput;
 };
 
 export type HandoverUncheckedUpdateWithoutToUserInput = {
@@ -1458,9 +1458,9 @@ export type HandoverUpdateWithoutWitnessUserInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.HandoverItemUpdateManyWithoutHandoverNestedInput;
   fromUser?: Prisma.UserUpdateOneRequiredWithoutHandoversFromNestedInput;
   toUser?: Prisma.UserUpdateOneRequiredWithoutHandoversToNestedInput;
-  items?: Prisma.HandoverItemUpdateManyWithoutHandoverNestedInput;
 };
 
 export type HandoverUncheckedUpdateWithoutWitnessUserInput = {
@@ -1560,10 +1560,10 @@ export type HandoverSelect<
     version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
+    items?: boolean | Prisma.Handover$itemsArgs<ExtArgs>;
     fromUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     toUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     witnessUser?: boolean | Prisma.Handover$witnessUserArgs<ExtArgs>;
-    items?: boolean | Prisma.Handover$itemsArgs<ExtArgs>;
     _count?: boolean | Prisma.HandoverCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['handover']
@@ -1658,10 +1658,10 @@ export type HandoverInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
+  items?: boolean | Prisma.Handover$itemsArgs<ExtArgs>;
   fromUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   toUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   witnessUser?: boolean | Prisma.Handover$witnessUserArgs<ExtArgs>;
-  items?: boolean | Prisma.Handover$itemsArgs<ExtArgs>;
   _count?: boolean | Prisma.HandoverCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type HandoverIncludeCreateManyAndReturn<
@@ -1687,10 +1687,10 @@ export type $HandoverPayload<
 > = {
   name: 'Handover';
   objects: {
+    items: Prisma.$HandoverItemPayload<ExtArgs>[];
     fromUser: Prisma.$UserPayload<ExtArgs>;
     toUser: Prisma.$UserPayload<ExtArgs>;
     witnessUser: Prisma.$UserPayload<ExtArgs> | null;
-    items: Prisma.$HandoverItemPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -2257,6 +2257,17 @@ export interface Prisma__HandoverClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
+  items<T extends Prisma.Handover$itemsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Handover$itemsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$HandoverItemPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   fromUser<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>,
   ): Prisma.Prisma__UserClient<
@@ -2297,17 +2308,6 @@ export interface Prisma__HandoverClient<
     null,
     ExtArgs,
     GlobalOmitOptions
-  >;
-  items<T extends Prisma.Handover$itemsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.Handover$itemsArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$HandoverItemPayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
   >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2830,28 +2830,6 @@ export type HandoverDeleteManyArgs<
 };
 
 /**
- * Handover.witnessUser
- */
-export type Handover$witnessUserArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  /**
-   * Select specific fields to fetch from the User
-   */
-  select?: Prisma.UserSelect<ExtArgs> | null;
-  /**
-   * Omit specific fields from the User
-   */
-  omit?: Prisma.UserOmit<ExtArgs> | null;
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserInclude<ExtArgs> | null;
-  where?: Prisma.UserWhereInput;
-};
-
-/**
  * Handover.items
  */
 export type Handover$itemsArgs<
@@ -2880,6 +2858,28 @@ export type Handover$itemsArgs<
   distinct?:
     | Prisma.HandoverItemScalarFieldEnum
     | Prisma.HandoverItemScalarFieldEnum[];
+};
+
+/**
+ * Handover.witnessUser
+ */
+export type Handover$witnessUserArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null;
+  where?: Prisma.UserWhereInput;
 };
 
 /**

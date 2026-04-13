@@ -80,13 +80,13 @@ async function main() {
   // 2. USERS — Satu per role (PRD 7.1)
   //    SUPERADMIN, ADMIN_LOGISTIK, ADMIN_PURCHASE, LEADER, STAFF
   // ============================================================
-  const hashedPassword = await bcrypt.hash('SuperAdmin@2026', 12);
+  const hashedPassword = await bcrypt.hash('Trinity@2026', 12);
 
   const usersData = [
     {
       employeeId: 'EMP-001',
       fullName: 'Super Admin',
-      email: 'superadmin@trinity.local',
+      email: 'admin@trinity.com',
       password: hashedPassword,
       role: UserRole.SUPERADMIN,
       divisionId: divMgt.id,
@@ -95,7 +95,7 @@ async function main() {
     {
       employeeId: 'EMP-002',
       fullName: 'Admin Logistik',
-      email: 'logistik@trinity.local',
+      email: 'logistik@trinity.com',
       password: hashedPassword,
       role: UserRole.ADMIN_LOGISTIK,
       divisionId: divLog.id,
@@ -104,7 +104,7 @@ async function main() {
     {
       employeeId: 'EMP-003',
       fullName: 'Admin Purchase',
-      email: 'purchase@trinity.local',
+      email: 'purchase@trinity.com',
       password: hashedPassword,
       role: UserRole.ADMIN_PURCHASE,
       divisionId: divPur.id,
@@ -113,7 +113,7 @@ async function main() {
     {
       employeeId: 'EMP-004',
       fullName: 'Leader Teknisi',
-      email: 'leader@trinity.local',
+      email: 'leader@trinity.com',
       password: hashedPassword,
       role: UserRole.LEADER,
       divisionId: divTek.id,
@@ -122,7 +122,7 @@ async function main() {
     {
       employeeId: 'EMP-005',
       fullName: 'Staff Teknisi',
-      email: 'staff@trinity.local',
+      email: 'staff@trinity.com',
       password: hashedPassword,
       role: UserRole.STAFF,
       divisionId: divTek.id,
@@ -132,27 +132,34 @@ async function main() {
 
   for (const user of usersData) {
     await prisma.user.upsert({
-      where: { email: user.email },
-      update: {},
+      where: { employeeId: user.employeeId },
+      update: {
+        fullName: user.fullName,
+        email: user.email,
+        password: user.password,
+        role: user.role,
+        divisionId: user.divisionId,
+        phone: user.phone,
+      },
       create: { ...user, isActive: true },
     });
   }
   console.log('✅ Users seeded (5 roles)');
 
   const superadmin = await prisma.user.findUniqueOrThrow({
-    where: { email: 'superadmin@trinity.local' },
+    where: { email: 'admin@trinity.com' },
   });
   const adminLogistik = await prisma.user.findUniqueOrThrow({
-    where: { email: 'logistik@trinity.local' },
+    where: { email: 'logistik@trinity.com' },
   });
   const adminPurchase = await prisma.user.findUniqueOrThrow({
-    where: { email: 'purchase@trinity.local' },
+    where: { email: 'purchase@trinity.com' },
   });
   const leader = await prisma.user.findUniqueOrThrow({
-    where: { email: 'leader@trinity.local' },
+    where: { email: 'leader@trinity.com' },
   });
   const staff = await prisma.user.findUniqueOrThrow({
-    where: { email: 'staff@trinity.local' },
+    where: { email: 'staff@trinity.com' },
   });
 
   // ============================================================

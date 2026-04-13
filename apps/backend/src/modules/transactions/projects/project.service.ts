@@ -7,7 +7,12 @@ import {
 import { PrismaService } from '../../../core/database/prisma.service';
 import { NotificationService } from '../../../core/notifications/notification.service';
 import { EventsService } from '../../../core/events/events.service';
-import { CreateProjectDto } from './dto/create-project.dto';
+import {
+  CreateProjectDto,
+  ProjectTaskDto,
+  ProjectMaterialDto,
+  ProjectTeamMemberDto,
+} from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { FilterProjectDto } from './dto/filter-project.dto';
 import {
@@ -379,5 +384,257 @@ export class ProjectService {
     });
 
     return result;
+  }
+
+  // ──────────────── Complete / Hold / Resume ────────────────
+
+  async complete(id: string, version: number) {
+    const existing = await this.findOne(id);
+    if (existing.status !== TransactionStatus.IN_PROGRESS) {
+      throw new BadRequestException(
+        'Hanya proyek IN_PROGRESS yang dapat diselesaikan',
+      );
+    }
+
+    const { count } = await this.prisma.infraProject.updateMany({
+      where: { id, version },
+      data: {
+        status: TransactionStatus.COMPLETED,
+        version: { increment: 1 },
+      },
+    });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.infraProject.findUnique({
+      where: { id },
+    });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'project',
+      status: TransactionStatus.COMPLETED,
+      version: existing.version + 1,
+    });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Proyek',
+        transactionCode: existing.code,
+        action: 'COMPLETED',
+        link: `/transactions/projects/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
+  }
+
+  async hold(id: string, version: number) {
+    const existing = await this.findOne(id);
+    if (existing.status !== TransactionStatus.IN_PROGRESS) {
+      throw new BadRequestException(
+        'Hanya proyek IN_PROGRESS yang dapat di-hold',
+      );
+    }
+
+    const { count } = await this.prisma.infraProject.updateMany({
+      where: { id, version },
+      data: {
+        status: TransactionStatus.ON_HOLD,
+        version: { increment: 1 },
+      },
+    });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.infraProject.findUnique({
+      where: { id },
+    });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'project',
+      status: TransactionStatus.ON_HOLD,
+      version: existing.version + 1,
+    });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Proyek',
+        transactionCode: existing.code,
+        action: 'ON_HOLD',
+        link: `/transactions/projects/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
+  }
+
+  async resume(id: string, version: number) {
+    const existing = await this.findOne(id);
+    if (existing.status !== TransactionStatus.ON_HOLD) {
+      throw new BadRequestException(
+        'Hanya proyek ON_HOLD yang dapat di-resume',
+      );
+    }
+
+    const { count } = await this.prisma.infraProject.updateMany({
+      where: { id, version },
+      data: {
+        status: TransactionStatus.IN_PROGRESS,
+        version: { increment: 1 },
+      },
+    });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.infraProject.findUnique({
+      where: { id },
+    });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'project',
+      status: TransactionStatus.IN_PROGRESS,
+      version: existing.version + 1,
+    });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Proyek',
+        transactionCode: existing.code,
+        action: 'RESUMED',
+        link: `/transactions/projects/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
+  }
+
+  // ──────────────── Task CRUD ────────────────
+
+  async addTask(projectId: string, dto: ProjectTaskDto) {
+    await this.findOne(projectId);
+    return this.prisma.infraProjectTask.create({
+      data: {
+        projectId,
+        title: dto.title,
+        description: dto.description,
+        assigneeId: dto.assigneeId,
+        dueDate: dto.dueDate ? new Date(dto.dueDate) : undefined,
+      },
+    });
+  }
+
+  async updateTask(
+    projectId: string,
+    taskId: number,
+    data: {
+      title?: string;
+      description?: string;
+      status?: string;
+      assigneeId?: number;
+      dueDate?: string;
+    },
+  ) {
+    const task = await this.prisma.infraProjectTask.findFirst({
+      where: { id: taskId, projectId },
+    });
+    if (!task) {
+      throw new NotFoundException('Task tidak ditemukan');
+    }
+    return this.prisma.infraProjectTask.update({
+      where: { id: taskId },
+      data: {
+        ...(data.title !== undefined && { title: data.title }),
+        ...(data.description !== undefined && {
+          description: data.description,
+        }),
+        ...(data.status !== undefined && { status: data.status }),
+        ...(data.assigneeId !== undefined && { assigneeId: data.assigneeId }),
+        ...(data.dueDate !== undefined && {
+          dueDate: data.dueDate ? new Date(data.dueDate) : null,
+        }),
+      },
+    });
+  }
+
+  async removeTask(projectId: string, taskId: number) {
+    const task = await this.prisma.infraProjectTask.findFirst({
+      where: { id: taskId, projectId },
+    });
+    if (!task) {
+      throw new NotFoundException('Task tidak ditemukan');
+    }
+    await this.prisma.infraProjectTask.delete({ where: { id: taskId } });
+    return { success: true };
+  }
+
+  // ──────────────── Material CRUD ────────────────
+
+  async addMaterial(projectId: string, dto: ProjectMaterialDto) {
+    await this.findOne(projectId);
+    return this.prisma.infraProjectMaterial.create({
+      data: {
+        projectId,
+        modelId: dto.modelId,
+        description: dto.description,
+        quantity: dto.quantity,
+        note: dto.note,
+      },
+    });
+  }
+
+  async removeMaterial(projectId: string, materialId: number) {
+    const material = await this.prisma.infraProjectMaterial.findFirst({
+      where: { id: materialId, projectId },
+    });
+    if (!material) {
+      throw new NotFoundException('Material tidak ditemukan');
+    }
+    await this.prisma.infraProjectMaterial.delete({
+      where: { id: materialId },
+    });
+    return { success: true };
+  }
+
+  // ──────────────── Team CRUD ────────────────
+
+  async addTeamMember(projectId: string, dto: ProjectTeamMemberDto) {
+    await this.findOne(projectId);
+    return this.prisma.infraProjectTeamMember.create({
+      data: { projectId, userId: dto.userId, role: dto.role },
+    });
+  }
+
+  async removeTeamMember(projectId: string, memberId: number) {
+    const member = await this.prisma.infraProjectTeamMember.findFirst({
+      where: { id: memberId, projectId },
+    });
+    if (!member) {
+      throw new NotFoundException('Anggota tim tidak ditemukan');
+    }
+    await this.prisma.infraProjectTeamMember.delete({
+      where: { id: memberId },
+    });
+    return { success: true };
   }
 }

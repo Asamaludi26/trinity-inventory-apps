@@ -68,6 +68,7 @@ export const ModelName = {
   MaintenanceMaterial: 'MaintenanceMaterial',
   MaintenanceReplacement: 'MaintenanceReplacement',
   Dismantle: 'Dismantle',
+  DismantleItem: 'DismantleItem',
   InfraProject: 'InfraProject',
   InfraProjectTask: 'InfraProjectTask',
   InfraProjectMaterial: 'InfraProjectMaterial',
@@ -194,13 +195,13 @@ export const UserScalarFieldEnum = {
   permissions: 'permissions',
   phone: 'phone',
   avatarUrl: 'avatarUrl',
-  mustChangePassword: 'mustChangePassword',
   isActive: 'isActive',
   isDeleted: 'isDeleted',
   tokenVersion: 'tokenVersion',
   lastLoginAt: 'lastLoginAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  mustChangePassword: 'mustChangePassword',
 } as const;
 
 export type UserScalarFieldEnum =
@@ -265,6 +266,7 @@ export const InstallationMaterialScalarFieldEnum = {
   description: 'description',
   quantity: 'quantity',
   note: 'note',
+  modelId: 'modelId',
 } as const;
 
 export type InstallationMaterialScalarFieldEnum =
@@ -294,6 +296,7 @@ export const MaintenanceMaterialScalarFieldEnum = {
   description: 'description',
   quantity: 'quantity',
   note: 'note',
+  modelId: 'modelId',
 } as const;
 
 export type MaintenanceMaterialScalarFieldEnum =
@@ -327,6 +330,17 @@ export const DismantleScalarFieldEnum = {
 
 export type DismantleScalarFieldEnum =
   (typeof DismantleScalarFieldEnum)[keyof typeof DismantleScalarFieldEnum];
+
+export const DismantleItemScalarFieldEnum = {
+  id: 'id',
+  dismantleId: 'dismantleId',
+  assetId: 'assetId',
+  conditionAfter: 'conditionAfter',
+  note: 'note',
+} as const;
+
+export type DismantleItemScalarFieldEnum =
+  (typeof DismantleItemScalarFieldEnum)[keyof typeof DismantleItemScalarFieldEnum];
 
 export const InfraProjectScalarFieldEnum = {
   id: 'id',
@@ -519,8 +533,8 @@ export const RequestItemScalarFieldEnum = {
   modelId: 'modelId',
   description: 'description',
   quantity: 'quantity',
-  approvedQuantity: 'approvedQuantity',
   note: 'note',
+  approvedQuantity: 'approvedQuantity',
 } as const;
 
 export type RequestItemScalarFieldEnum =
@@ -572,11 +586,11 @@ export const AssetReturnScalarFieldEnum = {
   status: 'status',
   note: 'note',
   createdById: 'createdById',
-  rejectionReason: 'rejectionReason',
   isDeleted: 'isDeleted',
-  version: 'version',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  rejectionReason: 'rejectionReason',
+  version: 'version',
 } as const;
 
 export type AssetReturnScalarFieldEnum =

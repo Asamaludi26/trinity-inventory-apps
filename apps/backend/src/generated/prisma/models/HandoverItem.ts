@@ -213,11 +213,11 @@ export type HandoverItemWhereInput = {
   handoverId?: Prisma.StringFilter<'HandoverItem'> | string;
   assetId?: Prisma.StringFilter<'HandoverItem'> | string;
   note?: Prisma.StringNullableFilter<'HandoverItem'> | string | null;
+  asset?: Prisma.XOR<Prisma.AssetScalarRelationFilter, Prisma.AssetWhereInput>;
   handover?: Prisma.XOR<
     Prisma.HandoverScalarRelationFilter,
     Prisma.HandoverWhereInput
   >;
-  asset?: Prisma.XOR<Prisma.AssetScalarRelationFilter, Prisma.AssetWhereInput>;
 };
 
 export type HandoverItemOrderByWithRelationInput = {
@@ -225,8 +225,8 @@ export type HandoverItemOrderByWithRelationInput = {
   handoverId?: Prisma.SortOrder;
   assetId?: Prisma.SortOrder;
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
-  handover?: Prisma.HandoverOrderByWithRelationInput;
   asset?: Prisma.AssetOrderByWithRelationInput;
+  handover?: Prisma.HandoverOrderByWithRelationInput;
 };
 
 export type HandoverItemWhereUniqueInput = Prisma.AtLeast<
@@ -238,13 +238,13 @@ export type HandoverItemWhereUniqueInput = Prisma.AtLeast<
     handoverId?: Prisma.StringFilter<'HandoverItem'> | string;
     assetId?: Prisma.StringFilter<'HandoverItem'> | string;
     note?: Prisma.StringNullableFilter<'HandoverItem'> | string | null;
-    handover?: Prisma.XOR<
-      Prisma.HandoverScalarRelationFilter,
-      Prisma.HandoverWhereInput
-    >;
     asset?: Prisma.XOR<
       Prisma.AssetScalarRelationFilter,
       Prisma.AssetWhereInput
+    >;
+    handover?: Prisma.XOR<
+      Prisma.HandoverScalarRelationFilter,
+      Prisma.HandoverWhereInput
     >;
   },
   'id'
@@ -281,8 +281,8 @@ export type HandoverItemScalarWhereWithAggregatesInput = {
 
 export type HandoverItemCreateInput = {
   note?: string | null;
-  handover: Prisma.HandoverCreateNestedOneWithoutItemsInput;
   asset: Prisma.AssetCreateNestedOneWithoutHandoverItemsInput;
+  handover: Prisma.HandoverCreateNestedOneWithoutItemsInput;
 };
 
 export type HandoverItemUncheckedCreateInput = {
@@ -294,8 +294,8 @@ export type HandoverItemUncheckedCreateInput = {
 
 export type HandoverItemUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  handover?: Prisma.HandoverUpdateOneRequiredWithoutItemsNestedInput;
   asset?: Prisma.AssetUpdateOneRequiredWithoutHandoverItemsNestedInput;
+  handover?: Prisma.HandoverUpdateOneRequiredWithoutItemsNestedInput;
 };
 
 export type HandoverItemUncheckedUpdateInput = {
@@ -759,8 +759,8 @@ export type HandoverItemSelect<
     handoverId?: boolean;
     assetId?: boolean;
     note?: boolean;
-    handover?: boolean | Prisma.HandoverDefaultArgs<ExtArgs>;
     asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+    handover?: boolean | Prisma.HandoverDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['handoverItem']
 >;
@@ -774,8 +774,8 @@ export type HandoverItemSelectCreateManyAndReturn<
     handoverId?: boolean;
     assetId?: boolean;
     note?: boolean;
-    handover?: boolean | Prisma.HandoverDefaultArgs<ExtArgs>;
     asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+    handover?: boolean | Prisma.HandoverDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['handoverItem']
 >;
@@ -789,8 +789,8 @@ export type HandoverItemSelectUpdateManyAndReturn<
     handoverId?: boolean;
     assetId?: boolean;
     note?: boolean;
-    handover?: boolean | Prisma.HandoverDefaultArgs<ExtArgs>;
     asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+    handover?: boolean | Prisma.HandoverDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['handoverItem']
 >;
@@ -813,22 +813,22 @@ export type HandoverItemInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  handover?: boolean | Prisma.HandoverDefaultArgs<ExtArgs>;
   asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+  handover?: boolean | Prisma.HandoverDefaultArgs<ExtArgs>;
 };
 export type HandoverItemIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  handover?: boolean | Prisma.HandoverDefaultArgs<ExtArgs>;
   asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+  handover?: boolean | Prisma.HandoverDefaultArgs<ExtArgs>;
 };
 export type HandoverItemIncludeUpdateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  handover?: boolean | Prisma.HandoverDefaultArgs<ExtArgs>;
   asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+  handover?: boolean | Prisma.HandoverDefaultArgs<ExtArgs>;
 };
 
 export type $HandoverItemPayload<
@@ -837,8 +837,8 @@ export type $HandoverItemPayload<
 > = {
   name: 'HandoverItem';
   objects: {
-    handover: Prisma.$HandoverPayload<ExtArgs>;
     asset: Prisma.$AssetPayload<ExtArgs>;
+    handover: Prisma.$HandoverPayload<ExtArgs>;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1402,11 +1402,11 @@ export interface Prisma__HandoverItemClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
-  handover<T extends Prisma.HandoverDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.HandoverDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__HandoverClient<
+  asset<T extends Prisma.AssetDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.AssetDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__AssetClient<
     | runtime.Types.Result.GetResult<
-        Prisma.$HandoverPayload<ExtArgs>,
+        Prisma.$AssetPayload<ExtArgs>,
         T,
         'findUniqueOrThrow',
         GlobalOmitOptions
@@ -1416,11 +1416,11 @@ export interface Prisma__HandoverItemClient<
     ExtArgs,
     GlobalOmitOptions
   >;
-  asset<T extends Prisma.AssetDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.AssetDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__AssetClient<
+  handover<T extends Prisma.HandoverDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.HandoverDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__HandoverClient<
     | runtime.Types.Result.GetResult<
-        Prisma.$AssetPayload<ExtArgs>,
+        Prisma.$HandoverPayload<ExtArgs>,
         T,
         'findUniqueOrThrow',
         GlobalOmitOptions

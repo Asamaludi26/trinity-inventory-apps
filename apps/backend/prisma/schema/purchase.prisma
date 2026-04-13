@@ -1,28 +1,21 @@
-// =============================================
-// PURCHASE SCHEMA — PurchaseMasterData, Depreciation
-// Domain: Data Pembelian & Depresiasi (F-03)
-// Ref: SDD 4.1, SDD 4.2, PRD 5.1 C
-// =============================================
-
 model PurchaseMasterData {
-  id              String   @id @default(uuid())
-  modelId         Int      @unique @map("model_id")
-  supplier        String   @db.VarChar(255)
-  unitPrice       Decimal  @map("unit_price") @db.Decimal(15, 2)
-  quantity        Int
-  totalPrice      Decimal  @map("total_price") @db.Decimal(15, 2)
-  purchaseDate    DateTime @map("purchase_date") @db.Date
-  warrantyMonths  Int?     @map("warranty_months")
-  invoiceNumber   String?  @map("invoice_number") @db.VarChar(100)
-  note            String?  @db.Text
-  createdById     Int      @map("created_by_id")
-  isDeleted       Boolean  @default(false) @map("is_deleted")
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
-
-  model       AssetModel    @relation(fields: [modelId], references: [id], onDelete: Restrict)
-  createdBy   User          @relation("PurchaseCreatedBy", fields: [createdById], references: [id])
-  depreciation Depreciation?
+  id             String        @id @default(uuid())
+  modelId        Int           @unique @map("model_id")
+  supplier       String        @db.VarChar(255)
+  unitPrice      Decimal       @map("unit_price") @db.Decimal(15, 2)
+  quantity       Int
+  totalPrice     Decimal       @map("total_price") @db.Decimal(15, 2)
+  purchaseDate   DateTime      @map("purchase_date") @db.Date
+  warrantyMonths Int?          @map("warranty_months")
+  invoiceNumber  String?       @map("invoice_number") @db.VarChar(100)
+  note           String?
+  createdById    Int           @map("created_by_id")
+  isDeleted      Boolean       @default(false) @map("is_deleted")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+  depreciation   Depreciation?
+  createdBy      User          @relation("PurchaseCreatedBy", fields: [createdById], references: [id])
+  model          AssetModel    @relation(fields: [modelId], references: [id])
 
   @@index([supplier])
   @@index([purchaseDate])
@@ -39,9 +32,8 @@ model Depreciation {
   createdById     Int                @map("created_by_id")
   createdAt       DateTime           @default(now()) @map("created_at")
   updatedAt       DateTime           @updatedAt @map("updated_at")
-
-  purchase  PurchaseMasterData @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
-  createdBy User               @relation("DepreciationCreatedBy", fields: [createdById], references: [id])
+  createdBy       User               @relation("DepreciationCreatedBy", fields: [createdById], references: [id])
+  purchase        PurchaseMasterData @relation(fields: [purchaseId], references: [id])
 
   @@index([method])
   @@map("depreciations")

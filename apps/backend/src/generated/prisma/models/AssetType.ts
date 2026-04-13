@@ -232,11 +232,11 @@ export type AssetTypeWhereInput = {
   isDeleted?: Prisma.BoolFilter<'AssetType'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'AssetType'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'AssetType'> | Date | string;
+  models?: Prisma.AssetModelListRelationFilter;
   category?: Prisma.XOR<
     Prisma.AssetCategoryScalarRelationFilter,
     Prisma.AssetCategoryWhereInput
   >;
-  models?: Prisma.AssetModelListRelationFilter;
   assets?: Prisma.AssetListRelationFilter;
 };
 
@@ -247,8 +247,8 @@ export type AssetTypeOrderByWithRelationInput = {
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
-  category?: Prisma.AssetCategoryOrderByWithRelationInput;
   models?: Prisma.AssetModelOrderByRelationAggregateInput;
+  category?: Prisma.AssetCategoryOrderByWithRelationInput;
   assets?: Prisma.AssetOrderByRelationAggregateInput;
 };
 
@@ -264,11 +264,11 @@ export type AssetTypeWhereUniqueInput = Prisma.AtLeast<
     isDeleted?: Prisma.BoolFilter<'AssetType'> | boolean;
     createdAt?: Prisma.DateTimeFilter<'AssetType'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'AssetType'> | Date | string;
+    models?: Prisma.AssetModelListRelationFilter;
     category?: Prisma.XOR<
       Prisma.AssetCategoryScalarRelationFilter,
       Prisma.AssetCategoryWhereInput
     >;
-    models?: Prisma.AssetModelListRelationFilter;
     assets?: Prisma.AssetListRelationFilter;
   },
   'id' | 'categoryId_name'
@@ -309,8 +309,8 @@ export type AssetTypeCreateInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  category: Prisma.AssetCategoryCreateNestedOneWithoutTypesInput;
   models?: Prisma.AssetModelCreateNestedManyWithoutTypeInput;
+  category: Prisma.AssetCategoryCreateNestedOneWithoutTypesInput;
   assets?: Prisma.AssetCreateNestedManyWithoutTypeInput;
 };
 
@@ -330,8 +330,8 @@ export type AssetTypeUpdateInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  category?: Prisma.AssetCategoryUpdateOneRequiredWithoutTypesNestedInput;
   models?: Prisma.AssetModelUpdateManyWithoutTypeNestedInput;
+  category?: Prisma.AssetCategoryUpdateOneRequiredWithoutTypesNestedInput;
   assets?: Prisma.AssetUpdateManyWithoutTypeNestedInput;
 };
 
@@ -738,8 +738,8 @@ export type AssetTypeCreateWithoutAssetsInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  category: Prisma.AssetCategoryCreateNestedOneWithoutTypesInput;
   models?: Prisma.AssetModelCreateNestedManyWithoutTypeInput;
+  category: Prisma.AssetCategoryCreateNestedOneWithoutTypesInput;
 };
 
 export type AssetTypeUncheckedCreateWithoutAssetsInput = {
@@ -785,8 +785,8 @@ export type AssetTypeUpdateWithoutAssetsInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  category?: Prisma.AssetCategoryUpdateOneRequiredWithoutTypesNestedInput;
   models?: Prisma.AssetModelUpdateManyWithoutTypeNestedInput;
+  category?: Prisma.AssetCategoryUpdateOneRequiredWithoutTypesNestedInput;
 };
 
 export type AssetTypeUncheckedUpdateWithoutAssetsInput = {
@@ -895,8 +895,8 @@ export type AssetTypeSelect<
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    category?: boolean | Prisma.AssetCategoryDefaultArgs<ExtArgs>;
     models?: boolean | Prisma.AssetType$modelsArgs<ExtArgs>;
+    category?: boolean | Prisma.AssetCategoryDefaultArgs<ExtArgs>;
     assets?: boolean | Prisma.AssetType$assetsArgs<ExtArgs>;
     _count?: boolean | Prisma.AssetTypeCountOutputTypeDefaultArgs<ExtArgs>;
   },
@@ -955,8 +955,8 @@ export type AssetTypeInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  category?: boolean | Prisma.AssetCategoryDefaultArgs<ExtArgs>;
   models?: boolean | Prisma.AssetType$modelsArgs<ExtArgs>;
+  category?: boolean | Prisma.AssetCategoryDefaultArgs<ExtArgs>;
   assets?: boolean | Prisma.AssetType$assetsArgs<ExtArgs>;
   _count?: boolean | Prisma.AssetTypeCountOutputTypeDefaultArgs<ExtArgs>;
 };
@@ -979,8 +979,8 @@ export type $AssetTypePayload<
 > = {
   name: 'AssetType';
   objects: {
-    category: Prisma.$AssetCategoryPayload<ExtArgs>;
     models: Prisma.$AssetModelPayload<ExtArgs>[];
+    category: Prisma.$AssetCategoryPayload<ExtArgs>;
     assets: Prisma.$AssetPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
@@ -1541,6 +1541,17 @@ export interface Prisma__AssetTypeClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
+  models<T extends Prisma.AssetType$modelsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.AssetType$modelsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$AssetModelPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   category<T extends Prisma.AssetCategoryDefaultArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.AssetCategoryDefaultArgs<ExtArgs>>,
   ): Prisma.Prisma__AssetCategoryClient<
@@ -1554,17 +1565,6 @@ export interface Prisma__AssetTypeClient<
     Null,
     ExtArgs,
     GlobalOmitOptions
-  >;
-  models<T extends Prisma.AssetType$modelsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.AssetType$modelsArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$AssetModelPayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
   >;
   assets<T extends Prisma.AssetType$assetsArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.AssetType$assetsArgs<ExtArgs>>,

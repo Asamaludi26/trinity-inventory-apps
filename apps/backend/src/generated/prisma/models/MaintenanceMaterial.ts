@@ -30,12 +30,14 @@ export type MaintenanceMaterialAvgAggregateOutputType = {
   id: number | null;
   maintenanceId: number | null;
   quantity: number | null;
+  modelId: number | null;
 };
 
 export type MaintenanceMaterialSumAggregateOutputType = {
   id: number | null;
   maintenanceId: number | null;
   quantity: number | null;
+  modelId: number | null;
 };
 
 export type MaintenanceMaterialMinAggregateOutputType = {
@@ -44,6 +46,7 @@ export type MaintenanceMaterialMinAggregateOutputType = {
   description: string | null;
   quantity: number | null;
   note: string | null;
+  modelId: number | null;
 };
 
 export type MaintenanceMaterialMaxAggregateOutputType = {
@@ -52,6 +55,7 @@ export type MaintenanceMaterialMaxAggregateOutputType = {
   description: string | null;
   quantity: number | null;
   note: string | null;
+  modelId: number | null;
 };
 
 export type MaintenanceMaterialCountAggregateOutputType = {
@@ -60,6 +64,7 @@ export type MaintenanceMaterialCountAggregateOutputType = {
   description: number;
   quantity: number;
   note: number;
+  modelId: number;
   _all: number;
 };
 
@@ -67,12 +72,14 @@ export type MaintenanceMaterialAvgAggregateInputType = {
   id?: true;
   maintenanceId?: true;
   quantity?: true;
+  modelId?: true;
 };
 
 export type MaintenanceMaterialSumAggregateInputType = {
   id?: true;
   maintenanceId?: true;
   quantity?: true;
+  modelId?: true;
 };
 
 export type MaintenanceMaterialMinAggregateInputType = {
@@ -81,6 +88,7 @@ export type MaintenanceMaterialMinAggregateInputType = {
   description?: true;
   quantity?: true;
   note?: true;
+  modelId?: true;
 };
 
 export type MaintenanceMaterialMaxAggregateInputType = {
@@ -89,6 +97,7 @@ export type MaintenanceMaterialMaxAggregateInputType = {
   description?: true;
   quantity?: true;
   note?: true;
+  modelId?: true;
 };
 
 export type MaintenanceMaterialCountAggregateInputType = {
@@ -97,6 +106,7 @@ export type MaintenanceMaterialCountAggregateInputType = {
   description?: true;
   quantity?: true;
   note?: true;
+  modelId?: true;
   _all?: true;
 };
 
@@ -205,6 +215,7 @@ export type MaintenanceMaterialGroupByOutputType = {
   description: string;
   quantity: number;
   note: string | null;
+  modelId: number | null;
   _count: MaintenanceMaterialCountAggregateOutputType | null;
   _avg: MaintenanceMaterialAvgAggregateOutputType | null;
   _sum: MaintenanceMaterialSumAggregateOutputType | null;
@@ -240,10 +251,15 @@ export type MaintenanceMaterialWhereInput = {
   description?: Prisma.StringFilter<'MaintenanceMaterial'> | string;
   quantity?: Prisma.IntFilter<'MaintenanceMaterial'> | number;
   note?: Prisma.StringNullableFilter<'MaintenanceMaterial'> | string | null;
+  modelId?: Prisma.IntNullableFilter<'MaintenanceMaterial'> | number | null;
   maintenance?: Prisma.XOR<
     Prisma.MaintenanceScalarRelationFilter,
     Prisma.MaintenanceWhereInput
   >;
+  model?: Prisma.XOR<
+    Prisma.AssetModelNullableScalarRelationFilter,
+    Prisma.AssetModelWhereInput
+  > | null;
 };
 
 export type MaintenanceMaterialOrderByWithRelationInput = {
@@ -252,7 +268,9 @@ export type MaintenanceMaterialOrderByWithRelationInput = {
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
+  modelId?: Prisma.SortOrderInput | Prisma.SortOrder;
   maintenance?: Prisma.MaintenanceOrderByWithRelationInput;
+  model?: Prisma.AssetModelOrderByWithRelationInput;
 };
 
 export type MaintenanceMaterialWhereUniqueInput = Prisma.AtLeast<
@@ -269,10 +287,15 @@ export type MaintenanceMaterialWhereUniqueInput = Prisma.AtLeast<
     description?: Prisma.StringFilter<'MaintenanceMaterial'> | string;
     quantity?: Prisma.IntFilter<'MaintenanceMaterial'> | number;
     note?: Prisma.StringNullableFilter<'MaintenanceMaterial'> | string | null;
+    modelId?: Prisma.IntNullableFilter<'MaintenanceMaterial'> | number | null;
     maintenance?: Prisma.XOR<
       Prisma.MaintenanceScalarRelationFilter,
       Prisma.MaintenanceWhereInput
     >;
+    model?: Prisma.XOR<
+      Prisma.AssetModelNullableScalarRelationFilter,
+      Prisma.AssetModelWhereInput
+    > | null;
   },
   'id'
 >;
@@ -283,6 +306,7 @@ export type MaintenanceMaterialOrderByWithAggregationInput = {
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
+  modelId?: Prisma.SortOrderInput | Prisma.SortOrder;
   _count?: Prisma.MaintenanceMaterialCountOrderByAggregateInput;
   _avg?: Prisma.MaintenanceMaterialAvgOrderByAggregateInput;
   _max?: Prisma.MaintenanceMaterialMaxOrderByAggregateInput;
@@ -310,6 +334,10 @@ export type MaintenanceMaterialScalarWhereWithAggregatesInput = {
     | Prisma.StringNullableWithAggregatesFilter<'MaintenanceMaterial'>
     | string
     | null;
+  modelId?:
+    | Prisma.IntNullableWithAggregatesFilter<'MaintenanceMaterial'>
+    | number
+    | null;
 };
 
 export type MaintenanceMaterialCreateInput = {
@@ -317,6 +345,7 @@ export type MaintenanceMaterialCreateInput = {
   quantity: number;
   note?: string | null;
   maintenance: Prisma.MaintenanceCreateNestedOneWithoutMaterialsInput;
+  model?: Prisma.AssetModelCreateNestedOneWithoutMaintenanceMaterialsInput;
 };
 
 export type MaintenanceMaterialUncheckedCreateInput = {
@@ -325,6 +354,7 @@ export type MaintenanceMaterialUncheckedCreateInput = {
   description: string;
   quantity: number;
   note?: string | null;
+  modelId?: number | null;
 };
 
 export type MaintenanceMaterialUpdateInput = {
@@ -332,6 +362,7 @@ export type MaintenanceMaterialUpdateInput = {
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   maintenance?: Prisma.MaintenanceUpdateOneRequiredWithoutMaterialsNestedInput;
+  model?: Prisma.AssetModelUpdateOneWithoutMaintenanceMaterialsNestedInput;
 };
 
 export type MaintenanceMaterialUncheckedUpdateInput = {
@@ -340,6 +371,7 @@ export type MaintenanceMaterialUncheckedUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
 };
 
 export type MaintenanceMaterialCreateManyInput = {
@@ -348,6 +380,7 @@ export type MaintenanceMaterialCreateManyInput = {
   description: string;
   quantity: number;
   note?: string | null;
+  modelId?: number | null;
 };
 
 export type MaintenanceMaterialUpdateManyMutationInput = {
@@ -362,6 +395,7 @@ export type MaintenanceMaterialUncheckedUpdateManyInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
 };
 
 export type MaintenanceMaterialListRelationFilter = {
@@ -380,12 +414,14 @@ export type MaintenanceMaterialCountOrderByAggregateInput = {
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
+  modelId?: Prisma.SortOrder;
 };
 
 export type MaintenanceMaterialAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   maintenanceId?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
+  modelId?: Prisma.SortOrder;
 };
 
 export type MaintenanceMaterialMaxOrderByAggregateInput = {
@@ -394,6 +430,7 @@ export type MaintenanceMaterialMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
+  modelId?: Prisma.SortOrder;
 };
 
 export type MaintenanceMaterialMinOrderByAggregateInput = {
@@ -402,12 +439,124 @@ export type MaintenanceMaterialMinOrderByAggregateInput = {
   description?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
+  modelId?: Prisma.SortOrder;
 };
 
 export type MaintenanceMaterialSumOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   maintenanceId?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
+  modelId?: Prisma.SortOrder;
+};
+
+export type MaintenanceMaterialCreateNestedManyWithoutModelInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.MaintenanceMaterialCreateWithoutModelInput,
+        Prisma.MaintenanceMaterialUncheckedCreateWithoutModelInput
+      >
+    | Prisma.MaintenanceMaterialCreateWithoutModelInput[]
+    | Prisma.MaintenanceMaterialUncheckedCreateWithoutModelInput[];
+  connectOrCreate?:
+    | Prisma.MaintenanceMaterialCreateOrConnectWithoutModelInput
+    | Prisma.MaintenanceMaterialCreateOrConnectWithoutModelInput[];
+  createMany?: Prisma.MaintenanceMaterialCreateManyModelInputEnvelope;
+  connect?:
+    | Prisma.MaintenanceMaterialWhereUniqueInput
+    | Prisma.MaintenanceMaterialWhereUniqueInput[];
+};
+
+export type MaintenanceMaterialUncheckedCreateNestedManyWithoutModelInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.MaintenanceMaterialCreateWithoutModelInput,
+        Prisma.MaintenanceMaterialUncheckedCreateWithoutModelInput
+      >
+    | Prisma.MaintenanceMaterialCreateWithoutModelInput[]
+    | Prisma.MaintenanceMaterialUncheckedCreateWithoutModelInput[];
+  connectOrCreate?:
+    | Prisma.MaintenanceMaterialCreateOrConnectWithoutModelInput
+    | Prisma.MaintenanceMaterialCreateOrConnectWithoutModelInput[];
+  createMany?: Prisma.MaintenanceMaterialCreateManyModelInputEnvelope;
+  connect?:
+    | Prisma.MaintenanceMaterialWhereUniqueInput
+    | Prisma.MaintenanceMaterialWhereUniqueInput[];
+};
+
+export type MaintenanceMaterialUpdateManyWithoutModelNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.MaintenanceMaterialCreateWithoutModelInput,
+        Prisma.MaintenanceMaterialUncheckedCreateWithoutModelInput
+      >
+    | Prisma.MaintenanceMaterialCreateWithoutModelInput[]
+    | Prisma.MaintenanceMaterialUncheckedCreateWithoutModelInput[];
+  connectOrCreate?:
+    | Prisma.MaintenanceMaterialCreateOrConnectWithoutModelInput
+    | Prisma.MaintenanceMaterialCreateOrConnectWithoutModelInput[];
+  upsert?:
+    | Prisma.MaintenanceMaterialUpsertWithWhereUniqueWithoutModelInput
+    | Prisma.MaintenanceMaterialUpsertWithWhereUniqueWithoutModelInput[];
+  createMany?: Prisma.MaintenanceMaterialCreateManyModelInputEnvelope;
+  set?:
+    | Prisma.MaintenanceMaterialWhereUniqueInput
+    | Prisma.MaintenanceMaterialWhereUniqueInput[];
+  disconnect?:
+    | Prisma.MaintenanceMaterialWhereUniqueInput
+    | Prisma.MaintenanceMaterialWhereUniqueInput[];
+  delete?:
+    | Prisma.MaintenanceMaterialWhereUniqueInput
+    | Prisma.MaintenanceMaterialWhereUniqueInput[];
+  connect?:
+    | Prisma.MaintenanceMaterialWhereUniqueInput
+    | Prisma.MaintenanceMaterialWhereUniqueInput[];
+  update?:
+    | Prisma.MaintenanceMaterialUpdateWithWhereUniqueWithoutModelInput
+    | Prisma.MaintenanceMaterialUpdateWithWhereUniqueWithoutModelInput[];
+  updateMany?:
+    | Prisma.MaintenanceMaterialUpdateManyWithWhereWithoutModelInput
+    | Prisma.MaintenanceMaterialUpdateManyWithWhereWithoutModelInput[];
+  deleteMany?:
+    | Prisma.MaintenanceMaterialScalarWhereInput
+    | Prisma.MaintenanceMaterialScalarWhereInput[];
+};
+
+export type MaintenanceMaterialUncheckedUpdateManyWithoutModelNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.MaintenanceMaterialCreateWithoutModelInput,
+        Prisma.MaintenanceMaterialUncheckedCreateWithoutModelInput
+      >
+    | Prisma.MaintenanceMaterialCreateWithoutModelInput[]
+    | Prisma.MaintenanceMaterialUncheckedCreateWithoutModelInput[];
+  connectOrCreate?:
+    | Prisma.MaintenanceMaterialCreateOrConnectWithoutModelInput
+    | Prisma.MaintenanceMaterialCreateOrConnectWithoutModelInput[];
+  upsert?:
+    | Prisma.MaintenanceMaterialUpsertWithWhereUniqueWithoutModelInput
+    | Prisma.MaintenanceMaterialUpsertWithWhereUniqueWithoutModelInput[];
+  createMany?: Prisma.MaintenanceMaterialCreateManyModelInputEnvelope;
+  set?:
+    | Prisma.MaintenanceMaterialWhereUniqueInput
+    | Prisma.MaintenanceMaterialWhereUniqueInput[];
+  disconnect?:
+    | Prisma.MaintenanceMaterialWhereUniqueInput
+    | Prisma.MaintenanceMaterialWhereUniqueInput[];
+  delete?:
+    | Prisma.MaintenanceMaterialWhereUniqueInput
+    | Prisma.MaintenanceMaterialWhereUniqueInput[];
+  connect?:
+    | Prisma.MaintenanceMaterialWhereUniqueInput
+    | Prisma.MaintenanceMaterialWhereUniqueInput[];
+  update?:
+    | Prisma.MaintenanceMaterialUpdateWithWhereUniqueWithoutModelInput
+    | Prisma.MaintenanceMaterialUpdateWithWhereUniqueWithoutModelInput[];
+  updateMany?:
+    | Prisma.MaintenanceMaterialUpdateManyWithWhereWithoutModelInput
+    | Prisma.MaintenanceMaterialUpdateManyWithWhereWithoutModelInput[];
+  deleteMany?:
+    | Prisma.MaintenanceMaterialScalarWhereInput
+    | Prisma.MaintenanceMaterialScalarWhereInput[];
 };
 
 export type MaintenanceMaterialCreateNestedManyWithoutMaintenanceInput = {
@@ -522,10 +671,85 @@ export type MaintenanceMaterialUncheckedUpdateManyWithoutMaintenanceNestedInput 
       | Prisma.MaintenanceMaterialScalarWhereInput[];
   };
 
+export type MaintenanceMaterialCreateWithoutModelInput = {
+  description: string;
+  quantity: number;
+  note?: string | null;
+  maintenance: Prisma.MaintenanceCreateNestedOneWithoutMaterialsInput;
+};
+
+export type MaintenanceMaterialUncheckedCreateWithoutModelInput = {
+  id?: number;
+  maintenanceId: number;
+  description: string;
+  quantity: number;
+  note?: string | null;
+};
+
+export type MaintenanceMaterialCreateOrConnectWithoutModelInput = {
+  where: Prisma.MaintenanceMaterialWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.MaintenanceMaterialCreateWithoutModelInput,
+    Prisma.MaintenanceMaterialUncheckedCreateWithoutModelInput
+  >;
+};
+
+export type MaintenanceMaterialCreateManyModelInputEnvelope = {
+  data:
+    | Prisma.MaintenanceMaterialCreateManyModelInput
+    | Prisma.MaintenanceMaterialCreateManyModelInput[];
+  skipDuplicates?: boolean;
+};
+
+export type MaintenanceMaterialUpsertWithWhereUniqueWithoutModelInput = {
+  where: Prisma.MaintenanceMaterialWhereUniqueInput;
+  update: Prisma.XOR<
+    Prisma.MaintenanceMaterialUpdateWithoutModelInput,
+    Prisma.MaintenanceMaterialUncheckedUpdateWithoutModelInput
+  >;
+  create: Prisma.XOR<
+    Prisma.MaintenanceMaterialCreateWithoutModelInput,
+    Prisma.MaintenanceMaterialUncheckedCreateWithoutModelInput
+  >;
+};
+
+export type MaintenanceMaterialUpdateWithWhereUniqueWithoutModelInput = {
+  where: Prisma.MaintenanceMaterialWhereUniqueInput;
+  data: Prisma.XOR<
+    Prisma.MaintenanceMaterialUpdateWithoutModelInput,
+    Prisma.MaintenanceMaterialUncheckedUpdateWithoutModelInput
+  >;
+};
+
+export type MaintenanceMaterialUpdateManyWithWhereWithoutModelInput = {
+  where: Prisma.MaintenanceMaterialScalarWhereInput;
+  data: Prisma.XOR<
+    Prisma.MaintenanceMaterialUpdateManyMutationInput,
+    Prisma.MaintenanceMaterialUncheckedUpdateManyWithoutModelInput
+  >;
+};
+
+export type MaintenanceMaterialScalarWhereInput = {
+  AND?:
+    | Prisma.MaintenanceMaterialScalarWhereInput
+    | Prisma.MaintenanceMaterialScalarWhereInput[];
+  OR?: Prisma.MaintenanceMaterialScalarWhereInput[];
+  NOT?:
+    | Prisma.MaintenanceMaterialScalarWhereInput
+    | Prisma.MaintenanceMaterialScalarWhereInput[];
+  id?: Prisma.IntFilter<'MaintenanceMaterial'> | number;
+  maintenanceId?: Prisma.IntFilter<'MaintenanceMaterial'> | number;
+  description?: Prisma.StringFilter<'MaintenanceMaterial'> | string;
+  quantity?: Prisma.IntFilter<'MaintenanceMaterial'> | number;
+  note?: Prisma.StringNullableFilter<'MaintenanceMaterial'> | string | null;
+  modelId?: Prisma.IntNullableFilter<'MaintenanceMaterial'> | number | null;
+};
+
 export type MaintenanceMaterialCreateWithoutMaintenanceInput = {
   description: string;
   quantity: number;
   note?: string | null;
+  model?: Prisma.AssetModelCreateNestedOneWithoutMaintenanceMaterialsInput;
 };
 
 export type MaintenanceMaterialUncheckedCreateWithoutMaintenanceInput = {
@@ -533,6 +757,7 @@ export type MaintenanceMaterialUncheckedCreateWithoutMaintenanceInput = {
   description: string;
   quantity: number;
   note?: string | null;
+  modelId?: number | null;
 };
 
 export type MaintenanceMaterialCreateOrConnectWithoutMaintenanceInput = {
@@ -578,19 +803,35 @@ export type MaintenanceMaterialUpdateManyWithWhereWithoutMaintenanceInput = {
   >;
 };
 
-export type MaintenanceMaterialScalarWhereInput = {
-  AND?:
-    | Prisma.MaintenanceMaterialScalarWhereInput
-    | Prisma.MaintenanceMaterialScalarWhereInput[];
-  OR?: Prisma.MaintenanceMaterialScalarWhereInput[];
-  NOT?:
-    | Prisma.MaintenanceMaterialScalarWhereInput
-    | Prisma.MaintenanceMaterialScalarWhereInput[];
-  id?: Prisma.IntFilter<'MaintenanceMaterial'> | number;
-  maintenanceId?: Prisma.IntFilter<'MaintenanceMaterial'> | number;
-  description?: Prisma.StringFilter<'MaintenanceMaterial'> | string;
-  quantity?: Prisma.IntFilter<'MaintenanceMaterial'> | number;
-  note?: Prisma.StringNullableFilter<'MaintenanceMaterial'> | string | null;
+export type MaintenanceMaterialCreateManyModelInput = {
+  id?: number;
+  maintenanceId: number;
+  description: string;
+  quantity: number;
+  note?: string | null;
+};
+
+export type MaintenanceMaterialUpdateWithoutModelInput = {
+  description?: Prisma.StringFieldUpdateOperationsInput | string;
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  maintenance?: Prisma.MaintenanceUpdateOneRequiredWithoutMaterialsNestedInput;
+};
+
+export type MaintenanceMaterialUncheckedUpdateWithoutModelInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  maintenanceId?: Prisma.IntFieldUpdateOperationsInput | number;
+  description?: Prisma.StringFieldUpdateOperationsInput | string;
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+};
+
+export type MaintenanceMaterialUncheckedUpdateManyWithoutModelInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  maintenanceId?: Prisma.IntFieldUpdateOperationsInput | number;
+  description?: Prisma.StringFieldUpdateOperationsInput | string;
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type MaintenanceMaterialCreateManyMaintenanceInput = {
@@ -598,12 +839,14 @@ export type MaintenanceMaterialCreateManyMaintenanceInput = {
   description: string;
   quantity: number;
   note?: string | null;
+  modelId?: number | null;
 };
 
 export type MaintenanceMaterialUpdateWithoutMaintenanceInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  model?: Prisma.AssetModelUpdateOneWithoutMaintenanceMaterialsNestedInput;
 };
 
 export type MaintenanceMaterialUncheckedUpdateWithoutMaintenanceInput = {
@@ -611,6 +854,7 @@ export type MaintenanceMaterialUncheckedUpdateWithoutMaintenanceInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
 };
 
 export type MaintenanceMaterialUncheckedUpdateManyWithoutMaintenanceInput = {
@@ -618,6 +862,7 @@ export type MaintenanceMaterialUncheckedUpdateManyWithoutMaintenanceInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string;
   quantity?: Prisma.IntFieldUpdateOperationsInput | number;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
 };
 
 export type MaintenanceMaterialSelect<
@@ -630,7 +875,9 @@ export type MaintenanceMaterialSelect<
     description?: boolean;
     quantity?: boolean;
     note?: boolean;
+    modelId?: boolean;
     maintenance?: boolean | Prisma.MaintenanceDefaultArgs<ExtArgs>;
+    model?: boolean | Prisma.MaintenanceMaterial$modelArgs<ExtArgs>;
   },
   ExtArgs['result']['maintenanceMaterial']
 >;
@@ -645,7 +892,9 @@ export type MaintenanceMaterialSelectCreateManyAndReturn<
     description?: boolean;
     quantity?: boolean;
     note?: boolean;
+    modelId?: boolean;
     maintenance?: boolean | Prisma.MaintenanceDefaultArgs<ExtArgs>;
+    model?: boolean | Prisma.MaintenanceMaterial$modelArgs<ExtArgs>;
   },
   ExtArgs['result']['maintenanceMaterial']
 >;
@@ -660,7 +909,9 @@ export type MaintenanceMaterialSelectUpdateManyAndReturn<
     description?: boolean;
     quantity?: boolean;
     note?: boolean;
+    modelId?: boolean;
     maintenance?: boolean | Prisma.MaintenanceDefaultArgs<ExtArgs>;
+    model?: boolean | Prisma.MaintenanceMaterial$modelArgs<ExtArgs>;
   },
   ExtArgs['result']['maintenanceMaterial']
 >;
@@ -671,13 +922,14 @@ export type MaintenanceMaterialSelectScalar = {
   description?: boolean;
   quantity?: boolean;
   note?: boolean;
+  modelId?: boolean;
 };
 
 export type MaintenanceMaterialOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  'id' | 'maintenanceId' | 'description' | 'quantity' | 'note',
+  'id' | 'maintenanceId' | 'description' | 'quantity' | 'note' | 'modelId',
   ExtArgs['result']['maintenanceMaterial']
 >;
 export type MaintenanceMaterialInclude<
@@ -685,18 +937,21 @@ export type MaintenanceMaterialInclude<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   maintenance?: boolean | Prisma.MaintenanceDefaultArgs<ExtArgs>;
+  model?: boolean | Prisma.MaintenanceMaterial$modelArgs<ExtArgs>;
 };
 export type MaintenanceMaterialIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   maintenance?: boolean | Prisma.MaintenanceDefaultArgs<ExtArgs>;
+  model?: boolean | Prisma.MaintenanceMaterial$modelArgs<ExtArgs>;
 };
 export type MaintenanceMaterialIncludeUpdateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   maintenance?: boolean | Prisma.MaintenanceDefaultArgs<ExtArgs>;
+  model?: boolean | Prisma.MaintenanceMaterial$modelArgs<ExtArgs>;
 };
 
 export type $MaintenanceMaterialPayload<
@@ -706,6 +961,7 @@ export type $MaintenanceMaterialPayload<
   name: 'MaintenanceMaterial';
   objects: {
     maintenance: Prisma.$MaintenancePayload<ExtArgs>;
+    model: Prisma.$AssetModelPayload<ExtArgs> | null;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -714,6 +970,7 @@ export type $MaintenanceMaterialPayload<
       description: string;
       quantity: number;
       note: string | null;
+      modelId: number | null;
     },
     ExtArgs['result']['maintenanceMaterial']
   >;
@@ -1300,6 +1557,19 @@ export interface Prisma__MaintenanceMaterialClient<
     ExtArgs,
     GlobalOmitOptions
   >;
+  model<T extends Prisma.MaintenanceMaterial$modelArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.MaintenanceMaterial$modelArgs<ExtArgs>>,
+  ): Prisma.Prisma__AssetModelClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$AssetModelPayload<ExtArgs>,
+      T,
+      'findUniqueOrThrow',
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1347,6 +1617,7 @@ export interface MaintenanceMaterialFieldRefs {
   readonly description: Prisma.FieldRef<'MaintenanceMaterial', 'String'>;
   readonly quantity: Prisma.FieldRef<'MaintenanceMaterial', 'Int'>;
   readonly note: Prisma.FieldRef<'MaintenanceMaterial', 'String'>;
+  readonly modelId: Prisma.FieldRef<'MaintenanceMaterial', 'Int'>;
 }
 
 // Custom InputTypes
@@ -1820,6 +2091,28 @@ export type MaintenanceMaterialDeleteManyArgs<
    * Limit how many MaintenanceMaterials to delete.
    */
   limit?: number;
+};
+
+/**
+ * MaintenanceMaterial.model
+ */
+export type MaintenanceMaterial$modelArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the AssetModel
+   */
+  select?: Prisma.AssetModelSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the AssetModel
+   */
+  omit?: Prisma.AssetModelOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetModelInclude<ExtArgs> | null;
+  where?: Prisma.AssetModelWhereInput;
 };
 
 /**

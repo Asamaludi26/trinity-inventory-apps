@@ -4,3 +4,4 @@ export { UserFormPage } from './pages/UserFormPage';
 export { UserDetailPage } from './pages/UserDetailPage';
 export { DivisionFormPage } from './pages/DivisionFormPage';
 export { DivisionDetailPage } from './pages/DivisionDetailPage';
+export { AuditLogPage } from './pages/AuditLogPage';

@@ -18,6 +18,7 @@ import {
   Cable,
   RotateCcw,
   TrendingDown,
+  History,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -144,6 +145,12 @@ export const NAV_ITEMS: NavItem[] = [
         href: '/assets/depreciation',
         icon: TrendingDown,
         roles: ['SUPERADMIN', 'ADMIN_PURCHASE'],
+      },
+      {
+        title: 'Audit Trail',
+        href: '/settings/audit-log',
+        icon: History,
+        roles: ['SUPERADMIN'],
       },
     ],
   },

@@ -21,6 +21,7 @@ export type * from './models/Maintenance';
 export type * from './models/MaintenanceMaterial';
 export type * from './models/MaintenanceReplacement';
 export type * from './models/Dismantle';
+export type * from './models/DismantleItem';
 export type * from './models/InfraProject';
 export type * from './models/InfraProjectTask';
 export type * from './models/InfraProjectMaterial';

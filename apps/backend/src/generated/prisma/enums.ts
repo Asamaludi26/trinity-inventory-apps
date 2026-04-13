@@ -64,6 +64,7 @@ export const TransactionStatus = {
   AWAITING_HANDOVER: 'AWAITING_HANDOVER',
   IN_PROGRESS: 'IN_PROGRESS',
   COMPLETED: 'COMPLETED',
+  ON_HOLD: 'ON_HOLD',
 } as const;
 
 export type TransactionStatus =

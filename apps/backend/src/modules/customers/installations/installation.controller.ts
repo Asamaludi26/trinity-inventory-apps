@@ -68,4 +68,15 @@ export class InstallationController {
   ) {
     return this.installationService.update(id, dto);
   }
+
+  @Patch(':id/complete')
+  @AuthPermissions(PERMISSIONS.ASSETS_INSTALL)
+  @ApiOperation({ summary: 'Selesaikan instalasi — deduksi stok material' })
+  @ApiResponse({ status: 200, description: 'Instalasi berhasil diselesaikan' })
+  async complete(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.installationService.complete(id, user.sub);
+  }
 }

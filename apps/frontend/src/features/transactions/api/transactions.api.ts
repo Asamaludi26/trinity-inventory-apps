@@ -180,5 +180,14 @@ export const projectApi = {
   cancel: (uuid: string, version: number) =>
     api.patch<ApiResponse<void>>(`/projects/${uuid}/cancel`, { version }),
 
+  complete: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/projects/${uuid}/complete`, { version }),
+
+  hold: (uuid: string, version: number, data?: { reason?: string }) =>
+    api.patch<ApiResponse<void>>(`/projects/${uuid}/hold`, { ...data, version }),
+
+  resume: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/projects/${uuid}/resume`, { version }),
+
   remove: (uuid: string) => api.delete<ApiResponse<void>>(`/projects/${uuid}`),
 };

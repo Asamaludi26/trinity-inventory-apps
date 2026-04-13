@@ -282,13 +282,13 @@ export type LoanRequestWhereInput = {
   version?: Prisma.IntFilter<'LoanRequest'> | number;
   createdAt?: Prisma.DateTimeFilter<'LoanRequest'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'LoanRequest'> | Date | string;
+  returns?: Prisma.AssetReturnListRelationFilter;
+  assetAssignments?: Prisma.LoanAssetAssignmentListRelationFilter;
+  items?: Prisma.LoanItemListRelationFilter;
   createdBy?: Prisma.XOR<
     Prisma.UserScalarRelationFilter,
     Prisma.UserWhereInput
   >;
-  items?: Prisma.LoanItemListRelationFilter;
-  assetAssignments?: Prisma.LoanAssetAssignmentListRelationFilter;
-  returns?: Prisma.AssetReturnListRelationFilter;
 };
 
 export type LoanRequestOrderByWithRelationInput = {
@@ -304,10 +304,10 @@ export type LoanRequestOrderByWithRelationInput = {
   version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
-  createdBy?: Prisma.UserOrderByWithRelationInput;
-  items?: Prisma.LoanItemOrderByRelationAggregateInput;
-  assetAssignments?: Prisma.LoanAssetAssignmentOrderByRelationAggregateInput;
   returns?: Prisma.AssetReturnOrderByRelationAggregateInput;
+  assetAssignments?: Prisma.LoanAssetAssignmentOrderByRelationAggregateInput;
+  items?: Prisma.LoanItemOrderByRelationAggregateInput;
+  createdBy?: Prisma.UserOrderByWithRelationInput;
 };
 
 export type LoanRequestWhereUniqueInput = Prisma.AtLeast<
@@ -336,13 +336,13 @@ export type LoanRequestWhereUniqueInput = Prisma.AtLeast<
     version?: Prisma.IntFilter<'LoanRequest'> | number;
     createdAt?: Prisma.DateTimeFilter<'LoanRequest'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'LoanRequest'> | Date | string;
+    returns?: Prisma.AssetReturnListRelationFilter;
+    assetAssignments?: Prisma.LoanAssetAssignmentListRelationFilter;
+    items?: Prisma.LoanItemListRelationFilter;
     createdBy?: Prisma.XOR<
       Prisma.UserScalarRelationFilter,
       Prisma.UserWhereInput
     >;
-    items?: Prisma.LoanItemListRelationFilter;
-    assetAssignments?: Prisma.LoanAssetAssignmentListRelationFilter;
-    returns?: Prisma.AssetReturnListRelationFilter;
   },
   'id' | 'code'
 >;
@@ -416,10 +416,10 @@ export type LoanRequestCreateInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedLoanRequestsInput;
-  items?: Prisma.LoanItemCreateNestedManyWithoutLoanRequestInput;
-  assetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutLoanRequestInput;
   returns?: Prisma.AssetReturnCreateNestedManyWithoutLoanRequestInput;
+  assetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutLoanRequestInput;
+  items?: Prisma.LoanItemCreateNestedManyWithoutLoanRequestInput;
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedLoanRequestsInput;
 };
 
 export type LoanRequestUncheckedCreateInput = {
@@ -435,9 +435,9 @@ export type LoanRequestUncheckedCreateInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  items?: Prisma.LoanItemUncheckedCreateNestedManyWithoutLoanRequestInput;
-  assetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutLoanRequestInput;
   returns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutLoanRequestInput;
+  assetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutLoanRequestInput;
+  items?: Prisma.LoanItemUncheckedCreateNestedManyWithoutLoanRequestInput;
 };
 
 export type LoanRequestUpdateInput = {
@@ -461,10 +461,10 @@ export type LoanRequestUpdateInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLoanRequestsNestedInput;
-  items?: Prisma.LoanItemUpdateManyWithoutLoanRequestNestedInput;
-  assetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutLoanRequestNestedInput;
   returns?: Prisma.AssetReturnUpdateManyWithoutLoanRequestNestedInput;
+  assetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutLoanRequestNestedInput;
+  items?: Prisma.LoanItemUpdateManyWithoutLoanRequestNestedInput;
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLoanRequestsNestedInput;
 };
 
 export type LoanRequestUncheckedUpdateInput = {
@@ -489,9 +489,9 @@ export type LoanRequestUncheckedUpdateInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  items?: Prisma.LoanItemUncheckedUpdateManyWithoutLoanRequestNestedInput;
-  assetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutLoanRequestNestedInput;
   returns?: Prisma.AssetReturnUncheckedUpdateManyWithoutLoanRequestNestedInput;
+  assetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutLoanRequestNestedInput;
+  items?: Prisma.LoanItemUncheckedUpdateManyWithoutLoanRequestNestedInput;
 };
 
 export type LoanRequestCreateManyInput = {
@@ -824,9 +824,9 @@ export type LoanRequestCreateWithoutCreatedByInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  items?: Prisma.LoanItemCreateNestedManyWithoutLoanRequestInput;
-  assetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutLoanRequestInput;
   returns?: Prisma.AssetReturnCreateNestedManyWithoutLoanRequestInput;
+  assetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutLoanRequestInput;
+  items?: Prisma.LoanItemCreateNestedManyWithoutLoanRequestInput;
 };
 
 export type LoanRequestUncheckedCreateWithoutCreatedByInput = {
@@ -841,9 +841,9 @@ export type LoanRequestUncheckedCreateWithoutCreatedByInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  items?: Prisma.LoanItemUncheckedCreateNestedManyWithoutLoanRequestInput;
-  assetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutLoanRequestInput;
   returns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutLoanRequestInput;
+  assetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutLoanRequestInput;
+  items?: Prisma.LoanItemUncheckedCreateNestedManyWithoutLoanRequestInput;
 };
 
 export type LoanRequestCreateOrConnectWithoutCreatedByInput = {
@@ -929,9 +929,9 @@ export type LoanRequestCreateWithoutItemsInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedLoanRequestsInput;
-  assetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutLoanRequestInput;
   returns?: Prisma.AssetReturnCreateNestedManyWithoutLoanRequestInput;
+  assetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutLoanRequestInput;
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedLoanRequestsInput;
 };
 
 export type LoanRequestUncheckedCreateWithoutItemsInput = {
@@ -947,8 +947,8 @@ export type LoanRequestUncheckedCreateWithoutItemsInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  assetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutLoanRequestInput;
   returns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutLoanRequestInput;
+  assetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutLoanRequestInput;
 };
 
 export type LoanRequestCreateOrConnectWithoutItemsInput = {
@@ -1000,9 +1000,9 @@ export type LoanRequestUpdateWithoutItemsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLoanRequestsNestedInput;
-  assetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutLoanRequestNestedInput;
   returns?: Prisma.AssetReturnUpdateManyWithoutLoanRequestNestedInput;
+  assetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutLoanRequestNestedInput;
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLoanRequestsNestedInput;
 };
 
 export type LoanRequestUncheckedUpdateWithoutItemsInput = {
@@ -1027,8 +1027,8 @@ export type LoanRequestUncheckedUpdateWithoutItemsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  assetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutLoanRequestNestedInput;
   returns?: Prisma.AssetReturnUncheckedUpdateManyWithoutLoanRequestNestedInput;
+  assetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutLoanRequestNestedInput;
 };
 
 export type LoanRequestCreateWithoutAssetAssignmentsInput = {
@@ -1043,9 +1043,9 @@ export type LoanRequestCreateWithoutAssetAssignmentsInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedLoanRequestsInput;
-  items?: Prisma.LoanItemCreateNestedManyWithoutLoanRequestInput;
   returns?: Prisma.AssetReturnCreateNestedManyWithoutLoanRequestInput;
+  items?: Prisma.LoanItemCreateNestedManyWithoutLoanRequestInput;
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedLoanRequestsInput;
 };
 
 export type LoanRequestUncheckedCreateWithoutAssetAssignmentsInput = {
@@ -1061,8 +1061,8 @@ export type LoanRequestUncheckedCreateWithoutAssetAssignmentsInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  items?: Prisma.LoanItemUncheckedCreateNestedManyWithoutLoanRequestInput;
   returns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutLoanRequestInput;
+  items?: Prisma.LoanItemUncheckedCreateNestedManyWithoutLoanRequestInput;
 };
 
 export type LoanRequestCreateOrConnectWithoutAssetAssignmentsInput = {
@@ -1114,9 +1114,9 @@ export type LoanRequestUpdateWithoutAssetAssignmentsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLoanRequestsNestedInput;
-  items?: Prisma.LoanItemUpdateManyWithoutLoanRequestNestedInput;
   returns?: Prisma.AssetReturnUpdateManyWithoutLoanRequestNestedInput;
+  items?: Prisma.LoanItemUpdateManyWithoutLoanRequestNestedInput;
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLoanRequestsNestedInput;
 };
 
 export type LoanRequestUncheckedUpdateWithoutAssetAssignmentsInput = {
@@ -1141,8 +1141,8 @@ export type LoanRequestUncheckedUpdateWithoutAssetAssignmentsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  items?: Prisma.LoanItemUncheckedUpdateManyWithoutLoanRequestNestedInput;
   returns?: Prisma.AssetReturnUncheckedUpdateManyWithoutLoanRequestNestedInput;
+  items?: Prisma.LoanItemUncheckedUpdateManyWithoutLoanRequestNestedInput;
 };
 
 export type LoanRequestCreateWithoutReturnsInput = {
@@ -1157,9 +1157,9 @@ export type LoanRequestCreateWithoutReturnsInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedLoanRequestsInput;
-  items?: Prisma.LoanItemCreateNestedManyWithoutLoanRequestInput;
   assetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutLoanRequestInput;
+  items?: Prisma.LoanItemCreateNestedManyWithoutLoanRequestInput;
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedLoanRequestsInput;
 };
 
 export type LoanRequestUncheckedCreateWithoutReturnsInput = {
@@ -1175,8 +1175,8 @@ export type LoanRequestUncheckedCreateWithoutReturnsInput = {
   version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  items?: Prisma.LoanItemUncheckedCreateNestedManyWithoutLoanRequestInput;
   assetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutLoanRequestInput;
+  items?: Prisma.LoanItemUncheckedCreateNestedManyWithoutLoanRequestInput;
 };
 
 export type LoanRequestCreateOrConnectWithoutReturnsInput = {
@@ -1228,9 +1228,9 @@ export type LoanRequestUpdateWithoutReturnsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLoanRequestsNestedInput;
-  items?: Prisma.LoanItemUpdateManyWithoutLoanRequestNestedInput;
   assetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutLoanRequestNestedInput;
+  items?: Prisma.LoanItemUpdateManyWithoutLoanRequestNestedInput;
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedLoanRequestsNestedInput;
 };
 
 export type LoanRequestUncheckedUpdateWithoutReturnsInput = {
@@ -1255,8 +1255,8 @@ export type LoanRequestUncheckedUpdateWithoutReturnsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  items?: Prisma.LoanItemUncheckedUpdateManyWithoutLoanRequestNestedInput;
   assetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutLoanRequestNestedInput;
+  items?: Prisma.LoanItemUncheckedUpdateManyWithoutLoanRequestNestedInput;
 };
 
 export type LoanRequestCreateManyCreatedByInput = {
@@ -1294,9 +1294,9 @@ export type LoanRequestUpdateWithoutCreatedByInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  items?: Prisma.LoanItemUpdateManyWithoutLoanRequestNestedInput;
-  assetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutLoanRequestNestedInput;
   returns?: Prisma.AssetReturnUpdateManyWithoutLoanRequestNestedInput;
+  assetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutLoanRequestNestedInput;
+  items?: Prisma.LoanItemUpdateManyWithoutLoanRequestNestedInput;
 };
 
 export type LoanRequestUncheckedUpdateWithoutCreatedByInput = {
@@ -1320,9 +1320,9 @@ export type LoanRequestUncheckedUpdateWithoutCreatedByInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  items?: Prisma.LoanItemUncheckedUpdateManyWithoutLoanRequestNestedInput;
-  assetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutLoanRequestNestedInput;
   returns?: Prisma.AssetReturnUncheckedUpdateManyWithoutLoanRequestNestedInput;
+  assetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutLoanRequestNestedInput;
+  items?: Prisma.LoanItemUncheckedUpdateManyWithoutLoanRequestNestedInput;
 };
 
 export type LoanRequestUncheckedUpdateManyWithoutCreatedByInput = {
@@ -1353,20 +1353,20 @@ export type LoanRequestUncheckedUpdateManyWithoutCreatedByInput = {
  */
 
 export type LoanRequestCountOutputType = {
-  items: number;
-  assetAssignments: number;
   returns: number;
+  assetAssignments: number;
+  items: number;
 };
 
 export type LoanRequestCountOutputTypeSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  items?: boolean | LoanRequestCountOutputTypeCountItemsArgs;
+  returns?: boolean | LoanRequestCountOutputTypeCountReturnsArgs;
   assetAssignments?:
     | boolean
     | LoanRequestCountOutputTypeCountAssetAssignmentsArgs;
-  returns?: boolean | LoanRequestCountOutputTypeCountReturnsArgs;
+  items?: boolean | LoanRequestCountOutputTypeCountItemsArgs;
 };
 
 /**
@@ -1385,11 +1385,11 @@ export type LoanRequestCountOutputTypeDefaultArgs<
 /**
  * LoanRequestCountOutputType without action
  */
-export type LoanRequestCountOutputTypeCountItemsArgs<
+export type LoanRequestCountOutputTypeCountReturnsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  where?: Prisma.LoanItemWhereInput;
+  where?: Prisma.AssetReturnWhereInput;
 };
 
 /**
@@ -1405,11 +1405,11 @@ export type LoanRequestCountOutputTypeCountAssetAssignmentsArgs<
 /**
  * LoanRequestCountOutputType without action
  */
-export type LoanRequestCountOutputTypeCountReturnsArgs<
+export type LoanRequestCountOutputTypeCountItemsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  where?: Prisma.AssetReturnWhereInput;
+  where?: Prisma.LoanItemWhereInput;
 };
 
 export type LoanRequestSelect<
@@ -1429,12 +1429,12 @@ export type LoanRequestSelect<
     version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
-    items?: boolean | Prisma.LoanRequest$itemsArgs<ExtArgs>;
+    returns?: boolean | Prisma.LoanRequest$returnsArgs<ExtArgs>;
     assetAssignments?:
       | boolean
       | Prisma.LoanRequest$assetAssignmentsArgs<ExtArgs>;
-    returns?: boolean | Prisma.LoanRequest$returnsArgs<ExtArgs>;
+    items?: boolean | Prisma.LoanRequest$itemsArgs<ExtArgs>;
+    createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     _count?: boolean | Prisma.LoanRequestCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['loanRequest']
@@ -1521,10 +1521,10 @@ export type LoanRequestInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
-  items?: boolean | Prisma.LoanRequest$itemsArgs<ExtArgs>;
-  assetAssignments?: boolean | Prisma.LoanRequest$assetAssignmentsArgs<ExtArgs>;
   returns?: boolean | Prisma.LoanRequest$returnsArgs<ExtArgs>;
+  assetAssignments?: boolean | Prisma.LoanRequest$assetAssignmentsArgs<ExtArgs>;
+  items?: boolean | Prisma.LoanRequest$itemsArgs<ExtArgs>;
+  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   _count?: boolean | Prisma.LoanRequestCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type LoanRequestIncludeCreateManyAndReturn<
@@ -1546,10 +1546,10 @@ export type $LoanRequestPayload<
 > = {
   name: 'LoanRequest';
   objects: {
-    createdBy: Prisma.$UserPayload<ExtArgs>;
-    items: Prisma.$LoanItemPayload<ExtArgs>[];
-    assetAssignments: Prisma.$LoanAssetAssignmentPayload<ExtArgs>[];
     returns: Prisma.$AssetReturnPayload<ExtArgs>[];
+    assetAssignments: Prisma.$LoanAssetAssignmentPayload<ExtArgs>[];
+    items: Prisma.$LoanItemPayload<ExtArgs>[];
+    createdBy: Prisma.$UserPayload<ExtArgs>;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -2118,25 +2118,11 @@ export interface Prisma__LoanRequestClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
-  createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__UserClient<
-    | runtime.Types.Result.GetResult<
-        Prisma.$UserPayload<ExtArgs>,
-        T,
-        'findUniqueOrThrow',
-        GlobalOmitOptions
-      >
-    | Null,
-    Null,
-    ExtArgs,
-    GlobalOmitOptions
-  >;
-  items<T extends Prisma.LoanRequest$itemsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.LoanRequest$itemsArgs<ExtArgs>>,
+  returns<T extends Prisma.LoanRequest$returnsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.LoanRequest$returnsArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
-        Prisma.$LoanItemPayload<ExtArgs>,
+        Prisma.$AssetReturnPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -2156,16 +2142,30 @@ export interface Prisma__LoanRequestClient<
       >
     | Null
   >;
-  returns<T extends Prisma.LoanRequest$returnsArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.LoanRequest$returnsArgs<ExtArgs>>,
+  items<T extends Prisma.LoanRequest$itemsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.LoanRequest$itemsArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
-        Prisma.$AssetReturnPayload<ExtArgs>,
+        Prisma.$LoanItemPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
       >
     | Null
+  >;
+  createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__UserClient<
+    | runtime.Types.Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        GlobalOmitOptions
+      >
+    | Null,
+    Null,
+    ExtArgs,
+    GlobalOmitOptions
   >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2693,32 +2693,34 @@ export type LoanRequestDeleteManyArgs<
 };
 
 /**
- * LoanRequest.items
+ * LoanRequest.returns
  */
-export type LoanRequest$itemsArgs<
+export type LoanRequest$returnsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
-   * Select specific fields to fetch from the LoanItem
+   * Select specific fields to fetch from the AssetReturn
    */
-  select?: Prisma.LoanItemSelect<ExtArgs> | null;
+  select?: Prisma.AssetReturnSelect<ExtArgs> | null;
   /**
-   * Omit specific fields from the LoanItem
+   * Omit specific fields from the AssetReturn
    */
-  omit?: Prisma.LoanItemOmit<ExtArgs> | null;
+  omit?: Prisma.AssetReturnOmit<ExtArgs> | null;
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.LoanItemInclude<ExtArgs> | null;
-  where?: Prisma.LoanItemWhereInput;
+  include?: Prisma.AssetReturnInclude<ExtArgs> | null;
+  where?: Prisma.AssetReturnWhereInput;
   orderBy?:
-    | Prisma.LoanItemOrderByWithRelationInput
-    | Prisma.LoanItemOrderByWithRelationInput[];
-  cursor?: Prisma.LoanItemWhereUniqueInput;
+    | Prisma.AssetReturnOrderByWithRelationInput
+    | Prisma.AssetReturnOrderByWithRelationInput[];
+  cursor?: Prisma.AssetReturnWhereUniqueInput;
   take?: number;
   skip?: number;
-  distinct?: Prisma.LoanItemScalarFieldEnum | Prisma.LoanItemScalarFieldEnum[];
+  distinct?:
+    | Prisma.AssetReturnScalarFieldEnum
+    | Prisma.AssetReturnScalarFieldEnum[];
 };
 
 /**
@@ -2753,34 +2755,32 @@ export type LoanRequest$assetAssignmentsArgs<
 };
 
 /**
- * LoanRequest.returns
+ * LoanRequest.items
  */
-export type LoanRequest$returnsArgs<
+export type LoanRequest$itemsArgs<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
-   * Select specific fields to fetch from the AssetReturn
+   * Select specific fields to fetch from the LoanItem
    */
-  select?: Prisma.AssetReturnSelect<ExtArgs> | null;
+  select?: Prisma.LoanItemSelect<ExtArgs> | null;
   /**
-   * Omit specific fields from the AssetReturn
+   * Omit specific fields from the LoanItem
    */
-  omit?: Prisma.AssetReturnOmit<ExtArgs> | null;
+  omit?: Prisma.LoanItemOmit<ExtArgs> | null;
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.AssetReturnInclude<ExtArgs> | null;
-  where?: Prisma.AssetReturnWhereInput;
+  include?: Prisma.LoanItemInclude<ExtArgs> | null;
+  where?: Prisma.LoanItemWhereInput;
   orderBy?:
-    | Prisma.AssetReturnOrderByWithRelationInput
-    | Prisma.AssetReturnOrderByWithRelationInput[];
-  cursor?: Prisma.AssetReturnWhereUniqueInput;
+    | Prisma.LoanItemOrderByWithRelationInput
+    | Prisma.LoanItemOrderByWithRelationInput[];
+  cursor?: Prisma.LoanItemWhereUniqueInput;
   take?: number;
   skip?: number;
-  distinct?:
-    | Prisma.AssetReturnScalarFieldEnum
-    | Prisma.AssetReturnScalarFieldEnum[];
+  distinct?: Prisma.LoanItemScalarFieldEnum | Prisma.LoanItemScalarFieldEnum[];
 };
 
 /**

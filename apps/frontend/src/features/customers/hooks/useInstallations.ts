@@ -45,3 +45,15 @@ export function useUpdateInstallationStatus() {
     onError: () => toast.error('Gagal memperbarui status instalasi'),
   });
 }
+
+export function useCompleteInstallation() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => installationApi.complete(id),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: QUERY_KEY });
+      toast.success('Instalasi berhasil diselesaikan');
+    },
+    onError: () => toast.error('Gagal menyelesaikan instalasi'),
+  });
+}

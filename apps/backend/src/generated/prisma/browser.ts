@@ -87,6 +87,11 @@ export type MaintenanceReplacement = Prisma.MaintenanceReplacementModel;
  */
 export type Dismantle = Prisma.DismantleModel;
 /**
+ * Model DismantleItem
+ *
+ */
+export type DismantleItem = Prisma.DismantleItemModel;
+/**
  * Model InfraProject
  *
  */

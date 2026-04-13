@@ -426,6 +426,7 @@ export const ModelName = {
   MaintenanceMaterial: 'MaintenanceMaterial',
   MaintenanceReplacement: 'MaintenanceReplacement',
   Dismantle: 'Dismantle',
+  DismantleItem: 'DismantleItem',
   InfraProject: 'InfraProject',
   InfraProjectTask: 'InfraProjectTask',
   InfraProjectMaterial: 'InfraProjectMaterial',
@@ -483,6 +484,7 @@ export type TypeMap<
       | 'maintenanceMaterial'
       | 'maintenanceReplacement'
       | 'dismantle'
+      | 'dismantleItem'
       | 'infraProject'
       | 'infraProjectTask'
       | 'infraProjectMaterial'
@@ -1567,6 +1569,82 @@ export type TypeMap<
           args: Prisma.DismantleCountArgs<ExtArgs>;
           result:
             | runtime.Types.Utils.Optional<Prisma.DismantleCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    DismantleItem: {
+      payload: Prisma.$DismantleItemPayload<ExtArgs>;
+      fields: Prisma.DismantleItemFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.DismantleItemFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DismantleItemPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.DismantleItemFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DismantleItemPayload>;
+        };
+        findFirst: {
+          args: Prisma.DismantleItemFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DismantleItemPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.DismantleItemFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DismantleItemPayload>;
+        };
+        findMany: {
+          args: Prisma.DismantleItemFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DismantleItemPayload>[];
+        };
+        create: {
+          args: Prisma.DismantleItemCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DismantleItemPayload>;
+        };
+        createMany: {
+          args: Prisma.DismantleItemCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.DismantleItemCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DismantleItemPayload>[];
+        };
+        delete: {
+          args: Prisma.DismantleItemDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DismantleItemPayload>;
+        };
+        update: {
+          args: Prisma.DismantleItemUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DismantleItemPayload>;
+        };
+        deleteMany: {
+          args: Prisma.DismantleItemDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.DismantleItemUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.DismantleItemUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DismantleItemPayload>[];
+        };
+        upsert: {
+          args: Prisma.DismantleItemUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DismantleItemPayload>;
+        };
+        aggregate: {
+          args: Prisma.DismantleItemAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDismantleItem>;
+        };
+        groupBy: {
+          args: Prisma.DismantleItemGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.DismantleItemGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.DismantleItemCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.DismantleItemCountAggregateOutputType>
             | number;
         };
       };
@@ -3293,13 +3371,13 @@ export const UserScalarFieldEnum = {
   permissions: 'permissions',
   phone: 'phone',
   avatarUrl: 'avatarUrl',
-  mustChangePassword: 'mustChangePassword',
   isActive: 'isActive',
   isDeleted: 'isDeleted',
   tokenVersion: 'tokenVersion',
   lastLoginAt: 'lastLoginAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  mustChangePassword: 'mustChangePassword',
 } as const;
 
 export type UserScalarFieldEnum =
@@ -3364,6 +3442,7 @@ export const InstallationMaterialScalarFieldEnum = {
   description: 'description',
   quantity: 'quantity',
   note: 'note',
+  modelId: 'modelId',
 } as const;
 
 export type InstallationMaterialScalarFieldEnum =
@@ -3393,6 +3472,7 @@ export const MaintenanceMaterialScalarFieldEnum = {
   description: 'description',
   quantity: 'quantity',
   note: 'note',
+  modelId: 'modelId',
 } as const;
 
 export type MaintenanceMaterialScalarFieldEnum =
@@ -3426,6 +3506,17 @@ export const DismantleScalarFieldEnum = {
 
 export type DismantleScalarFieldEnum =
   (typeof DismantleScalarFieldEnum)[keyof typeof DismantleScalarFieldEnum];
+
+export const DismantleItemScalarFieldEnum = {
+  id: 'id',
+  dismantleId: 'dismantleId',
+  assetId: 'assetId',
+  conditionAfter: 'conditionAfter',
+  note: 'note',
+} as const;
+
+export type DismantleItemScalarFieldEnum =
+  (typeof DismantleItemScalarFieldEnum)[keyof typeof DismantleItemScalarFieldEnum];
 
 export const InfraProjectScalarFieldEnum = {
   id: 'id',
@@ -3618,8 +3709,8 @@ export const RequestItemScalarFieldEnum = {
   modelId: 'modelId',
   description: 'description',
   quantity: 'quantity',
-  approvedQuantity: 'approvedQuantity',
   note: 'note',
+  approvedQuantity: 'approvedQuantity',
 } as const;
 
 export type RequestItemScalarFieldEnum =
@@ -3671,11 +3762,11 @@ export const AssetReturnScalarFieldEnum = {
   status: 'status',
   note: 'note',
   createdById: 'createdById',
-  rejectionReason: 'rejectionReason',
   isDeleted: 'isDeleted',
-  version: 'version',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  rejectionReason: 'rejectionReason',
+  version: 'version',
 } as const;
 
 export type AssetReturnScalarFieldEnum =
@@ -4110,6 +4201,7 @@ export type GlobalOmitConfig = {
   maintenanceMaterial?: Prisma.MaintenanceMaterialOmit;
   maintenanceReplacement?: Prisma.MaintenanceReplacementOmit;
   dismantle?: Prisma.DismantleOmit;
+  dismantleItem?: Prisma.DismantleItemOmit;
   infraProject?: Prisma.InfraProjectOmit;
   infraProjectTask?: Prisma.InfraProjectTaskOmit;
   infraProjectMaterial?: Prisma.InfraProjectMaterialOmit;

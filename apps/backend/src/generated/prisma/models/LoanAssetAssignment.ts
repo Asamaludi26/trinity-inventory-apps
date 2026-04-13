@@ -224,11 +224,11 @@ export type LoanAssetAssignmentWhereInput = {
   loanRequestId?: Prisma.StringFilter<'LoanAssetAssignment'> | string;
   assetId?: Prisma.StringFilter<'LoanAssetAssignment'> | string;
   assignedAt?: Prisma.DateTimeFilter<'LoanAssetAssignment'> | Date | string;
+  asset?: Prisma.XOR<Prisma.AssetScalarRelationFilter, Prisma.AssetWhereInput>;
   loanRequest?: Prisma.XOR<
     Prisma.LoanRequestScalarRelationFilter,
     Prisma.LoanRequestWhereInput
   >;
-  asset?: Prisma.XOR<Prisma.AssetScalarRelationFilter, Prisma.AssetWhereInput>;
 };
 
 export type LoanAssetAssignmentOrderByWithRelationInput = {
@@ -236,8 +236,8 @@ export type LoanAssetAssignmentOrderByWithRelationInput = {
   loanRequestId?: Prisma.SortOrder;
   assetId?: Prisma.SortOrder;
   assignedAt?: Prisma.SortOrder;
-  loanRequest?: Prisma.LoanRequestOrderByWithRelationInput;
   asset?: Prisma.AssetOrderByWithRelationInput;
+  loanRequest?: Prisma.LoanRequestOrderByWithRelationInput;
 };
 
 export type LoanAssetAssignmentWhereUniqueInput = Prisma.AtLeast<
@@ -254,13 +254,13 @@ export type LoanAssetAssignmentWhereUniqueInput = Prisma.AtLeast<
     loanRequestId?: Prisma.StringFilter<'LoanAssetAssignment'> | string;
     assetId?: Prisma.StringFilter<'LoanAssetAssignment'> | string;
     assignedAt?: Prisma.DateTimeFilter<'LoanAssetAssignment'> | Date | string;
-    loanRequest?: Prisma.XOR<
-      Prisma.LoanRequestScalarRelationFilter,
-      Prisma.LoanRequestWhereInput
-    >;
     asset?: Prisma.XOR<
       Prisma.AssetScalarRelationFilter,
       Prisma.AssetWhereInput
+    >;
+    loanRequest?: Prisma.XOR<
+      Prisma.LoanRequestScalarRelationFilter,
+      Prisma.LoanRequestWhereInput
     >;
   },
   'id' | 'loanRequestId_assetId'
@@ -299,8 +299,8 @@ export type LoanAssetAssignmentScalarWhereWithAggregatesInput = {
 
 export type LoanAssetAssignmentCreateInput = {
   assignedAt?: Date | string;
-  loanRequest: Prisma.LoanRequestCreateNestedOneWithoutAssetAssignmentsInput;
   asset: Prisma.AssetCreateNestedOneWithoutLoanAssetAssignmentsInput;
+  loanRequest: Prisma.LoanRequestCreateNestedOneWithoutAssetAssignmentsInput;
 };
 
 export type LoanAssetAssignmentUncheckedCreateInput = {
@@ -312,8 +312,8 @@ export type LoanAssetAssignmentUncheckedCreateInput = {
 
 export type LoanAssetAssignmentUpdateInput = {
   assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  loanRequest?: Prisma.LoanRequestUpdateOneRequiredWithoutAssetAssignmentsNestedInput;
   asset?: Prisma.AssetUpdateOneRequiredWithoutLoanAssetAssignmentsNestedInput;
+  loanRequest?: Prisma.LoanRequestUpdateOneRequiredWithoutAssetAssignmentsNestedInput;
 };
 
 export type LoanAssetAssignmentUncheckedUpdateInput = {
@@ -784,8 +784,8 @@ export type LoanAssetAssignmentSelect<
     loanRequestId?: boolean;
     assetId?: boolean;
     assignedAt?: boolean;
-    loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
     asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+    loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['loanAssetAssignment']
 >;
@@ -799,8 +799,8 @@ export type LoanAssetAssignmentSelectCreateManyAndReturn<
     loanRequestId?: boolean;
     assetId?: boolean;
     assignedAt?: boolean;
-    loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
     asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+    loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['loanAssetAssignment']
 >;
@@ -814,8 +814,8 @@ export type LoanAssetAssignmentSelectUpdateManyAndReturn<
     loanRequestId?: boolean;
     assetId?: boolean;
     assignedAt?: boolean;
-    loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
     asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+    loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['loanAssetAssignment']
 >;
@@ -838,22 +838,22 @@ export type LoanAssetAssignmentInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
   asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+  loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
 };
 export type LoanAssetAssignmentIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
   asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+  loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
 };
 export type LoanAssetAssignmentIncludeUpdateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
-  loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
   asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>;
+  loanRequest?: boolean | Prisma.LoanRequestDefaultArgs<ExtArgs>;
 };
 
 export type $LoanAssetAssignmentPayload<
@@ -862,8 +862,8 @@ export type $LoanAssetAssignmentPayload<
 > = {
   name: 'LoanAssetAssignment';
   objects: {
-    loanRequest: Prisma.$LoanRequestPayload<ExtArgs>;
     asset: Prisma.$AssetPayload<ExtArgs>;
+    loanRequest: Prisma.$LoanRequestPayload<ExtArgs>;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1443,11 +1443,11 @@ export interface Prisma__LoanAssetAssignmentClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
-  loanRequest<T extends Prisma.LoanRequestDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.LoanRequestDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__LoanRequestClient<
+  asset<T extends Prisma.AssetDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.AssetDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__AssetClient<
     | runtime.Types.Result.GetResult<
-        Prisma.$LoanRequestPayload<ExtArgs>,
+        Prisma.$AssetPayload<ExtArgs>,
         T,
         'findUniqueOrThrow',
         GlobalOmitOptions
@@ -1457,11 +1457,11 @@ export interface Prisma__LoanAssetAssignmentClient<
     ExtArgs,
     GlobalOmitOptions
   >;
-  asset<T extends Prisma.AssetDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.AssetDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__AssetClient<
+  loanRequest<T extends Prisma.LoanRequestDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.LoanRequestDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__LoanRequestClient<
     | runtime.Types.Result.GetResult<
-        Prisma.$AssetPayload<ExtArgs>,
+        Prisma.$LoanRequestPayload<ExtArgs>,
         T,
         'findUniqueOrThrow',
         GlobalOmitOptions

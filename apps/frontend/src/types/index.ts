@@ -57,6 +57,7 @@ export type TransactionStatus =
   | 'ARRIVED'
   | 'AWAITING_HANDOVER'
   | 'IN_PROGRESS'
+  | 'ON_HOLD'
   | 'COMPLETED';
 
 export type AssetCondition = 'NEW' | 'GOOD' | 'FAIR' | 'POOR' | 'BROKEN';

@@ -1,28 +1,21 @@
-// =============================================
-// CUSTOMER SCHEMA — Customer, Installation, Maintenance, Dismantle
-// Domain: Manajemen Pelanggan (F-05)
-// Ref: SDD 4.1, PRD 5.1 E
-// =============================================
-
 model Customer {
-  id          Int      @id @default(autoincrement())
-  uuid        String   @unique @default(uuid())
-  code        String   @unique @db.VarChar(20)
-  name        String   @db.VarChar(255)
-  address     String?  @db.Text
-  phone       String?  @db.VarChar(20)
-  email       String?  @db.VarChar(255)
-  picName     String?  @map("pic_name") @db.VarChar(255)
-  picPhone    String?  @map("pic_phone") @db.VarChar(20)
-  isActive    Boolean  @default(true) @map("is_active")
-  isDeleted   Boolean  @default(false) @map("is_deleted")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  installations Installation[]
-  maintenances  Maintenance[]
+  id            Int            @id @default(autoincrement())
+  uuid          String         @unique @default(uuid())
+  code          String         @unique @db.VarChar(20)
+  name          String         @db.VarChar(255)
+  address       String?
+  phone         String?        @db.VarChar(20)
+  email         String?        @db.VarChar(255)
+  picName       String?        @map("pic_name") @db.VarChar(255)
+  picPhone      String?        @map("pic_phone") @db.VarChar(20)
+  isActive      Boolean        @default(true) @map("is_active")
+  isDeleted     Boolean        @default(false) @map("is_deleted")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
   dismantles    Dismantle[]
   projects      InfraProject[]
+  installations Installation[]
+  maintenances  Maintenance[]
 
   @@index([code])
   @@index([name])
@@ -30,21 +23,20 @@ model Customer {
 }
 
 model Installation {
-  id           Int               @id @default(autoincrement())
-  code         String            @unique @db.VarChar(20)
-  customerId   Int               @map("customer_id")
-  status       TransactionStatus @default(PENDING)
-  scheduledAt  DateTime?         @map("scheduled_at")
-  completedAt  DateTime?         @map("completed_at")
-  location     String?           @db.Text
-  note         String?           @db.Text
-  createdById  Int               @map("created_by_id")
-  isDeleted    Boolean           @default(false) @map("is_deleted")
-  createdAt    DateTime          @default(now()) @map("created_at")
-  updatedAt    DateTime          @updatedAt @map("updated_at")
-
-  customer  Customer               @relation(fields: [customerId], references: [id], onDelete: Restrict)
-  materials InstallationMaterial[]
+  id          Int                    @id @default(autoincrement())
+  code        String                 @unique @db.VarChar(20)
+  customerId  Int                    @map("customer_id")
+  status      TransactionStatus      @default(PENDING)
+  scheduledAt DateTime?              @map("scheduled_at")
+  completedAt DateTime?              @map("completed_at")
+  location    String?
+  note        String?
+  createdById Int                    @map("created_by_id")
+  isDeleted   Boolean                @default(false) @map("is_deleted")
+  createdAt   DateTime               @default(now()) @map("created_at")
+  updatedAt   DateTime               @updatedAt @map("updated_at")
+  materials   InstallationMaterial[]
+  customer    Customer               @relation(fields: [customerId], references: [id])
 
   @@index([customerId])
   @@index([status])
@@ -53,35 +45,36 @@ model Installation {
 }
 
 model InstallationMaterial {
-  id              Int    @id @default(autoincrement())
-  installationId  Int    @map("installation_id")
-  description     String @db.VarChar(255)
-  quantity        Int
-  note            String? @db.Text
-
-  installation Installation @relation(fields: [installationId], references: [id], onDelete: Cascade)
+  id             Int          @id @default(autoincrement())
+  installationId Int          @map("installation_id")
+  description    String       @db.VarChar(255)
+  quantity       Int
+  note           String?
+  modelId        Int?         @map("model_id")
+  installation   Installation @relation(fields: [installationId], references: [id], onDelete: Cascade)
+  model          AssetModel?  @relation(fields: [modelId], references: [id], onDelete: Restrict)
 
   @@index([installationId])
+  @@index([modelId])
   @@map("installation_materials")
 }
 
 model Maintenance {
-  id           Int               @id @default(autoincrement())
-  code         String            @unique @db.VarChar(20)
-  customerId   Int               @map("customer_id")
-  status       TransactionStatus @default(PENDING)
-  scheduledAt  DateTime?         @map("scheduled_at")
-  completedAt  DateTime?         @map("completed_at")
-  issueReport  String?           @map("issue_report") @db.Text
-  resolution   String?           @db.Text
-  createdById  Int               @map("created_by_id")
-  isDeleted    Boolean           @default(false) @map("is_deleted")
-  createdAt    DateTime          @default(now()) @map("created_at")
-  updatedAt    DateTime          @updatedAt @map("updated_at")
-
-  customer     Customer                  @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  id           Int                      @id @default(autoincrement())
+  code         String                   @unique @db.VarChar(20)
+  customerId   Int                      @map("customer_id")
+  status       TransactionStatus        @default(PENDING)
+  scheduledAt  DateTime?                @map("scheduled_at")
+  completedAt  DateTime?                @map("completed_at")
+  issueReport  String?                  @map("issue_report")
+  resolution   String?
+  createdById  Int                      @map("created_by_id")
+  isDeleted    Boolean                  @default(false) @map("is_deleted")
+  createdAt    DateTime                 @default(now()) @map("created_at")
+  updatedAt    DateTime                 @updatedAt @map("updated_at")
   materials    MaintenanceMaterial[]
   replacements MaintenanceReplacement[]
+  customer     Customer                 @relation(fields: [customerId], references: [id])
 
   @@index([customerId])
   @@index([status])
@@ -90,49 +83,64 @@ model Maintenance {
 }
 
 model MaintenanceMaterial {
-  id             Int    @id @default(autoincrement())
-  maintenanceId  Int    @map("maintenance_id")
-  description    String @db.VarChar(255)
-  quantity       Int
-  note           String? @db.Text
-
-  maintenance Maintenance @relation(fields: [maintenanceId], references: [id], onDelete: Cascade)
+  id            Int         @id @default(autoincrement())
+  maintenanceId Int         @map("maintenance_id")
+  description   String      @db.VarChar(255)
+  quantity      Int
+  note          String?
+  modelId       Int?        @map("model_id")
+  maintenance   Maintenance @relation(fields: [maintenanceId], references: [id], onDelete: Cascade)
+  model         AssetModel? @relation(fields: [modelId], references: [id], onDelete: Restrict)
 
   @@index([maintenanceId])
+  @@index([modelId])
   @@map("maintenance_materials")
 }
 
 model MaintenanceReplacement {
-  id             Int    @id @default(autoincrement())
-  maintenanceId  Int    @map("maintenance_id")
-  oldAssetDesc   String @map("old_asset_desc") @db.VarChar(255)
-  newAssetDesc   String @map("new_asset_desc") @db.VarChar(255)
-  note           String? @db.Text
-
-  maintenance Maintenance @relation(fields: [maintenanceId], references: [id], onDelete: Cascade)
+  id            Int         @id @default(autoincrement())
+  maintenanceId Int         @map("maintenance_id")
+  oldAssetDesc  String      @map("old_asset_desc") @db.VarChar(255)
+  newAssetDesc  String      @map("new_asset_desc") @db.VarChar(255)
+  note          String?
+  maintenance   Maintenance @relation(fields: [maintenanceId], references: [id], onDelete: Cascade)
 
   @@index([maintenanceId])
   @@map("maintenance_replacements")
 }
 
 model Dismantle {
-  id           Int               @id @default(autoincrement())
-  code         String            @unique @db.VarChar(20)
-  customerId   Int               @map("customer_id")
-  status       TransactionStatus @default(PENDING)
-  scheduledAt  DateTime?         @map("scheduled_at")
-  completedAt  DateTime?         @map("completed_at")
-  reason       String?           @db.Text
-  note         String?           @db.Text
-  createdById  Int               @map("created_by_id")
-  isDeleted    Boolean           @default(false) @map("is_deleted")
-  createdAt    DateTime          @default(now()) @map("created_at")
-  updatedAt    DateTime          @updatedAt @map("updated_at")
-
-  customer Customer @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  id          Int               @id @default(autoincrement())
+  code        String            @unique @db.VarChar(20)
+  customerId  Int               @map("customer_id")
+  status      TransactionStatus @default(PENDING)
+  scheduledAt DateTime?         @map("scheduled_at")
+  completedAt DateTime?         @map("completed_at")
+  reason      String?
+  note        String?
+  createdById Int               @map("created_by_id")
+  isDeleted   Boolean           @default(false) @map("is_deleted")
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+  items       DismantleItem[]
+  customer    Customer          @relation(fields: [customerId], references: [id])
 
   @@index([customerId])
   @@index([status])
   @@index([code])
   @@map("dismantles")
+}
+
+model DismantleItem {
+  id             Int             @id @default(autoincrement())
+  dismantleId    Int             @map("dismantle_id")
+  assetId        String          @map("asset_id")
+  conditionAfter AssetCondition? @map("condition_after")
+  note           String?
+  asset          Asset           @relation(fields: [assetId], references: [id])
+  dismantle      Dismantle       @relation(fields: [dismantleId], references: [id], onDelete: Cascade)
+
+  @@index([dismantleId])
+  @@index([assetId])
+  @@map("dismantle_items")
 }
