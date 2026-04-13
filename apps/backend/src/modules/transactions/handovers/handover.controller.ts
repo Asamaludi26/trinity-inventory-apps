@@ -75,8 +75,17 @@ export class HandoverController {
   async approve(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('version') version: number,
+    @Body('note') note: string,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.handoverService.approve(id, version);
+    return this.handoverService.approve(
+      id,
+      version,
+      user.sub,
+      user.role as UserRole,
+      user.fullName,
+      note,
+    );
   }
 
   @Patch(':id/reject')
@@ -86,8 +95,16 @@ export class HandoverController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body('reason') reason: string,
     @Body('version') version: number,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.handoverService.reject(id, reason, version);
+    return this.handoverService.reject(
+      id,
+      reason,
+      version,
+      user.sub,
+      user.role as UserRole,
+      user.fullName,
+    );
   }
 
   @Patch(':id/execute')
@@ -96,8 +113,9 @@ export class HandoverController {
   async execute(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('version') version: number,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.handoverService.execute(id, version);
+    return this.handoverService.execute(id, version, user.sub);
   }
 
   @Patch(':id/cancel')

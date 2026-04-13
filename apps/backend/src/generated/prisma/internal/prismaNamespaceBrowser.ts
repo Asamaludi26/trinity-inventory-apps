@@ -194,6 +194,7 @@ export const UserScalarFieldEnum = {
   permissions: 'permissions',
   phone: 'phone',
   avatarUrl: 'avatarUrl',
+  mustChangePassword: 'mustChangePassword',
   isActive: 'isActive',
   isDeleted: 'isDeleted',
   tokenVersion: 'tokenVersion',
@@ -518,6 +519,7 @@ export const RequestItemScalarFieldEnum = {
   modelId: 'modelId',
   description: 'description',
   quantity: 'quantity',
+  approvedQuantity: 'approvedQuantity',
   note: 'note',
 } as const;
 

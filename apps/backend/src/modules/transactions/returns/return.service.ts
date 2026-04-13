@@ -3,6 +3,7 @@ import {
   NotFoundException,
   BadRequestException,
   ConflictException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
 import { NotificationService } from '../../../core/notifications/notification.service';
@@ -10,6 +11,7 @@ import { EventsService } from '../../../core/events/events.service';
 import { CreateReturnDto } from './dto/create-return.dto';
 import { UpdateReturnDto } from './dto/update-return.dto';
 import { FilterReturnDto } from './dto/filter-return.dto';
+import { StockMovementService } from '../stock-movements/stock-movement.service';
 import {
   Prisma,
   TransactionStatus,
@@ -20,6 +22,7 @@ import {
 export class ReturnService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly stockMovementService: StockMovementService,
     private readonly notificationService: NotificationService,
     private readonly eventsService: EventsService,
   ) {}
@@ -151,7 +154,14 @@ export class ReturnService {
     });
   }
 
-  async approve(id: string, version: number) {
+  async approve(
+    id: string,
+    version: number,
+    approverId: number,
+    approverRole: UserRole,
+    approverName: string,
+    note?: string,
+  ) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.PENDING) {
       throw new BadRequestException(
@@ -159,9 +169,20 @@ export class ReturnService {
       );
     }
 
+    // Self-approval prevention (LAW: 1.7)
+    if (existing.createdById === approverId) {
+      throw new UnprocessableEntityException(
+        'Tidak dapat menyetujui pengembalian yang dibuat sendiri',
+      );
+    }
+
     const { count } = await this.prisma.assetReturn.updateMany({
       where: { id, version },
-      data: { status: TransactionStatus.APPROVED, version: { increment: 1 } },
+      data: {
+        status: TransactionStatus.APPROVED,
+        note: note ?? existing.note,
+        version: { increment: 1 },
+      },
     });
 
     if (count === 0) {
@@ -193,7 +214,14 @@ export class ReturnService {
     return result;
   }
 
-  async reject(id: string, reason: string, version: number) {
+  async reject(
+    id: string,
+    reason: string,
+    version: number,
+    approverId: number,
+    _approverRole: UserRole,
+    _approverName: string,
+  ) {
     const existing = await this.findOne(id);
     if (
       existing.status === TransactionStatus.REJECTED ||
@@ -201,6 +229,13 @@ export class ReturnService {
     ) {
       throw new BadRequestException(
         'Pengembalian sudah ditolak atau dibatalkan',
+      );
+    }
+
+    // Self-rejection prevention
+    if (existing.createdById === approverId) {
+      throw new UnprocessableEntityException(
+        'Tidak dapat menolak pengembalian yang dibuat sendiri',
       );
     }
 
@@ -243,7 +278,7 @@ export class ReturnService {
     return result;
   }
 
-  async execute(id: string, version: number) {
+  async execute(id: string, version: number, executedById: number) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.APPROVED) {
       throw new BadRequestException(
@@ -251,18 +286,99 @@ export class ReturnService {
       );
     }
 
-    const { count } = await this.prisma.assetReturn.updateMany({
-      where: { id, version },
-      data: { status: TransactionStatus.COMPLETED, version: { increment: 1 } },
-    });
+    const result = await this.prisma.$transaction(async (tx) => {
+      const { count } = await tx.assetReturn.updateMany({
+        where: { id, version },
+        data: {
+          status: TransactionStatus.COMPLETED,
+          version: { increment: 1 },
+        },
+      });
 
-    if (count === 0) {
-      throw new ConflictException(
-        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      if (count === 0) {
+        throw new ConflictException(
+          'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+        );
+      }
+
+      // Process each return item: update asset, create stock movement, auto-repair if broken
+      for (const item of existing.items) {
+        const isDamaged =
+          item.conditionAfter === 'POOR' || item.conditionAfter === 'BROKEN';
+
+        await tx.asset.update({
+          where: { id: item.assetId },
+          data: {
+            status: isDamaged ? 'DAMAGED' : 'IN_STORAGE',
+            condition: item.conditionAfter,
+            currentUserId: null,
+          },
+        });
+
+        await this.stockMovementService.create(
+          {
+            assetId: item.assetId,
+            type: 'IN',
+            reference: existing.code,
+            note: `Pengembalian aset — kondisi: ${item.conditionAfter}`,
+            createdById: executedById,
+          },
+          tx,
+        );
+
+        // Auto-create repair record if condition is POOR or BROKEN (Task 1.4)
+        if (isDamaged) {
+          const repairCode = `RPR-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-AUTO`;
+          await tx.repair.create({
+            data: {
+              code: repairCode + `-${item.assetId.slice(-4)}`,
+              assetId: item.assetId,
+              issueDescription: `Aset dikembalikan dalam kondisi ${item.conditionAfter}. Ref: ${existing.code}`,
+              condition: item.conditionAfter,
+              status: TransactionStatus.PENDING,
+              createdById: executedById,
+              note: item.note,
+            },
+          });
+        }
+      }
+
+      // Update loan status to COMPLETED if all assets returned
+      const loanAssignments = await tx.loanAssetAssignment.findMany({
+        where: { loanRequestId: existing.loanRequestId },
+        select: { assetId: true },
+      });
+
+      const allReturns = await tx.assetReturnItem.findMany({
+        where: {
+          assetReturn: {
+            loanRequestId: existing.loanRequestId,
+            status: TransactionStatus.COMPLETED,
+          },
+        },
+        select: { assetId: true },
+      });
+
+      const returnedAssetIds = new Set(allReturns.map((r) => r.assetId));
+      const allReturned = loanAssignments.every((a) =>
+        returnedAssetIds.has(a.assetId),
       );
-    }
 
-    const result = await this.prisma.assetReturn.findUnique({ where: { id } });
+      if (allReturned) {
+        await tx.loanRequest.updateMany({
+          where: {
+            id: existing.loanRequestId,
+            status: TransactionStatus.IN_PROGRESS,
+          },
+          data: {
+            status: TransactionStatus.COMPLETED,
+            version: { increment: 1 },
+          },
+        });
+      }
+
+      return tx.assetReturn.findUnique({ where: { id } });
+    });
 
     this.eventsService.emitTransactionUpdate({
       id,

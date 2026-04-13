@@ -51,3 +51,14 @@ export function useRejectHandover() {
     },
   });
 }
+
+export function useExecuteHandover() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      handoverApi.execute(uuid, version),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: HANDOVERS_KEY });
+    },
+  });
+}

@@ -28,8 +28,14 @@ export const requestApi = {
   cancel: (uuid: string, version: number) =>
     api.patch<ApiResponse<void>>(`/requests/${uuid}/cancel`, { version }),
 
-  approve: (uuid: string, version: number, data?: { note?: string }) =>
-    api.patch<ApiResponse<void>>(`/requests/${uuid}/approve`, { ...data, version }),
+  approve: (
+    uuid: string,
+    version: number,
+    data?: {
+      note?: string;
+      itemAdjustments?: { itemId: number; approvedQuantity: number }[];
+    },
+  ) => api.patch<ApiResponse<void>>(`/requests/${uuid}/approve`, { ...data, version }),
 
   reject: (uuid: string, version: number, data: { reason: string }) =>
     api.patch<ApiResponse<void>>(`/requests/${uuid}/reject`, { ...data, version }),
@@ -59,8 +65,11 @@ export const loanApi = {
   reject: (uuid: string, version: number, data: { reason: string }) =>
     api.patch<ApiResponse<void>>(`/loans/${uuid}/reject`, { ...data, version }),
 
-  assignAssets: (uuid: string, assetIds: string[]) =>
-    api.patch<ApiResponse<void>>(`/loans/${uuid}/assign`, { assetIds }),
+  assignAssets: (uuid: string, assetIds: string[], version: number) =>
+    api.patch<ApiResponse<void>>(`/loans/${uuid}/assign-assets`, { assetIds, version }),
+
+  execute: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/loans/${uuid}/execute`, { version }),
 };
 
 // ================================
@@ -105,6 +114,9 @@ export const handoverApi = {
 
   reject: (uuid: string, version: number, data: { reason: string }) =>
     api.patch<ApiResponse<void>>(`/handovers/${uuid}/reject`, { ...data, version }),
+
+  execute: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/handovers/${uuid}/execute`, { version }),
 };
 
 // ================================

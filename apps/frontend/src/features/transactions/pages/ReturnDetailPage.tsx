@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle, XCircle, Play } from 'lucide-react';
 import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -16,7 +17,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useReturn, useApproveReturn } from '../hooks';
+import { useReturn, useApproveReturn, useRejectReturn, useExecuteReturn } from '../hooks';
+import { RejectDialog } from '../components';
 import { AttachmentSection } from '@/components/form';
 import { usePermissions } from '@/hooks';
 import { P } from '@/config/permissions';
@@ -42,6 +44,9 @@ export function ReturnDetailPage() {
   const navigate = useNavigate();
   const { data: ret, isLoading } = useReturn(uuid);
   const approveReturn = useApproveReturn();
+  const rejectReturn = useRejectReturn();
+  const executeReturn = useExecuteReturn();
+  const [rejectOpen, setRejectOpen] = useState(false);
   const { can } = usePermissions();
 
   const handleVerify = () => {
@@ -51,6 +56,31 @@ export function ReturnDetailPage() {
       {
         onSuccess: () => toast.success('Pengembalian berhasil diverifikasi'),
         onError: () => toast.error('Gagal memverifikasi pengembalian'),
+      },
+    );
+  };
+
+  const handleReject = (reason: string) => {
+    if (!uuid || !ret) return;
+    rejectReturn.mutate(
+      { uuid, version: ret.version, reason },
+      {
+        onSuccess: () => {
+          toast.success('Pengembalian berhasil ditolak');
+          setRejectOpen(false);
+        },
+        onError: () => toast.error('Gagal menolak pengembalian'),
+      },
+    );
+  };
+
+  const handleExecute = () => {
+    if (!uuid || !ret) return;
+    executeReturn.mutate(
+      { uuid, version: ret.version },
+      {
+        onSuccess: () => toast.success('Pengembalian berhasil diselesaikan'),
+        onError: () => toast.error('Gagal menyelesaikan pengembalian'),
       },
     );
   };
@@ -90,9 +120,21 @@ export function ReturnDetailPage() {
             Kembali
           </Button>
           {ret.status === 'PENDING' && can(P.RETURNS_APPROVE) && (
-            <Button variant="default" onClick={handleVerify} disabled={approveReturn.isPending}>
-              <CheckCircle className="mr-2 h-4 w-4" />
-              {approveReturn.isPending ? 'Memverifikasi...' : 'Verifikasi'}
+            <>
+              <Button variant="default" onClick={handleVerify} disabled={approveReturn.isPending}>
+                <CheckCircle className="mr-2 h-4 w-4" />
+                {approveReturn.isPending ? 'Memverifikasi...' : 'Verifikasi'}
+              </Button>
+              <Button variant="destructive" onClick={() => setRejectOpen(true)}>
+                <XCircle className="mr-2 h-4 w-4" />
+                Tolak
+              </Button>
+            </>
+          )}
+          {ret.status === 'APPROVED' && can(P.RETURNS_APPROVE) && (
+            <Button variant="default" onClick={handleExecute} disabled={executeReturn.isPending}>
+              <Play className="mr-2 h-4 w-4" />
+              {executeReturn.isPending ? 'Memproses...' : 'Eksekusi'}
             </Button>
           )}
         </div>
@@ -198,6 +240,14 @@ export function ReturnDetailPage() {
         {/* Lampiran */}
         <AttachmentSection entityType="AssetReturn" entityId={uuid} />
       </div>
+
+      <RejectDialog
+        open={rejectOpen}
+        onOpenChange={setRejectOpen}
+        onConfirm={handleReject}
+        isPending={rejectReturn.isPending}
+        title="Tolak Pengembalian"
+      />
     </PageContainer>
   );
 }

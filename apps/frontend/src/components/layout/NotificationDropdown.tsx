@@ -147,6 +147,18 @@ export function NotificationDropdown() {
             ))}
           </ScrollArea>
         )}
+
+        {notifications.length > 0 && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="justify-center text-xs text-primary"
+              onClick={() => navigate('/notifications')}
+            >
+              Lihat semua notifikasi
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

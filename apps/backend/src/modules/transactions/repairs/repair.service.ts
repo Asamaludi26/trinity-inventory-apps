@@ -6,10 +6,12 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
 import { EventsService } from '../../../core/events/events.service';
+import { NotificationService } from '../../../core/notifications/notification.service';
 import { CreateRepairDto } from './dto/create-repair.dto';
 import { UpdateRepairDto } from './dto/update-repair.dto';
 import { FilterRepairDto } from './dto/filter-repair.dto';
 import { ApprovalService } from '../approval/approval.service';
+import { StockMovementService } from '../stock-movements/stock-movement.service';
 import {
   Prisma,
   TransactionStatus,
@@ -21,7 +23,9 @@ export class RepairService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly approvalService: ApprovalService,
+    private readonly stockMovementService: StockMovementService,
     private readonly eventsService: EventsService,
+    private readonly notificationService: NotificationService,
   ) {}
 
   private async generateCode(): Promise<string> {
@@ -125,7 +129,7 @@ export class RepairService {
     }
 
     const code = await this.generateCode();
-    const approvalChain = this.approvalService.determineApprovalChain(
+    const approvalChain = this.approvalService.buildApprovalChain(
       userRole,
       'REPAIR',
     );
@@ -138,7 +142,7 @@ export class RepairService {
         condition: dto.condition,
         note: dto.note,
         createdById: userId,
-        approvalChain,
+        approvalChain: approvalChain as unknown as Prisma.InputJsonValue,
       },
       include: {
         createdBy: { select: { id: true, fullName: true } },
@@ -169,28 +173,47 @@ export class RepairService {
     });
   }
 
-  async approve(id: string, version: number) {
+  async approve(
+    id: string,
+    version: number,
+    approverId: number,
+    approverRole: UserRole,
+    approverName: string,
+    note?: string,
+  ) {
     const existing = await this.findOne(id);
     if (
-      !(
-        [
-          TransactionStatus.PENDING,
-          TransactionStatus.LOGISTIC_APPROVED,
-        ] as string[]
-      ).includes(existing.status)
+      existing.status === TransactionStatus.REJECTED ||
+      existing.status === TransactionStatus.CANCELLED ||
+      existing.status === TransactionStatus.COMPLETED
     ) {
       throw new BadRequestException(
         'Laporan tidak dalam status yang dapat di-approve',
       );
     }
-    const nextStatus =
-      existing.status === TransactionStatus.PENDING
-        ? TransactionStatus.LOGISTIC_APPROVED
-        : TransactionStatus.APPROVED;
+
+    const chain = this.approvalService.parseChain(existing.approvalChain);
+    const updatedChain = this.approvalService.processApproval(
+      chain,
+      approverRole,
+      approverId,
+      approverName,
+      existing.createdById,
+      note,
+    );
+
+    const isComplete = this.approvalService.isChainComplete(updatedChain);
+    const nextStatus = isComplete
+      ? TransactionStatus.APPROVED
+      : TransactionStatus.LOGISTIC_APPROVED;
 
     const { count } = await this.prisma.repair.updateMany({
       where: { id, version },
-      data: { status: nextStatus, version: { increment: 1 } },
+      data: {
+        status: nextStatus,
+        approvalChain: updatedChain as unknown as Prisma.InputJsonValue,
+        version: { increment: 1 },
+      },
     });
 
     if (count === 0) {
@@ -209,10 +232,27 @@ export class RepairService {
       version: existing.version + 1,
     });
 
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Perbaikan',
+        transactionCode: existing.code,
+        action: 'APPROVED',
+        link: `/repairs/${id}`,
+      })
+      .catch(() => {});
+
     return result;
   }
 
-  async reject(id: string, reason: string, version: number) {
+  async reject(
+    id: string,
+    reason: string,
+    version: number,
+    approverId: number,
+    approverRole: UserRole,
+    approverName: string,
+  ) {
     const existing = await this.findOne(id);
     if (
       existing.status === TransactionStatus.REJECTED ||
@@ -221,11 +261,22 @@ export class RepairService {
       throw new BadRequestException('Laporan sudah ditolak atau dibatalkan');
     }
 
+    const chain = this.approvalService.parseChain(existing.approvalChain);
+    const updatedChain = this.approvalService.processRejection(
+      chain,
+      approverRole,
+      approverId,
+      approverName,
+      existing.createdById,
+      reason,
+    );
+
     const { count } = await this.prisma.repair.updateMany({
       where: { id, version },
       data: {
         status: TransactionStatus.REJECTED,
         rejectionReason: reason,
+        approvalChain: updatedChain as unknown as Prisma.InputJsonValue,
         version: { increment: 1 },
       },
     });
@@ -246,10 +297,21 @@ export class RepairService {
       version: existing.version + 1,
     });
 
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Perbaikan',
+        transactionCode: existing.code,
+        action: 'REJECTED',
+        link: `/repairs/${id}`,
+        reason,
+      })
+      .catch(() => {});
+
     return result;
   }
 
-  async execute(id: string, version: number) {
+  async execute(id: string, version: number, executedById: number) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.APPROVED) {
       throw new BadRequestException(
@@ -269,6 +331,17 @@ export class RepairService {
         data: { status: 'UNDER_REPAIR' },
       });
 
+      await this.stockMovementService.create(
+        {
+          assetId: existing.assetId,
+          type: 'OUT',
+          reference: existing.code,
+          note: `Aset masuk perbaikan: ${existing.issueDescription}`,
+          createdById: executedById,
+        },
+        tx,
+      );
+
       return tx.repair.update({
         where: { id },
         data: {
@@ -287,6 +360,16 @@ export class RepairService {
       version: existing.version + 1,
     });
 
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Perbaikan',
+        transactionCode: existing.code,
+        action: 'EXECUTED',
+        link: `/repairs/${id}`,
+      })
+      .catch(() => {});
+
     return result;
   }
 
@@ -294,6 +377,7 @@ export class RepairService {
     id: string,
     data: { repairAction?: string; repairVendor?: string; repairCost?: number },
     version: number,
+    completedById: number,
   ) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.IN_PROGRESS) {
@@ -313,6 +397,17 @@ export class RepairService {
         where: { id: existing.assetId },
         data: { status: 'IN_STORAGE', condition: 'GOOD' },
       });
+
+      await this.stockMovementService.create(
+        {
+          assetId: existing.assetId,
+          type: 'IN',
+          reference: existing.code,
+          note: `Aset selesai diperbaiki${data.repairAction ? `: ${data.repairAction}` : ''}`,
+          createdById: completedById,
+        },
+        tx,
+      );
 
       return tx.repair.update({
         where: { id },
@@ -336,6 +431,149 @@ export class RepairService {
       status: TransactionStatus.COMPLETED,
       version: existing.version + 1,
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Perbaikan',
+        transactionCode: existing.code,
+        action: 'COMPLETED',
+        link: `/repairs/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
+  }
+
+  /**
+   * Send asset to external service center for repair.
+   * Transition: IN_PROGRESS → IN_PROGRESS (asset → OUT_FOR_REPAIR)
+   */
+  async sendOutForRepair(
+    id: string,
+    data: { repairVendor: string; note?: string },
+    version: number,
+    _executedById: number,
+  ) {
+    const existing = await this.findOne(id);
+    if (existing.status !== TransactionStatus.IN_PROGRESS) {
+      throw new BadRequestException(
+        'Hanya laporan yang sedang diperbaiki yang dapat dikirim ke service center',
+      );
+    }
+
+    if (existing.version !== version) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.$transaction(async (tx) => {
+      await tx.asset.update({
+        where: { id: existing.assetId },
+        data: { status: 'OUT_FOR_REPAIR' },
+      });
+
+      return tx.repair.update({
+        where: { id },
+        data: {
+          repairVendor: data.repairVendor,
+          ...(data.note && { note: data.note }),
+          version: { increment: 1 },
+        },
+      });
+    });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'repair',
+      status: TransactionStatus.IN_PROGRESS,
+      version: existing.version + 1,
+    });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Perbaikan',
+        transactionCode: existing.code,
+        action: 'EXECUTED',
+        link: `/repairs/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
+  }
+
+  /**
+   * Decommission an asset that cannot be repaired.
+   * Transition: IN_PROGRESS → COMPLETED (asset → DECOMMISSIONED)
+   */
+  async decommission(
+    id: string,
+    data: { repairAction?: string; note?: string },
+    version: number,
+    executedById: number,
+  ) {
+    const existing = await this.findOne(id);
+    if (existing.status !== TransactionStatus.IN_PROGRESS) {
+      throw new BadRequestException(
+        'Hanya laporan yang sedang diperbaiki yang dapat di-decommission',
+      );
+    }
+
+    if (existing.version !== version) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.$transaction(async (tx) => {
+      await tx.asset.update({
+        where: { id: existing.assetId },
+        data: { status: 'DECOMMISSIONED', condition: 'BROKEN' },
+      });
+
+      await this.stockMovementService.create(
+        {
+          assetId: existing.assetId,
+          type: 'OUT',
+          reference: existing.code,
+          note: `Aset di-decommission: ${data.repairAction ?? 'Tidak dapat diperbaiki'}`,
+          createdById: executedById,
+        },
+        tx,
+      );
+
+      return tx.repair.update({
+        where: { id },
+        data: {
+          status: TransactionStatus.COMPLETED,
+          completedAt: new Date(),
+          ...(data.repairAction && { repairAction: data.repairAction }),
+          ...(data.note && { note: data.note }),
+          version: { increment: 1 },
+        },
+      });
+    });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'repair',
+      status: TransactionStatus.COMPLETED,
+      version: existing.version + 1,
+    });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Perbaikan',
+        transactionCode: existing.code,
+        action: 'COMPLETED',
+        link: `/repairs/${id}`,
+      })
+      .catch(() => {});
 
     return result;
   }
@@ -371,6 +609,16 @@ export class RepairService {
       status: TransactionStatus.CANCELLED,
       version: existing.version + 1,
     });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Perbaikan',
+        transactionCode: existing.code,
+        action: 'CANCELLED',
+        link: `/repairs/${id}`,
+      })
+      .catch(() => {});
 
     return this.prisma.repair.findUnique({ where: { id } });
   }

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -10,6 +11,7 @@ import { PrismaModule } from './core/database/prisma.module';
 import { AuthModule } from './core/auth/auth.module';
 import { NotificationModule } from './core/notifications/notification.module';
 import { EventsModule } from './core/events/events.module';
+import { SchedulerModule } from './core/scheduler/scheduler.module';
 
 // Feature modules
 import { DashboardModule } from './modules/dashboards/dashboard.module';
@@ -26,6 +28,7 @@ import { QrCodeModule } from './modules/qrcode/qrcode.module';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
 import { PermissionsGuard } from './common/guards/permissions.guard';
+import { MustChangePasswordGuard } from './common/guards/must-change-password.guard';
 
 // Interceptors
 import { AuditTrailInterceptor } from './common/interceptors/audit-trail.interceptor';
@@ -38,6 +41,10 @@ import { AuditTrailInterceptor } from './common/interceptors/audit-trail.interce
     AuthModule,
     NotificationModule,
     EventsModule,
+    SchedulerModule,
+
+    // Scheduler
+    ScheduleModule.forRoot(),
 
     // Rate limiting (ADR: throttler for API protection)
     ThrottlerModule.forRoot({
@@ -64,6 +71,8 @@ import { AuditTrailInterceptor } from './common/interceptors/audit-trail.interce
     { provide: APP_GUARD, useClass: RolesGuard },
     // Global permissions guard — use @AuthPermissions() decorator
     { provide: APP_GUARD, useClass: PermissionsGuard },
+    // Global must-change-password guard — blocks API if user must change password
+    { provide: APP_GUARD, useClass: MustChangePasswordGuard },
     // Global rate limiting
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     // Global audit trail — auto-logs all CUD operations

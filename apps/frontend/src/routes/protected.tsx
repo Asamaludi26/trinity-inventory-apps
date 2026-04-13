@@ -2,6 +2,12 @@ import type { RouteObject } from 'react-router-dom';
 import { RoleProtectedRoute } from '@/components/guard/RoleProtectedRoute';
 
 export const protectedRoutes: RouteObject[] = [
+  // Notifications — accessible by all roles
+  {
+    path: '/notifications',
+    lazy: () => import('../features/notifications/pages/NotificationListPage'),
+  },
+
   // F-01: Dashboard — accessible by all roles
   {
     path: '/dashboard',

@@ -44,8 +44,17 @@ export function useCancelRequest() {
 export function useApproveRequest() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ uuid, version, note }: { uuid: string; version: number; note?: string }) =>
-      requestApi.approve(uuid, version, { note }),
+    mutationFn: ({
+      uuid,
+      version,
+      note,
+      itemAdjustments,
+    }: {
+      uuid: string;
+      version: number;
+      note?: string;
+      itemAdjustments?: { itemId: number; approvedQuantity: number }[];
+    }) => requestApi.approve(uuid, version, { note, itemAdjustments }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: REQUESTS_KEY });
     },
@@ -57,6 +66,17 @@ export function useRejectRequest() {
   return useMutation({
     mutationFn: ({ uuid, version, reason }: { uuid: string; version: number; reason: string }) =>
       requestApi.reject(uuid, version, { reason }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: REQUESTS_KEY });
+    },
+  });
+}
+
+export function useExecuteRequest() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      requestApi.execute(uuid, version),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: REQUESTS_KEY });
     },

@@ -114,9 +114,9 @@ export class RequestService {
 
   async create(dto: CreateRequestDto, userId: number, userRole: UserRole) {
     const code = await this.generateCode();
-    const approvalChain = this.approvalService.determineApprovalChain(
+    const approvalChain = this.approvalService.buildApprovalChain(
       userRole,
-      'requests',
+      'REQUEST',
     );
 
     return this.prisma.request.create({
@@ -127,7 +127,7 @@ export class RequestService {
         priority: dto.priority ?? 'NORMAL',
         projectId: dto.projectId,
         createdById: userId,
-        approvalChain,
+        approvalChain: approvalChain as unknown as Prisma.InputJsonValue,
         items: {
           create: dto.items.map((item) => ({
             modelId: item.modelId,
@@ -158,38 +158,85 @@ export class RequestService {
     });
   }
 
-  async approve(id: string, version: number) {
+  async approve(
+    id: string,
+    version: number,
+    approverId: number,
+    approverRole: UserRole,
+    approverName: string,
+    note?: string,
+    itemAdjustments?: { itemId: number; approvedQuantity: number }[],
+  ) {
     const existing = await this.findOne(id);
     if (
-      !(
-        [
-          TransactionStatus.PENDING,
-          TransactionStatus.LOGISTIC_APPROVED,
-        ] as string[]
-      ).includes(existing.status)
+      existing.status === TransactionStatus.REJECTED ||
+      existing.status === TransactionStatus.CANCELLED ||
+      existing.status === TransactionStatus.COMPLETED
     ) {
       throw new BadRequestException(
         'Request tidak dalam status yang dapat di-approve',
       );
     }
 
-    const nextStatus =
-      existing.status === TransactionStatus.PENDING
+    const chain = this.approvalService.parseChain(existing.approvalChain);
+    const updatedChain = this.approvalService.processApproval(
+      chain,
+      approverRole,
+      approverId,
+      approverName,
+      existing.createdById,
+      note,
+    );
+
+    const isComplete = this.approvalService.isChainComplete(updatedChain);
+    const nextStatus = isComplete
+      ? TransactionStatus.APPROVED
+      : existing.status === TransactionStatus.PENDING
         ? TransactionStatus.LOGISTIC_APPROVED
-        : TransactionStatus.APPROVED;
+        : TransactionStatus.AWAITING_CEO_APPROVAL;
 
-    const { count } = await this.prisma.request.updateMany({
-      where: { id, version },
-      data: { status: nextStatus, version: { increment: 1 } },
+    const result = await this.prisma.$transaction(async (tx) => {
+      const { count } = await tx.request.updateMany({
+        where: { id, version },
+        data: {
+          status: nextStatus,
+          approvalChain: updatedChain as unknown as Prisma.InputJsonValue,
+          version: { increment: 1 },
+        },
+      });
+
+      if (count === 0) {
+        throw new ConflictException(
+          'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+        );
+      }
+
+      // Apply partial approval adjustments if provided
+      if (itemAdjustments?.length) {
+        for (const adj of itemAdjustments) {
+          const item = existing.items.find((i) => i.id === adj.itemId);
+          if (!item) {
+            throw new BadRequestException(
+              `Item dengan ID ${adj.itemId} tidak ditemukan`,
+            );
+          }
+          if (adj.approvedQuantity > item.quantity) {
+            throw new BadRequestException(
+              `Jumlah disetujui (${adj.approvedQuantity}) tidak boleh melebihi jumlah diminta (${item.quantity}) untuk item "${item.description}"`,
+            );
+          }
+          await tx.requestItem.update({
+            where: { id: adj.itemId },
+            data: { approvedQuantity: adj.approvedQuantity },
+          });
+        }
+      }
+
+      return tx.request.findUnique({
+        where: { id },
+        include: { items: true },
+      });
     });
-
-    if (count === 0) {
-      throw new ConflictException(
-        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
-      );
-    }
-
-    const result = await this.prisma.request.findUnique({ where: { id } });
 
     this.eventsService.emitTransactionUpdate({
       id,
@@ -212,7 +259,14 @@ export class RequestService {
     return result;
   }
 
-  async reject(id: string, reason: string, version: number) {
+  async reject(
+    id: string,
+    reason: string,
+    version: number,
+    approverId: number,
+    approverRole: UserRole,
+    approverName: string,
+  ) {
     const existing = await this.findOne(id);
     if (
       existing.status === TransactionStatus.REJECTED ||
@@ -221,11 +275,22 @@ export class RequestService {
       throw new BadRequestException('Request sudah ditolak atau dibatalkan');
     }
 
+    const chain = this.approvalService.parseChain(existing.approvalChain);
+    const updatedChain = this.approvalService.processRejection(
+      chain,
+      approverRole,
+      approverId,
+      approverName,
+      existing.createdById,
+      reason,
+    );
+
     const { count } = await this.prisma.request.updateMany({
       where: { id, version },
       data: {
         status: TransactionStatus.REJECTED,
         rejectionReason: reason,
+        approvalChain: updatedChain as unknown as Prisma.InputJsonValue,
         version: { increment: 1 },
       },
     });
@@ -260,17 +325,39 @@ export class RequestService {
     return result;
   }
 
+  /**
+   * Valid request status transitions (post-approval lifecycle).
+   * APPROVED → PURCHASING → IN_DELIVERY → ARRIVED → COMPLETED
+   */
+  private readonly REQUEST_TRANSITIONS: Record<string, string> = {
+    [TransactionStatus.APPROVED]: TransactionStatus.PURCHASING,
+    [TransactionStatus.PURCHASING]: TransactionStatus.IN_DELIVERY,
+    [TransactionStatus.IN_DELIVERY]: TransactionStatus.ARRIVED,
+    [TransactionStatus.ARRIVED]: TransactionStatus.COMPLETED,
+  };
+
+  private readonly TRANSITION_LABELS: Record<string, string> = {
+    [TransactionStatus.PURCHASING]: 'PURCHASING',
+    [TransactionStatus.IN_DELIVERY]: 'IN_DELIVERY',
+    [TransactionStatus.ARRIVED]: 'ARRIVED',
+    [TransactionStatus.COMPLETED]: 'COMPLETED',
+  };
+
   async execute(id: string, version: number) {
     const existing = await this.findOne(id);
-    if (existing.status !== TransactionStatus.APPROVED) {
+    const nextStatus = this.REQUEST_TRANSITIONS[existing.status];
+    if (!nextStatus) {
       throw new BadRequestException(
-        'Hanya request yang sudah di-approve yang dapat dieksekusi',
+        `Request dengan status ${existing.status} tidak dapat ditransisikan ke tahap berikutnya`,
       );
     }
 
     const { count } = await this.prisma.request.updateMany({
       where: { id, version },
-      data: { status: TransactionStatus.COMPLETED, version: { increment: 1 } },
+      data: {
+        status: nextStatus as TransactionStatus,
+        version: { increment: 1 },
+      },
     });
 
     if (count === 0) {
@@ -285,7 +372,7 @@ export class RequestService {
       id,
       code: existing.code,
       type: 'request',
-      status: TransactionStatus.COMPLETED,
+      status: nextStatus as TransactionStatus,
       version: existing.version + 1,
     });
 
@@ -294,7 +381,11 @@ export class RequestService {
         recipientUserId: existing.createdById,
         transactionType: 'Permintaan',
         transactionCode: existing.code,
-        action: 'COMPLETED',
+        action: (this.TRANSITION_LABELS[nextStatus] ?? nextStatus) as
+          | 'PURCHASING'
+          | 'IN_DELIVERY'
+          | 'ARRIVED'
+          | 'COMPLETED',
         link: `/transactions/requests/${id}`,
       })
       .catch(() => {});

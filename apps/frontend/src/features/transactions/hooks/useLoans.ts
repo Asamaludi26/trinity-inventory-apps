@@ -62,3 +62,32 @@ export function useRejectLoan() {
     },
   });
 }
+
+export function useAssignLoanAssets() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      uuid,
+      assetIds,
+      version,
+    }: {
+      uuid: string;
+      assetIds: string[];
+      version: number;
+    }) => loanApi.assignAssets(uuid, assetIds, version),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: LOANS_KEY });
+    },
+  });
+}
+
+export function useExecuteLoan() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      loanApi.execute(uuid, version),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: LOANS_KEY });
+    },
+  });
+}

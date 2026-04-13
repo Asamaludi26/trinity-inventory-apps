@@ -46,6 +46,7 @@ export class AuthService {
     const payload: JwtPayload = {
       sub: user.id,
       email: user.email,
+      fullName: user.fullName,
       role: user.role,
       permissions: Array.isArray(user.permissions)
         ? (user.permissions as string[])
@@ -90,6 +91,7 @@ export class AuthService {
         division: user.division,
         permissions: user.permissions,
         avatarUrl: user.avatarUrl,
+        mustChangePassword: user.mustChangePassword,
       },
     };
   }
@@ -114,6 +116,7 @@ export class AuthService {
       const newPayload: JwtPayload = {
         sub: user.id,
         email: user.email,
+        fullName: user.fullName,
         role: user.role,
         permissions: Array.isArray(user.permissions)
           ? (user.permissions as string[])
@@ -181,11 +184,12 @@ export class AuthService {
 
     const hashedNewPassword = await bcrypt.hash(newPassword, 12);
 
-    // Update password & increment tokenVersion to force re-login on other devices
+    // Update password, reset mustChangePassword & increment tokenVersion to force re-login on other devices
     await this.prisma.user.update({
       where: { id: userId },
       data: {
         password: hashedNewPassword,
+        mustChangePassword: false,
         tokenVersion: { increment: 1 },
       },
     });

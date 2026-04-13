@@ -30,6 +30,7 @@ export interface RequestItem {
   modelId: number | null;
   description: string;
   quantity: number;
+  approvedQuantity: number | null;
   note: string | null;
   model?: AssetModel;
 }
@@ -53,6 +54,16 @@ export interface LoanRequest {
   updatedAt: string;
   createdBy?: UserSummary;
   items?: LoanItem[];
+  assetAssignments?: LoanAssetAssignment[];
+  returns?: { id: string; code: string; status: TransactionStatus }[];
+}
+
+export interface LoanAssetAssignment {
+  id: number;
+  loanRequestId: string;
+  assetId: string;
+  assignedAt: string;
+  asset?: { id: string; code: string; name: string };
 }
 
 export interface LoanItem {

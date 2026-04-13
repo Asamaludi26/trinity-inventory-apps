@@ -34,7 +34,11 @@ export function LoginPage() {
       const response = await authApi.login(data);
       const { user, accessToken, refreshToken } = response.data.data;
       setAuth(user, accessToken, refreshToken);
-      navigate('/dashboard');
+      if (user.mustChangePassword) {
+        navigate('/change-password');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err: unknown) {
       const message =
         (err as { response?: { data?: { message?: string } } })?.response?.data?.message ||

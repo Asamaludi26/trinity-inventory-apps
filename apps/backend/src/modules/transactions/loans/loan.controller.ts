@@ -15,7 +15,12 @@ import {
   ApiResponse,
 } from '@nestjs/swagger';
 import { LoanService } from './loan.service';
-import { CreateLoanDto, UpdateLoanDto, FilterLoanDto } from './dto';
+import {
+  CreateLoanDto,
+  UpdateLoanDto,
+  FilterLoanDto,
+  AssignAssetsDto,
+} from './dto';
 import { AuthPermissions, CurrentUser } from '../../../common/decorators';
 import { PERMISSIONS } from '../../../common/constants';
 import { JwtPayload } from '../../../common/interfaces';
@@ -72,8 +77,17 @@ export class LoanController {
   async approve(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('version') version: number,
+    @Body('note') note: string,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.loanService.approve(id, version);
+    return this.loanService.approve(
+      id,
+      version,
+      user.sub,
+      user.role as UserRole,
+      user.fullName,
+      note,
+    );
   }
 
   @Patch(':id/reject')
@@ -83,8 +97,32 @@ export class LoanController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body('reason') reason: string,
     @Body('version') version: number,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.loanService.reject(id, reason, version);
+    return this.loanService.reject(
+      id,
+      reason,
+      version,
+      user.sub,
+      user.role as UserRole,
+      user.fullName,
+    );
+  }
+
+  @Patch(':id/assign-assets')
+  @AuthPermissions(PERMISSIONS.LOAN_REQUESTS_APPROVE)
+  @ApiOperation({ summary: 'Assign aset spesifik ke peminjaman' })
+  async assignAssets(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: AssignAssetsDto,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.loanService.assignAssets(
+      id,
+      dto.assetIds,
+      dto.version,
+      user.sub,
+    );
   }
 
   @Patch(':id/execute')
@@ -93,8 +131,9 @@ export class LoanController {
   async execute(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('version') version: number,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.loanService.execute(id, version);
+    return this.loanService.execute(id, version, user.sub);
   }
 
   @Patch(':id/cancel')

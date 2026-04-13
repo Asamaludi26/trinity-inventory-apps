@@ -47,6 +47,128 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-14] — Sprint 2: Notification, Overdue, Repair & mustChangePassword (P1 HIGH)
+
+#### Added
+
+- **mustChangePassword field** — Migrasi database: menambahkan kolom `must_change_password` ke tabel `users` (default: `false`)
+- **MustChangePasswordGuard** — Global guard NestJS yang memblokir semua API kecuali `/auth/change-password`, `/auth/logout`, `/auth/refresh` saat user harus mengganti password
+- **Login response includes mustChangePassword** — `AuthService.login()` sekarang mengembalikan field `mustChangePassword` di response user
+- **changePassword resets mustChangePassword** — Setelah berhasil ganti password, field `mustChangePassword` otomatis di-set ke `false`
+- **ScheduleModule** — `@nestjs/schedule` terinstall dan `ScheduleModule.forRoot()` teregistrasi di `AppModule`
+- **SchedulerService** (`core/scheduler/scheduler.service.ts`) — Service cron job dengan 3 scheduled tasks:
+  - `checkOverdueLoans()` — Daily 01:00: cek semua loan IN_PROGRESS yang melewati `expectedReturn`, kirim notifikasi WARNING ke peminjam, Leader divisi, dan Admin Logistik
+  - `sendReturnReminders()` — Daily 08:00: kirim reminder REMINDER ke peminjam H-3 dan H-1 sebelum jatuh tempo
+  - `checkStockThresholds()` — Setiap 6 jam: cek stok per model terhadap `StockThreshold.minQuantity`, kirim notif WARNING ke Admin Logistik + Super Admin (dengan dedupe per hari)
+- **Repair workflow chain — 3 jalur resolusi**:
+  - `sendOutForRepair()` — Kirim aset ke service center eksternal (asset status → `OUT_FOR_REPAIR`)
+  - `decommission()` — Aset tidak dapat diperbaiki (asset status → `DECOMMISSIONED`, condition → `HEAVILY_DAMAGED`, StockMovement OUT)
+  - Controller endpoints: `PATCH /repairs/:id/send-out`, `PATCH /repairs/:id/decommission`
+- **Repair notifications** — Semua lifecycle transitions (approve, reject, execute, complete, cancel, sendOut, decommission) sekarang kirim notifikasi ke creator
+- **NotificationService action labels** — Ditambahkan: `ASSETS_ASSIGNED`, `PURCHASING`, `IN_DELIVERY`, `ARRIVED` ke `notifyTransactionStatusChange()`
+- **NotificationListPage** (`features/notifications/pages/NotificationListPage.tsx`) — Halaman notifikasi lengkap: list dengan card UI, pagination, filter by type/unread, icon + warna per type, badge label, timestamp relatif + absolut
+- **Route /notifications** — Ditambahkan ke protected routes, accessible by semua role
+- **NotificationDropdown "Lihat semua"** — Link navigasi ke `/notifications` di bawah dropdown
+- **ChangePasswordPage** (`features/auth/pages/ChangePasswordPage.tsx`) — Halaman standalone untuk ganti password: validasi Zod (min 8 char, huruf besar, kecil, angka), toggle show/hide per field, auto-redirect ke dashboard setelah berhasil
+- **AuthGuard mustChangePassword redirect** — Redirect otomatis ke `/change-password` jika `user.mustChangePassword === true`
+- **Route /change-password** — Protected route di luar AppLayout (standalone page)
+
+#### Changed
+
+- **AppModule** — Ditambahkan: `ScheduleModule.forRoot()`, `SchedulerModule`, `MustChangePasswordGuard` sebagai global guard
+- **RepairService** — Diinjeksi `NotificationService`, semua method lifecycle sekarang kirim notifikasi
+- **AuthStore UserData** — Ditambahkan field `mustChangePassword?: boolean`
+- **LoginResponse** — Ditambahkan field `mustChangePassword: boolean`
+- **LoginPage** — Redirect ke `/change-password` jika `mustChangePassword === true`
+
+#### Agents Involved
+
+- `backend` — MustChangePasswordGuard, SchedulerService, RepairService enhancements, AuthService updates
+- `frontend` — NotificationListPage, ChangePasswordPage, AuthGuard update, login flow
+- `database` — Migration `add_must_change_password_to_user`
+
+---
+
+### [2026-04-14] — Sprint 1: Frontend Transaction Workflow Completion
+
+#### Added
+
+- **ReturnDetailPage reject & execute buttons** — Tombol Tolak (dengan RejectDialog) dan Eksekusi ditambahkan berdasarkan status PENDING/APPROVED
+- **HandoverDetailPage execute button** — Tombol Eksekusi ditambahkan saat status APPROVED, menggunakan `useExecuteHandover` hook
+- **ReturnFormPage per-asset condition assessment** — Form pengembalian sepenuhnya ditulis ulang: pencarian pinjaman by kode → auto-populate daftar aset → dropdown kondisi per-aset (conditionBefore, conditionAfter) → catatan per-aset
+- **LoanDetailPage asset assignment dialog** — Dialog pencarian & assign aset IN_STORAGE ke pinjaman yang disetujui, dengan checkbox selection dan search filter
+- **LoanDetailPage execute button** — Tombol eksekusi pinjaman saat status APPROVED dan aset sudah di-assign
+- **RequestDetailPage partial approval dialog** — Dialog approval dengan per-item qty adjustment (min/max validation) untuk partial approval
+- **RequestDetailPage post-approval transitions** — Tombol transisi status: Proses Pengadaan, Tandai Dikirim, Tandai Diterima, Selesai
+
+#### Changed
+
+- **`requestApi.approve`** — Menerima `itemAdjustments` parameter untuk partial approval
+- **`loanApi.assignAssets`** — Menerima `version` parameter, endpoint diperbaiki ke `/loans/${uuid}/assign-assets`
+- **`loanApi.execute`** & **`handoverApi.execute`** — Endpoint baru ditambahkan di API client
+- **Transaction hooks** — Ditambahkan: `useExecuteRequest`, `useAssignLoanAssets`, `useExecuteLoan`, `useExecuteHandover`
+- **Transaction types** — `RequestItem` ditambahkan `approvedQuantity`, `LoanRequest` ditambahkan `assetAssignments` dan `returns`, interface `LoanAssetAssignment` baru
+
+#### Fixed
+
+- **Handover execute asset status** — Backend `handover.service.ts` sekarang mengupdate status aset ke `IN_USE` saat eksekusi serah terima (sebelumnya hanya update `currentUserId`)
+
+#### Agents Involved
+
+- `frontend` — All UI changes (detail pages, forms, hooks, API client, types)
+- `backend` — Handover service fix (asset status IN_USE)
+
+---
+
+### [2026-04-14] — Sprint 1: Core Transaction Workflows (P0 CRITICAL)
+
+#### Added
+
+- **StockMovementService** (`stock-movements/stock-movement.service.ts`) — Shared service for creating stock movement records. Supports standalone and transactional usage via optional `tx` parameter. Methods: `create()`, `createMany()`, `findByAsset()`
+- **StockMovementModule** — Exported module imported by handover, loan, return, and repair modules
+- **Handover execute: TRANSFER stock movement + PIC update** — On handover execute, each asset's `currentUserId` is updated to `toUserId`, and a `TRANSFER` StockMovement record is created per item
+- **Loan execute: OUT stock movement + asset custody** — On loan execute, each assigned asset status changes to `IN_CUSTODY`, `currentUserId` set to borrower, and `OUT` StockMovement created per assignment
+- **Return execute: IN stock movement + condition assessment** — On return execute, assets return to `IN_STORAGE` (or `DAMAGED` if condition is POOR/BROKEN), `currentUserId` cleared, `IN` StockMovement created. Auto-creates Repair record if asset condition is POOR/BROKEN
+- **Return execute: auto-complete loan** — When all assigned assets of a loan are returned (COMPLETED returns), the loan status automatically transitions to COMPLETED
+- **Repair execute/complete: stock movements** — Execute creates `OUT` movement (asset entering repair), complete creates `IN` movement (asset back from repair)
+- **Approval chain engine rewrite** (`approval.service.ts`) — New `ApprovalChainStep` interface with status tracking (PENDING/APPROVED/REJECTED/SKIPPED), `processApproval()`, `processRejection()`, `parseChain()` for backward compat, `buildApprovalChain()`, `isChainComplete()`
+- **Self-approval prevention** — All transaction services (request, loan, handover, repair, return) validate `createdById !== approverId`, returning 422 UnprocessableEntityException
+- **Partial approval** (`ApproveRequestDto`) — Request approve now accepts `itemAdjustments[]` with per-item `approvedQuantity`. Validates qty doesn't exceed requested amount. Schema migration adds `approved_quantity` column to `request_items`
+- **Loan asset assignment** (`PATCH /loans/:id/assign-assets`) — New endpoint + `AssignAssetsDto`. Admin Logistik assigns specific assets (by ID) to an approved loan. Validates assets exist and are `IN_STORAGE`. Replace strategy for re-assignment
+- **Request post-approval lifecycle** — State machine: APPROVED → PURCHASING → IN_DELIVERY → ARRIVED → COMPLETED. Each `execute` call advances to the next valid state
+- **JWT fullName** — Added `fullName` to JwtPayload interface and auth service for approval tracking
+
+#### Changed
+
+- All transaction controllers' `execute` endpoints now accept `@CurrentUser()` to pass `userId` for stock movement `createdById`
+- Repair controller `complete` endpoint now accepts `@CurrentUser()` for stock movement tracking
+- Request controller `approve` now uses `ApproveRequestDto` body instead of separate `@Body()` params
+
+#### Database Migrations
+
+- `20260413121440_add_approved_quantity_to_request_items` — Adds nullable `approved_quantity` INT column to `request_items` table
+
+#### Agents Involved
+
+- `backend` — All service/controller/module changes
+- `database` — Schema migration for `approvedQuantity`
+
+---
+
+### [2026-04-13] — Sprint 1: Bugfix — TS Compilation Errors
+
+#### Fixed
+
+- **Duplicate `UserRole` import** in `handover.controller.ts` — Removed duplicate import line that caused TS2300
+- **Notification action type widened** (`notification.service.ts`) — Added `'ASSETS_ASSIGNED'`, `'PURCHASING'`, `'IN_DELIVERY'`, `'ARRIVED'` to `notifyTransactionStatusChange()` action union type to support new transaction lifecycle states
+- **Request execute notification type cast** (`request.service.ts`) — Fixed `TRANSITION_LABELS` return type mismatch by applying explicit type assertion
+
+#### Agents Involved
+
+- `backend` — Bug fixes for TypeScript compilation errors
+
+---
+
 ### [2026-04-14] — Phase 3–5: Security Hardening (Optimistic Locking, Permission UI, Error Handling)
 
 #### Added

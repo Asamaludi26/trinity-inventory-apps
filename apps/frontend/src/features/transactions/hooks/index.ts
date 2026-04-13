@@ -5,6 +5,7 @@ export {
   useCancelRequest,
   useApproveRequest,
   useRejectRequest,
+  useExecuteRequest,
 } from './useRequests';
 export {
   useLoans,
@@ -13,6 +14,8 @@ export {
   useCancelLoan,
   useApproveLoan,
   useRejectLoan,
+  useAssignLoanAssets,
+  useExecuteLoan,
 } from './useLoans';
 export {
   useReturns,
@@ -29,6 +32,7 @@ export {
   useCreateHandover,
   useApproveHandover,
   useRejectHandover,
+  useExecuteHandover,
 } from './useHandovers';
 export {
   useRepairs,

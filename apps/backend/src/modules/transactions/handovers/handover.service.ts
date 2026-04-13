@@ -11,6 +11,7 @@ import { CreateHandoverDto } from './dto/create-handover.dto';
 import { UpdateHandoverDto } from './dto/update-handover.dto';
 import { FilterHandoverDto } from './dto/filter-handover.dto';
 import { ApprovalService } from '../approval/approval.service';
+import { StockMovementService } from '../stock-movements/stock-movement.service';
 import {
   Prisma,
   TransactionStatus,
@@ -22,6 +23,7 @@ export class HandoverService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly approvalService: ApprovalService,
+    private readonly stockMovementService: StockMovementService,
     private readonly notificationService: NotificationService,
     private readonly eventsService: EventsService,
   ) {}
@@ -113,9 +115,9 @@ export class HandoverService {
 
   async create(dto: CreateHandoverDto, userId: number, userRole: UserRole) {
     const code = await this.generateCode();
-    const approvalChain = this.approvalService.determineApprovalChain(
+    const approvalChain = this.approvalService.buildApprovalChain(
       userRole,
-      'handovers',
+      'HANDOVER',
     );
 
     return this.prisma.handover.create({
@@ -125,7 +127,7 @@ export class HandoverService {
         toUserId: dto.toUserId,
         witnessUserId: dto.witnessUserId,
         note: dto.note,
-        approvalChain,
+        approvalChain: approvalChain as unknown as Prisma.InputJsonValue,
         items: {
           create: dto.items.map((item) => ({
             assetId: item.assetId,
@@ -155,28 +157,47 @@ export class HandoverService {
     });
   }
 
-  async approve(id: string, version: number) {
+  async approve(
+    id: string,
+    version: number,
+    approverId: number,
+    approverRole: UserRole,
+    approverName: string,
+    note?: string,
+  ) {
     const existing = await this.findOne(id);
     if (
-      !(
-        [
-          TransactionStatus.PENDING,
-          TransactionStatus.LOGISTIC_APPROVED,
-        ] as string[]
-      ).includes(existing.status)
+      existing.status === TransactionStatus.REJECTED ||
+      existing.status === TransactionStatus.CANCELLED ||
+      existing.status === TransactionStatus.COMPLETED
     ) {
       throw new BadRequestException(
         'Serah terima tidak dalam status yang dapat di-approve',
       );
     }
-    const nextStatus =
-      existing.status === TransactionStatus.PENDING
-        ? TransactionStatus.LOGISTIC_APPROVED
-        : TransactionStatus.APPROVED;
+
+    const chain = this.approvalService.parseChain(existing.approvalChain);
+    const updatedChain = this.approvalService.processApproval(
+      chain,
+      approverRole,
+      approverId,
+      approverName,
+      existing.fromUserId,
+      note,
+    );
+
+    const isComplete = this.approvalService.isChainComplete(updatedChain);
+    const nextStatus = isComplete
+      ? TransactionStatus.APPROVED
+      : TransactionStatus.LOGISTIC_APPROVED;
 
     const { count } = await this.prisma.handover.updateMany({
       where: { id, version },
-      data: { status: nextStatus, version: { increment: 1 } },
+      data: {
+        status: nextStatus,
+        approvalChain: updatedChain as unknown as Prisma.InputJsonValue,
+        version: { increment: 1 },
+      },
     });
 
     if (count === 0) {
@@ -208,7 +229,14 @@ export class HandoverService {
     return result;
   }
 
-  async reject(id: string, reason: string, version: number) {
+  async reject(
+    id: string,
+    reason: string,
+    version: number,
+    approverId: number,
+    approverRole: UserRole,
+    approverName: string,
+  ) {
     const existing = await this.findOne(id);
     if (
       existing.status === TransactionStatus.REJECTED ||
@@ -219,11 +247,22 @@ export class HandoverService {
       );
     }
 
+    const chain = this.approvalService.parseChain(existing.approvalChain);
+    const updatedChain = this.approvalService.processRejection(
+      chain,
+      approverRole,
+      approverId,
+      approverName,
+      existing.fromUserId,
+      reason,
+    );
+
     const { count } = await this.prisma.handover.updateMany({
       where: { id, version },
       data: {
         status: TransactionStatus.REJECTED,
         rejectionReason: reason,
+        approvalChain: updatedChain as unknown as Prisma.InputJsonValue,
         version: { increment: 1 },
       },
     });
@@ -258,7 +297,7 @@ export class HandoverService {
     return result;
   }
 
-  async execute(id: string, version: number) {
+  async execute(id: string, version: number, executedById: number) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.APPROVED) {
       throw new BadRequestException(
@@ -266,18 +305,42 @@ export class HandoverService {
       );
     }
 
-    const { count } = await this.prisma.handover.updateMany({
-      where: { id, version },
-      data: { status: TransactionStatus.COMPLETED, version: { increment: 1 } },
+    const result = await this.prisma.$transaction(async (tx) => {
+      const { count } = await tx.handover.updateMany({
+        where: { id, version },
+        data: {
+          status: TransactionStatus.COMPLETED,
+          version: { increment: 1 },
+        },
+      });
+
+      if (count === 0) {
+        throw new ConflictException(
+          'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+        );
+      }
+
+      // Update asset PIC (currentUserId), status, and create TRANSFER stock movements
+      for (const item of existing.items) {
+        await tx.asset.update({
+          where: { id: item.assetId },
+          data: { status: 'IN_USE', currentUserId: existing.toUser.id },
+        });
+
+        await this.stockMovementService.create(
+          {
+            assetId: item.assetId,
+            type: 'TRANSFER',
+            reference: existing.code,
+            note: `Serah terima ke ${existing.toUser.fullName}`,
+            createdById: executedById,
+          },
+          tx,
+        );
+      }
+
+      return tx.handover.findUnique({ where: { id } });
     });
-
-    if (count === 0) {
-      throw new ConflictException(
-        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
-      );
-    }
-
-    const result = await this.prisma.handover.findUnique({ where: { id } });
 
     this.eventsService.emitTransactionUpdate({
       id,

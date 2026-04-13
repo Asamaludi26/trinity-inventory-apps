@@ -15,7 +15,12 @@ import {
   ApiResponse,
 } from '@nestjs/swagger';
 import { RequestService } from './request.service';
-import { CreateRequestDto, UpdateRequestDto, FilterRequestDto } from './dto';
+import {
+  CreateRequestDto,
+  UpdateRequestDto,
+  FilterRequestDto,
+  ApproveRequestDto,
+} from './dto';
 import { AuthPermissions, CurrentUser } from '../../../common/decorators';
 import { PERMISSIONS } from '../../../common/constants';
 import { JwtPayload } from '../../../common/interfaces';
@@ -71,9 +76,18 @@ export class RequestController {
   @ApiOperation({ summary: 'Approve permintaan barang' })
   async approve(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body('version') version: number,
+    @Body() dto: ApproveRequestDto,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.requestService.approve(id, version);
+    return this.requestService.approve(
+      id,
+      dto.version,
+      user.sub,
+      user.role as UserRole,
+      user.fullName,
+      dto.note,
+      dto.itemAdjustments,
+    );
   }
 
   @Patch(':id/reject')
@@ -83,8 +97,16 @@ export class RequestController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body('reason') reason: string,
     @Body('version') version: number,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.requestService.reject(id, reason, version);
+    return this.requestService.reject(
+      id,
+      reason,
+      version,
+      user.sub,
+      user.role as UserRole,
+      user.fullName,
+    );
   }
 
   @Patch(':id/execute')

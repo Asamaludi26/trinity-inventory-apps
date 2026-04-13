@@ -11,6 +11,7 @@ import { CreateLoanDto } from './dto/create-loan.dto';
 import { UpdateLoanDto } from './dto/update-loan.dto';
 import { FilterLoanDto } from './dto/filter-loan.dto';
 import { ApprovalService } from '../approval/approval.service';
+import { StockMovementService } from '../stock-movements/stock-movement.service';
 import {
   Prisma,
   TransactionStatus,
@@ -22,6 +23,7 @@ export class LoanService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly approvalService: ApprovalService,
+    private readonly stockMovementService: StockMovementService,
     private readonly notificationService: NotificationService,
     private readonly eventsService: EventsService,
   ) {}
@@ -116,9 +118,9 @@ export class LoanService {
 
   async create(dto: CreateLoanDto, userId: number, userRole: UserRole) {
     const code = await this.generateCode();
-    const approvalChain = this.approvalService.determineApprovalChain(
+    const approvalChain = this.approvalService.buildApprovalChain(
       userRole,
-      'loans',
+      'LOAN',
     );
 
     return this.prisma.loanRequest.create({
@@ -129,7 +131,7 @@ export class LoanService {
           ? new Date(dto.expectedReturn)
           : undefined,
         createdById: userId,
-        approvalChain,
+        approvalChain: approvalChain as unknown as Prisma.InputJsonValue,
         items: {
           create: dto.items.map((item) => ({
             modelId: item.modelId,
@@ -165,28 +167,47 @@ export class LoanService {
     });
   }
 
-  async approve(id: string, version: number) {
+  async approve(
+    id: string,
+    version: number,
+    approverId: number,
+    approverRole: UserRole,
+    approverName: string,
+    note?: string,
+  ) {
     const existing = await this.findOne(id);
     if (
-      !(
-        [
-          TransactionStatus.PENDING,
-          TransactionStatus.LOGISTIC_APPROVED,
-        ] as string[]
-      ).includes(existing.status)
+      existing.status === TransactionStatus.REJECTED ||
+      existing.status === TransactionStatus.CANCELLED ||
+      existing.status === TransactionStatus.COMPLETED
     ) {
       throw new BadRequestException(
         'Peminjaman tidak dalam status yang dapat di-approve',
       );
     }
-    const nextStatus =
-      existing.status === TransactionStatus.PENDING
-        ? TransactionStatus.LOGISTIC_APPROVED
-        : TransactionStatus.APPROVED;
+
+    const chain = this.approvalService.parseChain(existing.approvalChain);
+    const updatedChain = this.approvalService.processApproval(
+      chain,
+      approverRole,
+      approverId,
+      approverName,
+      existing.createdById,
+      note,
+    );
+
+    const isComplete = this.approvalService.isChainComplete(updatedChain);
+    const nextStatus = isComplete
+      ? TransactionStatus.APPROVED
+      : TransactionStatus.LOGISTIC_APPROVED;
 
     const { count } = await this.prisma.loanRequest.updateMany({
       where: { id, version },
-      data: { status: nextStatus, version: { increment: 1 } },
+      data: {
+        status: nextStatus,
+        approvalChain: updatedChain as unknown as Prisma.InputJsonValue,
+        version: { increment: 1 },
+      },
     });
 
     if (count === 0) {
@@ -218,7 +239,14 @@ export class LoanService {
     return result;
   }
 
-  async reject(id: string, reason: string, version: number) {
+  async reject(
+    id: string,
+    reason: string,
+    version: number,
+    approverId: number,
+    approverRole: UserRole,
+    approverName: string,
+  ) {
     const existing = await this.findOne(id);
     if (
       existing.status === TransactionStatus.REJECTED ||
@@ -227,11 +255,22 @@ export class LoanService {
       throw new BadRequestException('Peminjaman sudah ditolak atau dibatalkan');
     }
 
+    const chain = this.approvalService.parseChain(existing.approvalChain);
+    const updatedChain = this.approvalService.processRejection(
+      chain,
+      approverRole,
+      approverId,
+      approverName,
+      existing.createdById,
+      reason,
+    );
+
     const { count } = await this.prisma.loanRequest.updateMany({
       where: { id, version },
       data: {
         status: TransactionStatus.REJECTED,
         rejectionReason: reason,
+        approvalChain: updatedChain as unknown as Prisma.InputJsonValue,
         version: { increment: 1 },
       },
     });
@@ -266,7 +305,7 @@ export class LoanService {
     return result;
   }
 
-  async execute(id: string, version: number) {
+  async execute(id: string, version: number, executedById: number) {
     const existing = await this.findOne(id);
     if (existing.status !== TransactionStatus.APPROVED) {
       throw new BadRequestException(
@@ -274,21 +313,45 @@ export class LoanService {
       );
     }
 
-    const { count } = await this.prisma.loanRequest.updateMany({
-      where: { id, version },
-      data: {
-        status: TransactionStatus.IN_PROGRESS,
-        version: { increment: 1 },
-      },
+    const result = await this.prisma.$transaction(async (tx) => {
+      const { count } = await tx.loanRequest.updateMany({
+        where: { id, version },
+        data: {
+          status: TransactionStatus.IN_PROGRESS,
+          version: { increment: 1 },
+        },
+      });
+
+      if (count === 0) {
+        throw new ConflictException(
+          'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+        );
+      }
+
+      // Update each assigned asset status to IN_CUSTODY and create OUT stock movements
+      for (const assignment of existing.assetAssignments) {
+        await tx.asset.update({
+          where: { id: assignment.assetId },
+          data: {
+            status: 'IN_CUSTODY',
+            currentUserId: existing.createdById,
+          },
+        });
+
+        await this.stockMovementService.create(
+          {
+            assetId: assignment.assetId,
+            type: 'OUT',
+            reference: existing.code,
+            note: `Peminjaman oleh ${existing.createdBy.fullName}`,
+            createdById: executedById,
+          },
+          tx,
+        );
+      }
+
+      return tx.loanRequest.findUnique({ where: { id } });
     });
-
-    if (count === 0) {
-      throw new ConflictException(
-        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
-      );
-    }
-
-    const result = await this.prisma.loanRequest.findUnique({ where: { id } });
 
     this.eventsService.emitTransactionUpdate({
       id,
@@ -304,6 +367,107 @@ export class LoanService {
         transactionType: 'Peminjaman',
         transactionCode: existing.code,
         action: 'EXECUTED',
+        link: `/transactions/loans/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
+  }
+
+  async assignAssets(
+    id: string,
+    assetIds: string[],
+    version: number,
+    _assignedById: number,
+  ) {
+    const existing = await this.findOne(id);
+    if (
+      existing.status !== TransactionStatus.APPROVED &&
+      existing.status !== TransactionStatus.LOGISTIC_APPROVED
+    ) {
+      throw new BadRequestException(
+        'Aset hanya dapat di-assign pada peminjaman yang sudah di-approve',
+      );
+    }
+
+    // Validate all assets exist and are IN_STORAGE
+    const assets = await this.prisma.asset.findMany({
+      where: {
+        id: { in: assetIds },
+        isDeleted: false,
+      },
+      select: { id: true, code: true, name: true, status: true },
+    });
+
+    if (assets.length !== assetIds.length) {
+      const foundIds = new Set(assets.map((a) => a.id));
+      const missing = assetIds.filter((aid) => !foundIds.has(aid));
+      throw new BadRequestException(
+        `Aset tidak ditemukan: ${missing.join(', ')}`,
+      );
+    }
+
+    const unavailable = assets.filter((a) => a.status !== 'IN_STORAGE');
+    if (unavailable.length > 0) {
+      throw new BadRequestException(
+        `Aset tidak tersedia (bukan IN_STORAGE): ${unavailable.map((a) => a.code).join(', ')}`,
+      );
+    }
+
+    const result = await this.prisma.$transaction(async (tx) => {
+      // Remove existing assignments (replace strategy)
+      await tx.loanAssetAssignment.deleteMany({
+        where: { loanRequestId: id },
+      });
+
+      // Create new assignments
+      await tx.loanAssetAssignment.createMany({
+        data: assetIds.map((assetId) => ({
+          loanRequestId: id,
+          assetId,
+        })),
+      });
+
+      // Update version
+      const { count } = await tx.loanRequest.updateMany({
+        where: { id, version },
+        data: { version: { increment: 1 } },
+      });
+
+      if (count === 0) {
+        throw new ConflictException(
+          'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+        );
+      }
+
+      return tx.loanRequest.findUnique({
+        where: { id },
+        include: {
+          items: true,
+          assetAssignments: {
+            include: {
+              asset: { select: { id: true, code: true, name: true } },
+            },
+          },
+          createdBy: { select: { id: true, fullName: true } },
+        },
+      });
+    });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'loan',
+      status: existing.status,
+      version: existing.version + 1,
+    });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Peminjaman',
+        transactionCode: existing.code,
+        action: 'ASSETS_ASSIGNED',
         link: `/transactions/loans/${id}`,
       })
       .catch(() => {});

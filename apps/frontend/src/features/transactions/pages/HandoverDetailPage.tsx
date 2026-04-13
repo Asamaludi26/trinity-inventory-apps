@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, CheckCircle, XCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle, XCircle, Play } from 'lucide-react';
 import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -16,7 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useHandover, useApproveHandover, useRejectHandover } from '../hooks';
+import { useHandover, useApproveHandover, useRejectHandover, useExecuteHandover } from '../hooks';
 import { RejectDialog } from '../components';
 import { AttachmentSection } from '@/components/form';
 import { usePermissions } from '@/hooks';
@@ -36,6 +36,7 @@ export function HandoverDetailPage() {
   const { data: handover, isLoading } = useHandover(uuid);
   const approveHandover = useApproveHandover();
   const rejectHandover = useRejectHandover();
+  const executeHandover = useExecuteHandover();
   const [rejectOpen, setRejectOpen] = useState(false);
   const { can } = usePermissions();
 
@@ -60,6 +61,17 @@ export function HandoverDetailPage() {
           setRejectOpen(false);
         },
         onError: () => toast.error('Gagal menolak serah terima'),
+      },
+    );
+  };
+
+  const handleExecute = () => {
+    if (!uuid || !handover) return;
+    executeHandover.mutate(
+      { uuid, version: handover.version },
+      {
+        onSuccess: () => toast.success('Serah terima berhasil dieksekusi'),
+        onError: () => toast.error('Gagal mengeksekusi serah terima'),
       },
     );
   };
@@ -89,7 +101,9 @@ export function HandoverDetailPage() {
   }
 
   const isPending = handover.status === 'PENDING';
+  const isApproved = handover.status === 'APPROVED';
   const canApprove = isPending && can(P.ASSETS_HANDOVER);
+  const canExecute = isApproved && can(P.ASSETS_HANDOVER);
 
   return (
     <PageContainer
@@ -115,6 +129,12 @@ export function HandoverDetailPage() {
                 Reject
               </Button>
             </>
+          )}
+          {canExecute && (
+            <Button variant="default" onClick={handleExecute} disabled={executeHandover.isPending}>
+              <Play className="mr-2 h-4 w-4" />
+              {executeHandover.isPending ? 'Memproses...' : 'Eksekusi'}
+            </Button>
           )}
         </div>
       }

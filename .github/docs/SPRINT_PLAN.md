@@ -22,13 +22,13 @@
 | Auth & JWT Flow               | ✅ Lengkap         |   95%    |
 | RBAC & Permissions            | ✅ Lengkap         |   90%    |
 | Approval Workflow Engine      | ⚠️ Partial         |   75%    |
-| Notification System (SSE/WS)  | ⚠️ Partial         |   50%    |
+| Notification System (SSE/WS)  | ✅ Lengkap         |   95%    |
 | Dashboard (Role-based)        | ✅ Lengkap         |   85%    |
 | Export/Import                 | ⚠️ Partial         |   60%    |
 | QR Code Integration           | ⚠️ Partial         |   50%    |
-| Stock Management & Threshold  | ⚠️ Partial         |   70%    |
+| Stock Management & Threshold  | ✅ Lengkap         |   90%    |
 | Audit Trail/Activity Log      | ⚠️ Backend Only    |   60%    |
-| Cron Jobs (Overdue, Reminder) | ❌ Not Implemented |    0%    |
+| Cron Jobs (Overdue, Reminder) | ✅ Lengkap         |   95%    |
 | WhatsApp Integration          | ❌ Not Implemented |    0%    |
 
 ### Gap Analysis (Dokumentasi vs Implementasi)
@@ -112,14 +112,14 @@ Berikut gap yang ditemukan antara 4 dokumen referensi dan kode saat ini:
 
 **Acceptance Criteria Sprint 2:**
 
-- [ ] Notifikasi real-time muncul di header saat ada approval request
-- [ ] Halaman notifikasi: list, read/unread, badge count
-- [ ] Loan overdue otomatis terdeteksi dan notif terkirim
-- [ ] Reminder H-3 dan H-1 berjalan otomatis
-- [ ] Repair: 3 jalur resolution (internal, service center, decommission)
-- [ ] Login pertama paksa ganti password
-- [ ] Stock threshold alert trigger notifikasi
-- [ ] Quality Gate passed
+- [x] Notifikasi real-time muncul di header saat ada approval request
+- [x] Halaman notifikasi: list, read/unread, badge count
+- [x] Loan overdue otomatis terdeteksi dan notif terkirim
+- [x] Reminder H-3 dan H-1 berjalan otomatis
+- [x] Repair: 3 jalur resolution (internal, service center, decommission)
+- [x] Login pertama paksa ganti password
+- [x] Stock threshold alert trigger notifikasi
+- [x] Quality Gate passed
 
 ---
 

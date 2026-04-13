@@ -10,6 +10,7 @@ export interface UserData {
   division?: { id: number; name: string; code: string } | null;
   permissions?: Record<string, boolean> | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
 }
 
 interface AuthState {

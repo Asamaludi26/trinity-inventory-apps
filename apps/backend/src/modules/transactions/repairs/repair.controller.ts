@@ -75,8 +75,17 @@ export class RepairController {
   async approve(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('version') version: number,
+    @Body('note') note: string,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.repairService.approve(id, version);
+    return this.repairService.approve(
+      id,
+      version,
+      user.sub,
+      user.role as UserRole,
+      user.fullName,
+      note,
+    );
   }
 
   @Patch(':id/reject')
@@ -86,8 +95,16 @@ export class RepairController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body('reason') reason: string,
     @Body('version') version: number,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.repairService.reject(id, reason, version);
+    return this.repairService.reject(
+      id,
+      reason,
+      version,
+      user.sub,
+      user.role as UserRole,
+      user.fullName,
+    );
   }
 
   @Patch(':id/execute')
@@ -96,8 +113,9 @@ export class RepairController {
   async execute(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('version') version: number,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.repairService.execute(id, version);
+    return this.repairService.execute(id, version, user.sub);
   }
 
   @Patch(':id/complete')
@@ -112,9 +130,49 @@ export class RepairController {
       repairCost?: number;
       version: number;
     },
+    @CurrentUser() user: JwtPayload,
   ) {
     const { version, ...repairData } = data;
-    return this.repairService.complete(id, repairData, version);
+    return this.repairService.complete(id, repairData, version, user.sub);
+  }
+
+  @Patch(':id/send-out')
+  @AuthPermissions(PERMISSIONS.ASSETS_REPAIR_MANAGE)
+  @ApiOperation({ summary: 'Kirim aset ke service center eksternal' })
+  async sendOutForRepair(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body()
+    data: {
+      repairVendor: string;
+      note?: string;
+      version: number;
+    },
+    @CurrentUser() user: JwtPayload,
+  ) {
+    const { version, ...repairData } = data;
+    return this.repairService.sendOutForRepair(
+      id,
+      repairData,
+      version,
+      user.sub,
+    );
+  }
+
+  @Patch(':id/decommission')
+  @AuthPermissions(PERMISSIONS.ASSETS_REPAIR_MANAGE)
+  @ApiOperation({ summary: 'Decommission aset yang tidak dapat diperbaiki' })
+  async decommission(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body()
+    data: {
+      repairAction?: string;
+      note?: string;
+      version: number;
+    },
+    @CurrentUser() user: JwtPayload,
+  ) {
+    const { version, ...repairData } = data;
+    return this.repairService.decommission(id, repairData, version, user.sub);
   }
 
   @Patch(':id/cancel')

@@ -49,6 +49,7 @@ export type UserMinAggregateOutputType = {
   divisionId: number | null;
   phone: string | null;
   avatarUrl: string | null;
+  mustChangePassword: boolean | null;
   isActive: boolean | null;
   isDeleted: boolean | null;
   tokenVersion: number | null;
@@ -68,6 +69,7 @@ export type UserMaxAggregateOutputType = {
   divisionId: number | null;
   phone: string | null;
   avatarUrl: string | null;
+  mustChangePassword: boolean | null;
   isActive: boolean | null;
   isDeleted: boolean | null;
   tokenVersion: number | null;
@@ -88,6 +90,7 @@ export type UserCountAggregateOutputType = {
   permissions: number;
   phone: number;
   avatarUrl: number;
+  mustChangePassword: number;
   isActive: number;
   isDeleted: number;
   tokenVersion: number;
@@ -120,6 +123,7 @@ export type UserMinAggregateInputType = {
   divisionId?: true;
   phone?: true;
   avatarUrl?: true;
+  mustChangePassword?: true;
   isActive?: true;
   isDeleted?: true;
   tokenVersion?: true;
@@ -139,6 +143,7 @@ export type UserMaxAggregateInputType = {
   divisionId?: true;
   phone?: true;
   avatarUrl?: true;
+  mustChangePassword?: true;
   isActive?: true;
   isDeleted?: true;
   tokenVersion?: true;
@@ -159,6 +164,7 @@ export type UserCountAggregateInputType = {
   permissions?: true;
   phone?: true;
   avatarUrl?: true;
+  mustChangePassword?: true;
   isActive?: true;
   isDeleted?: true;
   tokenVersion?: true;
@@ -273,6 +279,7 @@ export type UserGroupByOutputType = {
   permissions: runtime.JsonValue | null;
   phone: string | null;
   avatarUrl: string | null;
+  mustChangePassword: boolean;
   isActive: boolean;
   isDeleted: boolean;
   tokenVersion: number;
@@ -314,6 +321,7 @@ export type UserWhereInput = {
   permissions?: Prisma.JsonNullableFilter<'User'>;
   phone?: Prisma.StringNullableFilter<'User'> | string | null;
   avatarUrl?: Prisma.StringNullableFilter<'User'> | string | null;
+  mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
   isActive?: Prisma.BoolFilter<'User'> | boolean;
   isDeleted?: Prisma.BoolFilter<'User'> | boolean;
   tokenVersion?: Prisma.IntFilter<'User'> | number;
@@ -354,6 +362,7 @@ export type UserOrderByWithRelationInput = {
   permissions?: Prisma.SortOrderInput | Prisma.SortOrder;
   phone?: Prisma.SortOrderInput | Prisma.SortOrder;
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
+  mustChangePassword?: Prisma.SortOrder;
   isActive?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
@@ -395,6 +404,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     permissions?: Prisma.JsonNullableFilter<'User'>;
     phone?: Prisma.StringNullableFilter<'User'> | string | null;
     avatarUrl?: Prisma.StringNullableFilter<'User'> | string | null;
+    mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
     isActive?: Prisma.BoolFilter<'User'> | boolean;
     isDeleted?: Prisma.BoolFilter<'User'> | boolean;
     tokenVersion?: Prisma.IntFilter<'User'> | number;
@@ -437,6 +447,7 @@ export type UserOrderByWithAggregationInput = {
   permissions?: Prisma.SortOrderInput | Prisma.SortOrder;
   phone?: Prisma.SortOrderInput | Prisma.SortOrder;
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
+  mustChangePassword?: Prisma.SortOrder;
   isActive?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
@@ -469,6 +480,7 @@ export type UserScalarWhereWithAggregatesInput = {
   permissions?: Prisma.JsonNullableWithAggregatesFilter<'User'>;
   phone?: Prisma.StringNullableWithAggregatesFilter<'User'> | string | null;
   avatarUrl?: Prisma.StringNullableWithAggregatesFilter<'User'> | string | null;
+  mustChangePassword?: Prisma.BoolWithAggregatesFilter<'User'> | boolean;
   isActive?: Prisma.BoolWithAggregatesFilter<'User'> | boolean;
   isDeleted?: Prisma.BoolWithAggregatesFilter<'User'> | boolean;
   tokenVersion?: Prisma.IntWithAggregatesFilter<'User'> | number;
@@ -491,6 +503,7 @@ export type UserCreateInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -528,6 +541,7 @@ export type UserUncheckedCreateInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -562,6 +576,7 @@ export type UserUpdateInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -603,6 +618,7 @@ export type UserUncheckedUpdateInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -643,6 +659,7 @@ export type UserCreateManyInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -661,6 +678,7 @@ export type UserUpdateManyMutationInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -685,6 +703,7 @@ export type UserUncheckedUpdateManyInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -719,6 +738,7 @@ export type UserCountOrderByAggregateInput = {
   permissions?: Prisma.SortOrder;
   phone?: Prisma.SortOrder;
   avatarUrl?: Prisma.SortOrder;
+  mustChangePassword?: Prisma.SortOrder;
   isActive?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
@@ -744,6 +764,7 @@ export type UserMaxOrderByAggregateInput = {
   divisionId?: Prisma.SortOrder;
   phone?: Prisma.SortOrder;
   avatarUrl?: Prisma.SortOrder;
+  mustChangePassword?: Prisma.SortOrder;
   isActive?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
@@ -763,6 +784,7 @@ export type UserMinOrderByAggregateInput = {
   divisionId?: Prisma.SortOrder;
   phone?: Prisma.SortOrder;
   avatarUrl?: Prisma.SortOrder;
+  mustChangePassword?: Prisma.SortOrder;
   isActive?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
@@ -1307,6 +1329,7 @@ export type UserCreateWithoutCurrentAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -1343,6 +1366,7 @@ export type UserUncheckedCreateWithoutCurrentAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -1384,6 +1408,7 @@ export type UserCreateWithoutRecordedAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -1420,6 +1445,7 @@ export type UserUncheckedCreateWithoutRecordedAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -1481,6 +1507,7 @@ export type UserUpdateWithoutCurrentAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -1521,6 +1548,7 @@ export type UserUncheckedUpdateWithoutCurrentAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -1578,6 +1606,7 @@ export type UserUpdateWithoutRecordedAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -1618,6 +1647,7 @@ export type UserUncheckedUpdateWithoutRecordedAssetsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -1655,6 +1685,7 @@ export type UserCreateWithoutDivisionInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -1690,6 +1721,7 @@ export type UserUncheckedCreateWithoutDivisionInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -1772,6 +1804,7 @@ export type UserScalarWhereInput = {
   permissions?: Prisma.JsonNullableFilter<'User'>;
   phone?: Prisma.StringNullableFilter<'User'> | string | null;
   avatarUrl?: Prisma.StringNullableFilter<'User'> | string | null;
+  mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
   isActive?: Prisma.BoolFilter<'User'> | boolean;
   isDeleted?: Prisma.BoolFilter<'User'> | boolean;
   tokenVersion?: Prisma.IntFilter<'User'> | number;
@@ -1790,6 +1823,7 @@ export type UserCreateWithoutCreatedPurchasesInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -1826,6 +1860,7 @@ export type UserUncheckedCreateWithoutCreatedPurchasesInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -1887,6 +1922,7 @@ export type UserUpdateWithoutCreatedPurchasesInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -1927,6 +1963,7 @@ export type UserUncheckedUpdateWithoutCreatedPurchasesInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -1964,6 +2001,7 @@ export type UserCreateWithoutCreatedDepreciationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -2000,6 +2038,7 @@ export type UserUncheckedCreateWithoutCreatedDepreciationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -2061,6 +2100,7 @@ export type UserUpdateWithoutCreatedDepreciationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2101,6 +2141,7 @@ export type UserUncheckedUpdateWithoutCreatedDepreciationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2138,6 +2179,7 @@ export type UserCreateWithoutStockThresholdsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -2174,6 +2216,7 @@ export type UserUncheckedCreateWithoutStockThresholdsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -2235,6 +2278,7 @@ export type UserUpdateWithoutStockThresholdsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2275,6 +2319,7 @@ export type UserUncheckedUpdateWithoutStockThresholdsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2312,6 +2357,7 @@ export type UserCreateWithoutStockMovementsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -2348,6 +2394,7 @@ export type UserUncheckedCreateWithoutStockMovementsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -2409,6 +2456,7 @@ export type UserUpdateWithoutStockMovementsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2449,6 +2497,7 @@ export type UserUncheckedUpdateWithoutStockMovementsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2486,6 +2535,7 @@ export type UserCreateWithoutAttachmentsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -2522,6 +2572,7 @@ export type UserUncheckedCreateWithoutAttachmentsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -2583,6 +2634,7 @@ export type UserUpdateWithoutAttachmentsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2623,6 +2675,7 @@ export type UserUncheckedUpdateWithoutAttachmentsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2660,6 +2713,7 @@ export type UserCreateWithoutActivityLogsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -2696,6 +2750,7 @@ export type UserUncheckedCreateWithoutActivityLogsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -2757,6 +2812,7 @@ export type UserUpdateWithoutActivityLogsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2797,6 +2853,7 @@ export type UserUncheckedUpdateWithoutActivityLogsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2834,6 +2891,7 @@ export type UserCreateWithoutNotificationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -2870,6 +2928,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -2931,6 +2990,7 @@ export type UserUpdateWithoutNotificationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -2971,6 +3031,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3008,6 +3069,7 @@ export type UserCreateWithoutCreatedRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -3044,6 +3106,7 @@ export type UserUncheckedCreateWithoutCreatedRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -3105,6 +3168,7 @@ export type UserUpdateWithoutCreatedRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3145,6 +3209,7 @@ export type UserUncheckedUpdateWithoutCreatedRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3182,6 +3247,7 @@ export type UserCreateWithoutCreatedLoanRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -3218,6 +3284,7 @@ export type UserUncheckedCreateWithoutCreatedLoanRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -3279,6 +3346,7 @@ export type UserUpdateWithoutCreatedLoanRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3319,6 +3387,7 @@ export type UserUncheckedUpdateWithoutCreatedLoanRequestsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3356,6 +3425,7 @@ export type UserCreateWithoutCreatedAssetReturnsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -3392,6 +3462,7 @@ export type UserUncheckedCreateWithoutCreatedAssetReturnsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -3453,6 +3524,7 @@ export type UserUpdateWithoutCreatedAssetReturnsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3493,6 +3565,7 @@ export type UserUncheckedUpdateWithoutCreatedAssetReturnsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3530,6 +3603,7 @@ export type UserCreateWithoutHandoversFromInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -3566,6 +3640,7 @@ export type UserUncheckedCreateWithoutHandoversFromInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -3607,6 +3682,7 @@ export type UserCreateWithoutHandoversToInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -3643,6 +3719,7 @@ export type UserUncheckedCreateWithoutHandoversToInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -3684,6 +3761,7 @@ export type UserCreateWithoutHandoversWitnessInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -3720,6 +3798,7 @@ export type UserUncheckedCreateWithoutHandoversWitnessInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -3781,6 +3860,7 @@ export type UserUpdateWithoutHandoversFromInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3821,6 +3901,7 @@ export type UserUncheckedUpdateWithoutHandoversFromInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3878,6 +3959,7 @@ export type UserUpdateWithoutHandoversToInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3918,6 +4000,7 @@ export type UserUncheckedUpdateWithoutHandoversToInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -3975,6 +4058,7 @@ export type UserUpdateWithoutHandoversWitnessInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4015,6 +4099,7 @@ export type UserUncheckedUpdateWithoutHandoversWitnessInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4052,6 +4137,7 @@ export type UserCreateWithoutCreatedRepairsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -4088,6 +4174,7 @@ export type UserUncheckedCreateWithoutCreatedRepairsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -4149,6 +4236,7 @@ export type UserUpdateWithoutCreatedRepairsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4189,6 +4277,7 @@ export type UserUncheckedUpdateWithoutCreatedRepairsInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4227,6 +4316,7 @@ export type UserCreateManyDivisionInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: string | null;
   avatarUrl?: string | null;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: number;
@@ -4245,6 +4335,7 @@ export type UserUpdateWithoutDivisionInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4284,6 +4375,7 @@ export type UserUncheckedUpdateWithoutDivisionInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4323,6 +4415,7 @@ export type UserUncheckedUpdateManyWithoutDivisionInput = {
   permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
@@ -4575,6 +4668,7 @@ export type UserSelect<
     permissions?: boolean;
     phone?: boolean;
     avatarUrl?: boolean;
+    mustChangePassword?: boolean;
     isActive?: boolean;
     isDeleted?: boolean;
     tokenVersion?: boolean;
@@ -4625,6 +4719,7 @@ export type UserSelectCreateManyAndReturn<
     permissions?: boolean;
     phone?: boolean;
     avatarUrl?: boolean;
+    mustChangePassword?: boolean;
     isActive?: boolean;
     isDeleted?: boolean;
     tokenVersion?: boolean;
@@ -4652,6 +4747,7 @@ export type UserSelectUpdateManyAndReturn<
     permissions?: boolean;
     phone?: boolean;
     avatarUrl?: boolean;
+    mustChangePassword?: boolean;
     isActive?: boolean;
     isDeleted?: boolean;
     tokenVersion?: boolean;
@@ -4675,6 +4771,7 @@ export type UserSelectScalar = {
   permissions?: boolean;
   phone?: boolean;
   avatarUrl?: boolean;
+  mustChangePassword?: boolean;
   isActive?: boolean;
   isDeleted?: boolean;
   tokenVersion?: boolean;
@@ -4698,6 +4795,7 @@ export type UserOmit<
   | 'permissions'
   | 'phone'
   | 'avatarUrl'
+  | 'mustChangePassword'
   | 'isActive'
   | 'isDeleted'
   | 'tokenVersion'
@@ -4781,6 +4879,7 @@ export type $UserPayload<
       permissions: runtime.JsonValue | null;
       phone: string | null;
       avatarUrl: string | null;
+      mustChangePassword: boolean;
       isActive: boolean;
       isDeleted: boolean;
       tokenVersion: number;
@@ -5585,6 +5684,7 @@ export interface UserFieldRefs {
   readonly permissions: Prisma.FieldRef<'User', 'Json'>;
   readonly phone: Prisma.FieldRef<'User', 'String'>;
   readonly avatarUrl: Prisma.FieldRef<'User', 'String'>;
+  readonly mustChangePassword: Prisma.FieldRef<'User', 'Boolean'>;
   readonly isActive: Prisma.FieldRef<'User', 'Boolean'>;
   readonly isDeleted: Prisma.FieldRef<'User', 'Boolean'>;
   readonly tokenVersion: Prisma.FieldRef<'User', 'Int'>;

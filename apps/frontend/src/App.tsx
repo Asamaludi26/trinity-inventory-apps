@@ -27,6 +27,11 @@ const router = createBrowserRouter([
       {
         element: <AuthGuard />,
         children: [
+          // Change password page (outside AppLayout — standalone)
+          {
+            path: '/change-password',
+            lazy: () => import('./features/auth/pages/ChangePasswordPage'),
+          },
           {
             element: <AppLayout />,
             children: [

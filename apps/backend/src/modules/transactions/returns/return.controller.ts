@@ -19,6 +19,7 @@ import { CreateReturnDto, UpdateReturnDto, FilterReturnDto } from './dto';
 import { AuthPermissions, CurrentUser } from '../../../common/decorators';
 import { PERMISSIONS } from '../../../common/constants';
 import { JwtPayload } from '../../../common/interfaces';
+import { UserRole } from '../../../generated/prisma/client';
 
 @ApiTags('Returns')
 @ApiBearerAuth('access-token')
@@ -71,8 +72,17 @@ export class ReturnController {
   async approve(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('version') version: number,
+    @Body('note') note: string,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.returnService.approve(id, version);
+    return this.returnService.approve(
+      id,
+      version,
+      user.sub,
+      user.role as UserRole,
+      user.fullName,
+      note,
+    );
   }
 
   @Patch(':id/reject')
@@ -82,8 +92,16 @@ export class ReturnController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body('reason') reason: string,
     @Body('version') version: number,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.returnService.reject(id, reason, version);
+    return this.returnService.reject(
+      id,
+      reason,
+      version,
+      user.sub,
+      user.role as UserRole,
+      user.fullName,
+    );
   }
 
   @Patch(':id/execute')
@@ -92,8 +110,9 @@ export class ReturnController {
   async execute(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('version') version: number,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.returnService.execute(id, version);
+    return this.returnService.execute(id, version, user.sub);
   }
 
   @Patch(':id/cancel')

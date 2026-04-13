@@ -24,6 +24,7 @@ model User {
   permissions   Json?    @db.JsonB
   phone         String?  @db.VarChar(20)
   avatarUrl     String?  @map("avatar_url") @db.VarChar(500)
+  mustChangePassword Boolean @default(false) @map("must_change_password")
   isActive      Boolean  @default(true) @map("is_active")
   isDeleted     Boolean  @default(false) @map("is_deleted")
   tokenVersion  Int      @default(0) @map("token_version")

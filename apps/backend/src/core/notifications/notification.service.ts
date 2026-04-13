@@ -69,7 +69,16 @@ export class NotificationService {
     recipientUserId: number;
     transactionType: string;
     transactionCode: string;
-    action: 'APPROVED' | 'REJECTED' | 'EXECUTED' | 'CANCELLED' | 'COMPLETED';
+    action:
+      | 'APPROVED'
+      | 'REJECTED'
+      | 'EXECUTED'
+      | 'CANCELLED'
+      | 'COMPLETED'
+      | 'ASSETS_ASSIGNED'
+      | 'PURCHASING'
+      | 'IN_DELIVERY'
+      | 'ARRIVED';
     link: string;
     reason?: string;
   }) {
@@ -109,6 +118,26 @@ export class NotificationService {
       COMPLETED: {
         title: `${transactionType} Selesai`,
         message: `${transactionType} ${transactionCode} telah selesai.`,
+        type: NotificationType.STATUS_CHANGE,
+      },
+      ASSETS_ASSIGNED: {
+        title: `Aset Ditentukan`,
+        message: `Aset untuk ${transactionType} ${transactionCode} telah ditentukan.`,
+        type: NotificationType.STATUS_CHANGE,
+      },
+      PURCHASING: {
+        title: `${transactionType} Dalam Proses Pembelian`,
+        message: `${transactionType} ${transactionCode} sedang dalam proses pembelian.`,
+        type: NotificationType.STATUS_CHANGE,
+      },
+      IN_DELIVERY: {
+        title: `${transactionType} Dalam Pengiriman`,
+        message: `${transactionType} ${transactionCode} sedang dalam pengiriman.`,
+        type: NotificationType.STATUS_CHANGE,
+      },
+      ARRIVED: {
+        title: `${transactionType} Telah Tiba`,
+        message: `${transactionType} ${transactionCode} telah tiba dan siap diproses.`,
         type: NotificationType.STATUS_CHANGE,
       },
     };

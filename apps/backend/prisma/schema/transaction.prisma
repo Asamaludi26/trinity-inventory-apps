@@ -33,12 +33,13 @@ model Request {
 }
 
 model RequestItem {
-  id          Int    @id @default(autoincrement())
-  requestId   String @map("request_id")
-  modelId     Int?   @map("model_id")
-  description String @db.VarChar(255)
-  quantity    Int
-  note        String? @db.Text
+  id               Int    @id @default(autoincrement())
+  requestId        String @map("request_id")
+  modelId          Int?   @map("model_id")
+  description      String @db.VarChar(255)
+  quantity         Int
+  approvedQuantity Int?   @map("approved_quantity")
+  note             String? @db.Text
 
   request Request @relation(fields: [requestId], references: [id], onDelete: Cascade)
 

@@ -12,6 +12,7 @@ export interface PaginatedResult<T> {
 export interface JwtPayload {
   sub: number;
   email: string;
+  fullName: string;
   role: string;
   permissions: string[];
   tokenVersion: number;
