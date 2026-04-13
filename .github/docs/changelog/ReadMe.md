@@ -47,6 +47,26 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-14] — Rebuild Sprint Documentation
+
+#### Added
+
+- `.github/sprints/REBUILD/INDEX.md` — Sprint roadmap rebuild dari analisa hingga UAT, dependency map, timeline overview
+- `.github/sprints/REBUILD/00_ANALISA_CURRENT_STATE.md` — Analisa persentase kelengkapan kode saat ini vs PRD v3.1 (overall ~60%), gap analysis per domain (F-01 s/d F-07), quality gate status, compliance audit, risiko & rekomendasi
+- `.github/sprints/REBUILD/01_SPRINT_FOUNDATION.md` — Sprint 0: validasi auth flow, RBAC guards, response format, base layout, Prisma schema integrity
+- `.github/sprints/REBUILD/02_SPRINT_MASTER_DATA.md` — Sprint 1: kategori hirarki, pencatatan aset, status state machine, stok management, FIFO consumption, unit conversion, pembelian & depresiasi (14 tasks)
+- `.github/sprints/REBUILD/03_SPRINT_TRANSACTIONS.md` — Sprint 2: approval engine dynamic chain, request pengadaan multi-stage, loan/return lifecycle, handover, repair + lapor hilang (21 tasks)
+- `.github/sprints/REBUILD/04_SPRINT_CUSTOMERS_PROJECTS.md` — Sprint 3: customer auto-status, instalasi FIFO, maintenance replacement, dismantle condition mapping, InfraProject lifecycle (23 tasks)
+- `.github/sprints/REBUILD/05_SPRINT_DASHBOARD_CROSSCUTTING.md` — Sprint 4: dashboard 5 role variants, notifikasi in-app + WA, QR/barcode, import/export Excel/PDF, settings enrichment (20 tasks)
+- `.github/sprints/REBUILD/06_SPRINT_STABILIZATION.md` — Sprint 5: integration testing, security audit OWASP, performance optimization, UAT preparation, go-live criteria (22 tasks)
+
+#### Agents Involved
+
+- `project-manager`
+- `documentation`
+
+---
+
 ### [2026-07-16] — Business Logic Extraction from OLD_VERSION Docs
 
 #### Added
