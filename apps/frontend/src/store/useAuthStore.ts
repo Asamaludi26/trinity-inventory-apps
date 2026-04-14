@@ -33,19 +33,18 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
 
       setAuth: (user, accessToken, refreshToken) => {
-        localStorage.setItem('accessToken', accessToken);
+        // accessToken disimpan di memory saja (tidak di localStorage) untuk mencegah XSS
         localStorage.setItem('refreshToken', refreshToken);
         set({ user, accessToken, refreshToken, isAuthenticated: true });
       },
 
       setTokens: (accessToken, refreshToken) => {
-        localStorage.setItem('accessToken', accessToken);
+        // accessToken disimpan di memory saja (tidak di localStorage) untuk mencegah XSS
         localStorage.setItem('refreshToken', refreshToken);
         set({ accessToken, refreshToken });
       },
 
       logout: () => {
-        localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false });
       },
@@ -54,7 +53,7 @@ export const useAuthStore = create<AuthState>()(
       name: 'auth-storage',
       partialize: (state) => ({
         user: state.user,
-        accessToken: state.accessToken,
+        // accessToken TIDAK dipersist — disimpan di memory saja (XSS protection)
         refreshToken: state.refreshToken,
         isAuthenticated: state.isAuthenticated,
       }),

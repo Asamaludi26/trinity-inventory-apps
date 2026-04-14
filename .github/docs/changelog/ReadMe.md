@@ -47,6 +47,44 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-14] — Sprint 0 Foundation Validation & Security Fix
+
+#### Changed
+
+- `apps/backend/src/core/auth/auth.service.ts` — Hapus `as any` type cast pada `expiresIn` JWT sign options; gunakan nullish coalescing (`?? '15m'`, `?? '7d'`) untuk default value yang type-safe
+- `apps/frontend/src/store/useAuthStore.ts` — Hapus `accessToken` dari `partialize` Zustand persist dan dari `localStorage.setItem` — accessToken sekarang disimpan di memory (Zustand state) saja
+- `apps/frontend/src/lib/axios.ts` — Gunakan `useAuthStore.getState().accessToken` (in-memory) menggantikan `localStorage.getItem('accessToken')`; gunakan `useAuthStore.getState().setTokens()` pada token refresh; gunakan `useAuthStore.getState().logout()` saat refresh gagal
+
+#### Security
+
+- **XSS Mitigation**: `accessToken` tidak lagi disimpan di `localStorage`. Dipindahkan ke Zustand memory store (non-persisted) untuk mencegah pencurian token via XSS attack. `refreshToken` tetap di `localStorage` untuk cross-session persistence.
+- **Type Safety**: Eliminasi `as any` cast pada `JwtService.signAsync` options di `auth.service.ts`
+
+#### Validated (Sprint 0 — Foundation)
+
+- ✅ Auth flow: login → JWT → refresh → logout → mustChangePassword
+- ✅ Rate limiting: `/auth/login` (5 req/min), `/auth/refresh` (10 req/min)
+- ✅ bcrypt cost = 12
+- ✅ tokenVersion check di JWT Strategy (`payload.tokenVersion !== user.tokenVersion`)
+- ✅ Logout invalidates token (tokenVersion increment)
+- ✅ MustChangePasswordGuard: block API + redirect `/change-password`
+- ✅ PermissionsGuard: 3-tier model (default → restriction → mandatory)
+- ✅ RolesGuard: RBAC role enforcement
+- ✅ ResponseTransformInterceptor: format `{ success, data, meta? }`
+- ✅ AuditTrailInterceptor: auto-logging CUD operations
+- ✅ AllExceptionsFilter: unified Prisma + HTTP error mapping
+- ✅ PrismaExceptionFilter: P2002/P2003/P2025 mapping
+- ✅ 85+ permissions constants dengan 3-tier model
+- ✅ AuthGuard: redirect ke `/login` jika unauthenticated
+- ✅ RoleProtectedRoute: role-based route protection
+- ✅ Protected routes apply RoleProtectedRoute sesuai scope
+
+#### Agents Involved
+
+- backend (auth.service.ts)
+- frontend (useAuthStore.ts, axios.ts)
+- security (XSS token storage audit)
+
 ### [2026-04-14] — Sprint Rebuild Master Execution Plan
 
 #### Added

@@ -4,7 +4,7 @@ import {
   BadRequestException,
   Logger,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService, type JwtSignOptions } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../database/prisma.service';
@@ -57,17 +57,13 @@ export class AuthService {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload as Record<string, unknown>, {
         secret: this.configService.get<string>('JWT_SECRET'),
-        expiresIn: this.configService.get<string>(
-          'JWT_EXPIRATION',
-          '15m',
-        ) as any,
+        expiresIn: (this.configService.get<string>('JWT_EXPIRATION') ??
+          '15m') as JwtSignOptions['expiresIn'],
       }),
       this.jwtService.signAsync(payload as Record<string, unknown>, {
         secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
-        expiresIn: this.configService.get<string>(
-          'JWT_REFRESH_EXPIRATION',
-          '7d',
-        ) as any,
+        expiresIn: (this.configService.get<string>('JWT_REFRESH_EXPIRATION') ??
+          '7d') as JwtSignOptions['expiresIn'],
       }),
     ]);
 
@@ -127,17 +123,14 @@ export class AuthService {
       const [newAccessToken, newRefreshToken] = await Promise.all([
         this.jwtService.signAsync(newPayload as Record<string, unknown>, {
           secret: this.configService.get<string>('JWT_SECRET'),
-          expiresIn: this.configService.get<string>(
-            'JWT_EXPIRATION',
-            '15m',
-          ) as any,
+          expiresIn: (this.configService.get<string>('JWT_EXPIRATION') ??
+            '15m') as JwtSignOptions['expiresIn'],
         }),
         this.jwtService.signAsync(newPayload as Record<string, unknown>, {
           secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
-          expiresIn: this.configService.get<string>(
+          expiresIn: (this.configService.get<string>(
             'JWT_REFRESH_EXPIRATION',
-            '7d',
-          ) as any,
+          ) ?? '7d') as JwtSignOptions['expiresIn'],
         }),
       ]);
 

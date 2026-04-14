@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { toast } from 'sonner';
 import { ENV } from '../config/env';
+import { useAuthStore } from '../store/useAuthStore';
 
 const api = axios.create({
   baseURL: ENV.API_BASE_URL,
@@ -10,10 +11,10 @@ const api = axios.create({
   timeout: 15000,
 });
 
-// Request interceptor — attach access token
+// Request interceptor — attach access token from memory store (XSS-safe)
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('accessToken');
+    const token = useAuthStore.getState().accessToken;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -53,7 +54,8 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = localStorage.getItem('refreshToken');
+        const refreshToken =
+          useAuthStore.getState().refreshToken ?? localStorage.getItem('refreshToken');
         if (!refreshToken) {
           throw new Error('No refresh token');
         }
@@ -62,15 +64,14 @@ api.interceptors.response.use(
           refreshToken,
         });
 
-        localStorage.setItem('accessToken', data.data.accessToken);
-        localStorage.setItem('refreshToken', data.data.refreshToken);
+        // Update Zustand store (accessToken stays in memory only)
+        useAuthStore.getState().setTokens(data.data.accessToken, data.data.refreshToken);
 
         originalRequest.headers.Authorization = `Bearer ${data.data.accessToken}`;
         return api(originalRequest);
       } catch {
         // Refresh failed — force logout
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
+        useAuthStore.getState().logout();
         window.location.href = '/login';
         return Promise.reject(error);
       }
