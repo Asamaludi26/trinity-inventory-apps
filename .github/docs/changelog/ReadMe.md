@@ -47,6 +47,31 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-14] — Sprint Rebuild Master Execution Plan
+
+#### Added
+
+- `00_PLANNING/SPRINT/PLAN/SPRINT_REBUILD_MASTER.md` — Single-source-of-truth master execution plan untuk auto model (Sonnet 4.6 / Haiku 4.5) dengan:
+  - Konteks status saat ini (93.6% feature complete, business logic 55%)
+  - Standar kode lengkap (response format, backend/frontend pattern, TypeScript rules, naming conventions)
+  - Daftar file target per sprint (Sprint 0–5): file direfaktoring + file baru
+  - Approval matrix 3 workflows (request, loan/return/handover/repair, project/customer ops)
+  - Asset status state machine + condition→status mapping
+  - Stock movement types catalog
+  - Dependency map antar file (schema → types → api → hooks → pages → schemas)
+  - Urutan eksekusi + prinsip pengerjaan
+
+#### Changed
+
+- Konsolidasi dari 6 dokumen sprint terpisah + 3 analisis ke 1 dokumen master terpadu
+
+#### Agents Involved
+
+- `project-manager`
+- `documentation`
+
+---
+
 ### [2026-04-14] — Rebuild Sprint Documentation
 
 #### Added
