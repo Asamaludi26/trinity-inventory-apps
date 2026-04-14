@@ -1,5 +1,14 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, CheckCircle, XCircle, Play, Ban, Wrench } from 'lucide-react';
+import {
+  ArrowLeft,
+  CheckCircle,
+  XCircle,
+  Play,
+  Ban,
+  Wrench,
+  AlertTriangle,
+  Search,
+} from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
@@ -8,6 +17,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import {
   Dialog,
   DialogContent,
@@ -24,8 +35,9 @@ import {
   useRejectRepair,
   useExecuteRepair,
   useCancelRepair,
+  useResolveLost,
 } from '../hooks';
-import { ApprovalTimeline } from '../components';
+import { ApprovalTimeline, ResolveLostDialog } from '../components';
 import type { Repair } from '../types';
 import { AttachmentSection } from '@/components/form';
 import { usePermissions } from '@/hooks';
@@ -57,9 +69,11 @@ export function RepairDetailPage() {
   const rejectMutation = useRejectRepair();
   const executeMutation = useExecuteRepair();
   const cancelMutation = useCancelRepair();
+  const resolveLostMutation = useResolveLost();
 
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
   const [rejectionReason, setRejectionReason] = useState('');
+  const [resolveDialogOpen, setResolveDialogOpen] = useState(false);
   const { can } = usePermissions();
 
   if (isLoading) {
@@ -92,6 +106,9 @@ export function RepairDetailPage() {
     !['REJECTED', 'CANCELLED', 'COMPLETED'].includes(repair.status) && can(P.ASSETS_REPAIR_MANAGE);
   const canExecute = repair.status === 'APPROVED' && can(P.ASSETS_REPAIR_MANAGE);
   const canCancel = repair.status === 'PENDING' && can(P.ASSETS_REPAIR_REPORT);
+  const isLostReport = repair.category === 'LOST';
+  const canResolveLost =
+    isLostReport && repair.status === 'IN_PROGRESS' && can(P.ASSETS_REPAIR_MANAGE);
 
   function handleApprove() {
     if (!uuid || !repair) return;
@@ -141,6 +158,24 @@ export function RepairDetailPage() {
     );
   }
 
+  function handleResolveLost(resolution: 'FOUND' | 'NOT_FOUND', note?: string) {
+    if (!uuid || !repair) return;
+    resolveLostMutation.mutate(
+      { uuid, version: repair.version, resolution, note },
+      {
+        onSuccess: () => {
+          const msg =
+            resolution === 'FOUND'
+              ? 'Aset ditemukan — status dikembalikan ke IN_STORAGE'
+              : 'Aset tidak ditemukan — aset dihapuskan (decommissioned)';
+          toast.success(msg);
+          setResolveDialogOpen(false);
+        },
+        onError: () => toast.error('Gagal resolve laporan aset hilang'),
+      },
+    );
+  }
+
   return (
     <PageContainer
       title={`Perbaikan ${repair.code ?? ''}`}
@@ -153,31 +188,51 @@ export function RepairDetailPage() {
     >
       {/* Action Buttons */}
       <div className="flex flex-wrap gap-2">
-        {canApprove && (
+        {canApprove && !isLostReport && (
           <Button onClick={handleApprove} disabled={approveMutation.isPending}>
             <CheckCircle className="mr-2 h-4 w-4" />
             Approve
           </Button>
         )}
-        {canReject && (
+        {canReject && !isLostReport && (
           <Button variant="destructive" onClick={() => setRejectDialogOpen(true)}>
             <XCircle className="mr-2 h-4 w-4" />
             Reject
           </Button>
         )}
-        {canExecute && (
+        {canExecute && !isLostReport && (
           <Button variant="secondary" onClick={handleExecute} disabled={executeMutation.isPending}>
             <Play className="mr-2 h-4 w-4" />
             Mulai Perbaikan
           </Button>
         )}
-        {canCancel && (
+        {canResolveLost && (
+          <Button variant="default" onClick={() => setResolveDialogOpen(true)}>
+            <Search className="mr-2 h-4 w-4" />
+            Resolve Laporan Hilang
+          </Button>
+        )}
+        {canCancel && !isLostReport && (
           <Button variant="outline" onClick={handleCancel} disabled={cancelMutation.isPending}>
             <Ban className="mr-2 h-4 w-4" />
             Batalkan
           </Button>
         )}
       </div>
+
+      {/* LOST Report Alert */}
+      {isLostReport && (
+        <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertTitle>Laporan Aset Hilang</AlertTitle>
+          <AlertDescription>
+            Ini adalah laporan aset hilang yang diproses tanpa approval. Status aset saat ini:
+            <Badge variant="destructive" className="ml-1">
+              LOST
+            </Badge>
+          </AlertDescription>
+        </Alert>
+      )}
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
@@ -192,7 +247,14 @@ export function RepairDetailPage() {
             <Separator />
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Status</span>
-              <StatusBadge status={repair.status ?? 'PENDING'} />
+              <div className="flex items-center gap-1.5">
+                <StatusBadge status={repair.status ?? 'PENDING'} />
+                {isLostReport && (
+                  <Badge variant="destructive" className="text-xs">
+                    HILANG
+                  </Badge>
+                )}
+              </div>
             </div>
             <Separator />
             <div className="flex justify-between">
@@ -298,6 +360,13 @@ export function RepairDetailPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <ResolveLostDialog
+        open={resolveDialogOpen}
+        onOpenChange={setResolveDialogOpen}
+        onConfirm={handleResolveLost}
+        isPending={resolveLostMutation.isPending}
+      />
     </PageContainer>
   );
 }

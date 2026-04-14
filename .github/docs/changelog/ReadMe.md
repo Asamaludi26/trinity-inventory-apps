@@ -47,6 +47,38 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-15] — Week 1 P0 Critical Path: All Blocking Issues Resolved
+
+#### Added
+
+- `apps/frontend/src/features/transactions/components/ReportLostDialog.tsx` — Dialog for reporting assets as LOST: asset search/picker via API, Zod validation, destructive alert, bypass approval (P0-2)
+- `apps/frontend/src/features/transactions/components/ResolveLostDialog.tsx` — Dialog to resolve LOST reports: FOUND (→ IN_STORAGE) or NOT_FOUND (→ DECOMMISSIONED) resolution (P0-2)
+- `apps/backend/test/approval-matrix.e2e-spec.ts` — Full approval workflow E2E tests: chain structure, self-approval prevention, rejection cascade, multi-role progression, OCC conflict, cross-module chains (P0-4)
+- `apps/backend/test/fifo-consumption.e2e-spec.ts` — FIFO material consumption E2E tests: stock integrity, movements tracking, FIFO ordering, CONSUMED state, concurrent safety (P0-3)
+- `apps/backend/test/data-consistency.e2e-spec.ts` — Data reconciliation E2E tests: asset-loan consistency, repair-status correlation, customer-installation correlation, format validation, auth enforcement (P0-5)
+
+#### Changed
+
+- `apps/frontend/src/features/transactions/pages/LoanListPage.tsx` — Added overdue indicators: `isOverdue()` helper, AlertTriangle badge, red row highlighting, destructive-colored return date (P0-1)
+- `apps/frontend/src/features/transactions/pages/LoanDetailPage.tsx` — Added overdue alert banner with days-late counter, overdue Badge on status, red return date styling (P0-1)
+- `apps/frontend/src/features/transactions/pages/RepairListPage.tsx` — Added "Lapor Hilang" button (permission-gated), LOST category badge, ReportLostDialog integration (P0-2)
+- `apps/frontend/src/features/transactions/pages/RepairDetailPage.tsx` — Added ResolveLostDialog, LOST alert banner, category-aware action buttons (hide approve/reject for LOST), resolve buttons (P0-2)
+- `apps/frontend/src/features/transactions/components/index.ts` — Added exports for ReportLostDialog and ResolveLostDialog
+
+#### Quality Gate
+
+- ✅ Frontend lint: 0 errors, 0 warnings
+- ✅ Frontend typecheck: 0 errors
+- ✅ Backend lint: 0 errors, 0 warnings
+
+#### Agents Involved
+
+- frontend (P0-1 overdue indicators, P0-2 LOST flow UI)
+- backend (P0-3 FIFO E2E, P0-4 approval E2E, P0-5 data consistency E2E)
+- documentation (analysis document update)
+
+---
+
 ### [2026-04-15] — Sprint Rebuild Completion Analysis & Asset Bug Fix
 
 #### Added

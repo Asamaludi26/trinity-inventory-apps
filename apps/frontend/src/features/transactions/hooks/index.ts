@@ -43,6 +43,8 @@ export {
   useExecuteRepair,
   useCompleteRepair,
   useCancelRepair,
+  useReportLost,
+  useResolveLost,
 } from './useRepairs';
 export {
   useProjects,

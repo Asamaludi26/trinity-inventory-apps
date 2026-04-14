@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Search, ArrowRightLeft } from 'lucide-react';
+import { Plus, Search, ArrowRightLeft, AlertTriangle } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { StatusBadge } from '@/components/ui/status-badge';
+import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   Table,
   TableBody,
@@ -27,6 +29,14 @@ import { useDebounce } from '@/hooks/use-debounce';
 import { ExportButton } from '@/components/form';
 import { useExportLoans } from '@/hooks/use-export-import';
 import type { TransactionStatus } from '@/types';
+import type { LoanRequest } from '../types';
+
+function isOverdue(loan: LoanRequest): boolean {
+  if (loan.status !== 'IN_PROGRESS' || !loan.expectedReturn) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return new Date(loan.expectedReturn) < today;
+}
 
 function formatDate(date: string | null) {
   if (!date) return '-';
@@ -144,31 +154,51 @@ export function LoanListPage() {
                 </TableCell>
               </TableRow>
             ) : (
-              data.data.map((loan) => (
-                <TableRow
-                  key={loan.id}
-                  className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => navigate(`/loans/${loan.id}`)}
-                >
-                  <TableCell className="font-mono text-xs">{loan.code}</TableCell>
-                  <TableCell className="font-medium max-w-[300px] truncate">
-                    {loan.purpose}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {loan.createdBy?.fullName ?? '-'}
-                  </TableCell>
-                  <TableCell>
-                    <StatusBadge status={loan.status} />
-                  </TableCell>
-                  <TableCell className="text-center">{loan.items?.length ?? 0}</TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {formatDate(loan.expectedReturn)}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {formatDate(loan.createdAt)}
-                  </TableCell>
-                </TableRow>
-              ))
+              data.data.map((loan: LoanRequest) => {
+                const overdue = isOverdue(loan);
+                return (
+                  <TableRow
+                    key={loan.id}
+                    className={`cursor-pointer hover:bg-muted/50 ${overdue ? 'bg-destructive/5' : ''}`}
+                    onClick={() => navigate(`/loans/${loan.id}`)}
+                  >
+                    <TableCell className="font-mono text-xs">{loan.code}</TableCell>
+                    <TableCell className="font-medium max-w-[300px] truncate">
+                      {loan.purpose}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {loan.createdBy?.fullName ?? '-'}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1.5">
+                        <StatusBadge status={loan.status} />
+                        {overdue && (
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Badge variant="destructive" className="gap-1 text-xs">
+                                <AlertTriangle className="h-3 w-3" />
+                                Overdue
+                              </Badge>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              Peminjaman telah melewati batas waktu pengembalian
+                            </TooltipContent>
+                          </Tooltip>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-center">{loan.items?.length ?? 0}</TableCell>
+                    <TableCell
+                      className={overdue ? 'text-destructive font-medium' : 'text-muted-foreground'}
+                    >
+                      {formatDate(loan.expectedReturn)}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {formatDate(loan.createdAt)}
+                    </TableCell>
+                  </TableRow>
+                );
+              })
             )}
           </TableBody>
         </Table>

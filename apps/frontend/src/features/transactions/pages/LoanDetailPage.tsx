@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, CheckCircle, XCircle, Ban, Play, Package } from 'lucide-react';
+import { ArrowLeft, CheckCircle, XCircle, Ban, Play, Package, AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import {
   Dialog,
@@ -55,6 +57,22 @@ interface AvailableAsset {
   code: string;
   name: string;
   status: string;
+}
+
+function isOverdue(status: string, expectedReturn: string | null): boolean {
+  if (status !== 'IN_PROGRESS' || !expectedReturn) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return new Date(expectedReturn) < today;
+}
+
+function getOverdueDays(expectedReturn: string | null): number {
+  if (!expectedReturn) return 0;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const expected = new Date(expectedReturn);
+  expected.setHours(0, 0, 0, 0);
+  return Math.floor((today.getTime() - expected.getTime()) / (1000 * 60 * 60 * 24));
 }
 
 export function LoanDetailPage() {
@@ -247,6 +265,19 @@ export function LoanDetailPage() {
       }
     >
       <div className="space-y-6">
+        {/* Overdue Alert */}
+        {isOverdue(loan.status, loan.expectedReturn) && (
+          <Alert variant="destructive">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Peminjaman Overdue</AlertTitle>
+            <AlertDescription>
+              Peminjaman ini telah melewati batas waktu pengembalian selama{' '}
+              <strong>{getOverdueDays(loan.expectedReturn)} hari</strong>. Segera lakukan
+              pengembalian aset.
+            </AlertDescription>
+          </Alert>
+        )}
+
         <div className="grid gap-6 md:grid-cols-2">
           <Card>
             <CardHeader>
@@ -260,7 +291,15 @@ export function LoanDetailPage() {
               <Separator />
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Status</span>
-                <StatusBadge status={loan.status} />
+                <div className="flex items-center gap-1.5">
+                  <StatusBadge status={loan.status} />
+                  {isOverdue(loan.status, loan.expectedReturn) && (
+                    <Badge variant="destructive" className="gap-1 text-xs">
+                      <AlertTriangle className="h-3 w-3" />
+                      Overdue
+                    </Badge>
+                  )}
+                </div>
               </div>
               <Separator />
               <div className="flex justify-between">
@@ -270,7 +309,13 @@ export function LoanDetailPage() {
               <Separator />
               <div className="flex justify-between">
                 <span className="text-sm text-muted-foreground">Estimasi Kembali</span>
-                <span className="text-sm">{formatDate(loan.expectedReturn)}</span>
+                <span
+                  className={`text-sm ${isOverdue(loan.status, loan.expectedReturn) ? 'text-destructive font-medium' : ''}`}
+                >
+                  {formatDate(loan.expectedReturn)}
+                  {isOverdue(loan.status, loan.expectedReturn) &&
+                    ` (${getOverdueDays(loan.expectedReturn)} hari terlambat)`}
+                </span>
               </div>
             </CardContent>
           </Card>

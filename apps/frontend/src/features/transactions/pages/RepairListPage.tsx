@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Search, Wrench } from 'lucide-react';
+import { Plus, Search, Wrench, AlertTriangle } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { StatusBadge } from '@/components/ui/status-badge';
+import { Badge } from '@/components/ui/badge';
 import {
   Table,
   TableBody,
@@ -23,9 +24,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useRepairs } from '../hooks';
+import { ReportLostDialog } from '../components';
 import { useDebounce } from '@/hooks/use-debounce';
 import { ExportButton } from '@/components/form';
 import { useExportRepairs } from '@/hooks/use-export-import';
+import { usePermissions } from '@/hooks';
+import { P } from '@/config/permissions';
 import type { TransactionStatus } from '@/types';
 import type { Repair } from '../types';
 
@@ -42,8 +46,10 @@ export function RepairListPage() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
+  const [reportLostOpen, setReportLostOpen] = useState(false);
   const debouncedSearch = useDebounce(search, 300);
   const exportRepairs = useExportRepairs();
+  const { can } = usePermissions();
 
   const { data, isLoading } = useRepairs({
     page,
@@ -72,6 +78,12 @@ export function RepairListPage() {
             <Plus className="mr-2 h-4 w-4" />
             Lapor Kerusakan
           </Button>
+          {can(P.ASSETS_REPAIR_REPORT) && (
+            <Button variant="destructive" onClick={() => setReportLostOpen(true)}>
+              <AlertTriangle className="mr-2 h-4 w-4" />
+              Lapor Hilang
+            </Button>
+          )}
         </div>
       }
     >
@@ -141,15 +153,23 @@ export function RepairListPage() {
               </TableRow>
             ) : (
               data.data.map((item: Repair) => {
+                const isLost = item.category === 'LOST';
                 return (
                   <TableRow
                     key={item.id}
-                    className="cursor-pointer hover:bg-muted/50"
+                    className={`cursor-pointer hover:bg-muted/50 ${isLost ? 'bg-destructive/5' : ''}`}
                     onClick={() => navigate(`/repairs/${item.id}`)}
                   >
                     <TableCell className="font-mono text-xs">{item.code ?? '-'}</TableCell>
                     <TableCell className="font-medium max-w-[300px] truncate">
-                      {item.issueDescription ?? '-'}
+                      <div className="flex items-center gap-1.5">
+                        {item.issueDescription ?? '-'}
+                        {isLost && (
+                          <Badge variant="destructive" className="text-xs">
+                            HILANG
+                          </Badge>
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell className="text-muted-foreground">
                       {item.createdBy?.fullName ?? '-'}
@@ -196,6 +216,8 @@ export function RepairListPage() {
           </div>
         </div>
       )}
+
+      <ReportLostDialog open={reportLostOpen} onOpenChange={setReportLostOpen} />
     </PageContainer>
   );
 }

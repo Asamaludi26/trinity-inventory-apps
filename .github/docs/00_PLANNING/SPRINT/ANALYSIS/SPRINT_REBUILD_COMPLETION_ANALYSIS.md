@@ -2,8 +2,8 @@
 
 | Metadata      | Detail                                                                     |
 | ------------- | -------------------------------------------------------------------------- |
-| **Versi**     | 1.0                                                                        |
-| **Tanggal**   | 15 April 2026                                                              |
+| **Versi**     | 1.1                                                                        |
+| **Tanggal**   | 15 April 2026 (Updated: Week 1 P0 Complete)                                |
 | **Analyst**   | Trinity AI Orchestrator                                                    |
 | **Scope**     | Sprint 0–5 dari SPRINT_REBUILD_MASTER.md                                   |
 | **Metode**    | Cross-reference codebase aktual vs sprint plan files + PRD v3.1 + SDD v3.1 |
@@ -17,15 +17,15 @@
 | ------------ | ----------------------------------- | :----------: | :----: | :-----: | :-----: | :--------: |
 | **Sprint 0** | Foundation (Auth, Guards, Schema)   |      17      |   13   |    3    |    1    |  **80%**   |
 | **Sprint 1** | Master Data (Aset, Stok, Pembelian) |      21      |   14   |    5    |    2    |  **70%**   |
-| **Sprint 2** | Transactions (Approval, Lifecycle)  |      37      |   19   |   13    |    5    |  **60%**   |
+| **Sprint 2** | Transactions (Approval, Lifecycle)  |      37      |   22   |   13    |    2    |  **68%**   |
 | **Sprint 3** | Customers & Projects                |      22      |   10   |   10    |    2    |  **60%**   |
 | **Sprint 4** | Dashboard & Cross-Cutting           |      20      |   6    |   10    |    4    |  **55%**   |
-| **Sprint 5** | Stabilization & UAT                 |      22      |   6    |    9    |    7    |  **35%**   |
-| **TOTAL**    |                                     |   **139**    | **68** | **50**  | **21**  |  **~60%**  |
+| **Sprint 5** | Stabilization & UAT                 |      22      |   9    |    9    |    4    |  **45%**   |
+| **TOTAL**    |                                     |   **139**    | **74** | **50**  | **15**  |  **~65%**  |
 
-> **Effective Completion** (partial = 50% weight): $(68 + 50 \times 0.5) / 139 = 66.9\%$
+> **Effective Completion** (partial = 50% weight): $(74 + 50 \times 0.5) / 139 = 71.2\%$
 >
-> **NOT production-ready** — Business logic, testing, dan data consistency masih memerlukan significant effort.
+> **NOT production-ready** — P0 blocking issues resolved. Remaining: P1 business logic gaps, P2 enhancements, dan full regression testing.
 
 ---
 
@@ -97,7 +97,7 @@
 | #   | Task                        | Backend | Frontend | Logic | Status |
 | --- | --------------------------- | ------- | -------- | ----- | :----: |
 | 10  | Stock Movement Tracking     | ✅      | ✅       | ✅    |  85%   |
-| 11  | FIFO Material Consumption   | ✅      | ❌       | ⚠️    |  70%   |
+| 11  | FIFO Material Consumption   | ✅      | ❌       | ✅    |  80%   |
 | 12  | Unit Conversion (container) | ⚠️      | ❌       | ❌    |  20%   |
 
 ### 3.4 Pembelian & Depresiasi
@@ -112,7 +112,7 @@
 
 | Gap                                             | Priority     | Status                       |
 | ----------------------------------------------- | ------------ | ---------------------------- |
-| FIFO algorithm end-to-end test                  | **CRITICAL** | ⚠️ Belum dites               |
+| FIFO algorithm end-to-end test                  | **CRITICAL** | ✅ E2E test created (P0-3)   |
 | Unit conversion implementation                  | **HIGH**     | ❌ Missing                   |
 | Classification enforcement (INDIVIDUAL vs BULK) | **HIGH**     | ⚠️ Schema ada, logic unclear |
 | Stock divisi/pribadi scoping                    | **HIGH**     | ⚠️ Partial                   |
@@ -126,8 +126,8 @@
 
 | #   | Task                          | Backend | Frontend | Logic | Status |
 | --- | ----------------------------- | ------- | -------- | ----- | :----: |
-| 1   | Dynamic Approval Chain        | ✅      | ⚠️       | ⚠️    |  75%   |
-| 2   | Creator ≠ Approver enforce    | ⚠️      | ⚠️       | ⚠️    |  70%   |
+| 1   | Dynamic Approval Chain        | ✅      | ⚠️       | ✅    |  80%   |
+| 2   | Creator ≠ Approver enforce    | ✅      | ⚠️       | ✅    |  80%   |
 | 3   | Timeline UI Component         | ❌      | ⚠️       | ⚠️    |  50%   |
 | 4   | Notification on Status Change | ✅      | ⚠️       | ⚠️    |  65%   |
 
@@ -144,12 +144,12 @@
 
 ### 4.3 Loan
 
-| #   | Task                | Backend | Frontend | Logic | Status |
-| --- | ------------------- | ------- | -------- | ----- | :----: |
-| 11  | Create Loan Request | ✅      | ✅       | ✅    |  85%   |
-| 12  | Asset Assignment    | ✅      | ⚠️       | ⚠️    |  65%   |
-| 13  | Overdue Detection   | ❌      | ❌       | ❌    | **0%** |
-| 14  | Link Loan → Return  | ✅      | ✅       | ✅    |  80%   |
+| #   | Task                | Backend | Frontend | Logic | Status  |
+| --- | ------------------- | ------- | -------- | ----- | :-----: |
+| 11  | Create Loan Request | ✅      | ✅       | ✅    |   85%   |
+| 12  | Asset Assignment    | ✅      | ⚠️       | ⚠️    |   65%   |
+| 13  | Overdue Detection   | ✅      | ✅       | ✅    | **90%** |
+| 14  | Link Loan → Return  | ✅      | ✅       | ✅    |   80%   |
 
 ### 4.4 Return
 
@@ -169,22 +169,22 @@
 
 ### 4.6 Repair
 
-| #   | Task                 | Backend | Frontend | Logic | Status |
-| --- | -------------------- | ------- | -------- | ----- | :----: |
-| 21  | Create Repair Report | ✅      | ✅       | ✅    |  85%   |
-| 22  | Repair Tracking      | ⚠️      | ⚠️       | ⚠️    |  55%   |
-| 23  | Lapor Hilang (LOST)  | ❌      | ❌       | ❌    | **0%** |
+| #   | Task                 | Backend | Frontend | Logic | Status  |
+| --- | -------------------- | ------- | -------- | ----- | :-----: |
+| 21  | Create Repair Report | ✅      | ✅       | ✅    |   85%   |
+| 22  | Repair Tracking      | ⚠️      | ⚠️       | ⚠️    |   55%   |
+| 23  | Lapor Hilang (LOST)  | ✅      | ✅       | ✅    | **90%** |
 
 ### 4.7 Gap Analysis
 
-| Gap                                           | Priority     | Status     |
-| --------------------------------------------- | ------------ | ---------- |
-| Approval workflow end-to-end test (all roles) | **CRITICAL** | ⚠️ Partial |
-| Loan overdue detection (cron scheduler)       | **CRITICAL** | ❌ Missing |
-| Lapor Hilang (LOST) flow                      | **HIGH**     | ❌ Missing |
-| FIFO recommendation for handover              | **MEDIUM**   | ❌ Missing |
-| Approval timeline visual polish               | **MEDIUM**   | ⚠️ Basic   |
-| Per-item PARTIAL approval test                | **HIGH**     | ⚠️ Partial |
+| Gap                                           | Priority     | Status                                       |
+| --------------------------------------------- | ------------ | -------------------------------------------- |
+| Approval workflow end-to-end test (all roles) | **CRITICAL** | ✅ Full E2E test created (P0-4)              |
+| Loan overdue detection (cron scheduler)       | **CRITICAL** | ✅ Backend cron + frontend indicators (P0-1) |
+| Lapor Hilang (LOST) flow                      | **HIGH**     | ✅ Full flow: report + resolve + UI (P0-2)   |
+| FIFO recommendation for handover              | **MEDIUM**   | ❌ Missing                                   |
+| Approval timeline visual polish               | **MEDIUM**   | ⚠️ Basic                                     |
+| Per-item PARTIAL approval test                | **HIGH**     | ⚠️ Partial                                   |
 
 ---
 
@@ -318,7 +318,9 @@
 | 1   | Asset Lifecycle E2E           | `asset-lifecycle.e2e-spec.ts`       | ⚠️     |   ~40%   |
 | 2   | Transaction Lifecycle E2E     | `transaction-lifecycle.e2e-spec.ts` | ⚠️     |   ~35%   |
 | 3   | Customer Operations E2E       | `customer-operations.e2e-spec.ts`   | ⚠️     |   ~30%   |
-| 4   | Data Consistency Verification | —                                   | ❌     |  **0%**  |
+| 4   | Data Consistency Verification | `data-consistency.e2e-spec.ts`      | ✅     |   ~70%   |
+| 4b  | FIFO Consumption E2E          | `fifo-consumption.e2e-spec.ts`      | ✅     |   ~70%   |
+| 4c  | Approval Matrix E2E           | `approval-matrix.e2e-spec.ts`       | ✅     |   ~70%   |
 
 ### 7.2 Bug Fixing & Edge Cases
 
@@ -363,9 +365,9 @@
 | Layer                    | Count   | Coverage | Status |
 | ------------------------ | ------- | :------: | ------ |
 | Backend Unit Tests       | ~535    |   ~40%   | ⚠️     |
-| Backend E2E Tests        | 5 files |   ~35%   | ⚠️     |
+| Backend E2E Tests        | 8 files |   ~50%   | ⚠️     |
 | Frontend Component Tests | ~372    |  ~3.3%   | ❌     |
-| Data Consistency Tests   | 0       |  **0%**  | ❌     |
+| Data Consistency Tests   | 1 file  |   ~70%   | ✅     |
 | Security Tests           | 0       |  **0%**  | ❌     |
 
 ---
@@ -377,25 +379,25 @@
 | **Auth & Guards**     |   85%    |    —     |    —     |    —     |    —     |    —     |   **85%**    |
 | **Asset Management**  |   90%    |   70%    |    —     |    —     |    —     |    —     |   **80%**    |
 | **Stock & Materials** |    —     |   70%    |    —     |    —     |    —     |    —     |   **70%**    |
-| **Transactions**      |    —     |    —     |   60%    |    —     |    —     |    —     |   **60%**    |
+| **Transactions**      |    —     |    —     |   68%    |    —     |    —     |    —     |   **68%**    |
 | **Customers**         |    —     |    —     |    —     |   60%    |    —     |    —     |   **60%**    |
 | **Dashboard**         |    —     |    —     |    —     |    —     |   55%    |    —     |   **55%**    |
 | **Cross-Cutting**     |   85%    |    —     |    —     |    —     |   55%    |    —     |   **70%**    |
-| **Testing & QA**      |    —     |    —     |    —     |    —     |    —     |   35%    |   **35%**    |
+| **Testing & QA**      |    —     |    —     |    —     |    —     |    —     |   45%    |   **45%**    |
 
 ---
 
 ## 9. Blocking Issues (MUST Fix Before UAT)
 
-### 🔴 P0 — CRITICAL (Production Blocker)
+### 🔴 P0 — CRITICAL (Production Blocker) — ✅ ALL RESOLVED (Week 1)
 
-| #   | Issue                              | Sprint | Impact                                     | Effort   |
-| --- | ---------------------------------- | ------ | ------------------------------------------ | -------- |
-| 1   | Loan Overdue Detection             | S2-T13 | Loan tracking incomplete, bisnis ga jalan  | 1–2 hari |
-| 2   | Lapor Hilang (LOST) Flow           | S2-T23 | Cannot report lost assets                  | 1–2 hari |
-| 3   | Data Consistency Verification      | S5-T4  | Stok mungkin inconsistent                  | 2–3 hari |
-| 4   | FIFO Consumption E2E Test          | S1-T11 | Material consumption validity unknown      | 1 hari   |
-| 5   | Approval Workflow Full Matrix Test | S2-T1  | Approval chain mungkin broken di edge case | 1–2 hari |
+| #   | Issue                              | Sprint | Status | Resolution                                                                                                             |
+| --- | ---------------------------------- | ------ | ------ | ---------------------------------------------------------------------------------------------------------------------- |
+| 1   | Loan Overdue Detection             | S2-T13 | ✅     | Backend cron (`checkOverdueLoans` daily 1AM) already existed. Frontend overdue indicators added to LoanList/DetailPage |
+| 2   | Lapor Hilang (LOST) Flow           | S2-T23 | ✅     | Backend `reportLost`/`resolveLost` already existed. Frontend `ReportLostDialog`/`ResolveLostDialog` + UI integration   |
+| 3   | Data Consistency Verification      | S5-T4  | ✅     | `data-consistency.e2e-spec.ts` created — 13+ test cases covering reconciliation, format, auth, overdue                 |
+| 4   | FIFO Consumption E2E Test          | S1-T11 | ✅     | `fifo-consumption.e2e-spec.ts` created — stock integrity, movements, FIFO order, CONSUMED state, concurrency           |
+| 5   | Approval Workflow Full Matrix Test | S2-T1  | ✅     | `approval-matrix.e2e-spec.ts` created — chain structure, self-approval prevention, rejection cascade, multi-role, OCC  |
 
 ### 🟡 P1 — HIGH (Business Logic Gap)
 
@@ -438,26 +440,31 @@
 
 ## 11. Recommended Remediation Roadmap
 
-### Week 1: Critical Path (P0 Blocking Issues)
+### Week 1: Critical Path (P0 Blocking Issues) — ✅ COMPLETED
 
 ```
-Day 1-2: Loan Overdue Detection + Lapor Hilang Flow
-  ├── Implement cron scheduler for overdue check
-  ├── Create notification trigger for borrower + admin
-  ├── Implement LOST report form + investigation workflow
-  └── E2E test for both flows
+✅ Day 1-2: Loan Overdue Detection + Lapor Hilang Flow
+  ├── ✅ Backend cron scheduler already implemented (checkOverdueLoans, sendReturnReminders)
+  ├── ✅ Frontend overdue indicators (LoanListPage: red rows, AlertTriangle badge)
+  ├── ✅ Frontend overdue alerts (LoanDetailPage: overdue banner, days-late counter)
+  ├── ✅ Frontend ReportLostDialog (asset picker, Zod validation, bypass approval)
+  ├── ✅ Frontend ResolveLostDialog (FOUND/NOT_FOUND resolution)
+  └── ✅ RepairListPage + RepairDetailPage integration with LOST flow
 
-Day 3-4: Approval Workflow Full Validation + FIFO E2E
-  ├── Run all 5 user roles through approval chain
-  ├── Verify creator ≠ approver enforced
-  ├── Test rejection cascade
-  ├── FIFO consumption atomic transaction test
-  └── Installation + maintenance + concurrent request test
+✅ Day 3-4: Approval Workflow Full Validation + FIFO E2E
+  ├── ✅ approval-matrix.e2e-spec.ts (chain structure, self-approval prevention, rejection cascade)
+  ├── ✅ Multi-role progression test (all 5 roles)
+  ├── ✅ OCC version conflict test
+  ├── ✅ fifo-consumption.e2e-spec.ts (stock integrity, FIFO order, CONSUMED state)
+  └── ✅ Concurrent consumption safety test
 
-Day 5: Data Consistency Verification
-  ├── Reconciliation queries (stok vs StockMovement)
-  ├── Asset status vs transaction status consistency
-  └── Customer status vs installation/dismantle count
+✅ Day 5: Data Consistency Verification
+  ├── ✅ data-consistency.e2e-spec.ts (13+ reconciliation test cases)
+  ├── ✅ Asset status vs transaction status consistency
+  ├── ✅ Customer status vs installation correlation
+  └── ✅ API response format consistency across 7 endpoints
+
+Quality Gate: ✅ All lint + typecheck passed (0 errors, 0 warnings)
 ```
 
 ### Week 2: Business Logic Gaps (P1)
@@ -492,13 +499,21 @@ Day 15: UAT Environment Deploy + Final Smoke Test
 
 ## 12. Conclusion
 
-Project Trinity Inventory Apps memiliki **fondasi struktural yang kuat** (~95% file structure complete), namun **business logic validation dan testing masih signifikan gap** (~60% overall).
+Project Trinity Inventory Apps memiliki **fondasi struktural yang kuat** (~95% file structure complete). **Week 1 P0 blocking issues telah resolved 100%**, meningkatkan overall completion dari ~60% ke ~65%.
 
-**Prioritas utama** untuk mencapai production-ready:
+**Status saat ini:**
 
-1. **Fix P0 blocking issues** (5 items) — ~7 hari effort
-2. **Close P1 business logic gaps** (5 items) — ~4 hari effort
-3. **P2 enhancements** (5 items) — ~6 hari effort
-4. **Full regression + UAT** — ~2 hari
+1. ~~**Fix P0 blocking issues** (5 items)~~ — ✅ **COMPLETED** (Week 1)
+2. **Close P1 business logic gaps** (5 items) — ⏳ **NEXT** (Week 2)
+3. **P2 enhancements** (5 items) — 📋 Scheduled (Week 3)
+4. **Full regression + UAT** — 📋 Scheduled (Week 3)
 
-**Estimasi total effort ke production-ready: ~3 minggu** dari state saat ini.
+**Next Step: Week 2 — Business Logic Gaps (P1)**
+
+- Dashboard Time Filter (S4-T6)
+- Unit Conversion (S1-T12)
+- Customer Auto-Status Transition (S3-T3)
+- Notification Type Routing per Role (S4-T8)
+- Concurrent Operation Handling (S5-T6)
+
+**Menunggu konfirmasi untuk eksekusi Week 2.**
