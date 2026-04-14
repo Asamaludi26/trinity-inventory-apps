@@ -191,7 +191,7 @@ export class MaintenanceService {
             await this.stockMovementService.create(
               {
                 assetId: asset.id,
-                type: MovementType.OUT,
+                type: MovementType.MAINTENANCE,
                 quantity: 1,
                 reference: existing.code,
                 note: `Maintenance ${existing.code} - ${material.description}`,

@@ -22,6 +22,7 @@ import { AuthPermissions, CurrentUser } from '../../common/decorators';
 import { PERMISSIONS } from '../../common/constants';
 import {
   CreateAssetDto,
+  CreateBatchAssetDto,
   UpdateAssetDto,
   FilterAssetDto,
   UpdateStockThresholdDto,
@@ -77,6 +78,19 @@ export class AssetController {
   @ApiResponse({ status: 201, description: 'Aset berhasil dibuat' })
   async create(@Body() dto: CreateAssetDto, @CurrentUser('id') userId: number) {
     return this.assetService.create(dto, userId);
+  }
+
+  @Post('batch')
+  @AuthPermissions(PERMISSIONS.ASSETS_CREATE)
+  @ApiOperation({
+    summary: 'Registrasi batch aset (multiple items dalam 1 transaksi)',
+  })
+  @ApiResponse({ status: 201, description: 'Batch aset berhasil dibuat' })
+  async createBatch(
+    @Body() dto: CreateBatchAssetDto,
+    @CurrentUser('id') userId: number,
+  ) {
+    return this.assetService.createBatch(dto, userId);
   }
 
   @Patch(':id')

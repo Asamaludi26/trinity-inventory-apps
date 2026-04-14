@@ -161,3 +161,124 @@ export interface PurchaseFilterParams extends PaginationParams {
 export interface DepreciationFilterParams extends PaginationParams {
   method?: DepreciationMethod;
 }
+
+// ================================
+// Asset Classification & Tracking
+// ================================
+
+export type AssetClassification = 'ASSET' | 'MATERIAL';
+export type TrackingMethod = 'INDIVIDUAL' | 'COUNT' | 'MEASUREMENT';
+
+export interface AssetWithClassification extends Asset {
+  classification: AssetClassification;
+  trackingMethod: TrackingMethod;
+  quantity: number;
+  currentBalance: number;
+}
+
+// ================================
+// Purchase Extended
+// ================================
+
+export interface PurchaseDetailView extends PurchaseMasterData {
+  modelDetails?: AssetModel & {
+    typeDetails?: AssetType & {
+      categoryDetails?: AssetCategory;
+    };
+  };
+  depreciationDetails?: Depreciation & {
+    schedule?: DepreciationScheduleEntry[];
+    currentStatus?: DepreciationStatusData;
+  };
+}
+
+// ================================
+// Depreciation Extended
+// ================================
+
+export interface DepreciationScheduleEntry {
+  month: number;
+  year: number;
+  beginningValue: string;
+  depreciation: string;
+  endingValue: string;
+  cumulativeDepreciation: string;
+}
+
+export interface DepreciationStatusData {
+  assetId: string;
+  currentMonth: number;
+  currentYear: number;
+  currentValue: string;
+  cumulativeDepreciation: string;
+  remainingUsefulLife: number;
+  totalDepreciationSchedule: number;
+  completedMonths: number;
+}
+
+export interface DepreciationWithDetails extends Depreciation {
+  schedule?: DepreciationScheduleEntry[];
+  currentStatus?: DepreciationStatusData;
+}
+
+// ================================
+// Batch Registration
+// ================================
+
+export interface BatchAssetRegistration {
+  documentNumber: string; // REG-YYYY-MM-XXXX
+  modelId: number;
+  serialNumbers: string[];
+  quantity: number;
+  purchasePrice?: string;
+  purchaseDate?: string;
+  status: AssetStatus;
+  condition: AssetCondition;
+  createdById: number;
+  createdAt: string;
+  updatedAt: string;
+  assetIds?: string[]; // Created asset IDs
+}
+
+// ================================
+// Stock Movement
+// ================================
+
+export type MovementType =
+  | 'NEW_STOCK'
+  | 'INSTALLATION'
+  | 'DEINSTALLATION'
+  | 'LOAN_OUT'
+  | 'LOAN_RETURN'
+  | 'DISMANTLE'
+  | 'DISMANTLE_RETURN'
+  | 'MAINTENANCE'
+  | 'REPAIR'
+  | 'ADJUSTMENT'
+  | 'CONSUMPTION'
+  | 'DECOMMISSION';
+
+export interface StockMovement {
+  id: string;
+  assetId: string;
+  type: MovementType;
+  quantity: number;
+  beforeQuantity: number;
+  afterQuantity: number;
+  notes: string | null;
+  createdAt: string;
+}
+
+// ================================
+// Threshold Alerts
+// ================================
+
+export interface ThresholdAlert {
+  id: string;
+  modelId: number;
+  currentQuantity: number;
+  minQuantity: number;
+  isAlert: boolean;
+  lastCheckedAt: string;
+  model?: AssetModel;
+}

@@ -181,7 +181,7 @@ export class InstallationService {
             await this.stockMovementService.create(
               {
                 assetId: asset.id,
-                type: MovementType.OUT,
+                type: MovementType.INSTALLATION,
                 quantity: 1,
                 reference: existing.code,
                 note: `Instalasi ${existing.code} - ${material.description}`,

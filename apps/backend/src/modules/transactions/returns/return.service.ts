@@ -318,7 +318,7 @@ export class ReturnService {
         await this.stockMovementService.create(
           {
             assetId: item.assetId,
-            type: 'IN',
+            type: 'LOAN_RETURN',
             reference: existing.code,
             note: `Pengembalian aset — kondisi: ${item.conditionAfter}`,
             createdById: executedById,

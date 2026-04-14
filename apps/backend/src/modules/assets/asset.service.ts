@@ -2,19 +2,26 @@ import {
   Injectable,
   NotFoundException,
   ConflictException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { PrismaService } from '../../core/database/prisma.service';
 import { EventsService } from '../../core/events/events.service';
+import { NotificationService } from '../../core/notifications/notification.service';
 import { FilterAssetDto } from './dto/filter-asset.dto';
 import { CreateAssetDto } from './dto/create-asset.dto';
+import { CreateBatchAssetDto } from './dto/create-batch-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
 import { AssetStatus, Prisma } from '../../generated/prisma/client';
+import { AssetStatusMachine } from './asset-status.machine';
+import { FifoConsumptionService } from './fifo-consumption.service';
 
 @Injectable()
 export class AssetService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly eventsService: EventsService,
+    private readonly fifoConsumption: FifoConsumptionService,
+    private readonly notificationService: NotificationService,
   ) {}
 
   async findAll(query: FilterAssetDto) {
@@ -103,43 +110,131 @@ export class AssetService {
     const code = dto.code || (await this.generateAssetCode());
     const { note: _note, ...assetData } = dto;
 
-    return this.prisma.asset.create({
-      data: {
-        ...assetData,
-        code,
-        recordedById,
-      },
-      include: {
-        category: { select: { id: true, name: true } },
-        type: { select: { id: true, name: true } },
-        model: { select: { id: true, name: true, brand: true } },
-      },
+    // Validate serial number uniqueness per model if provided
+    if (dto.serialNumber && dto.modelId) {
+      const existingAsset = await this.prisma.asset.findFirst({
+        where: {
+          modelId: dto.modelId,
+          serialNumber: dto.serialNumber,
+          isDeleted: false,
+        },
+      });
+
+      if (existingAsset) {
+        throw new ConflictException(
+          `Serial number "${dto.serialNumber}" sudah digunakan untuk model ini`,
+        );
+      }
+    }
+
+    const asset = await this.prisma.$transaction(async (tx) => {
+      // Create asset
+      const newAsset = await tx.asset.create({
+        data: {
+          ...assetData,
+          code,
+          recordedById,
+        },
+        include: {
+          category: { select: { id: true, name: true } },
+          type: { select: { id: true, name: true } },
+          model: { select: { id: true, name: true, brand: true } },
+        },
+      });
+
+      // Create stock movement (NEW_STOCK)
+      await tx.stockMovement.create({
+        data: {
+          assetId: newAsset.id,
+          type: 'NEW_STOCK',
+          quantity: newAsset.quantity || 1,
+          reference: code,
+          note: `Registrasi aset baru: ${newAsset.name}`,
+          createdById: recordedById,
+        },
+      });
+
+      // Create activity log
+      await tx.activityLog.create({
+        data: {
+          userId: recordedById,
+          action: 'CREATE',
+          entityType: 'Asset',
+          entityId: newAsset.id,
+          dataAfter: newAsset as any,
+        },
+      });
+
+      // Emit SSE event (future implementation)
+      // this.eventsService.emit('asset:created', {
+      //   id: newAsset.id,
+      //   code: newAsset.code,
+      //   name: newAsset.name,
+      //   status: newAsset.status,
+      // });
+
+      return newAsset;
     });
+
+    // Check threshold and notify (outside transaction for safety)
+    if (asset.modelId) {
+      await this.checkAndNotifyThreshold(asset.modelId, recordedById);
+    }
+
+    return asset;
   }
 
+  /**
+   * Generate unique asset code in format: AS-YYYY-MMDD-XXXX
+   * Example: AS-2026-0414-0001
+   * Uses collision detection with retry loop
+   */
   private async generateAssetCode(): Promise<string> {
     const now = new Date();
-    const prefix = `AST-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}`;
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const date = String(now.getDate()).padStart(2, '0');
+    const today = `${year}-${month}${date}`;
+    const prefix = `AS-${today}-`;
 
-    const lastAsset = await this.prisma.asset.findFirst({
-      where: { code: { startsWith: prefix } },
-      orderBy: { code: 'desc' },
-      select: { code: true },
-    });
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const lastAsset = await this.prisma.asset.findFirst({
+        where: { code: { startsWith: prefix } },
+        orderBy: { code: 'desc' },
+        select: { code: true },
+      });
 
-    const seq = lastAsset
-      ? parseInt(lastAsset.code.split('-').pop() ?? '0', 10) + 1
-      : 1;
+      const nextNum = lastAsset
+        ? parseInt(lastAsset.code.slice(-4), 10) + 1
+        : 1;
+      const code = `${prefix}${String(nextNum).padStart(4, '0')}`;
 
-    return `${prefix}-${String(seq).padStart(5, '0')}`;
+      // Check if code already exists (collision detection)
+      const exists = await this.prisma.asset.findUnique({
+        where: { code },
+      });
+
+      if (!exists) {
+        return code;
+      }
+    }
+
+    throw new ConflictException(
+      'Gagal generate ID aset unik setelah 5 percobaan. Silakan coba lagi.',
+    );
   }
 
   async update(id: string, dto: UpdateAssetDto, version: number) {
-    await this.findOne(id);
+    const asset = await this.findOne(id);
+
+    // Validate status transition if status is being changed
+    if (dto.status && dto.status !== asset.status) {
+      AssetStatusMachine.validateTransition(asset.status, dto.status);
+    }
 
     const { count } = await this.prisma.asset.updateMany({
       where: { id, version },
-      data: { ...dto, version: { increment: 1 } },
+      data: { ...dto, version: { increment: 1 }, updatedAt: new Date() },
     });
 
     if (count === 0) {
@@ -148,14 +243,7 @@ export class AssetService {
       );
     }
 
-    return this.prisma.asset.findUnique({
-      where: { id },
-      include: {
-        category: { select: { id: true, name: true } },
-        type: { select: { id: true, name: true } },
-        model: { select: { id: true, name: true, brand: true } },
-      },
-    });
+    return this.findOne(id);
   }
 
   async remove(id: string) {
@@ -340,5 +428,199 @@ export class AssetService {
     });
 
     return null;
+  }
+
+  /**
+   * Create multiple assets in a single atomic transaction
+   * Generates batch doc number (REG-YYYY-MM-XXXX) if not provided
+   * Creates StockMovement and ActivityLog for each asset
+   * Triggers stock threshold notifications after transaction
+   */
+  async createBatch(dto: CreateBatchAssetDto, recordedById: number) {
+    if (!dto.items || dto.items.length === 0) {
+      throw new UnprocessableEntityException(
+        'Minimal harus ada 1 item dalam batch registrasi',
+      );
+    }
+
+    // Validate serial numbers for uniqueness per model before transaction
+    for (const item of dto.items) {
+      if (item.serialNumber && item.modelId) {
+        const existingAsset = await this.prisma.asset.findFirst({
+          where: {
+            modelId: item.modelId,
+            serialNumber: item.serialNumber,
+            isDeleted: false,
+          },
+        });
+
+        if (existingAsset) {
+          throw new ConflictException(
+            `Serial number "${item.serialNumber}" sudah digunakan untuk model ini`,
+          );
+        }
+      }
+    }
+
+    const docNumber = dto.docNumber || (await this.generateBatchDocNumber());
+
+    const result = await this.prisma.$transaction(async (tx) => {
+      const createdAssets = [];
+      const modelIds = new Set<number>();
+
+      for (const item of dto.items) {
+        const code = item.code || (await this.generateAssetCode());
+        const { note: _note, ...assetData } = item;
+
+        // Create asset
+        const asset = await tx.asset.create({
+          data: {
+            ...assetData,
+            code,
+            recordedById,
+          },
+          include: {
+            category: { select: { id: true, name: true } },
+            type: { select: { id: true, name: true } },
+            model: { select: { id: true, name: true, brand: true } },
+          },
+        });
+
+        // Create stock movement (NEW_STOCK)
+        await tx.stockMovement.create({
+          data: {
+            assetId: asset.id,
+            type: 'NEW_STOCK',
+            quantity: asset.quantity || 1,
+            reference: `${docNumber}/${code}`,
+            note:
+              item.note ||
+              `Registrasi batch aset: ${asset.name} (${docNumber})`,
+            createdById: recordedById,
+          },
+        });
+
+        // Create activity log
+        await tx.activityLog.create({
+          data: {
+            userId: recordedById,
+            action: 'CREATE',
+            entityType: 'Asset',
+            entityId: asset.id,
+            dataAfter: asset as any,
+          },
+        });
+
+        createdAssets.push(asset);
+        if (asset.modelId) {
+          modelIds.add(asset.modelId);
+        }
+      }
+
+      return {
+        docNumber,
+        createdCount: createdAssets.length,
+        assets: createdAssets,
+        modelIds: Array.from(modelIds),
+      };
+    });
+
+    // Check thresholds and notify (outside transaction for safety)
+    for (const modelId of result.modelIds) {
+      await this.checkAndNotifyThreshold(modelId, recordedById);
+    }
+
+    // Return without modelIds (internal field)
+    const { modelIds: _modelIds, ...response } = result;
+    return response;
+  }
+
+  /**
+   * Generate unique batch document number in format: REG-YYYY-MM-XXXX
+   * Example: REG-2026-04-0001
+   */
+  private async generateBatchDocNumber(): Promise<string> {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const prefix = `REG-${year}-${month}-`;
+
+    // Find the last batch doc number for this month
+    const today = new Date();
+    const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+    const monthEnd = new Date(
+      today.getFullYear(),
+      today.getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+    );
+
+    const lastAsset = await this.prisma.asset.findFirst({
+      where: {
+        code: { startsWith: prefix },
+        createdAt: { gte: monthStart, lte: monthEnd },
+      },
+      orderBy: { code: 'desc' },
+      select: { code: true },
+    });
+
+    const nextNum = lastAsset ? parseInt(lastAsset.code.slice(-4), 10) + 1 : 1;
+
+    return `${prefix}${String(nextNum).padStart(4, '0')}`;
+  }
+
+  /**
+   * Check stock threshold for model and notify if below minimum
+   * Called after StockMovement creation
+   */
+  private async checkAndNotifyThreshold(
+    modelId: number,
+    userId: number,
+  ): Promise<void> {
+    try {
+      // Get threshold config for model
+      const threshold = await this.prisma.stockThreshold.findUnique({
+        where: { modelId },
+        select: { minQuantity: true },
+      });
+
+      if (!threshold) {
+        return; // No threshold set
+      }
+
+      // Get current stock for model
+      const assetCount = await this.prisma.asset.count({
+        where: {
+          modelId,
+          isDeleted: false,
+          status: AssetStatus.IN_STORAGE,
+        },
+      });
+
+      // Notify if below threshold
+      if (assetCount < threshold.minQuantity) {
+        const model = await this.prisma.assetModel.findUnique({
+          where: { id: modelId },
+          select: { name: true },
+        });
+
+        // Notify the user who triggered the operation
+        await this.notificationService.create({
+          userId,
+          type: 'WARNING' as any, // NotificationType.WARNING
+          title: 'Stok Dibawah Minimum',
+          message: `Stok model "${model?.name || '-'}" mencapai ${assetCount} unit, dibawah batas minimum ${threshold.minQuantity} unit.`,
+          link: `/assets/stock?modelId=${modelId}`,
+        });
+      }
+    } catch (error) {
+      // Log error but don't fail the main operation
+      console.error(
+        `Failed to check and notify threshold for model ${modelId}:`,
+        error,
+      );
+    }
   }
 }

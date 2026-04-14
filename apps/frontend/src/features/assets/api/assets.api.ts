@@ -12,6 +12,9 @@ import type {
   StockFilterParams,
   PurchaseFilterParams,
   DepreciationFilterParams,
+  BatchAssetRegistration,
+  DepreciationScheduleEntry,
+  DepreciationStatusData,
 } from '../types';
 
 // ================================
@@ -30,6 +33,13 @@ export const assetApi = {
     api.patch<ApiResponse<Asset>>(`/assets/${id}`, { ...data, version }),
 
   remove: (id: string) => api.delete<ApiResponse<void>>(`/assets/${id}`),
+
+  /**
+   * Batch register multiple assets with same model
+   * POST /assets/batch
+   */
+  createBatch: (data: Record<string, unknown>) =>
+    api.post<ApiResponse<BatchAssetRegistration>>('/assets/batch', data),
 };
 
 // ================================
@@ -130,4 +140,18 @@ export const depreciationApi = {
     api.patch<ApiResponse<Depreciation>>(`/assets/depreciations/${uuid}`, data),
 
   remove: (uuid: string) => api.delete<ApiResponse<void>>(`/assets/depreciations/${uuid}`),
+
+  /**
+   * Get depreciation calculation schedule
+   * GET /assets/depreciations/:id/schedule
+   */
+  getSchedule: (uuid: string) =>
+    api.get<ApiResponse<DepreciationScheduleEntry[]>>(`/assets/depreciations/${uuid}/schedule`),
+
+  /**
+   * Get current depreciation status
+   * GET /assets/depreciations/:id/status
+   */
+  getStatus: (uuid: string) =>
+    api.get<ApiResponse<DepreciationStatusData>>(`/assets/depreciations/${uuid}/status`),
 };

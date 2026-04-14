@@ -729,7 +729,7 @@ async function main() {
     await prisma.stockMovement.create({
       data: {
         assetId: asset.id,
-        type: MovementType.IN,
+        type: MovementType.NEW_STOCK,
         quantity: 1,
         reference: 'SEED-INIT',
         note: 'Registrasi awal dari seed data',

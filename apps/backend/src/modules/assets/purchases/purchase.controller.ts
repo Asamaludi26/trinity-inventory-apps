@@ -72,4 +72,16 @@ export class PurchaseController {
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.purchaseService.remove(id);
   }
+
+  @Get(':id/depreciation')
+  @AuthPermissions(PERMISSIONS.DEPRECIATION_VIEW)
+  @ApiOperation({ summary: 'Lihat depreciation terkait pembelian ini' })
+  @ApiResponse({
+    status: 200,
+    description: 'Data depreciation ditemukan',
+  })
+  @ApiResponse({ status: 404, description: 'Depreciation tidak ditemukan' })
+  async getDepreciation(@Param('id', ParseUUIDPipe) id: string) {
+    return this.purchaseService.getDepreciation(id);
+  }
 }

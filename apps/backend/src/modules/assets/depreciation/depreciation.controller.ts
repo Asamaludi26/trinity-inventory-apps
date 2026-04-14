@@ -76,4 +76,43 @@ export class DepreciationController {
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.depreciationService.remove(id);
   }
+
+  @Get(':id/status')
+  @AuthPermissions(PERMISSIONS.DEPRECIATION_VIEW)
+  @ApiOperation({ summary: 'Lihat status depresiasi saat ini' })
+  @ApiResponse({
+    status: 200,
+    description: 'Data status depresiasi berhasil diambil',
+  })
+  async getDepreciationStatus(@Param('id', ParseUUIDPipe) id: string) {
+    return this.depreciationService.getDepreciationStatus(id);
+  }
+
+  @Get(':id/schedule')
+  @AuthPermissions(PERMISSIONS.DEPRECIATION_VIEW)
+  @ApiOperation({
+    summary: 'Lihat jadwal depresiasi bulanan hingga akhir umur manfaat',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Jadwal depresiasi berhasil diambil',
+  })
+  async getDepreciationSchedule(@Param('id', ParseUUIDPipe) id: string) {
+    const depreciation = await this.depreciationService.findOne(id);
+    const purchase = depreciation.purchase;
+
+    const schedule = this.depreciationService.generateDepreciationSchedule(
+      Number(purchase.totalPrice),
+      Number(depreciation.salvageValue),
+      depreciation.usefulLifeYears,
+      depreciation.startDate,
+      depreciation.method,
+    );
+
+    return {
+      depreciationId: id,
+      method: depreciation.method,
+      schedule,
+    };
+  }
 }

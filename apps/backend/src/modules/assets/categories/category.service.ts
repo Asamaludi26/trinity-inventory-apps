@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -81,6 +85,20 @@ export class CategoryService {
 
   async remove(id: number) {
     await this.findOne(id);
+
+    // Cascade protection: check for active (non-deleted) type children
+    const typeCount = await this.prisma.assetType.count({
+      where: { categoryId: id, isDeleted: false },
+    });
+
+    if (typeCount > 0) {
+      throw new UnprocessableEntityException(
+        `Tidak dapat menghapus kategori — masih memiliki ${typeCount} tipe aset. ` +
+          `Hapus semua tipe aset terlebih dahulu.`,
+      );
+    }
+
+    // Safe to soft-delete
     await this.prisma.assetCategory.update({
       where: { id },
       data: { isDeleted: true },

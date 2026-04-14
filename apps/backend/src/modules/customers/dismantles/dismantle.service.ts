@@ -210,7 +210,7 @@ export class DismantleService {
         await this.stockMovementService.create(
           {
             assetId: item.assetId,
-            type: MovementType.IN,
+            type: MovementType.DISMANTLE_RETURN,
             quantity: 1,
             reference: existing.code,
             note: `Dismantle ${existing.code} - aset dikembalikan ke gudang`,

@@ -20,4 +20,12 @@ export {
   useDepreciation,
   useCreateDepreciation,
   useDeleteDepreciation,
+  useDepreciationSchedule,
+  useDepreciationStatus,
 } from './useDepreciation';
+export { useBatchAssetRegistration } from './useBatchAssetRegistration';
+export { useThresholdAlerts, useModelThresholdAlert } from './useThresholdAlerts';
+export {
+  useDepreciationCalculation,
+  useSimpleDepreciationCalculation,
+} from './useDepreciationCalculation';

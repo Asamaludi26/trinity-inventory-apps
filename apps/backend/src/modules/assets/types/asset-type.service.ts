@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
 import { CreateAssetTypeDto } from './dto/create-asset-type.dto';
 import { UpdateAssetTypeDto } from './dto/update-asset-type.dto';
@@ -80,6 +84,20 @@ export class AssetTypeService {
 
   async remove(id: number) {
     await this.findOne(id);
+
+    // Cascade protection: check for active (non-deleted) model children
+    const modelCount = await this.prisma.assetModel.count({
+      where: { typeId: id, isDeleted: false },
+    });
+
+    if (modelCount > 0) {
+      throw new UnprocessableEntityException(
+        `Tidak dapat menghapus tipe aset — masih memiliki ${modelCount} model aset. ` +
+          `Hapus semua model aset terlebih dahulu.`,
+      );
+    }
+
+    // Safe to soft-delete
     await this.prisma.assetType.update({
       where: { id },
       data: { isDeleted: true },

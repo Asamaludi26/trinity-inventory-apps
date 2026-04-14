@@ -351,7 +351,7 @@ export class RepairService {
       await this.stockMovementService.create(
         {
           assetId: existing.assetId,
-          type: 'OUT',
+          type: 'REPAIR',
           reference: existing.code,
           note: `Aset masuk perbaikan: ${existing.issueDescription}`,
           createdById: executedById,
@@ -418,7 +418,7 @@ export class RepairService {
       await this.stockMovementService.create(
         {
           assetId: existing.assetId,
-          type: 'IN',
+          type: 'REPAIR',
           reference: existing.code,
           note: `Aset selesai diperbaiki${data.repairAction ? `: ${data.repairAction}` : ''}`,
           createdById: completedById,
@@ -554,7 +554,7 @@ export class RepairService {
       await this.stockMovementService.create(
         {
           assetId: existing.assetId,
-          type: 'OUT',
+          type: 'ADJUSTMENT',
           reference: existing.code,
           note: `Aset di-decommission: ${data.repairAction ?? 'Tidak dapat diperbaiki'}`,
           createdById: executedById,

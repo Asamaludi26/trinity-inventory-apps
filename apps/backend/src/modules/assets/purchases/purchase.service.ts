@@ -155,4 +155,23 @@ export class PurchaseService {
     });
     return null;
   }
+
+  async getDepreciation(purchaseId: string) {
+    await this.findOne(purchaseId);
+
+    const depreciation = await this.prisma.depreciation.findUnique({
+      where: { purchaseId },
+      include: {
+        createdBy: { select: { id: true, fullName: true } },
+      },
+    });
+
+    if (!depreciation) {
+      throw new NotFoundException(
+        'Depreciation untuk pembelian ini belum dibuat',
+      );
+    }
+
+    return depreciation;
+  }
 }

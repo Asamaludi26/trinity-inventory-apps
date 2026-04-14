@@ -19,6 +19,28 @@ export function useDepreciation(uuid: string | undefined) {
   });
 }
 
+/**
+ * Get depreciation schedule for a specific depreciation record
+ */
+export function useDepreciationSchedule(uuid: string | undefined) {
+  return useQuery({
+    queryKey: [...DEPRECIATION_KEY, 'schedule', uuid],
+    queryFn: () => depreciationApi.getSchedule(uuid!).then((res) => res.data.data),
+    enabled: !!uuid,
+  });
+}
+
+/**
+ * Get current depreciation status (value, completed months, etc.)
+ */
+export function useDepreciationStatus(uuid: string | undefined) {
+  return useQuery({
+    queryKey: [...DEPRECIATION_KEY, 'status', uuid],
+    queryFn: () => depreciationApi.getStatus(uuid!).then((res) => res.data.data),
+    enabled: !!uuid,
+  });
+}
+
 export function useCreateDepreciation() {
   const queryClient = useQueryClient();
   return useMutation({

@@ -561,7 +561,7 @@ export class RequestService {
           await this.stockMovementService.create(
             {
               assetId: asset.id,
-              type: 'IN',
+              type: 'NEW_STOCK',
               reference: existing.code,
               note: `Penerimaan dari ${existing.code}: ${assetName}`,
               createdById: registeredById,

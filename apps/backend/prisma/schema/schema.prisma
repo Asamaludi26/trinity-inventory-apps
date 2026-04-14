@@ -110,6 +110,17 @@ enum AssetCondition {
   BROKEN
 }
 
+enum AssetClassification {
+  ASSET
+  MATERIAL
+}
+
+enum TrackingMethod {
+  INDIVIDUAL
+  COUNT
+  MEASUREMENT
+}
+
 enum DepreciationMethod {
   STRAIGHT_LINE
   DECLINING_BALANCE
@@ -140,8 +151,15 @@ enum NotificationType {
 }
 
 enum MovementType {
-  IN
-  OUT
-  TRANSFER
+  NEW_STOCK
+  HANDOVER
+  LOAN_OUT
+  LOAN_RETURN
+  INSTALLATION
+  MAINTENANCE
+  DISMANTLE_RETURN
+  REPAIR
   ADJUSTMENT
+  CONSUMED
+  TRANSFER
 }

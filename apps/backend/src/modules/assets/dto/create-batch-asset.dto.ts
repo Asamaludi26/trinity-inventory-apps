@@ -1,11 +1,12 @@
 import {
-  IsString,
+  IsArray,
+  ValidateNested,
   IsNotEmpty,
   IsOptional,
+  IsString,
   IsInt,
-  IsEnum,
   IsNumber,
-  IsPositive,
+  IsEnum,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import {
@@ -15,7 +16,7 @@ import {
   TrackingMethod,
 } from '../../../generated/prisma/client';
 
-export class CreateAssetDto {
+export class BatchAssetItemDto {
   @IsOptional()
   @IsString()
   code?: string;
@@ -44,11 +45,11 @@ export class CreateAssetDto {
 
   @IsOptional()
   @IsEnum(AssetClassification)
-  classification?: AssetClassification; // ASSET or MATERIAL
+  classification?: AssetClassification;
 
   @IsOptional()
   @IsEnum(TrackingMethod)
-  trackingMethod?: TrackingMethod; // INDIVIDUAL, COUNT, or MEASUREMENT
+  trackingMethod?: TrackingMethod;
 
   @IsOptional()
   @IsString()
@@ -56,13 +57,13 @@ export class CreateAssetDto {
 
   @IsOptional()
   @Type(() => Number)
-  @IsPositive()
-  quantity?: number; // For COUNT materials
+  @IsNumber()
+  quantity?: number;
 
   @IsOptional()
   @Type(() => Number)
-  @IsPositive()
-  currentBalance?: number; // For MEASUREMENT materials
+  @IsNumber()
+  currentBalance?: number;
 
   @IsOptional()
   @IsNumber()
@@ -75,6 +76,21 @@ export class CreateAssetDto {
   @IsOptional()
   @IsEnum(AssetCondition)
   condition?: AssetCondition;
+
+  @IsOptional()
+  @IsString()
+  note?: string;
+}
+
+export class CreateBatchAssetDto {
+  @IsString()
+  @IsNotEmpty()
+  docNumber: string; // REG-YYYY-MM-XXXX (auto-generated or provided)
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => BatchAssetItemDto)
+  items: BatchAssetItemDto[];
 
   @IsOptional()
   @IsString()

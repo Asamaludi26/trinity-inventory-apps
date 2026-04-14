@@ -30,6 +30,8 @@ export type AssetAvgAggregateOutputType = {
   categoryId: number | null;
   typeId: number | null;
   modelId: number | null;
+  quantity: number | null;
+  currentBalance: runtime.Decimal | null;
   purchasePrice: runtime.Decimal | null;
   usefulLifeYears: number | null;
   salvageValue: runtime.Decimal | null;
@@ -42,6 +44,8 @@ export type AssetSumAggregateOutputType = {
   categoryId: number | null;
   typeId: number | null;
   modelId: number | null;
+  quantity: number | null;
+  currentBalance: runtime.Decimal | null;
   purchasePrice: runtime.Decimal | null;
   usefulLifeYears: number | null;
   salvageValue: runtime.Decimal | null;
@@ -58,7 +62,11 @@ export type AssetMinAggregateOutputType = {
   typeId: number | null;
   modelId: number | null;
   brand: string | null;
+  classification: $Enums.AssetClassification | null;
+  trackingMethod: $Enums.TrackingMethod | null;
   serialNumber: string | null;
+  quantity: number | null;
+  currentBalance: runtime.Decimal | null;
   purchasePrice: runtime.Decimal | null;
   purchaseDate: Date | null;
   depreciationMethod: $Enums.DepreciationMethod | null;
@@ -82,7 +90,11 @@ export type AssetMaxAggregateOutputType = {
   typeId: number | null;
   modelId: number | null;
   brand: string | null;
+  classification: $Enums.AssetClassification | null;
+  trackingMethod: $Enums.TrackingMethod | null;
   serialNumber: string | null;
+  quantity: number | null;
+  currentBalance: runtime.Decimal | null;
   purchasePrice: runtime.Decimal | null;
   purchaseDate: Date | null;
   depreciationMethod: $Enums.DepreciationMethod | null;
@@ -106,7 +118,11 @@ export type AssetCountAggregateOutputType = {
   typeId: number;
   modelId: number;
   brand: number;
+  classification: number;
+  trackingMethod: number;
   serialNumber: number;
+  quantity: number;
+  currentBalance: number;
   purchasePrice: number;
   purchaseDate: number;
   depreciationMethod: number;
@@ -127,6 +143,8 @@ export type AssetAvgAggregateInputType = {
   categoryId?: true;
   typeId?: true;
   modelId?: true;
+  quantity?: true;
+  currentBalance?: true;
   purchasePrice?: true;
   usefulLifeYears?: true;
   salvageValue?: true;
@@ -139,6 +157,8 @@ export type AssetSumAggregateInputType = {
   categoryId?: true;
   typeId?: true;
   modelId?: true;
+  quantity?: true;
+  currentBalance?: true;
   purchasePrice?: true;
   usefulLifeYears?: true;
   salvageValue?: true;
@@ -155,7 +175,11 @@ export type AssetMinAggregateInputType = {
   typeId?: true;
   modelId?: true;
   brand?: true;
+  classification?: true;
+  trackingMethod?: true;
   serialNumber?: true;
+  quantity?: true;
+  currentBalance?: true;
   purchasePrice?: true;
   purchaseDate?: true;
   depreciationMethod?: true;
@@ -179,7 +203,11 @@ export type AssetMaxAggregateInputType = {
   typeId?: true;
   modelId?: true;
   brand?: true;
+  classification?: true;
+  trackingMethod?: true;
   serialNumber?: true;
+  quantity?: true;
+  currentBalance?: true;
   purchasePrice?: true;
   purchaseDate?: true;
   depreciationMethod?: true;
@@ -203,7 +231,11 @@ export type AssetCountAggregateInputType = {
   typeId?: true;
   modelId?: true;
   brand?: true;
+  classification?: true;
+  trackingMethod?: true;
   serialNumber?: true;
+  quantity?: true;
+  currentBalance?: true;
   purchasePrice?: true;
   purchaseDate?: true;
   depreciationMethod?: true;
@@ -321,7 +353,11 @@ export type AssetGroupByOutputType = {
   typeId: number | null;
   modelId: number | null;
   brand: string;
+  classification: $Enums.AssetClassification;
+  trackingMethod: $Enums.TrackingMethod | null;
   serialNumber: string | null;
+  quantity: number | null;
+  currentBalance: runtime.Decimal | null;
   purchasePrice: runtime.Decimal | null;
   purchaseDate: Date | null;
   depreciationMethod: $Enums.DepreciationMethod | null;
@@ -366,7 +402,22 @@ export type AssetWhereInput = {
   typeId?: Prisma.IntNullableFilter<'Asset'> | number | null;
   modelId?: Prisma.IntNullableFilter<'Asset'> | number | null;
   brand?: Prisma.StringFilter<'Asset'> | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFilter<'Asset'>
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.EnumTrackingMethodNullableFilter<'Asset'>
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?: Prisma.StringNullableFilter<'Asset'> | string | null;
+  quantity?: Prisma.IntNullableFilter<'Asset'> | number | null;
+  currentBalance?:
+    | Prisma.DecimalNullableFilter<'Asset'>
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | Prisma.DecimalNullableFilter<'Asset'>
     | runtime.Decimal
@@ -431,7 +482,11 @@ export type AssetOrderByWithRelationInput = {
   typeId?: Prisma.SortOrderInput | Prisma.SortOrder;
   modelId?: Prisma.SortOrderInput | Prisma.SortOrder;
   brand?: Prisma.SortOrder;
+  classification?: Prisma.SortOrder;
+  trackingMethod?: Prisma.SortOrderInput | Prisma.SortOrder;
   serialNumber?: Prisma.SortOrderInput | Prisma.SortOrder;
+  quantity?: Prisma.SortOrderInput | Prisma.SortOrder;
+  currentBalance?: Prisma.SortOrderInput | Prisma.SortOrder;
   purchasePrice?: Prisma.SortOrderInput | Prisma.SortOrder;
   purchaseDate?: Prisma.SortOrderInput | Prisma.SortOrder;
   depreciationMethod?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -470,7 +525,22 @@ export type AssetWhereUniqueInput = Prisma.AtLeast<
     typeId?: Prisma.IntNullableFilter<'Asset'> | number | null;
     modelId?: Prisma.IntNullableFilter<'Asset'> | number | null;
     brand?: Prisma.StringFilter<'Asset'> | string;
+    classification?:
+      | Prisma.EnumAssetClassificationFilter<'Asset'>
+      | $Enums.AssetClassification;
+    trackingMethod?:
+      | Prisma.EnumTrackingMethodNullableFilter<'Asset'>
+      | $Enums.TrackingMethod
+      | null;
     serialNumber?: Prisma.StringNullableFilter<'Asset'> | string | null;
+    quantity?: Prisma.IntNullableFilter<'Asset'> | number | null;
+    currentBalance?:
+      | Prisma.DecimalNullableFilter<'Asset'>
+      | runtime.Decimal
+      | runtime.DecimalJsLike
+      | number
+      | string
+      | null;
     purchasePrice?:
       | Prisma.DecimalNullableFilter<'Asset'>
       | runtime.Decimal
@@ -543,7 +613,11 @@ export type AssetOrderByWithAggregationInput = {
   typeId?: Prisma.SortOrderInput | Prisma.SortOrder;
   modelId?: Prisma.SortOrderInput | Prisma.SortOrder;
   brand?: Prisma.SortOrder;
+  classification?: Prisma.SortOrder;
+  trackingMethod?: Prisma.SortOrderInput | Prisma.SortOrder;
   serialNumber?: Prisma.SortOrderInput | Prisma.SortOrder;
+  quantity?: Prisma.SortOrderInput | Prisma.SortOrder;
+  currentBalance?: Prisma.SortOrderInput | Prisma.SortOrder;
   purchasePrice?: Prisma.SortOrderInput | Prisma.SortOrder;
   purchaseDate?: Prisma.SortOrderInput | Prisma.SortOrder;
   depreciationMethod?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -579,8 +653,23 @@ export type AssetScalarWhereWithAggregatesInput = {
   typeId?: Prisma.IntNullableWithAggregatesFilter<'Asset'> | number | null;
   modelId?: Prisma.IntNullableWithAggregatesFilter<'Asset'> | number | null;
   brand?: Prisma.StringWithAggregatesFilter<'Asset'> | string;
+  classification?:
+    | Prisma.EnumAssetClassificationWithAggregatesFilter<'Asset'>
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.EnumTrackingMethodNullableWithAggregatesFilter<'Asset'>
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.StringNullableWithAggregatesFilter<'Asset'>
+    | string
+    | null;
+  quantity?: Prisma.IntNullableWithAggregatesFilter<'Asset'> | number | null;
+  currentBalance?:
+    | Prisma.DecimalNullableWithAggregatesFilter<'Asset'>
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -632,7 +721,16 @@ export type AssetCreateInput = {
   code: string;
   name: string;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -675,7 +773,16 @@ export type AssetUncheckedCreateInput = {
   typeId?: number | null;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -712,8 +819,23 @@ export type AssetUpdateInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -774,8 +896,23 @@ export type AssetUncheckedUpdateInput = {
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -833,7 +970,16 @@ export type AssetCreateManyInput = {
   typeId?: number | null;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -864,8 +1010,23 @@ export type AssetUpdateManyMutationInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -915,8 +1076,23 @@ export type AssetUncheckedUpdateManyInput = {
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -978,7 +1154,11 @@ export type AssetCountOrderByAggregateInput = {
   typeId?: Prisma.SortOrder;
   modelId?: Prisma.SortOrder;
   brand?: Prisma.SortOrder;
+  classification?: Prisma.SortOrder;
+  trackingMethod?: Prisma.SortOrder;
   serialNumber?: Prisma.SortOrder;
+  quantity?: Prisma.SortOrder;
+  currentBalance?: Prisma.SortOrder;
   purchasePrice?: Prisma.SortOrder;
   purchaseDate?: Prisma.SortOrder;
   depreciationMethod?: Prisma.SortOrder;
@@ -998,6 +1178,8 @@ export type AssetAvgOrderByAggregateInput = {
   categoryId?: Prisma.SortOrder;
   typeId?: Prisma.SortOrder;
   modelId?: Prisma.SortOrder;
+  quantity?: Prisma.SortOrder;
+  currentBalance?: Prisma.SortOrder;
   purchasePrice?: Prisma.SortOrder;
   usefulLifeYears?: Prisma.SortOrder;
   salvageValue?: Prisma.SortOrder;
@@ -1014,7 +1196,11 @@ export type AssetMaxOrderByAggregateInput = {
   typeId?: Prisma.SortOrder;
   modelId?: Prisma.SortOrder;
   brand?: Prisma.SortOrder;
+  classification?: Prisma.SortOrder;
+  trackingMethod?: Prisma.SortOrder;
   serialNumber?: Prisma.SortOrder;
+  quantity?: Prisma.SortOrder;
+  currentBalance?: Prisma.SortOrder;
   purchasePrice?: Prisma.SortOrder;
   purchaseDate?: Prisma.SortOrder;
   depreciationMethod?: Prisma.SortOrder;
@@ -1038,7 +1224,11 @@ export type AssetMinOrderByAggregateInput = {
   typeId?: Prisma.SortOrder;
   modelId?: Prisma.SortOrder;
   brand?: Prisma.SortOrder;
+  classification?: Prisma.SortOrder;
+  trackingMethod?: Prisma.SortOrder;
   serialNumber?: Prisma.SortOrder;
+  quantity?: Prisma.SortOrder;
+  currentBalance?: Prisma.SortOrder;
   purchasePrice?: Prisma.SortOrder;
   purchaseDate?: Prisma.SortOrder;
   depreciationMethod?: Prisma.SortOrder;
@@ -1058,6 +1248,8 @@ export type AssetSumOrderByAggregateInput = {
   categoryId?: Prisma.SortOrder;
   typeId?: Prisma.SortOrder;
   modelId?: Prisma.SortOrder;
+  quantity?: Prisma.SortOrder;
+  currentBalance?: Prisma.SortOrder;
   purchasePrice?: Prisma.SortOrder;
   usefulLifeYears?: Prisma.SortOrder;
   salvageValue?: Prisma.SortOrder;
@@ -1329,8 +1521,24 @@ export type AssetUncheckedUpdateManyWithoutModelNestedInput = {
   deleteMany?: Prisma.AssetScalarWhereInput | Prisma.AssetScalarWhereInput[];
 };
 
+export type EnumAssetClassificationFieldUpdateOperationsInput = {
+  set?: $Enums.AssetClassification;
+};
+
+export type NullableEnumTrackingMethodFieldUpdateOperationsInput = {
+  set?: $Enums.TrackingMethod | null;
+};
+
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null;
+};
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null;
+  increment?: number;
+  decrement?: number;
+  multiply?: number;
+  divide?: number;
 };
 
 export type NullableDecimalFieldUpdateOperationsInput = {
@@ -1347,14 +1555,6 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
 
 export type NullableEnumDepreciationMethodFieldUpdateOperationsInput = {
   set?: $Enums.DepreciationMethod | null;
-};
-
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null;
-  increment?: number;
-  decrement?: number;
-  multiply?: number;
-  divide?: number;
 };
 
 export type EnumAssetStatusFieldUpdateOperationsInput = {
@@ -1698,7 +1898,16 @@ export type AssetCreateWithoutCategoryInput = {
   code: string;
   name: string;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -1739,7 +1948,16 @@ export type AssetUncheckedCreateWithoutCategoryInput = {
   typeId?: number | null;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -1825,7 +2043,22 @@ export type AssetScalarWhereInput = {
   typeId?: Prisma.IntNullableFilter<'Asset'> | number | null;
   modelId?: Prisma.IntNullableFilter<'Asset'> | number | null;
   brand?: Prisma.StringFilter<'Asset'> | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFilter<'Asset'>
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.EnumTrackingMethodNullableFilter<'Asset'>
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?: Prisma.StringNullableFilter<'Asset'> | string | null;
+  quantity?: Prisma.IntNullableFilter<'Asset'> | number | null;
+  currentBalance?:
+    | Prisma.DecimalNullableFilter<'Asset'>
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | Prisma.DecimalNullableFilter<'Asset'>
     | runtime.Decimal
@@ -1861,7 +2094,16 @@ export type AssetCreateWithoutTypeInput = {
   code: string;
   name: string;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -1902,7 +2144,16 @@ export type AssetUncheckedCreateWithoutTypeInput = {
   categoryId: number;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -1980,7 +2231,16 @@ export type AssetCreateWithoutModelInput = {
   code: string;
   name: string;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -2021,7 +2281,16 @@ export type AssetUncheckedCreateWithoutModelInput = {
   categoryId: number;
   typeId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -2099,7 +2368,16 @@ export type AssetCreateWithoutCurrentUserInput = {
   code: string;
   name: string;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -2141,7 +2419,16 @@ export type AssetUncheckedCreateWithoutCurrentUserInput = {
   typeId?: number | null;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -2192,7 +2479,16 @@ export type AssetCreateWithoutRecordedByInput = {
   code: string;
   name: string;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -2234,7 +2530,16 @@ export type AssetUncheckedCreateWithoutRecordedByInput = {
   typeId?: number | null;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -2341,7 +2646,16 @@ export type AssetCreateWithoutDismantleItemsInput = {
   code: string;
   name: string;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -2383,7 +2697,16 @@ export type AssetUncheckedCreateWithoutDismantleItemsInput = {
   typeId?: number | null;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -2447,8 +2770,23 @@ export type AssetUpdateWithoutDismantleItemsInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -2508,8 +2846,23 @@ export type AssetUncheckedUpdateWithoutDismantleItemsInput = {
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -2563,7 +2916,16 @@ export type AssetCreateWithoutStockMovementsInput = {
   code: string;
   name: string;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -2605,7 +2967,16 @@ export type AssetUncheckedCreateWithoutStockMovementsInput = {
   typeId?: number | null;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -2669,8 +3040,23 @@ export type AssetUpdateWithoutStockMovementsInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -2730,8 +3116,23 @@ export type AssetUncheckedUpdateWithoutStockMovementsInput = {
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -2785,7 +3186,16 @@ export type AssetCreateWithoutLoanAssetAssignmentsInput = {
   code: string;
   name: string;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -2827,7 +3237,16 @@ export type AssetUncheckedCreateWithoutLoanAssetAssignmentsInput = {
   typeId?: number | null;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -2891,8 +3310,23 @@ export type AssetUpdateWithoutLoanAssetAssignmentsInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -2952,8 +3386,23 @@ export type AssetUncheckedUpdateWithoutLoanAssetAssignmentsInput = {
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -3007,7 +3456,16 @@ export type AssetCreateWithoutAssetReturnItemsInput = {
   code: string;
   name: string;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -3049,7 +3507,16 @@ export type AssetUncheckedCreateWithoutAssetReturnItemsInput = {
   typeId?: number | null;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -3113,8 +3580,23 @@ export type AssetUpdateWithoutAssetReturnItemsInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -3174,8 +3656,23 @@ export type AssetUncheckedUpdateWithoutAssetReturnItemsInput = {
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -3229,7 +3726,16 @@ export type AssetCreateWithoutHandoverItemsInput = {
   code: string;
   name: string;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -3271,7 +3777,16 @@ export type AssetUncheckedCreateWithoutHandoverItemsInput = {
   typeId?: number | null;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -3335,8 +3850,23 @@ export type AssetUpdateWithoutHandoverItemsInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -3396,8 +3926,23 @@ export type AssetUncheckedUpdateWithoutHandoverItemsInput = {
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -3451,7 +3996,16 @@ export type AssetCreateWithoutRepairsInput = {
   code: string;
   name: string;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -3493,7 +4047,16 @@ export type AssetUncheckedCreateWithoutRepairsInput = {
   typeId?: number | null;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -3557,8 +4120,23 @@ export type AssetUpdateWithoutRepairsInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -3618,8 +4196,23 @@ export type AssetUncheckedUpdateWithoutRepairsInput = {
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -3675,7 +4268,16 @@ export type AssetCreateManyCategoryInput = {
   typeId?: number | null;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -3706,8 +4308,23 @@ export type AssetUpdateWithoutCategoryInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -3766,8 +4383,23 @@ export type AssetUncheckedUpdateWithoutCategoryInput = {
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -3824,8 +4456,23 @@ export type AssetUncheckedUpdateManyWithoutCategoryInput = {
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -3876,7 +4523,16 @@ export type AssetCreateManyTypeInput = {
   categoryId: number;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -3907,8 +4563,23 @@ export type AssetUpdateWithoutTypeInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -3967,8 +4638,23 @@ export type AssetUncheckedUpdateWithoutTypeInput = {
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -4025,8 +4711,23 @@ export type AssetUncheckedUpdateManyWithoutTypeInput = {
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -4077,7 +4778,16 @@ export type AssetCreateManyModelInput = {
   categoryId: number;
   typeId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -4108,8 +4818,23 @@ export type AssetUpdateWithoutModelInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -4168,8 +4893,23 @@ export type AssetUncheckedUpdateWithoutModelInput = {
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number;
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -4226,8 +4966,23 @@ export type AssetUncheckedUpdateManyWithoutModelInput = {
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number;
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -4279,7 +5034,16 @@ export type AssetCreateManyCurrentUserInput = {
   typeId?: number | null;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -4312,7 +5076,16 @@ export type AssetCreateManyRecordedByInput = {
   typeId?: number | null;
   modelId?: number | null;
   brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   purchasePrice?:
     | runtime.Decimal
     | runtime.DecimalJsLike
@@ -4342,8 +5115,23 @@ export type AssetUpdateWithoutCurrentUserInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -4403,8 +5191,23 @@ export type AssetUncheckedUpdateWithoutCurrentUserInput = {
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -4461,8 +5264,23 @@ export type AssetUncheckedUpdateManyWithoutCurrentUserInput = {
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -4510,8 +5328,23 @@ export type AssetUpdateWithoutRecordedByInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -4571,8 +5404,23 @@ export type AssetUncheckedUpdateWithoutRecordedByInput = {
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -4629,8 +5477,23 @@ export type AssetUncheckedUpdateManyWithoutRecordedByInput = {
   typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
   serialNumber?:
     | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
     | string
     | null;
   purchasePrice?:
@@ -4785,7 +5648,11 @@ export type AssetSelect<
     typeId?: boolean;
     modelId?: boolean;
     brand?: boolean;
+    classification?: boolean;
+    trackingMethod?: boolean;
     serialNumber?: boolean;
+    quantity?: boolean;
+    currentBalance?: boolean;
     purchasePrice?: boolean;
     purchaseDate?: boolean;
     depreciationMethod?: boolean;
@@ -4829,7 +5696,11 @@ export type AssetSelectCreateManyAndReturn<
     typeId?: boolean;
     modelId?: boolean;
     brand?: boolean;
+    classification?: boolean;
+    trackingMethod?: boolean;
     serialNumber?: boolean;
+    quantity?: boolean;
+    currentBalance?: boolean;
     purchasePrice?: boolean;
     purchaseDate?: boolean;
     depreciationMethod?: boolean;
@@ -4864,7 +5735,11 @@ export type AssetSelectUpdateManyAndReturn<
     typeId?: boolean;
     modelId?: boolean;
     brand?: boolean;
+    classification?: boolean;
+    trackingMethod?: boolean;
     serialNumber?: boolean;
+    quantity?: boolean;
+    currentBalance?: boolean;
     purchasePrice?: boolean;
     purchaseDate?: boolean;
     depreciationMethod?: boolean;
@@ -4895,7 +5770,11 @@ export type AssetSelectScalar = {
   typeId?: boolean;
   modelId?: boolean;
   brand?: boolean;
+  classification?: boolean;
+  trackingMethod?: boolean;
   serialNumber?: boolean;
+  quantity?: boolean;
+  currentBalance?: boolean;
   purchasePrice?: boolean;
   purchaseDate?: boolean;
   depreciationMethod?: boolean;
@@ -4922,7 +5801,11 @@ export type AssetOmit<
   | 'typeId'
   | 'modelId'
   | 'brand'
+  | 'classification'
+  | 'trackingMethod'
   | 'serialNumber'
+  | 'quantity'
+  | 'currentBalance'
   | 'purchasePrice'
   | 'purchaseDate'
   | 'depreciationMethod'
@@ -5005,7 +5888,11 @@ export type $AssetPayload<
       typeId: number | null;
       modelId: number | null;
       brand: string;
+      classification: $Enums.AssetClassification;
+      trackingMethod: $Enums.TrackingMethod | null;
       serialNumber: string | null;
+      quantity: number | null;
+      currentBalance: runtime.Decimal | null;
       purchasePrice: runtime.Decimal | null;
       purchaseDate: Date | null;
       depreciationMethod: $Enums.DepreciationMethod | null;
@@ -5753,7 +6640,11 @@ export interface AssetFieldRefs {
   readonly typeId: Prisma.FieldRef<'Asset', 'Int'>;
   readonly modelId: Prisma.FieldRef<'Asset', 'Int'>;
   readonly brand: Prisma.FieldRef<'Asset', 'String'>;
+  readonly classification: Prisma.FieldRef<'Asset', 'AssetClassification'>;
+  readonly trackingMethod: Prisma.FieldRef<'Asset', 'TrackingMethod'>;
   readonly serialNumber: Prisma.FieldRef<'Asset', 'String'>;
+  readonly quantity: Prisma.FieldRef<'Asset', 'Int'>;
+  readonly currentBalance: Prisma.FieldRef<'Asset', 'Decimal'>;
   readonly purchasePrice: Prisma.FieldRef<'Asset', 'Decimal'>;
   readonly purchaseDate: Prisma.FieldRef<'Asset', 'DateTime'>;
   readonly depreciationMethod: Prisma.FieldRef<'Asset', 'DepreciationMethod'>;

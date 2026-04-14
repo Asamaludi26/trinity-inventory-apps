@@ -358,7 +358,7 @@ export class LoanService {
         await this.stockMovementService.create(
           {
             assetId: assignment.assetId,
-            type: 'OUT',
+            type: 'LOAN_OUT',
             reference: existing.code,
             note: `Peminjaman oleh ${existing.createdBy.fullName}`,
             createdById: executedById,

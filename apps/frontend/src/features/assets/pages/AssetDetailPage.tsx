@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Edit, Trash2 } from 'lucide-react';
+import { ArrowLeft, Edit, Trash2, QrCode } from 'lucide-react';
+import { useState } from 'react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,8 +10,9 @@ import { StatusBadge } from '@/components/ui/status-badge';
 import { Separator } from '@/components/ui/separator';
 import { useAsset, useDeleteAsset } from '../hooks';
 import { AttachmentSection, QrCodeSection } from '@/components/form';
-import { usePermissions } from '@/hooks';
+import { usePermissions } from '@/hooks/use-permissions';
 import { P } from '@/config/permissions';
+import { toast } from 'sonner';
 
 const CONDITION_LABELS: Record<string, string> = {
   NEW: 'Baru',
@@ -39,6 +41,7 @@ function formatCurrency(value: string | null) {
 export function AssetDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [showQR, setShowQR] = useState(false);
   const { data: asset, isLoading } = useAsset(id);
   const deleteAsset = useDeleteAsset();
   const { can } = usePermissions();
@@ -75,12 +78,29 @@ export function AssetDetailPage() {
     );
   }
 
+  const handleDelete = async () => {
+    if (window.confirm('Yakin ingin menghapus aset ini?')) {
+      try {
+        await deleteAsset.mutateAsync(id!);
+        toast.success('Aset berhasil dihapus');
+        navigate('/assets');
+      } catch (error: unknown) {
+        const axiosError = error as { response?: { data?: { message?: string } } };
+        toast.error(axiosError.response?.data?.message || 'Gagal menghapus aset');
+      }
+    }
+  };
+
   return (
     <PageContainer
       title={asset.name}
       description={`Kode: ${asset.code}`}
       actions={
         <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => setShowQR(!showQR)}>
+            <QrCode className="h-4 w-4" />
+            QR
+          </Button>
           <Button variant="outline" onClick={() => navigate('/assets')}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Kembali
@@ -96,12 +116,7 @@ export function AssetDetailPage() {
               variant="destructive"
               size="icon"
               disabled={deleteAsset.isPending}
-              onClick={() => {
-                if (!id) return;
-                deleteAsset.mutate(id, {
-                  onSuccess: () => navigate('/assets'),
-                });
-              }}
+              onClick={handleDelete}
             >
               <Trash2 className="h-4 w-4" />
             </Button>
@@ -109,6 +124,9 @@ export function AssetDetailPage() {
         </div>
       }
     >
+      {/* QR Code Display */}
+      {showQR && id && <QrCodeSection assetId={id} assetCode={asset.code} />}
+
       <div className="grid gap-6 md:grid-cols-2">
         {/* Informasi Umum */}
         <Card>
@@ -141,7 +159,7 @@ export function AssetDetailPage() {
         {/* Klasifikasi */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Klasifikasi</CardTitle>
+            <CardTitle className="text-lg">Klasifikasi & Tracking</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between">
@@ -180,16 +198,16 @@ export function AssetDetailPage() {
             </div>
             <Separator />
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Pemegang Saat Ini</span>
+              <span className="text-sm text-muted-foreground">Pemegang</span>
               <span className="text-sm">{asset.currentUser?.fullName ?? 'Tidak ada'}</span>
             </div>
           </CardContent>
         </Card>
 
-        {/* Informasi Pembelian */}
+        {/* Informasi Pembelian & Penyusutan */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Informasi Pembelian</CardTitle>
+            <CardTitle className="text-lg">Pembelian & Penyusutan</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between">
@@ -203,23 +221,26 @@ export function AssetDetailPage() {
             </div>
             <Separator />
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Dicatat Oleh</span>
-              <span className="text-sm">{asset.recordedBy?.fullName ?? '-'}</span>
+              <span className="text-sm text-muted-foreground">Metode Penyusutan</span>
+              <span className="text-sm">
+                {asset.depreciationMethod === 'STRAIGHT_LINE'
+                  ? 'Garis Lurus'
+                  : asset.depreciationMethod === 'DECLINING_BALANCE'
+                    ? 'Saldo Menurun'
+                    : '-'}
+              </span>
             </div>
             <Separator />
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Tanggal Dicatat</span>
-              <span className="text-sm">{formatDate(asset.createdAt)}</span>
+              <span className="text-sm text-muted-foreground">Tahun Masa Hidup</span>
+              <span className="text-sm">{asset.usefulLifeYears || '-'} tahun</span>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* QR Code */}
-      {id && <QrCodeSection assetId={id} assetCode={asset.code} />}
-
       {/* Lampiran */}
-      <AttachmentSection entityType="Asset" entityId={id} />
+      {id && <AttachmentSection entityType="Asset" entityId={id} />}
     </PageContainer>
   );
 }

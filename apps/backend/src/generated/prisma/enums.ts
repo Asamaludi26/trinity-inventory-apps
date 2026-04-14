@@ -43,6 +43,23 @@ export const AssetCondition = {
 export type AssetCondition =
   (typeof AssetCondition)[keyof typeof AssetCondition];
 
+export const AssetClassification = {
+  ASSET: 'ASSET',
+  MATERIAL: 'MATERIAL',
+} as const;
+
+export type AssetClassification =
+  (typeof AssetClassification)[keyof typeof AssetClassification];
+
+export const TrackingMethod = {
+  INDIVIDUAL: 'INDIVIDUAL',
+  COUNT: 'COUNT',
+  MEASUREMENT: 'MEASUREMENT',
+} as const;
+
+export type TrackingMethod =
+  (typeof TrackingMethod)[keyof typeof TrackingMethod];
+
 export const DepreciationMethod = {
   STRAIGHT_LINE: 'STRAIGHT_LINE',
   DECLINING_BALANCE: 'DECLINING_BALANCE',
@@ -82,10 +99,17 @@ export type NotificationType =
   (typeof NotificationType)[keyof typeof NotificationType];
 
 export const MovementType = {
-  IN: 'IN',
-  OUT: 'OUT',
-  TRANSFER: 'TRANSFER',
+  NEW_STOCK: 'NEW_STOCK',
+  HANDOVER: 'HANDOVER',
+  LOAN_OUT: 'LOAN_OUT',
+  LOAN_RETURN: 'LOAN_RETURN',
+  INSTALLATION: 'INSTALLATION',
+  MAINTENANCE: 'MAINTENANCE',
+  DISMANTLE_RETURN: 'DISMANTLE_RETURN',
+  REPAIR: 'REPAIR',
   ADJUSTMENT: 'ADJUSTMENT',
+  CONSUMED: 'CONSUMED',
+  TRANSFER: 'TRANSFER',
 } as const;
 
 export type MovementType = (typeof MovementType)[keyof typeof MovementType];

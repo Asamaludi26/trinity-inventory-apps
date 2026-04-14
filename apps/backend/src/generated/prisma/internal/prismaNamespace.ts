@@ -3328,7 +3328,11 @@ export const AssetScalarFieldEnum = {
   typeId: 'typeId',
   modelId: 'modelId',
   brand: 'brand',
+  classification: 'classification',
+  trackingMethod: 'trackingMethod',
   serialNumber: 'serialNumber',
+  quantity: 'quantity',
+  currentBalance: 'currentBalance',
   purchasePrice: 'purchasePrice',
   purchaseDate: 'purchaseDate',
   depreciationMethod: 'depreciationMethod',
@@ -3935,6 +3939,32 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<
   $PrismaModel,
   'DateTime[]'
 >;
+
+/**
+ * Reference to a field of type 'AssetClassification'
+ */
+export type EnumAssetClassificationFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'AssetClassification'>;
+
+/**
+ * Reference to a field of type 'AssetClassification[]'
+ */
+export type ListEnumAssetClassificationFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'AssetClassification[]'>;
+
+/**
+ * Reference to a field of type 'TrackingMethod'
+ */
+export type EnumTrackingMethodFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'TrackingMethod'
+>;
+
+/**
+ * Reference to a field of type 'TrackingMethod[]'
+ */
+export type ListEnumTrackingMethodFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'TrackingMethod[]'>;
 
 /**
  * Reference to a field of type 'Decimal'
