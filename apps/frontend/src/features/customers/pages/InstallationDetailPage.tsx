@@ -30,7 +30,7 @@ function formatDate(date: string | null) {
 export function InstallationDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { data: installation, isLoading } = useInstallation(id ? Number(id) : undefined);
+  const { data: installation, isLoading } = useInstallation(id ? Number(id) : 0);
   const completeInstallation = useCompleteInstallation();
 
   const handleComplete = () => {

@@ -214,6 +214,8 @@ export class ReturnService {
     return result;
   }
 
+  private static readonly MAX_REJECTION_CYCLES = 3;
+
   async reject(
     id: string,
     reason: string,
@@ -239,11 +241,20 @@ export class ReturnService {
       );
     }
 
+    // Enforce max rejection cycles (T2-15)
+    const newRejectionCount = existing.rejectionCount + 1;
+    if (newRejectionCount > ReturnService.MAX_REJECTION_CYCLES) {
+      throw new BadRequestException(
+        `Pengembalian ini sudah mencapai batas maksimal penolakan (${ReturnService.MAX_REJECTION_CYCLES} kali). Tidak dapat ditolak lagi.`,
+      );
+    }
+
     const { count } = await this.prisma.assetReturn.updateMany({
       where: { id, version },
       data: {
         status: TransactionStatus.REJECTED,
         rejectionReason: reason,
+        rejectionCount: newRejectionCount,
         version: { increment: 1 },
       },
     });
@@ -430,6 +441,50 @@ export class ReturnService {
       code: existing.code,
       type: 'return',
       status: TransactionStatus.CANCELLED,
+      version: existing.version + 1,
+    });
+
+    return this.prisma.assetReturn.findUnique({ where: { id } });
+  }
+
+  /**
+   * Resubmit a rejected return (T2-15).
+   * Only the creator can resubmit, and only if status is REJECTED.
+   * Version increments to track resubmission cycles.
+   */
+  async resubmit(id: string, userId: number, version: number) {
+    const existing = await this.findOne(id);
+    if (existing.status !== TransactionStatus.REJECTED) {
+      throw new BadRequestException(
+        'Hanya pengembalian yang ditolak yang dapat diajukan ulang',
+      );
+    }
+    if (existing.createdById !== userId) {
+      throw new BadRequestException(
+        'Hanya pembuat pengembalian yang dapat mengajukan ulang',
+      );
+    }
+
+    const { count } = await this.prisma.assetReturn.updateMany({
+      where: { id, version },
+      data: {
+        status: TransactionStatus.PENDING,
+        rejectionReason: null,
+        version: { increment: 1 },
+      },
+    });
+
+    if (count === 0) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'return',
+      status: TransactionStatus.PENDING,
       version: existing.version + 1,
     });
 

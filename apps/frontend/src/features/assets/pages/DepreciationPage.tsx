@@ -149,7 +149,7 @@ export function DepreciationPage() {
                 <TableRow
                   key={item.id}
                   className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => navigate(`/assets/depreciation/${item.uuid}`)}
+                  onClick={() => navigate(`/assets/depreciation/${item.id}`)}
                 >
                   <TableCell className="font-medium">{item.purchase?.model?.name ?? '-'}</TableCell>
                   <TableCell>{item.purchase?.supplier ?? '-'}</TableCell>

@@ -142,7 +142,7 @@ export function AssetListPage() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Semua Kategori</SelectItem>
-            {categories?.data?.map((cat) => (
+            {categories?.map((cat: { id: number; name: string }) => (
               <SelectItem key={cat.id} value={String(cat.id)}>
                 {cat.name}
               </SelectItem>

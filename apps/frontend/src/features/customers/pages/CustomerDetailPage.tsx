@@ -12,7 +12,7 @@ import { useCustomer, useDeleteCustomer } from '../hooks';
 export function CustomerDetailPage() {
   const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
-  const { data: customer, isLoading } = useCustomer(uuid);
+  const { data: customer, isLoading } = useCustomer(uuid ?? '');
   const deleteCustomer = useDeleteCustomer();
 
   const handleDelete = () => {

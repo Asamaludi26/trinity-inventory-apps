@@ -125,4 +125,15 @@ export class ReturnController {
   ) {
     return this.returnService.cancel(id, user.sub, version);
   }
+
+  @Patch(':id/resubmit')
+  @AuthPermissions(PERMISSIONS.RETURNS_CREATE)
+  @ApiOperation({ summary: 'Ajukan ulang pengembalian yang ditolak' })
+  async resubmit(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('version') version: number,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.returnService.resubmit(id, user.sub, version);
+  }
 }

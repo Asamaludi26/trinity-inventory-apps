@@ -30,7 +30,7 @@ function formatDate(date: string | null) {
 export function MaintenanceDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { data: maintenance, isLoading } = useMaintenanceDetail(id ? Number(id) : undefined);
+  const { data: maintenance, isLoading } = useMaintenanceDetail(id ? Number(id) : 0);
   const completeMaintenance = useCompleteMaintenance();
 
   const handleComplete = () => {

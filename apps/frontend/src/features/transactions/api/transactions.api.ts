@@ -95,11 +95,10 @@ export const returnApi = {
 
   cancel: (uuid: string, version: number) =>
     api.patch<ApiResponse<void>>(`/returns/${uuid}/cancel`, { version }),
-};
 
-// ================================
-// Handover (Serah Terima) — /handovers
-// ================================
+  resubmit: (uuid: string, version: number) =>
+    api.patch<ApiResponse<void>>(`/returns/${uuid}/resubmit`, { version }),
+};
 
 export const handoverApi = {
   getAll: (params?: TransactionFilterParams) =>
@@ -151,11 +150,16 @@ export const repairApi = {
 
   cancel: (uuid: string, version: number) =>
     api.patch<ApiResponse<void>>(`/repairs/${uuid}/cancel`, { version }),
-};
 
-// ================================
-// Project (Proyek Infrastruktur) — /projects
-// ================================
+  reportLost: (data: { assetId: string; description: string; note?: string }) =>
+    api.post<ApiResponse<Repair>>('/repairs/report-lost', data),
+
+  resolveLost: (
+    uuid: string,
+    version: number,
+    data: { resolution: 'FOUND' | 'NOT_FOUND'; note?: string },
+  ) => api.patch<ApiResponse<void>>(`/repairs/${uuid}/resolve-lost`, { ...data, version }),
+};
 
 export const projectApi = {
   getAll: (params?: ProjectFilterParams) =>

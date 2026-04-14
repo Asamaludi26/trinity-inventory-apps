@@ -47,6 +47,48 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-15] — Sprint 2 Transactions: Approval Engine, Request, Loan, Return, Handover, Repair
+
+#### Added
+
+- `prisma/migrations/20260414163543_sprint2_request_item_status_repair_category_return_rejection` — Migration: `RequestItemStatus` enum, `RepairCategory` enum, `itemStatus`/`itemReason` on RequestItem, `category` on Repair, `rejectionCount` on AssetReturn
+- `apps/backend/src/modules/transactions/repairs/repair.service.ts` — `reportLost()`: bypass-approval LOST reporting with instant escalation to SA & AL; `resolveLost()`: FOUND → IN_STORAGE / NOT_FOUND → DECOMMISSIONED
+- `apps/backend/src/modules/transactions/repairs/repair.controller.ts` — `POST /repairs/report-lost`, `PATCH /repairs/:id/resolve-lost` endpoints
+- `apps/backend/src/modules/transactions/returns/return.service.ts` — `resubmit()`: re-submit rejected return (REJECTED → PENDING), `MAX_REJECTION_CYCLES = 3` enforcement on reject
+- `apps/backend/src/modules/transactions/returns/return.controller.ts` — `PATCH /returns/:id/resubmit` endpoint
+- `apps/frontend/src/features/transactions/components/ApprovalTimeline.tsx` — Reusable approval timeline UI: color-coded step icons (green/red/blue/gray), CC section, role labels, pulse animation on current step
+- `apps/frontend/src/features/transactions/hooks/useRepairs.ts` — `useReportLost()`, `useResolveLost()` hooks
+- `apps/frontend/src/features/transactions/hooks/useReturns.ts` — `useResubmitReturn()` hook
+- `apps/frontend/src/features/transactions/api/transactions.api.ts` — `repairApi.reportLost()`, `repairApi.resolveLost()`, `returnApi.resubmit()`
+
+#### Changed
+
+- `apps/backend/src/modules/transactions/requests/request.service.ts` — `approve()` enhanced: per-item `itemStatus` (STOCK_ALLOCATED, PROCUREMENT_NEEDED, PARTIAL, REJECTED) with smart next-status logic
+- `apps/backend/src/modules/transactions/requests/dto/approve-request.dto.ts` — `itemAdjustments` now includes `itemStatus` enum and `itemReason` fields
+- `apps/backend/src/modules/assets/purchases/purchase.service.ts` — Added one-per-model validation + auto-calculate `totalPrice`
+- `apps/backend/src/modules/assets/depreciation/depreciation.service.ts` — Added one-per-purchase validation
+- `apps/backend/src/core/scheduler/scheduler.module.ts` — Added `ScheduleModule.forRoot()` import (cron jobs fix)
+- `apps/frontend/src/features/transactions/types/index.ts` — Enhanced `ApprovalStep` (sequence, approverRole, type, SKIPPED status), added `RequestItemStatus`, `RepairCategory`, `approvalChain` on `AssetReturn`
+- `apps/frontend/src/features/transactions/components/index.ts` — Export `ApprovalTimeline`
+- `apps/frontend/src/features/transactions/pages/RequestDetailPage.tsx` — Replaced inline approval chain with `<ApprovalTimeline />`
+- `apps/frontend/src/features/transactions/pages/LoanDetailPage.tsx` — Added `<ApprovalTimeline />`
+- `apps/frontend/src/features/transactions/pages/ReturnDetailPage.tsx` — Added `<ApprovalTimeline />`
+- `apps/frontend/src/features/transactions/pages/HandoverDetailPage.tsx` — Added `<ApprovalTimeline />`
+- `apps/frontend/src/features/transactions/pages/RepairDetailPage.tsx` — Added `<ApprovalTimeline />`
+
+#### Quality Gate
+
+- ✅ Frontend lint: 0 errors
+- ✅ Backend lint: 0 errors
+- ✅ Frontend typecheck (strict tsconfig.app.json): 0 errors
+
+#### Agents Involved
+
+- backend (request.service, repair.service/controller, return.service/controller, purchase.service, depreciation.service, scheduler.module)
+- frontend (ApprovalTimeline, detail pages, hooks, API, types)
+- database (Prisma migration)
+- documentation (changelog)
+
 ### [2026-04-14] — Sprint 0 Foundation Validation & Security Fix
 
 #### Changed

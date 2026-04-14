@@ -35,7 +35,7 @@ import {
   useCancelRequest,
   useExecuteRequest,
 } from '../hooks';
-import { RejectDialog } from '../components';
+import { RejectDialog, ApprovalTimeline } from '../components';
 import { AttachmentSection } from '@/components/form';
 import { usePermissions } from '@/hooks';
 import { P } from '@/config/permissions';
@@ -356,34 +356,7 @@ export function RequestDetailPage() {
 
         {/* Approval Timeline */}
         {request.approvalChain && request.approvalChain.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Riwayat Approval</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {request.approvalChain.map((step) => (
-                  <div key={step.step} className="flex items-start gap-4">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-medium">
-                      {step.step}
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium">{step.role}</span>
-                        <StatusBadge status={step.status} />
-                      </div>
-                      {step.decidedAt && (
-                        <p className="mt-0.5 text-xs text-muted-foreground">
-                          {formatDate(step.decidedAt)}
-                        </p>
-                      )}
-                      {step.note && <p className="mt-1 text-sm">{step.note}</p>}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <ApprovalTimeline steps={request.approvalChain} />
         )}
 
         {/* Lampiran */}

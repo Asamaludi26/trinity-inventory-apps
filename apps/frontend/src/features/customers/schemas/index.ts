@@ -20,7 +20,7 @@ export const updateCustomerSchema = createCustomerSchema.partial();
 // ================================
 
 export const createInstallationSchema = z.object({
-  customerId: z.coerce.number({ required_error: 'Pelanggan wajib dipilih' }),
+  customerId: z.coerce.number({ message: 'Pelanggan wajib dipilih' }),
   scheduledAt: z.string().optional(),
   location: z.string().optional(),
   note: z.string().optional(),
@@ -40,7 +40,7 @@ export const createInstallationSchema = z.object({
 // ================================
 
 export const createMaintenanceSchema = z.object({
-  customerId: z.coerce.number({ required_error: 'Pelanggan wajib dipilih' }),
+  customerId: z.coerce.number({ message: 'Pelanggan wajib dipilih' }),
   scheduledAt: z.string().optional(),
   issueReport: z.string().optional(),
   note: z.string().optional(),
@@ -60,7 +60,7 @@ export const createMaintenanceSchema = z.object({
 // ================================
 
 export const createDismantleSchema = z.object({
-  customerId: z.coerce.number({ required_error: 'Pelanggan wajib dipilih' }),
+  customerId: z.coerce.number({ message: 'Pelanggan wajib dipilih' }),
   scheduledAt: z.string().optional(),
   reason: z.string().optional(),
   note: z.string().optional(),

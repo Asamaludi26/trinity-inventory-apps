@@ -26,14 +26,16 @@ model Request {
 }
 
 model RequestItem {
-  id               Int     @id @default(autoincrement())
-  requestId        String  @map("request_id")
-  modelId          Int?    @map("model_id")
-  description      String  @db.VarChar(255)
+  id               Int                @id @default(autoincrement())
+  requestId        String             @map("request_id")
+  modelId          Int?               @map("model_id")
+  description      String             @db.VarChar(255)
   quantity         Int
   note             String?
-  approvedQuantity Int?    @map("approved_quantity")
-  request          Request @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  approvedQuantity Int?               @map("approved_quantity")
+  itemStatus       RequestItemStatus? @map("item_status")
+  itemReason       String?            @map("item_reason")
+  request          Request            @relation(fields: [requestId], references: [id], onDelete: Cascade)
 
   @@index([requestId])
   @@map("request_items")
@@ -99,6 +101,7 @@ model AssetReturn {
   createdAt       DateTime          @default(now()) @map("created_at")
   updatedAt       DateTime          @updatedAt @map("updated_at")
   rejectionReason String?           @map("rejection_reason")
+  rejectionCount  Int               @default(0) @map("rejection_count")
   version         Int               @default(1)
   items           AssetReturnItem[]
   createdBy       User              @relation("AssetReturnCreatedBy", fields: [createdById], references: [id])
@@ -170,6 +173,7 @@ model Repair {
   assetId          String            @map("asset_id")
   issueDescription String            @map("issue_description")
   condition        AssetCondition
+  category         RepairCategory    @default(REPAIR)
   status           TransactionStatus @default(PENDING)
   repairAction     String?           @map("repair_action")
   repairVendor     String?           @map("repair_vendor") @db.VarChar(255)

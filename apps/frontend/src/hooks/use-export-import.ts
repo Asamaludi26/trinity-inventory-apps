@@ -19,10 +19,10 @@ function downloadBlob(blob: Blob, filename: string) {
 }
 
 function getFilenameFromResponse(
-  response: { headers: Record<string, string> },
+  response: { headers: Record<string, unknown> },
   fallback: string,
 ): string {
-  const disposition = response.headers['content-disposition'];
+  const disposition = String(response.headers['content-disposition'] ?? '');
   if (disposition) {
     const match = /filename="?([^";\n]+)"?/.exec(disposition);
     if (match?.[1]) return match[1];

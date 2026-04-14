@@ -539,6 +539,8 @@ export const RequestItemScalarFieldEnum = {
   quantity: 'quantity',
   note: 'note',
   approvedQuantity: 'approvedQuantity',
+  itemStatus: 'itemStatus',
+  itemReason: 'itemReason',
 } as const;
 
 export type RequestItemScalarFieldEnum =
@@ -594,6 +596,7 @@ export const AssetReturnScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   rejectionReason: 'rejectionReason',
+  rejectionCount: 'rejectionCount',
   version: 'version',
 } as const;
 
@@ -647,6 +650,7 @@ export const RepairScalarFieldEnum = {
   assetId: 'assetId',
   issueDescription: 'issueDescription',
   condition: 'condition',
+  category: 'category',
   status: 'status',
   repairAction: 'repairAction',
   repairVendor: 'repairVendor',

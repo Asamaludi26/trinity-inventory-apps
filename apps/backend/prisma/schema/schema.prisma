@@ -142,6 +142,19 @@ enum TransactionStatus {
   ON_HOLD
 }
 
+enum RequestItemStatus {
+  APPROVED
+  PARTIAL
+  STOCK_ALLOCATED
+  PROCUREMENT_NEEDED
+  REJECTED
+}
+
+enum RepairCategory {
+  REPAIR
+  LOST
+}
+
 enum NotificationType {
   INFO
   WARNING

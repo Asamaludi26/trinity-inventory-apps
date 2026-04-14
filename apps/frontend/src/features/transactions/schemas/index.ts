@@ -42,7 +42,7 @@ export const createLoanSchema = z.object({
 const returnItemSchema = z.object({
   assetId: z.string().min(1, 'Asset ID wajib diisi'),
   conditionAfter: z.enum(['NEW', 'GOOD', 'FAIR', 'POOR', 'BROKEN'], {
-    required_error: 'Kondisi wajib dipilih',
+    message: 'Kondisi wajib dipilih',
   }),
   note: z.string().optional(),
 });
@@ -63,7 +63,7 @@ const handoverItemSchema = z.object({
 });
 
 export const createHandoverSchema = z.object({
-  toUserId: z.coerce.number({ required_error: 'Penerima wajib dipilih' }),
+  toUserId: z.coerce.number({ message: 'Penerima wajib dipilih' }),
   witnessUserId: z.coerce.number().optional(),
   note: z.string().optional(),
   items: z.array(handoverItemSchema).min(1, 'Minimal 1 aset'),

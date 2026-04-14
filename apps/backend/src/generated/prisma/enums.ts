@@ -87,6 +87,25 @@ export const TransactionStatus = {
 export type TransactionStatus =
   (typeof TransactionStatus)[keyof typeof TransactionStatus];
 
+export const RequestItemStatus = {
+  APPROVED: 'APPROVED',
+  PARTIAL: 'PARTIAL',
+  STOCK_ALLOCATED: 'STOCK_ALLOCATED',
+  PROCUREMENT_NEEDED: 'PROCUREMENT_NEEDED',
+  REJECTED: 'REJECTED',
+} as const;
+
+export type RequestItemStatus =
+  (typeof RequestItemStatus)[keyof typeof RequestItemStatus];
+
+export const RepairCategory = {
+  REPAIR: 'REPAIR',
+  LOST: 'LOST',
+} as const;
+
+export type RepairCategory =
+  (typeof RepairCategory)[keyof typeof RepairCategory];
+
 export const NotificationType = {
   INFO: 'INFO',
   WARNING: 'WARNING',

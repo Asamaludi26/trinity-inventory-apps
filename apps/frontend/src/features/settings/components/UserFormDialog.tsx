@@ -58,7 +58,9 @@ export function UserFormDialog({ open, onOpenChange, user }: UserFormDialogProps
     control,
     formState: { errors, isSubmitting },
   } = useForm<CreateUserFormData | UpdateUserFormData>({
-    resolver: zodResolver(isEdit ? updateUserSchema : createUserSchema),
+    resolver: zodResolver(isEdit ? updateUserSchema : createUserSchema) as ReturnType<
+      typeof zodResolver
+    >,
     defaultValues: isEdit
       ? {
           employeeId: user.employeeId,
@@ -69,7 +71,7 @@ export function UserFormDialog({ open, onOpenChange, user }: UserFormDialogProps
           phone: user.phone ?? '',
           password: '',
         }
-      : { canDoFieldwork: false },
+      : ({ canDoFieldwork: false } as Record<string, unknown>),
   });
 
   const selectedRole = useWatch({ control, name: 'role' });

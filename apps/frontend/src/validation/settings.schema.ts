@@ -12,9 +12,9 @@ export const createUserSchema = z.object({
       'Password harus mengandung huruf besar, huruf kecil, angka, dan karakter spesial',
     ),
   role: z.enum(['SUPERADMIN', 'ADMIN_LOGISTIK', 'ADMIN_PURCHASE', 'LEADER', 'STAFF'], {
-    required_error: 'Role wajib dipilih',
+    message: 'Role wajib dipilih',
   }),
-  divisionId: z.coerce.number().optional(),
+  divisionId: z.union([z.number(), z.string().transform(Number)]).optional(),
   phone: z.string().optional(),
 });
 
@@ -32,7 +32,7 @@ export const updateUserSchema = z.object({
     .optional()
     .or(z.literal('')),
   role: z.enum(['SUPERADMIN', 'ADMIN_LOGISTIK', 'ADMIN_PURCHASE', 'LEADER', 'STAFF']).optional(),
-  divisionId: z.coerce.number().optional(),
+  divisionId: z.union([z.number(), z.string().transform(Number)]).optional(),
   phone: z.string().optional(),
   isActive: z.boolean().optional(),
 });
@@ -45,7 +45,7 @@ export const createDivisionSchema = z.object({
     .max(10, 'Kode maksimal 10 karakter')
     .regex(/^[A-Z0-9]+$/, 'Kode harus huruf kapital dan angka'),
   description: z.string().optional(),
-  canDoFieldwork: z.boolean().default(false),
+  canDoFieldwork: z.boolean().optional(),
 });
 
 export const updateDivisionSchema = z.object({

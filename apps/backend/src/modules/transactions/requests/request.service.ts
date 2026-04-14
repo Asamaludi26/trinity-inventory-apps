@@ -18,6 +18,7 @@ import {
   Prisma,
   TransactionStatus,
   UserRole,
+  RequestItemStatus,
   AssetCondition,
   AssetStatus,
 } from '../../../generated/prisma/client';
@@ -188,7 +189,12 @@ export class RequestService {
     approverRole: UserRole,
     approverName: string,
     note?: string,
-    itemAdjustments?: { itemId: number; approvedQuantity: number }[],
+    itemAdjustments?: {
+      itemId: number;
+      approvedQuantity: number;
+      itemStatus?: RequestItemStatus;
+      itemReason?: string;
+    }[],
   ) {
     const existing = await this.findOne(id);
     if (
@@ -212,11 +218,31 @@ export class RequestService {
     );
 
     const isComplete = this.approvalService.isChainComplete(updatedChain);
-    const nextStatus = isComplete
-      ? TransactionStatus.APPROVED
-      : existing.status === TransactionStatus.PENDING
-        ? TransactionStatus.LOGISTIC_APPROVED
-        : TransactionStatus.AWAITING_CEO_APPROVAL;
+
+    // Determine next status based on per-item statuses
+    let nextStatus: TransactionStatus;
+    if (!isComplete) {
+      nextStatus =
+        existing.status === TransactionStatus.PENDING
+          ? TransactionStatus.LOGISTIC_APPROVED
+          : TransactionStatus.AWAITING_CEO_APPROVAL;
+    } else if (
+      itemAdjustments?.some(
+        (a) => a.itemStatus === RequestItemStatus.PROCUREMENT_NEEDED,
+      )
+    ) {
+      // If any item needs procurement → PURCHASING
+      nextStatus = TransactionStatus.PURCHASING;
+    } else if (
+      itemAdjustments?.every(
+        (a) => a.itemStatus === RequestItemStatus.STOCK_ALLOCATED,
+      )
+    ) {
+      // If all items allocated from stock → skip purchasing
+      nextStatus = TransactionStatus.AWAITING_HANDOVER;
+    } else {
+      nextStatus = TransactionStatus.APPROVED;
+    }
 
     const result = await this.prisma.$transaction(async (tx) => {
       const { count } = await tx.request.updateMany({
@@ -234,7 +260,7 @@ export class RequestService {
         );
       }
 
-      // Apply partial approval adjustments if provided
+      // Apply per-item approval adjustments if provided
       if (itemAdjustments?.length) {
         for (const adj of itemAdjustments) {
           const item = existing.items.find((i) => i.id === adj.itemId);
@@ -248,9 +274,23 @@ export class RequestService {
               `Jumlah disetujui (${adj.approvedQuantity}) tidak boleh melebihi jumlah diminta (${item.quantity}) untuk item "${item.description}"`,
             );
           }
+          // Reason wajib untuk PARTIAL dan REJECTED
+          if (
+            (adj.itemStatus === RequestItemStatus.PARTIAL ||
+              adj.itemStatus === RequestItemStatus.REJECTED) &&
+            !adj.itemReason
+          ) {
+            throw new BadRequestException(
+              `Alasan wajib diisi untuk item "${item.description}" dengan status ${adj.itemStatus}`,
+            );
+          }
           await tx.requestItem.update({
             where: { id: adj.itemId },
-            data: { approvedQuantity: adj.approvedQuantity },
+            data: {
+              approvedQuantity: adj.approvedQuantity,
+              itemStatus: adj.itemStatus ?? RequestItemStatus.APPROVED,
+              itemReason: adj.itemReason,
+            },
           });
         }
       }

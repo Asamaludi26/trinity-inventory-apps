@@ -1,5 +1,5 @@
 import type { TransactionStatus, AssetCondition, PaginationParams, UserSummary } from '@/types';
-import type { AssetModel } from '../assets/types';
+import type { AssetModel } from '../../assets/types';
 
 // ================================
 // Request (Permintaan Baru)
@@ -31,6 +31,8 @@ export interface RequestItem {
   description: string;
   quantity: number;
   approvedQuantity: number | null;
+  itemStatus: RequestItemStatus | null;
+  itemReason: string | null;
   note: string | null;
   model?: AssetModel;
 }
@@ -87,6 +89,7 @@ export interface AssetReturn {
   note: string | null;
   createdById: number;
   rejectionReason: string | null;
+  rejectionCount: number;
   isDeleted: boolean;
   version: number;
   createdAt: string;
@@ -94,6 +97,7 @@ export interface AssetReturn {
   loanRequest?: LoanRequest;
   createdBy?: UserSummary;
   items?: AssetReturnItem[];
+  approvalChain?: ApprovalStep[];
 }
 
 export interface AssetReturnItem {
@@ -201,6 +205,7 @@ export interface Repair {
   status: TransactionStatus;
   issueDescription: string;
   condition: AssetCondition;
+  category: RepairCategory;
   repairAction: string | null;
   repairCost: string | null;
   repairVendor: string | null;
@@ -224,12 +229,28 @@ export interface Repair {
 
 export interface ApprovalStep {
   step: number;
+  sequence?: number;
   role: string;
+  approverRole?: string;
+  type?: 'APPROVAL' | 'CC';
   userId: number | null;
-  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  approvedById?: number;
+  approverName?: string;
+  approvedByName?: string;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'SKIPPED';
   decidedAt: string | null;
+  approvedAt?: string | null;
   note: string | null;
 }
+
+export type RequestItemStatus =
+  | 'APPROVED'
+  | 'PARTIAL'
+  | 'STOCK_ALLOCATED'
+  | 'PROCUREMENT_NEEDED'
+  | 'REJECTED';
+
+export type RepairCategory = 'REPAIR' | 'LOST';
 
 // ================================
 // Filter Params

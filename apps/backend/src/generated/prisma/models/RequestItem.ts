@@ -48,6 +48,8 @@ export type RequestItemMinAggregateOutputType = {
   quantity: number | null;
   note: string | null;
   approvedQuantity: number | null;
+  itemStatus: $Enums.RequestItemStatus | null;
+  itemReason: string | null;
 };
 
 export type RequestItemMaxAggregateOutputType = {
@@ -58,6 +60,8 @@ export type RequestItemMaxAggregateOutputType = {
   quantity: number | null;
   note: string | null;
   approvedQuantity: number | null;
+  itemStatus: $Enums.RequestItemStatus | null;
+  itemReason: string | null;
 };
 
 export type RequestItemCountAggregateOutputType = {
@@ -68,6 +72,8 @@ export type RequestItemCountAggregateOutputType = {
   quantity: number;
   note: number;
   approvedQuantity: number;
+  itemStatus: number;
+  itemReason: number;
   _all: number;
 };
 
@@ -93,6 +99,8 @@ export type RequestItemMinAggregateInputType = {
   quantity?: true;
   note?: true;
   approvedQuantity?: true;
+  itemStatus?: true;
+  itemReason?: true;
 };
 
 export type RequestItemMaxAggregateInputType = {
@@ -103,6 +111,8 @@ export type RequestItemMaxAggregateInputType = {
   quantity?: true;
   note?: true;
   approvedQuantity?: true;
+  itemStatus?: true;
+  itemReason?: true;
 };
 
 export type RequestItemCountAggregateInputType = {
@@ -113,6 +123,8 @@ export type RequestItemCountAggregateInputType = {
   quantity?: true;
   note?: true;
   approvedQuantity?: true;
+  itemStatus?: true;
+  itemReason?: true;
   _all?: true;
 };
 
@@ -217,6 +229,8 @@ export type RequestItemGroupByOutputType = {
   quantity: number;
   note: string | null;
   approvedQuantity: number | null;
+  itemStatus: $Enums.RequestItemStatus | null;
+  itemReason: string | null;
   _count: RequestItemCountAggregateOutputType | null;
   _avg: RequestItemAvgAggregateOutputType | null;
   _sum: RequestItemSumAggregateOutputType | null;
@@ -248,6 +262,11 @@ export type RequestItemWhereInput = {
   quantity?: Prisma.IntFilter<'RequestItem'> | number;
   note?: Prisma.StringNullableFilter<'RequestItem'> | string | null;
   approvedQuantity?: Prisma.IntNullableFilter<'RequestItem'> | number | null;
+  itemStatus?:
+    | Prisma.EnumRequestItemStatusNullableFilter<'RequestItem'>
+    | $Enums.RequestItemStatus
+    | null;
+  itemReason?: Prisma.StringNullableFilter<'RequestItem'> | string | null;
   request?: Prisma.XOR<
     Prisma.RequestScalarRelationFilter,
     Prisma.RequestWhereInput
@@ -262,6 +281,8 @@ export type RequestItemOrderByWithRelationInput = {
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
   approvedQuantity?: Prisma.SortOrderInput | Prisma.SortOrder;
+  itemStatus?: Prisma.SortOrderInput | Prisma.SortOrder;
+  itemReason?: Prisma.SortOrderInput | Prisma.SortOrder;
   request?: Prisma.RequestOrderByWithRelationInput;
 };
 
@@ -277,6 +298,11 @@ export type RequestItemWhereUniqueInput = Prisma.AtLeast<
     quantity?: Prisma.IntFilter<'RequestItem'> | number;
     note?: Prisma.StringNullableFilter<'RequestItem'> | string | null;
     approvedQuantity?: Prisma.IntNullableFilter<'RequestItem'> | number | null;
+    itemStatus?:
+      | Prisma.EnumRequestItemStatusNullableFilter<'RequestItem'>
+      | $Enums.RequestItemStatus
+      | null;
+    itemReason?: Prisma.StringNullableFilter<'RequestItem'> | string | null;
     request?: Prisma.XOR<
       Prisma.RequestScalarRelationFilter,
       Prisma.RequestWhereInput
@@ -293,6 +319,8 @@ export type RequestItemOrderByWithAggregationInput = {
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
   approvedQuantity?: Prisma.SortOrderInput | Prisma.SortOrder;
+  itemStatus?: Prisma.SortOrderInput | Prisma.SortOrder;
+  itemReason?: Prisma.SortOrderInput | Prisma.SortOrder;
   _count?: Prisma.RequestItemCountOrderByAggregateInput;
   _avg?: Prisma.RequestItemAvgOrderByAggregateInput;
   _max?: Prisma.RequestItemMaxOrderByAggregateInput;
@@ -324,6 +352,14 @@ export type RequestItemScalarWhereWithAggregatesInput = {
     | Prisma.IntNullableWithAggregatesFilter<'RequestItem'>
     | number
     | null;
+  itemStatus?:
+    | Prisma.EnumRequestItemStatusNullableWithAggregatesFilter<'RequestItem'>
+    | $Enums.RequestItemStatus
+    | null;
+  itemReason?:
+    | Prisma.StringNullableWithAggregatesFilter<'RequestItem'>
+    | string
+    | null;
 };
 
 export type RequestItemCreateInput = {
@@ -332,6 +368,8 @@ export type RequestItemCreateInput = {
   quantity: number;
   note?: string | null;
   approvedQuantity?: number | null;
+  itemStatus?: $Enums.RequestItemStatus | null;
+  itemReason?: string | null;
   request: Prisma.RequestCreateNestedOneWithoutItemsInput;
 };
 
@@ -343,6 +381,8 @@ export type RequestItemUncheckedCreateInput = {
   quantity: number;
   note?: string | null;
   approvedQuantity?: number | null;
+  itemStatus?: $Enums.RequestItemStatus | null;
+  itemReason?: string | null;
 };
 
 export type RequestItemUpdateInput = {
@@ -354,6 +394,11 @@ export type RequestItemUpdateInput = {
     | Prisma.NullableIntFieldUpdateOperationsInput
     | number
     | null;
+  itemStatus?:
+    | Prisma.NullableEnumRequestItemStatusFieldUpdateOperationsInput
+    | $Enums.RequestItemStatus
+    | null;
+  itemReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   request?: Prisma.RequestUpdateOneRequiredWithoutItemsNestedInput;
 };
 
@@ -368,6 +413,11 @@ export type RequestItemUncheckedUpdateInput = {
     | Prisma.NullableIntFieldUpdateOperationsInput
     | number
     | null;
+  itemStatus?:
+    | Prisma.NullableEnumRequestItemStatusFieldUpdateOperationsInput
+    | $Enums.RequestItemStatus
+    | null;
+  itemReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type RequestItemCreateManyInput = {
@@ -378,6 +428,8 @@ export type RequestItemCreateManyInput = {
   quantity: number;
   note?: string | null;
   approvedQuantity?: number | null;
+  itemStatus?: $Enums.RequestItemStatus | null;
+  itemReason?: string | null;
 };
 
 export type RequestItemUpdateManyMutationInput = {
@@ -389,6 +441,11 @@ export type RequestItemUpdateManyMutationInput = {
     | Prisma.NullableIntFieldUpdateOperationsInput
     | number
     | null;
+  itemStatus?:
+    | Prisma.NullableEnumRequestItemStatusFieldUpdateOperationsInput
+    | $Enums.RequestItemStatus
+    | null;
+  itemReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type RequestItemUncheckedUpdateManyInput = {
@@ -402,6 +459,11 @@ export type RequestItemUncheckedUpdateManyInput = {
     | Prisma.NullableIntFieldUpdateOperationsInput
     | number
     | null;
+  itemStatus?:
+    | Prisma.NullableEnumRequestItemStatusFieldUpdateOperationsInput
+    | $Enums.RequestItemStatus
+    | null;
+  itemReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type RequestItemListRelationFilter = {
@@ -422,6 +484,8 @@ export type RequestItemCountOrderByAggregateInput = {
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
   approvedQuantity?: Prisma.SortOrder;
+  itemStatus?: Prisma.SortOrder;
+  itemReason?: Prisma.SortOrder;
 };
 
 export type RequestItemAvgOrderByAggregateInput = {
@@ -439,6 +503,8 @@ export type RequestItemMaxOrderByAggregateInput = {
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
   approvedQuantity?: Prisma.SortOrder;
+  itemStatus?: Prisma.SortOrder;
+  itemReason?: Prisma.SortOrder;
 };
 
 export type RequestItemMinOrderByAggregateInput = {
@@ -449,6 +515,8 @@ export type RequestItemMinOrderByAggregateInput = {
   quantity?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
   approvedQuantity?: Prisma.SortOrder;
+  itemStatus?: Prisma.SortOrder;
+  itemReason?: Prisma.SortOrder;
 };
 
 export type RequestItemSumOrderByAggregateInput = {
@@ -568,12 +636,18 @@ export type RequestItemUncheckedUpdateManyWithoutRequestNestedInput = {
     | Prisma.RequestItemScalarWhereInput[];
 };
 
+export type NullableEnumRequestItemStatusFieldUpdateOperationsInput = {
+  set?: $Enums.RequestItemStatus | null;
+};
+
 export type RequestItemCreateWithoutRequestInput = {
   modelId?: number | null;
   description: string;
   quantity: number;
   note?: string | null;
   approvedQuantity?: number | null;
+  itemStatus?: $Enums.RequestItemStatus | null;
+  itemReason?: string | null;
 };
 
 export type RequestItemUncheckedCreateWithoutRequestInput = {
@@ -583,6 +657,8 @@ export type RequestItemUncheckedCreateWithoutRequestInput = {
   quantity: number;
   note?: string | null;
   approvedQuantity?: number | null;
+  itemStatus?: $Enums.RequestItemStatus | null;
+  itemReason?: string | null;
 };
 
 export type RequestItemCreateOrConnectWithoutRequestInput = {
@@ -643,6 +719,11 @@ export type RequestItemScalarWhereInput = {
   quantity?: Prisma.IntFilter<'RequestItem'> | number;
   note?: Prisma.StringNullableFilter<'RequestItem'> | string | null;
   approvedQuantity?: Prisma.IntNullableFilter<'RequestItem'> | number | null;
+  itemStatus?:
+    | Prisma.EnumRequestItemStatusNullableFilter<'RequestItem'>
+    | $Enums.RequestItemStatus
+    | null;
+  itemReason?: Prisma.StringNullableFilter<'RequestItem'> | string | null;
 };
 
 export type RequestItemCreateManyRequestInput = {
@@ -652,6 +733,8 @@ export type RequestItemCreateManyRequestInput = {
   quantity: number;
   note?: string | null;
   approvedQuantity?: number | null;
+  itemStatus?: $Enums.RequestItemStatus | null;
+  itemReason?: string | null;
 };
 
 export type RequestItemUpdateWithoutRequestInput = {
@@ -663,6 +746,11 @@ export type RequestItemUpdateWithoutRequestInput = {
     | Prisma.NullableIntFieldUpdateOperationsInput
     | number
     | null;
+  itemStatus?:
+    | Prisma.NullableEnumRequestItemStatusFieldUpdateOperationsInput
+    | $Enums.RequestItemStatus
+    | null;
+  itemReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type RequestItemUncheckedUpdateWithoutRequestInput = {
@@ -675,6 +763,11 @@ export type RequestItemUncheckedUpdateWithoutRequestInput = {
     | Prisma.NullableIntFieldUpdateOperationsInput
     | number
     | null;
+  itemStatus?:
+    | Prisma.NullableEnumRequestItemStatusFieldUpdateOperationsInput
+    | $Enums.RequestItemStatus
+    | null;
+  itemReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type RequestItemUncheckedUpdateManyWithoutRequestInput = {
@@ -687,6 +780,11 @@ export type RequestItemUncheckedUpdateManyWithoutRequestInput = {
     | Prisma.NullableIntFieldUpdateOperationsInput
     | number
     | null;
+  itemStatus?:
+    | Prisma.NullableEnumRequestItemStatusFieldUpdateOperationsInput
+    | $Enums.RequestItemStatus
+    | null;
+  itemReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type RequestItemSelect<
@@ -701,6 +799,8 @@ export type RequestItemSelect<
     quantity?: boolean;
     note?: boolean;
     approvedQuantity?: boolean;
+    itemStatus?: boolean;
+    itemReason?: boolean;
     request?: boolean | Prisma.RequestDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['requestItem']
@@ -718,6 +818,8 @@ export type RequestItemSelectCreateManyAndReturn<
     quantity?: boolean;
     note?: boolean;
     approvedQuantity?: boolean;
+    itemStatus?: boolean;
+    itemReason?: boolean;
     request?: boolean | Prisma.RequestDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['requestItem']
@@ -735,6 +837,8 @@ export type RequestItemSelectUpdateManyAndReturn<
     quantity?: boolean;
     note?: boolean;
     approvedQuantity?: boolean;
+    itemStatus?: boolean;
+    itemReason?: boolean;
     request?: boolean | Prisma.RequestDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['requestItem']
@@ -748,6 +852,8 @@ export type RequestItemSelectScalar = {
   quantity?: boolean;
   note?: boolean;
   approvedQuantity?: boolean;
+  itemStatus?: boolean;
+  itemReason?: boolean;
 };
 
 export type RequestItemOmit<
@@ -760,7 +866,9 @@ export type RequestItemOmit<
   | 'description'
   | 'quantity'
   | 'note'
-  | 'approvedQuantity',
+  | 'approvedQuantity'
+  | 'itemStatus'
+  | 'itemReason',
   ExtArgs['result']['requestItem']
 >;
 export type RequestItemInclude<
@@ -799,6 +907,8 @@ export type $RequestItemPayload<
       quantity: number;
       note: string | null;
       approvedQuantity: number | null;
+      itemStatus: $Enums.RequestItemStatus | null;
+      itemReason: string | null;
     },
     ExtArgs['result']['requestItem']
   >;
@@ -1415,6 +1525,8 @@ export interface RequestItemFieldRefs {
   readonly quantity: Prisma.FieldRef<'RequestItem', 'Int'>;
   readonly note: Prisma.FieldRef<'RequestItem', 'String'>;
   readonly approvedQuantity: Prisma.FieldRef<'RequestItem', 'Int'>;
+  readonly itemStatus: Prisma.FieldRef<'RequestItem', 'RequestItemStatus'>;
+  readonly itemReason: Prisma.FieldRef<'RequestItem', 'String'>;
 }
 
 // Custom InputTypes

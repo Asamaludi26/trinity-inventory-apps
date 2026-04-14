@@ -3715,6 +3715,8 @@ export const RequestItemScalarFieldEnum = {
   quantity: 'quantity',
   note: 'note',
   approvedQuantity: 'approvedQuantity',
+  itemStatus: 'itemStatus',
+  itemReason: 'itemReason',
 } as const;
 
 export type RequestItemScalarFieldEnum =
@@ -3770,6 +3772,7 @@ export const AssetReturnScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   rejectionReason: 'rejectionReason',
+  rejectionCount: 'rejectionCount',
   version: 'version',
 } as const;
 
@@ -3823,6 +3826,7 @@ export const RepairScalarFieldEnum = {
   assetId: 'assetId',
   issueDescription: 'issueDescription',
   condition: 'condition',
+  category: 'category',
   status: 'status',
   repairAction: 'repairAction',
   repairVendor: 'repairVendor',
@@ -3939,6 +3943,32 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<
   $PrismaModel,
   'DateTime[]'
 >;
+
+/**
+ * Reference to a field of type 'AssetClassification'
+ */
+export type EnumAssetClassificationFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'AssetClassification'>;
+
+/**
+ * Reference to a field of type 'AssetClassification[]'
+ */
+export type ListEnumAssetClassificationFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'AssetClassification[]'>;
+
+/**
+ * Reference to a field of type 'TrackingMethod'
+ */
+export type EnumTrackingMethodFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'TrackingMethod'
+>;
+
+/**
+ * Reference to a field of type 'TrackingMethod[]'
+ */
+export type ListEnumTrackingMethodFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'TrackingMethod[]'>;
 
 /**
  * Reference to a field of type 'AssetClassification'
@@ -4097,6 +4127,32 @@ export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
  */
 export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> =
   FieldRefInputType<$PrismaModel, 'NotificationType[]'>;
+
+/**
+ * Reference to a field of type 'RequestItemStatus'
+ */
+export type EnumRequestItemStatusFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'RequestItemStatus'>;
+
+/**
+ * Reference to a field of type 'RequestItemStatus[]'
+ */
+export type ListEnumRequestItemStatusFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'RequestItemStatus[]'>;
+
+/**
+ * Reference to a field of type 'RepairCategory'
+ */
+export type EnumRepairCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'RepairCategory'
+>;
+
+/**
+ * Reference to a field of type 'RepairCategory[]'
+ */
+export type ListEnumRepairCategoryFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'RepairCategory[]'>;
 
 /**
  * Reference to a field of type 'Float'

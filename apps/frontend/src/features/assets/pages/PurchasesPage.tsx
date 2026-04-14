@@ -116,7 +116,7 @@ export function PurchasesPage() {
                 <TableRow
                   key={item.id}
                   className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => navigate(`/assets/purchases/${item.uuid}`)}
+                  onClick={() => navigate(`/assets/purchases/${item.id}`)}
                 >
                   <TableCell className="font-medium">{item.model?.name ?? '-'}</TableCell>
                   <TableCell>{item.supplier}</TableCell>

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
 import { UpdatePurchaseDto } from './dto/update-purchase.dto';
@@ -114,13 +118,25 @@ export class PurchaseService {
   }
 
   async create(dto: CreatePurchaseDto, userId: number) {
+    const existing = await this.prisma.purchaseMasterData.findFirst({
+      where: { modelId: dto.modelId, isDeleted: false },
+    });
+    if (existing) {
+      throw new UnprocessableEntityException(
+        'Model ini sudah memiliki data pembelian. Satu model hanya boleh memiliki satu data pembelian.',
+      );
+    }
+
+    const totalPrice =
+      dto.totalPrice ?? Number((dto.unitPrice * dto.quantity).toFixed(2));
+
     return this.prisma.purchaseMasterData.create({
       data: {
         modelId: dto.modelId,
         supplier: dto.supplier,
         unitPrice: dto.unitPrice,
         quantity: dto.quantity,
-        totalPrice: dto.totalPrice,
+        totalPrice,
         purchaseDate: new Date(dto.purchaseDate),
         warrantyMonths: dto.warrantyMonths,
         invoiceNumber: dto.invoiceNumber,

@@ -91,3 +91,34 @@ export function useCancelRepair() {
     },
   });
 }
+
+export function useReportLost() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: { assetId: string; description: string; note?: string }) =>
+      repairApi.reportLost(data).then((res) => res.data.data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: REPAIRS_KEY });
+    },
+  });
+}
+
+export function useResolveLost() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      uuid,
+      version,
+      resolution,
+      note,
+    }: {
+      uuid: string;
+      version: number;
+      resolution: 'FOUND' | 'NOT_FOUND';
+      note?: string;
+    }) => repairApi.resolveLost(uuid, version, { resolution, note }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: REPAIRS_KEY });
+    },
+  });
+}

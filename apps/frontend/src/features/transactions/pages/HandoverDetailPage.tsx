@@ -17,7 +17,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useHandover, useApproveHandover, useRejectHandover, useExecuteHandover } from '../hooks';
-import { RejectDialog } from '../components';
+import { RejectDialog, ApprovalTimeline } from '../components';
 import { AttachmentSection } from '@/components/form';
 import { usePermissions } from '@/hooks';
 import { P } from '@/config/permissions';
@@ -230,6 +230,11 @@ export function HandoverDetailPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Approval Timeline */}
+        {handover.approvalChain && handover.approvalChain.length > 0 && (
+          <ApprovalTimeline steps={handover.approvalChain} />
+        )}
 
         {/* Lampiran */}
         <AttachmentSection entityType="Handover" entityId={uuid} />

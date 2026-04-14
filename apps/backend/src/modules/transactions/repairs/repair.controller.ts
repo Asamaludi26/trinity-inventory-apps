@@ -185,4 +185,42 @@ export class RepairController {
   ) {
     return this.repairService.cancel(id, user.sub, version);
   }
+
+  @Post('report-lost')
+  @AuthPermissions(PERMISSIONS.ASSETS_REPAIR_REPORT)
+  @ApiOperation({ summary: 'Lapor aset hilang (bypass approval)' })
+  @ApiResponse({
+    status: 201,
+    description: 'Laporan aset hilang berhasil dibuat',
+  })
+  async reportLost(
+    @Body()
+    dto: {
+      assetId: string;
+      description: string;
+      note?: string;
+    },
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.repairService.reportLost(dto, user.sub);
+  }
+
+  @Patch(':id/resolve-lost')
+  @AuthPermissions(PERMISSIONS.ASSETS_REPAIR_MANAGE)
+  @ApiOperation({
+    summary: 'Resolve laporan aset hilang (ditemukan/tidak ditemukan)',
+  })
+  async resolveLost(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body()
+    data: {
+      resolution: 'FOUND' | 'NOT_FOUND';
+      note?: string;
+      version: number;
+    },
+    @CurrentUser() user: JwtPayload,
+  ) {
+    const { version, ...resolveData } = data;
+    return this.repairService.resolveLost(id, resolveData, version, user.sub);
+  }
 }

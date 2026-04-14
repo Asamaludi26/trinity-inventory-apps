@@ -16,6 +16,8 @@ import {
   Prisma,
   TransactionStatus,
   UserRole,
+  RepairCategory,
+  AssetStatus,
 } from '../../../generated/prisma/client';
 
 @Injectable()
@@ -638,5 +640,209 @@ export class RepairService {
       .catch(() => {});
 
     return this.prisma.repair.findUnique({ where: { id } });
+  }
+
+  /**
+   * Report an asset as LOST (PRD §6.1).
+   * Bypass approval — asset status → LOST immediately.
+   * Instant notification escalation to SA & AL.
+   */
+  async reportLost(
+    dto: { assetId: string; description: string; note?: string },
+    userId: number,
+  ) {
+    const asset = await this.prisma.asset.findUnique({
+      where: { id: dto.assetId },
+      include: { currentUser: { select: { id: true } } },
+    });
+    if (!asset) {
+      throw new BadRequestException('Aset tidak ditemukan');
+    }
+
+    // Pelapor harus PIC terakhir aset
+    if (asset.currentUserId && asset.currentUserId !== userId) {
+      // Allow SA & AL to report on behalf
+      const reporter = await this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { role: true },
+      });
+      if (
+        reporter?.role !== UserRole.SUPERADMIN &&
+        reporter?.role !== UserRole.ADMIN_LOGISTIK
+      ) {
+        throw new BadRequestException(
+          'Hanya PIC terakhir aset, Superadmin, atau Admin Logistik yang dapat melaporkan aset hilang',
+        );
+      }
+    }
+
+    const code = await this.generateCode();
+
+    const result = await this.prisma.$transaction(async (tx) => {
+      // Asset status → LOST immediately (bypass approval)
+      await tx.asset.update({
+        where: { id: dto.assetId },
+        data: { status: AssetStatus.LOST },
+      });
+
+      await this.stockMovementService.create(
+        {
+          assetId: dto.assetId,
+          type: 'ADJUSTMENT',
+          reference: code,
+          note: `Aset dilaporkan hilang: ${dto.description}`,
+          createdById: userId,
+        },
+        tx,
+      );
+
+      return tx.repair.create({
+        data: {
+          code,
+          assetId: dto.assetId,
+          issueDescription: dto.description,
+          condition: asset.condition,
+          category: RepairCategory.LOST,
+          status: TransactionStatus.IN_PROGRESS, // Bypass approval
+          note: dto.note,
+          createdById: userId,
+        },
+        include: {
+          createdBy: { select: { id: true, fullName: true } },
+          asset: { select: { id: true, code: true, name: true } },
+        },
+      });
+    });
+
+    this.eventsService.emitTransactionUpdate({
+      id: result.id,
+      code,
+      type: 'repair',
+      status: TransactionStatus.IN_PROGRESS,
+      version: 1,
+    });
+
+    // Instant escalation to SA & AL
+    const admins = await this.prisma.user.findMany({
+      where: {
+        role: { in: [UserRole.SUPERADMIN, UserRole.ADMIN_LOGISTIK] },
+        isDeleted: false,
+      },
+      select: { id: true },
+    });
+    for (const admin of admins) {
+      this.notificationService
+        .notifyTransactionStatusChange({
+          recipientUserId: admin.id,
+          transactionType: 'Laporan Aset Hilang',
+          transactionCode: code,
+          action: 'EXECUTED',
+          link: `/transactions/repairs/${result.id}`,
+        })
+        .catch(() => {});
+    }
+
+    return result;
+  }
+
+  /**
+   * Resolve a LOST asset report.
+   * - found: restore asset status to previous status
+   * - not found: decommission asset
+   */
+  async resolveLost(
+    id: string,
+    data: { resolution: 'FOUND' | 'NOT_FOUND'; note?: string },
+    version: number,
+    resolvedById: number,
+  ) {
+    const existing = await this.findOne(id);
+    if (existing.category !== RepairCategory.LOST) {
+      throw new BadRequestException(
+        'Operasi ini hanya berlaku untuk laporan aset hilang',
+      );
+    }
+    if (existing.status !== TransactionStatus.IN_PROGRESS) {
+      throw new BadRequestException(
+        'Hanya laporan yang sedang dalam investigasi yang dapat diselesaikan',
+      );
+    }
+    if (existing.version !== version) {
+      throw new ConflictException(
+        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+      );
+    }
+
+    const result = await this.prisma.$transaction(async (tx) => {
+      if (data.resolution === 'FOUND') {
+        // Restore to IN_STORAGE
+        await tx.asset.update({
+          where: { id: existing.assetId },
+          data: { status: AssetStatus.IN_STORAGE },
+        });
+
+        await this.stockMovementService.create(
+          {
+            assetId: existing.assetId,
+            type: 'ADJUSTMENT',
+            reference: existing.code,
+            note: `Aset hilang ditemukan kembali${data.note ? `: ${data.note}` : ''}`,
+            createdById: resolvedById,
+          },
+          tx,
+        );
+      } else {
+        // Decommission: status → DECOMMISSIONED
+        await tx.asset.update({
+          where: { id: existing.assetId },
+          data: { status: AssetStatus.DECOMMISSIONED },
+        });
+
+        await this.stockMovementService.create(
+          {
+            assetId: existing.assetId,
+            type: 'ADJUSTMENT',
+            reference: existing.code,
+            note: `Aset hilang tidak ditemukan — dicatat sebagai kerugian${data.note ? `: ${data.note}` : ''}`,
+            createdById: resolvedById,
+          },
+          tx,
+        );
+      }
+
+      return tx.repair.update({
+        where: { id },
+        data: {
+          status: TransactionStatus.COMPLETED,
+          completedAt: new Date(),
+          repairAction:
+            data.resolution === 'FOUND'
+              ? 'Aset ditemukan'
+              : 'Aset tidak ditemukan — decommissioned',
+          note: data.note,
+          version: { increment: 1 },
+        },
+      });
+    });
+
+    this.eventsService.emitTransactionUpdate({
+      id,
+      code: existing.code,
+      type: 'repair',
+      status: TransactionStatus.COMPLETED,
+      version: existing.version + 1,
+    });
+
+    this.notificationService
+      .notifyTransactionStatusChange({
+        recipientUserId: existing.createdById,
+        transactionType: 'Laporan Aset Hilang',
+        transactionCode: existing.code,
+        action: 'COMPLETED',
+        link: `/transactions/repairs/${id}`,
+      })
+      .catch(() => {});
+
+    return result;
   }
 }

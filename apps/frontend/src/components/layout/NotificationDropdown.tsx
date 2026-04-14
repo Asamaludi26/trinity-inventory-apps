@@ -89,6 +89,7 @@ function NotificationItem({
 }
 
 export function NotificationDropdown() {
+  const navigate = useNavigate();
   const { data: notificationsData } = useNotifications({ limit: 10 });
   const { data: unreadCount = 0 } = useUnreadCount();
   const markAsRead = useMarkAsRead();

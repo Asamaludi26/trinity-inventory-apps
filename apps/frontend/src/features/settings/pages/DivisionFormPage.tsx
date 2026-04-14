@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { Resolver } from 'react-hook-form';
 import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -16,7 +17,7 @@ import { Controller } from 'react-hook-form';
 export function DivisionFormPage() {
   const navigate = useNavigate();
   const form = useForm<CreateDivisionFormData>({
-    resolver: zodResolver(createDivisionSchema),
+    resolver: zodResolver(createDivisionSchema) as unknown as Resolver<CreateDivisionFormData>,
     defaultValues: {
       name: '',
       code: '',

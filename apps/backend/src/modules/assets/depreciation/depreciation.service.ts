@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
 import { CreateDepreciationDto } from './dto/create-depreciation.dto';
 import { UpdateDepreciationDto } from './dto/update-depreciation.dto';
@@ -98,6 +102,15 @@ export class DepreciationService {
   }
 
   async create(dto: CreateDepreciationDto, userId: number) {
+    const existing = await this.prisma.depreciation.findUnique({
+      where: { purchaseId: dto.purchaseId },
+    });
+    if (existing) {
+      throw new UnprocessableEntityException(
+        'Data pembelian ini sudah memiliki data depresiasi. Satu pembelian hanya boleh memiliki satu data depresiasi.',
+      );
+    }
+
     return this.prisma.depreciation.create({
       data: {
         purchaseId: dto.purchaseId,

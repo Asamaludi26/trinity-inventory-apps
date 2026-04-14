@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { Resolver } from 'react-hook-form';
 import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -23,7 +24,7 @@ const ROLE_OPTIONS = [
 export function UserFormPage() {
   const navigate = useNavigate();
   const form = useForm<CreateUserFormData>({
-    resolver: zodResolver(createUserSchema),
+    resolver: zodResolver(createUserSchema) as unknown as Resolver<CreateUserFormData>,
     defaultValues: {
       employeeId: '',
       fullName: '',

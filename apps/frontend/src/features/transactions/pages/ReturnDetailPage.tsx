@@ -18,7 +18,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useReturn, useApproveReturn, useRejectReturn, useExecuteReturn } from '../hooks';
-import { RejectDialog } from '../components';
+import { RejectDialog, ApprovalTimeline } from '../components';
 import { AttachmentSection } from '@/components/form';
 import { usePermissions } from '@/hooks';
 import { P } from '@/config/permissions';
@@ -236,6 +236,11 @@ export function ReturnDetailPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Approval Timeline */}
+        {ret.approvalChain && ret.approvalChain.length > 0 && (
+          <ApprovalTimeline steps={ret.approvalChain} />
+        )}
 
         {/* Lampiran */}
         <AttachmentSection entityType="AssetReturn" entityId={uuid} />

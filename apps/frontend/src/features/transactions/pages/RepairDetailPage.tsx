@@ -25,6 +25,7 @@ import {
   useExecuteRepair,
   useCancelRepair,
 } from '../hooks';
+import { ApprovalTimeline } from '../components';
 import type { Repair } from '../types';
 import { AttachmentSection } from '@/components/form';
 import { usePermissions } from '@/hooks';
@@ -256,6 +257,11 @@ export function RepairDetailPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Approval Timeline */}
+        {repair.approvalChain && repair.approvalChain.length > 0 && (
+          <ApprovalTimeline steps={repair.approvalChain} />
+        )}
 
         {/* Lampiran */}
         <AttachmentSection entityType="Repair" entityId={uuid} />

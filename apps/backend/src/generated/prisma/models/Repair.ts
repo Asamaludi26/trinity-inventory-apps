@@ -44,6 +44,7 @@ export type RepairMinAggregateOutputType = {
   assetId: string | null;
   issueDescription: string | null;
   condition: $Enums.AssetCondition | null;
+  category: $Enums.RepairCategory | null;
   status: $Enums.TransactionStatus | null;
   repairAction: string | null;
   repairVendor: string | null;
@@ -65,6 +66,7 @@ export type RepairMaxAggregateOutputType = {
   assetId: string | null;
   issueDescription: string | null;
   condition: $Enums.AssetCondition | null;
+  category: $Enums.RepairCategory | null;
   status: $Enums.TransactionStatus | null;
   repairAction: string | null;
   repairVendor: string | null;
@@ -86,6 +88,7 @@ export type RepairCountAggregateOutputType = {
   assetId: number;
   issueDescription: number;
   condition: number;
+  category: number;
   status: number;
   repairAction: number;
   repairVendor: number;
@@ -121,6 +124,7 @@ export type RepairMinAggregateInputType = {
   assetId?: true;
   issueDescription?: true;
   condition?: true;
+  category?: true;
   status?: true;
   repairAction?: true;
   repairVendor?: true;
@@ -142,6 +146,7 @@ export type RepairMaxAggregateInputType = {
   assetId?: true;
   issueDescription?: true;
   condition?: true;
+  category?: true;
   status?: true;
   repairAction?: true;
   repairVendor?: true;
@@ -163,6 +168,7 @@ export type RepairCountAggregateInputType = {
   assetId?: true;
   issueDescription?: true;
   condition?: true;
+  category?: true;
   status?: true;
   repairAction?: true;
   repairVendor?: true;
@@ -279,6 +285,7 @@ export type RepairGroupByOutputType = {
   assetId: string;
   issueDescription: string;
   condition: $Enums.AssetCondition;
+  category: $Enums.RepairCategory;
   status: $Enums.TransactionStatus;
   repairAction: string | null;
   repairVendor: string | null;
@@ -322,6 +329,7 @@ export type RepairWhereInput = {
   assetId?: Prisma.StringFilter<'Repair'> | string;
   issueDescription?: Prisma.StringFilter<'Repair'> | string;
   condition?: Prisma.EnumAssetConditionFilter<'Repair'> | $Enums.AssetCondition;
+  category?: Prisma.EnumRepairCategoryFilter<'Repair'> | $Enums.RepairCategory;
   status?:
     | Prisma.EnumTransactionStatusFilter<'Repair'>
     | $Enums.TransactionStatus;
@@ -357,6 +365,7 @@ export type RepairOrderByWithRelationInput = {
   assetId?: Prisma.SortOrder;
   issueDescription?: Prisma.SortOrder;
   condition?: Prisma.SortOrder;
+  category?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   repairAction?: Prisma.SortOrderInput | Prisma.SortOrder;
   repairVendor?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -387,6 +396,9 @@ export type RepairWhereUniqueInput = Prisma.AtLeast<
     condition?:
       | Prisma.EnumAssetConditionFilter<'Repair'>
       | $Enums.AssetCondition;
+    category?:
+      | Prisma.EnumRepairCategoryFilter<'Repair'>
+      | $Enums.RepairCategory;
     status?:
       | Prisma.EnumTransactionStatusFilter<'Repair'>
       | $Enums.TransactionStatus;
@@ -431,6 +443,7 @@ export type RepairOrderByWithAggregationInput = {
   assetId?: Prisma.SortOrder;
   issueDescription?: Prisma.SortOrder;
   condition?: Prisma.SortOrder;
+  category?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   repairAction?: Prisma.SortOrderInput | Prisma.SortOrder;
   repairVendor?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -467,6 +480,9 @@ export type RepairScalarWhereWithAggregatesInput = {
   condition?:
     | Prisma.EnumAssetConditionWithAggregatesFilter<'Repair'>
     | $Enums.AssetCondition;
+  category?:
+    | Prisma.EnumRepairCategoryWithAggregatesFilter<'Repair'>
+    | $Enums.RepairCategory;
   status?:
     | Prisma.EnumTransactionStatusWithAggregatesFilter<'Repair'>
     | $Enums.TransactionStatus;
@@ -513,6 +529,7 @@ export type RepairCreateInput = {
   code: string;
   issueDescription: string;
   condition: $Enums.AssetCondition;
+  category?: $Enums.RepairCategory;
   status?: $Enums.TransactionStatus;
   repairAction?: string | null;
   repairVendor?: string | null;
@@ -536,6 +553,7 @@ export type RepairUncheckedCreateInput = {
   assetId: string;
   issueDescription: string;
   condition: $Enums.AssetCondition;
+  category?: $Enums.RepairCategory;
   status?: $Enums.TransactionStatus;
   repairAction?: string | null;
   repairVendor?: string | null;
@@ -559,6 +577,9 @@ export type RepairUpdateInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  category?:
+    | Prisma.EnumRepairCategoryFieldUpdateOperationsInput
+    | $Enums.RepairCategory;
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
@@ -609,6 +630,9 @@ export type RepairUncheckedUpdateInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  category?:
+    | Prisma.EnumRepairCategoryFieldUpdateOperationsInput
+    | $Enums.RepairCategory;
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
@@ -656,6 +680,7 @@ export type RepairCreateManyInput = {
   assetId: string;
   issueDescription: string;
   condition: $Enums.AssetCondition;
+  category?: $Enums.RepairCategory;
   status?: $Enums.TransactionStatus;
   repairAction?: string | null;
   repairVendor?: string | null;
@@ -679,6 +704,9 @@ export type RepairUpdateManyMutationInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  category?:
+    | Prisma.EnumRepairCategoryFieldUpdateOperationsInput
+    | $Enums.RepairCategory;
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
@@ -727,6 +755,9 @@ export type RepairUncheckedUpdateManyInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  category?:
+    | Prisma.EnumRepairCategoryFieldUpdateOperationsInput
+    | $Enums.RepairCategory;
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
@@ -784,6 +815,7 @@ export type RepairCountOrderByAggregateInput = {
   assetId?: Prisma.SortOrder;
   issueDescription?: Prisma.SortOrder;
   condition?: Prisma.SortOrder;
+  category?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   repairAction?: Prisma.SortOrder;
   repairVendor?: Prisma.SortOrder;
@@ -812,6 +844,7 @@ export type RepairMaxOrderByAggregateInput = {
   assetId?: Prisma.SortOrder;
   issueDescription?: Prisma.SortOrder;
   condition?: Prisma.SortOrder;
+  category?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   repairAction?: Prisma.SortOrder;
   repairVendor?: Prisma.SortOrder;
@@ -833,6 +866,7 @@ export type RepairMinOrderByAggregateInput = {
   assetId?: Prisma.SortOrder;
   issueDescription?: Prisma.SortOrder;
   condition?: Prisma.SortOrder;
+  category?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   repairAction?: Prisma.SortOrder;
   repairVendor?: Prisma.SortOrder;
@@ -1026,11 +1060,16 @@ export type RepairUncheckedUpdateManyWithoutCreatedByNestedInput = {
   deleteMany?: Prisma.RepairScalarWhereInput | Prisma.RepairScalarWhereInput[];
 };
 
+export type EnumRepairCategoryFieldUpdateOperationsInput = {
+  set?: $Enums.RepairCategory;
+};
+
 export type RepairCreateWithoutAssetInput = {
   id?: string;
   code: string;
   issueDescription: string;
   condition: $Enums.AssetCondition;
+  category?: $Enums.RepairCategory;
   status?: $Enums.TransactionStatus;
   repairAction?: string | null;
   repairVendor?: string | null;
@@ -1052,6 +1091,7 @@ export type RepairUncheckedCreateWithoutAssetInput = {
   code: string;
   issueDescription: string;
   condition: $Enums.AssetCondition;
+  category?: $Enums.RepairCategory;
   status?: $Enums.TransactionStatus;
   repairAction?: string | null;
   repairVendor?: string | null;
@@ -1118,6 +1158,7 @@ export type RepairScalarWhereInput = {
   assetId?: Prisma.StringFilter<'Repair'> | string;
   issueDescription?: Prisma.StringFilter<'Repair'> | string;
   condition?: Prisma.EnumAssetConditionFilter<'Repair'> | $Enums.AssetCondition;
+  category?: Prisma.EnumRepairCategoryFilter<'Repair'> | $Enums.RepairCategory;
   status?:
     | Prisma.EnumTransactionStatusFilter<'Repair'>
     | $Enums.TransactionStatus;
@@ -1147,6 +1188,7 @@ export type RepairCreateWithoutCreatedByInput = {
   code: string;
   issueDescription: string;
   condition: $Enums.AssetCondition;
+  category?: $Enums.RepairCategory;
   status?: $Enums.TransactionStatus;
   repairAction?: string | null;
   repairVendor?: string | null;
@@ -1169,6 +1211,7 @@ export type RepairUncheckedCreateWithoutCreatedByInput = {
   assetId: string;
   issueDescription: string;
   condition: $Enums.AssetCondition;
+  category?: $Enums.RepairCategory;
   status?: $Enums.TransactionStatus;
   repairAction?: string | null;
   repairVendor?: string | null;
@@ -1232,6 +1275,7 @@ export type RepairCreateManyAssetInput = {
   code: string;
   issueDescription: string;
   condition: $Enums.AssetCondition;
+  category?: $Enums.RepairCategory;
   status?: $Enums.TransactionStatus;
   repairAction?: string | null;
   repairVendor?: string | null;
@@ -1255,6 +1299,9 @@ export type RepairUpdateWithoutAssetInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  category?:
+    | Prisma.EnumRepairCategoryFieldUpdateOperationsInput
+    | $Enums.RepairCategory;
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
@@ -1303,6 +1350,9 @@ export type RepairUncheckedUpdateWithoutAssetInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  category?:
+    | Prisma.EnumRepairCategoryFieldUpdateOperationsInput
+    | $Enums.RepairCategory;
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
@@ -1351,6 +1401,9 @@ export type RepairUncheckedUpdateManyWithoutAssetInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  category?:
+    | Prisma.EnumRepairCategoryFieldUpdateOperationsInput
+    | $Enums.RepairCategory;
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
@@ -1398,6 +1451,7 @@ export type RepairCreateManyCreatedByInput = {
   assetId: string;
   issueDescription: string;
   condition: $Enums.AssetCondition;
+  category?: $Enums.RepairCategory;
   status?: $Enums.TransactionStatus;
   repairAction?: string | null;
   repairVendor?: string | null;
@@ -1420,6 +1474,9 @@ export type RepairUpdateWithoutCreatedByInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  category?:
+    | Prisma.EnumRepairCategoryFieldUpdateOperationsInput
+    | $Enums.RepairCategory;
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
@@ -1469,6 +1526,9 @@ export type RepairUncheckedUpdateWithoutCreatedByInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  category?:
+    | Prisma.EnumRepairCategoryFieldUpdateOperationsInput
+    | $Enums.RepairCategory;
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
@@ -1517,6 +1577,9 @@ export type RepairUncheckedUpdateManyWithoutCreatedByInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  category?:
+    | Prisma.EnumRepairCategoryFieldUpdateOperationsInput
+    | $Enums.RepairCategory;
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
@@ -1567,6 +1630,7 @@ export type RepairSelect<
     assetId?: boolean;
     issueDescription?: boolean;
     condition?: boolean;
+    category?: boolean;
     status?: boolean;
     repairAction?: boolean;
     repairVendor?: boolean;
@@ -1597,6 +1661,7 @@ export type RepairSelectCreateManyAndReturn<
     assetId?: boolean;
     issueDescription?: boolean;
     condition?: boolean;
+    category?: boolean;
     status?: boolean;
     repairAction?: boolean;
     repairVendor?: boolean;
@@ -1627,6 +1692,7 @@ export type RepairSelectUpdateManyAndReturn<
     assetId?: boolean;
     issueDescription?: boolean;
     condition?: boolean;
+    category?: boolean;
     status?: boolean;
     repairAction?: boolean;
     repairVendor?: boolean;
@@ -1653,6 +1719,7 @@ export type RepairSelectScalar = {
   assetId?: boolean;
   issueDescription?: boolean;
   condition?: boolean;
+  category?: boolean;
   status?: boolean;
   repairAction?: boolean;
   repairVendor?: boolean;
@@ -1678,6 +1745,7 @@ export type RepairOmit<
   | 'assetId'
   | 'issueDescription'
   | 'condition'
+  | 'category'
   | 'status'
   | 'repairAction'
   | 'repairVendor'
@@ -1732,6 +1800,7 @@ export type $RepairPayload<
       assetId: string;
       issueDescription: string;
       condition: $Enums.AssetCondition;
+      category: $Enums.RepairCategory;
       status: $Enums.TransactionStatus;
       repairAction: string | null;
       repairVendor: string | null;
@@ -2371,6 +2440,7 @@ export interface RepairFieldRefs {
   readonly assetId: Prisma.FieldRef<'Repair', 'String'>;
   readonly issueDescription: Prisma.FieldRef<'Repair', 'String'>;
   readonly condition: Prisma.FieldRef<'Repair', 'AssetCondition'>;
+  readonly category: Prisma.FieldRef<'Repair', 'RepairCategory'>;
   readonly status: Prisma.FieldRef<'Repair', 'TransactionStatus'>;
   readonly repairAction: Prisma.FieldRef<'Repair', 'String'>;
   readonly repairVendor: Prisma.FieldRef<'Repair', 'String'>;

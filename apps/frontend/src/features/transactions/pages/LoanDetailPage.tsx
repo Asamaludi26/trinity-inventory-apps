@@ -34,7 +34,7 @@ import {
   useAssignLoanAssets,
   useExecuteLoan,
 } from '../hooks';
-import { RejectDialog } from '../components';
+import { RejectDialog, ApprovalTimeline } from '../components';
 import { AttachmentSection } from '@/components/form';
 import { usePermissions } from '@/hooks';
 import { P } from '@/config/permissions';
@@ -336,6 +336,11 @@ export function LoanDetailPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Approval Timeline */}
+        {loan.approvalChain && loan.approvalChain.length > 0 && (
+          <ApprovalTimeline steps={loan.approvalChain} />
+        )}
 
         {/* Lampiran */}
         <AttachmentSection entityType="LoanRequest" entityId={uuid} />

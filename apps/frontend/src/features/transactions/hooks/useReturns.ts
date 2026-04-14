@@ -73,3 +73,14 @@ export function useCancelReturn() {
     },
   });
 }
+
+export function useResubmitReturn() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, version }: { uuid: string; version: number }) =>
+      returnApi.resubmit(uuid, version),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: RETURNS_KEY });
+    },
+  });
+}

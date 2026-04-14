@@ -22,7 +22,7 @@ function formatDate(date: string | null) {
 export function DismantleDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { data: dismantle, isLoading } = useDismantle(id ? Number(id) : undefined);
+  const { data: dismantle, isLoading } = useDismantle(id ? Number(id) : 0);
   const completeDismantle = useCompleteDismantle();
 
   const handleComplete = () => {

@@ -29,7 +29,7 @@ export function useSSE() {
   const queryClient = useQueryClient();
   const accessToken = useAuthStore((s) => s.accessToken);
   const eventSourceRef = useRef<EventSource | null>(null);
-  const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => {
     if (!accessToken) return;

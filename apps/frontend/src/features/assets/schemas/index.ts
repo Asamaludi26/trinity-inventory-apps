@@ -6,13 +6,13 @@ import { z } from 'zod';
 
 export const createAssetSchema = z.object({
   name: z.string().min(1, 'Nama aset wajib diisi').max(255),
-  categoryId: z.coerce.number({ required_error: 'Kategori wajib dipilih' }),
+  categoryId: z.coerce.number({ message: 'Kategori wajib dipilih' }),
   typeId: z.coerce.number().optional(),
   modelId: z.coerce.number().optional(),
   brand: z.string().min(1, 'Brand wajib diisi').max(255),
   serialNumber: z.string().max(255).optional(),
   condition: z.enum(['NEW', 'GOOD', 'FAIR', 'POOR', 'BROKEN'], {
-    required_error: 'Kondisi wajib dipilih',
+    message: 'Kondisi wajib dipilih',
   }),
 });
 
@@ -31,7 +31,7 @@ export const categorySchema = z.object({
 // ================================
 
 export const typeSchema = z.object({
-  categoryId: z.coerce.number({ required_error: 'Kategori wajib dipilih' }),
+  categoryId: z.coerce.number({ message: 'Kategori wajib dipilih' }),
   name: z.string().min(1, 'Nama tipe wajib diisi').max(255),
 });
 
@@ -40,7 +40,7 @@ export const typeSchema = z.object({
 // ================================
 
 export const modelSchema = z.object({
-  typeId: z.coerce.number({ required_error: 'Tipe wajib dipilih' }),
+  typeId: z.coerce.number({ message: 'Tipe wajib dipilih' }),
   name: z.string().min(1, 'Nama model wajib diisi').max(255),
   brand: z.string().min(1, 'Brand wajib diisi').max(255),
 });
@@ -50,7 +50,7 @@ export const modelSchema = z.object({
 // ================================
 
 export const purchaseSchema = z.object({
-  modelId: z.coerce.number({ required_error: 'Model aset wajib dipilih' }),
+  modelId: z.coerce.number({ message: 'Model aset wajib dipilih' }),
   supplier: z.string().min(1, 'Supplier wajib diisi').max(255),
   unitPrice: z.coerce.number().positive('Harga satuan harus positif'),
   quantity: z.coerce.number().int().positive('Jumlah harus positif'),
@@ -67,7 +67,7 @@ export const purchaseSchema = z.object({
 export const depreciationSchema = z.object({
   purchaseId: z.string().min(1, 'Data pembelian wajib dipilih'),
   method: z.enum(['STRAIGHT_LINE', 'DECLINING_BALANCE'], {
-    required_error: 'Metode depresiasi wajib dipilih',
+    message: 'Metode depresiasi wajib dipilih',
   }),
   usefulLifeYears: z.coerce.number().int().positive('Masa manfaat harus positif'),
   salvageValue: z.coerce.number().nonnegative('Nilai sisa tidak boleh negatif'),
