@@ -17,6 +17,7 @@ import { DashboardService } from './dashboard.service';
 import { AuthPermissions, CurrentUser } from '../../common/decorators';
 import { PERMISSIONS } from '../../common/constants';
 import { UserRole } from '../../generated/prisma/client';
+import { DashboardQueryDto } from './dto';
 
 interface DashboardUser {
   id: number;
@@ -35,9 +36,24 @@ export class DashboardController {
   @Get('stats')
   @AuthPermissions(PERMISSIONS.DASHBOARD_VIEW)
   @ApiOperation({ summary: 'Statistik utama dashboard — overview sistem' })
+  @ApiQuery({
+    name: 'dateFrom',
+    required: false,
+    description: 'Filter tanggal mulai (ISO)',
+  })
+  @ApiQuery({
+    name: 'dateTo',
+    required: false,
+    description: 'Filter tanggal akhir (ISO)',
+  })
+  @ApiQuery({
+    name: 'preset',
+    required: false,
+    enum: ['today', '7d', '30d', '3m', '6m', '1y'],
+  })
   @ApiResponse({ status: 200, description: 'Statistik utama berhasil diambil' })
-  async getStats() {
-    return this.dashboardService.getStats();
+  async getStats(@Query() query: DashboardQueryDto) {
+    return this.dashboardService.getStats(query);
   }
 
   @Get('recent-activity')
@@ -75,12 +91,19 @@ export class DashboardController {
   @Get('finance/stats')
   @AuthPermissions(PERMISSIONS.ASSETS_VIEW_PRICE)
   @ApiOperation({ summary: 'Statistik keuangan — pembelian & depresiasi' })
+  @ApiQuery({ name: 'dateFrom', required: false })
+  @ApiQuery({ name: 'dateTo', required: false })
+  @ApiQuery({
+    name: 'preset',
+    required: false,
+    enum: ['today', '7d', '30d', '3m', '6m', '1y'],
+  })
   @ApiResponse({
     status: 200,
     description: 'Statistik keuangan berhasil diambil',
   })
-  async getFinanceStats() {
-    return this.dashboardService.getFinanceStats();
+  async getFinanceStats(@Query() query: DashboardQueryDto) {
+    return this.dashboardService.getFinanceStats(query);
   }
 
   @Get('finance/spending-by-category')
@@ -99,12 +122,19 @@ export class DashboardController {
   @Get('operations/stats')
   @AuthPermissions(PERMISSIONS.STOCK_VIEW)
   @ApiOperation({ summary: 'Statistik operasional — stok & transaksi aktif' })
+  @ApiQuery({ name: 'dateFrom', required: false })
+  @ApiQuery({ name: 'dateTo', required: false })
+  @ApiQuery({
+    name: 'preset',
+    required: false,
+    enum: ['today', '7d', '30d', '3m', '6m', '1y'],
+  })
   @ApiResponse({
     status: 200,
     description: 'Statistik operasional berhasil diambil',
   })
-  async getOperationsStats() {
-    return this.dashboardService.getOperationsStats();
+  async getOperationsStats(@Query() query: DashboardQueryDto) {
+    return this.dashboardService.getOperationsStats(query);
   }
 
   @Get('operations/daily-ops')

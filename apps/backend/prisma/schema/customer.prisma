@@ -19,6 +19,7 @@ model Customer {
 
   @@index([code])
   @@index([name])
+  @@index([isActive, isDeleted])
   @@map("customers")
 }
 
@@ -64,6 +65,8 @@ model Maintenance {
   code         String                   @unique @db.VarChar(20)
   customerId   Int                      @map("customer_id")
   status       TransactionStatus        @default(PENDING)
+  priority     String                   @default("MEDIUM") @db.VarChar(10)
+  workTypes    String[]                 @default([]) @map("work_types")
   scheduledAt  DateTime?                @map("scheduled_at")
   completedAt  DateTime?                @map("completed_at")
   issueReport  String?                  @map("issue_report")
@@ -100,12 +103,19 @@ model MaintenanceMaterial {
 model MaintenanceReplacement {
   id            Int         @id @default(autoincrement())
   maintenanceId Int         @map("maintenance_id")
+  oldAssetId    String?     @map("old_asset_id")
+  newAssetId    String?     @map("new_asset_id")
   oldAssetDesc  String      @map("old_asset_desc") @db.VarChar(255)
   newAssetDesc  String      @map("new_asset_desc") @db.VarChar(255)
+  conditionAfter AssetCondition? @map("condition_after")
   note          String?
   maintenance   Maintenance @relation(fields: [maintenanceId], references: [id], onDelete: Cascade)
+  oldAsset      Asset?      @relation("ReplacementOldAsset", fields: [oldAssetId], references: [id])
+  newAsset      Asset?      @relation("ReplacementNewAsset", fields: [newAssetId], references: [id])
 
   @@index([maintenanceId])
+  @@index([oldAssetId])
+  @@index([newAssetId])
   @@map("maintenance_replacements")
 }
 

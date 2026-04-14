@@ -101,6 +101,7 @@ export function DismantleListPage() {
               <TableHead>Pelanggan</TableHead>
               <TableHead>Alasan</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Aset</TableHead>
               <TableHead>Jadwal</TableHead>
               <TableHead>PIC</TableHead>
             </TableRow>
@@ -109,7 +110,7 @@ export function DismantleListPage() {
             {isLoading ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <TableRow key={i}>
-                  {Array.from({ length: 6 }).map((__, j) => (
+                  {Array.from({ length: 7 }).map((__, j) => (
                     <TableCell key={j}>
                       <Skeleton className="h-4 w-full" />
                     </TableCell>
@@ -118,7 +119,7 @@ export function DismantleListPage() {
               ))
             ) : !data?.data.length ? (
               <TableRow>
-                <TableCell colSpan={6}>
+                <TableCell colSpan={7}>
                   <EmptyState
                     icon={<Unplug className="h-12 w-12" />}
                     title="Belum ada dismantle"
@@ -141,6 +142,7 @@ export function DismantleListPage() {
                   <TableCell>
                     <StatusBadge status={d.status} />
                   </TableCell>
+                  <TableCell className="text-center">{d._count?.items ?? 0}</TableCell>
                   <TableCell className="text-muted-foreground">
                     {formatDate(d.scheduledAt)}
                   </TableCell>

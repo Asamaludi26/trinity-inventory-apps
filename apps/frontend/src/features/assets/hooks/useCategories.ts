@@ -6,7 +6,7 @@ const CATEGORIES_KEY = ['assets', 'categories'];
 export function useCategories() {
   return useQuery({
     queryKey: CATEGORIES_KEY,
-    queryFn: () => categoryApi.getAll().then((res) => res.data.data),
+    queryFn: () => categoryApi.getAll().then((res) => res.data.data.data),
   });
 }
 

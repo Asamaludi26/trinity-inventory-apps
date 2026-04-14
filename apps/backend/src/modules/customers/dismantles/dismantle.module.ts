@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { DismantleController } from './dismantle.controller';
 import { DismantleService } from './dismantle.service';
 import { StockMovementModule } from '../../transactions/stock-movements/stock-movement.module';
+import { CustomerModule as ClientModule } from '../clients/client.module';
 
 @Module({
-  imports: [StockMovementModule],
+  imports: [StockMovementModule, ClientModule],
   controllers: [DismantleController],
   providers: [DismantleService],
   exports: [DismantleService],

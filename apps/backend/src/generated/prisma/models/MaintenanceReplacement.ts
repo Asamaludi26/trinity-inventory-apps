@@ -39,24 +39,33 @@ export type MaintenanceReplacementSumAggregateOutputType = {
 export type MaintenanceReplacementMinAggregateOutputType = {
   id: number | null;
   maintenanceId: number | null;
+  oldAssetId: string | null;
+  newAssetId: string | null;
   oldAssetDesc: string | null;
   newAssetDesc: string | null;
+  conditionAfter: $Enums.AssetCondition | null;
   note: string | null;
 };
 
 export type MaintenanceReplacementMaxAggregateOutputType = {
   id: number | null;
   maintenanceId: number | null;
+  oldAssetId: string | null;
+  newAssetId: string | null;
   oldAssetDesc: string | null;
   newAssetDesc: string | null;
+  conditionAfter: $Enums.AssetCondition | null;
   note: string | null;
 };
 
 export type MaintenanceReplacementCountAggregateOutputType = {
   id: number;
   maintenanceId: number;
+  oldAssetId: number;
+  newAssetId: number;
   oldAssetDesc: number;
   newAssetDesc: number;
+  conditionAfter: number;
   note: number;
   _all: number;
 };
@@ -74,24 +83,33 @@ export type MaintenanceReplacementSumAggregateInputType = {
 export type MaintenanceReplacementMinAggregateInputType = {
   id?: true;
   maintenanceId?: true;
+  oldAssetId?: true;
+  newAssetId?: true;
   oldAssetDesc?: true;
   newAssetDesc?: true;
+  conditionAfter?: true;
   note?: true;
 };
 
 export type MaintenanceReplacementMaxAggregateInputType = {
   id?: true;
   maintenanceId?: true;
+  oldAssetId?: true;
+  newAssetId?: true;
   oldAssetDesc?: true;
   newAssetDesc?: true;
+  conditionAfter?: true;
   note?: true;
 };
 
 export type MaintenanceReplacementCountAggregateInputType = {
   id?: true;
   maintenanceId?: true;
+  oldAssetId?: true;
+  newAssetId?: true;
   oldAssetDesc?: true;
   newAssetDesc?: true;
+  conditionAfter?: true;
   note?: true;
   _all?: true;
 };
@@ -198,8 +216,11 @@ export type MaintenanceReplacementGroupByArgs<
 export type MaintenanceReplacementGroupByOutputType = {
   id: number;
   maintenanceId: number;
+  oldAssetId: string | null;
+  newAssetId: string | null;
   oldAssetDesc: string;
   newAssetDesc: string;
+  conditionAfter: $Enums.AssetCondition | null;
   note: string | null;
   _count: MaintenanceReplacementCountAggregateOutputType | null;
   _avg: MaintenanceReplacementAvgAggregateOutputType | null;
@@ -239,22 +260,47 @@ export type MaintenanceReplacementWhereInput = {
     | Prisma.MaintenanceReplacementWhereInput[];
   id?: Prisma.IntFilter<'MaintenanceReplacement'> | number;
   maintenanceId?: Prisma.IntFilter<'MaintenanceReplacement'> | number;
+  oldAssetId?:
+    | Prisma.StringNullableFilter<'MaintenanceReplacement'>
+    | string
+    | null;
+  newAssetId?:
+    | Prisma.StringNullableFilter<'MaintenanceReplacement'>
+    | string
+    | null;
   oldAssetDesc?: Prisma.StringFilter<'MaintenanceReplacement'> | string;
   newAssetDesc?: Prisma.StringFilter<'MaintenanceReplacement'> | string;
+  conditionAfter?:
+    | Prisma.EnumAssetConditionNullableFilter<'MaintenanceReplacement'>
+    | $Enums.AssetCondition
+    | null;
   note?: Prisma.StringNullableFilter<'MaintenanceReplacement'> | string | null;
   maintenance?: Prisma.XOR<
     Prisma.MaintenanceScalarRelationFilter,
     Prisma.MaintenanceWhereInput
   >;
+  oldAsset?: Prisma.XOR<
+    Prisma.AssetNullableScalarRelationFilter,
+    Prisma.AssetWhereInput
+  > | null;
+  newAsset?: Prisma.XOR<
+    Prisma.AssetNullableScalarRelationFilter,
+    Prisma.AssetWhereInput
+  > | null;
 };
 
 export type MaintenanceReplacementOrderByWithRelationInput = {
   id?: Prisma.SortOrder;
   maintenanceId?: Prisma.SortOrder;
+  oldAssetId?: Prisma.SortOrderInput | Prisma.SortOrder;
+  newAssetId?: Prisma.SortOrderInput | Prisma.SortOrder;
   oldAssetDesc?: Prisma.SortOrder;
   newAssetDesc?: Prisma.SortOrder;
+  conditionAfter?: Prisma.SortOrderInput | Prisma.SortOrder;
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
   maintenance?: Prisma.MaintenanceOrderByWithRelationInput;
+  oldAsset?: Prisma.AssetOrderByWithRelationInput;
+  newAsset?: Prisma.AssetOrderByWithRelationInput;
 };
 
 export type MaintenanceReplacementWhereUniqueInput = Prisma.AtLeast<
@@ -268,8 +314,20 @@ export type MaintenanceReplacementWhereUniqueInput = Prisma.AtLeast<
       | Prisma.MaintenanceReplacementWhereInput
       | Prisma.MaintenanceReplacementWhereInput[];
     maintenanceId?: Prisma.IntFilter<'MaintenanceReplacement'> | number;
+    oldAssetId?:
+      | Prisma.StringNullableFilter<'MaintenanceReplacement'>
+      | string
+      | null;
+    newAssetId?:
+      | Prisma.StringNullableFilter<'MaintenanceReplacement'>
+      | string
+      | null;
     oldAssetDesc?: Prisma.StringFilter<'MaintenanceReplacement'> | string;
     newAssetDesc?: Prisma.StringFilter<'MaintenanceReplacement'> | string;
+    conditionAfter?:
+      | Prisma.EnumAssetConditionNullableFilter<'MaintenanceReplacement'>
+      | $Enums.AssetCondition
+      | null;
     note?:
       | Prisma.StringNullableFilter<'MaintenanceReplacement'>
       | string
@@ -278,6 +336,14 @@ export type MaintenanceReplacementWhereUniqueInput = Prisma.AtLeast<
       Prisma.MaintenanceScalarRelationFilter,
       Prisma.MaintenanceWhereInput
     >;
+    oldAsset?: Prisma.XOR<
+      Prisma.AssetNullableScalarRelationFilter,
+      Prisma.AssetWhereInput
+    > | null;
+    newAsset?: Prisma.XOR<
+      Prisma.AssetNullableScalarRelationFilter,
+      Prisma.AssetWhereInput
+    > | null;
   },
   'id'
 >;
@@ -285,8 +351,11 @@ export type MaintenanceReplacementWhereUniqueInput = Prisma.AtLeast<
 export type MaintenanceReplacementOrderByWithAggregationInput = {
   id?: Prisma.SortOrder;
   maintenanceId?: Prisma.SortOrder;
+  oldAssetId?: Prisma.SortOrderInput | Prisma.SortOrder;
+  newAssetId?: Prisma.SortOrderInput | Prisma.SortOrder;
   oldAssetDesc?: Prisma.SortOrder;
   newAssetDesc?: Prisma.SortOrder;
+  conditionAfter?: Prisma.SortOrderInput | Prisma.SortOrder;
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
   _count?: Prisma.MaintenanceReplacementCountOrderByAggregateInput;
   _avg?: Prisma.MaintenanceReplacementAvgOrderByAggregateInput;
@@ -307,12 +376,24 @@ export type MaintenanceReplacementScalarWhereWithAggregatesInput = {
   maintenanceId?:
     | Prisma.IntWithAggregatesFilter<'MaintenanceReplacement'>
     | number;
+  oldAssetId?:
+    | Prisma.StringNullableWithAggregatesFilter<'MaintenanceReplacement'>
+    | string
+    | null;
+  newAssetId?:
+    | Prisma.StringNullableWithAggregatesFilter<'MaintenanceReplacement'>
+    | string
+    | null;
   oldAssetDesc?:
     | Prisma.StringWithAggregatesFilter<'MaintenanceReplacement'>
     | string;
   newAssetDesc?:
     | Prisma.StringWithAggregatesFilter<'MaintenanceReplacement'>
     | string;
+  conditionAfter?:
+    | Prisma.EnumAssetConditionNullableWithAggregatesFilter<'MaintenanceReplacement'>
+    | $Enums.AssetCondition
+    | null;
   note?:
     | Prisma.StringNullableWithAggregatesFilter<'MaintenanceReplacement'>
     | string
@@ -322,52 +403,83 @@ export type MaintenanceReplacementScalarWhereWithAggregatesInput = {
 export type MaintenanceReplacementCreateInput = {
   oldAssetDesc: string;
   newAssetDesc: string;
+  conditionAfter?: $Enums.AssetCondition | null;
   note?: string | null;
   maintenance: Prisma.MaintenanceCreateNestedOneWithoutReplacementsInput;
+  oldAsset?: Prisma.AssetCreateNestedOneWithoutReplacementsAsOldInput;
+  newAsset?: Prisma.AssetCreateNestedOneWithoutReplacementsAsNewInput;
 };
 
 export type MaintenanceReplacementUncheckedCreateInput = {
   id?: number;
   maintenanceId: number;
+  oldAssetId?: string | null;
+  newAssetId?: string | null;
   oldAssetDesc: string;
   newAssetDesc: string;
+  conditionAfter?: $Enums.AssetCondition | null;
   note?: string | null;
 };
 
 export type MaintenanceReplacementUpdateInput = {
   oldAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
   newAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  conditionAfter?:
+    | Prisma.NullableEnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition
+    | null;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   maintenance?: Prisma.MaintenanceUpdateOneRequiredWithoutReplacementsNestedInput;
+  oldAsset?: Prisma.AssetUpdateOneWithoutReplacementsAsOldNestedInput;
+  newAsset?: Prisma.AssetUpdateOneWithoutReplacementsAsNewNestedInput;
 };
 
 export type MaintenanceReplacementUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   maintenanceId?: Prisma.IntFieldUpdateOperationsInput | number;
+  oldAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  newAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   oldAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
   newAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  conditionAfter?:
+    | Prisma.NullableEnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition
+    | null;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type MaintenanceReplacementCreateManyInput = {
   id?: number;
   maintenanceId: number;
+  oldAssetId?: string | null;
+  newAssetId?: string | null;
   oldAssetDesc: string;
   newAssetDesc: string;
+  conditionAfter?: $Enums.AssetCondition | null;
   note?: string | null;
 };
 
 export type MaintenanceReplacementUpdateManyMutationInput = {
   oldAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
   newAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  conditionAfter?:
+    | Prisma.NullableEnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition
+    | null;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type MaintenanceReplacementUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   maintenanceId?: Prisma.IntFieldUpdateOperationsInput | number;
+  oldAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  newAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   oldAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
   newAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  conditionAfter?:
+    | Prisma.NullableEnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition
+    | null;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
@@ -384,8 +496,11 @@ export type MaintenanceReplacementOrderByRelationAggregateInput = {
 export type MaintenanceReplacementCountOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   maintenanceId?: Prisma.SortOrder;
+  oldAssetId?: Prisma.SortOrder;
+  newAssetId?: Prisma.SortOrder;
   oldAssetDesc?: Prisma.SortOrder;
   newAssetDesc?: Prisma.SortOrder;
+  conditionAfter?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
 };
 
@@ -397,16 +512,22 @@ export type MaintenanceReplacementAvgOrderByAggregateInput = {
 export type MaintenanceReplacementMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   maintenanceId?: Prisma.SortOrder;
+  oldAssetId?: Prisma.SortOrder;
+  newAssetId?: Prisma.SortOrder;
   oldAssetDesc?: Prisma.SortOrder;
   newAssetDesc?: Prisma.SortOrder;
+  conditionAfter?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
 };
 
 export type MaintenanceReplacementMinOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   maintenanceId?: Prisma.SortOrder;
+  oldAssetId?: Prisma.SortOrder;
+  newAssetId?: Prisma.SortOrder;
   oldAssetDesc?: Prisma.SortOrder;
   newAssetDesc?: Prisma.SortOrder;
+  conditionAfter?: Prisma.SortOrder;
   note?: Prisma.SortOrder;
 };
 
@@ -414,6 +535,230 @@ export type MaintenanceReplacementSumOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   maintenanceId?: Prisma.SortOrder;
 };
+
+export type MaintenanceReplacementCreateNestedManyWithoutOldAssetInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.MaintenanceReplacementCreateWithoutOldAssetInput,
+        Prisma.MaintenanceReplacementUncheckedCreateWithoutOldAssetInput
+      >
+    | Prisma.MaintenanceReplacementCreateWithoutOldAssetInput[]
+    | Prisma.MaintenanceReplacementUncheckedCreateWithoutOldAssetInput[];
+  connectOrCreate?:
+    | Prisma.MaintenanceReplacementCreateOrConnectWithoutOldAssetInput
+    | Prisma.MaintenanceReplacementCreateOrConnectWithoutOldAssetInput[];
+  createMany?: Prisma.MaintenanceReplacementCreateManyOldAssetInputEnvelope;
+  connect?:
+    | Prisma.MaintenanceReplacementWhereUniqueInput
+    | Prisma.MaintenanceReplacementWhereUniqueInput[];
+};
+
+export type MaintenanceReplacementCreateNestedManyWithoutNewAssetInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.MaintenanceReplacementCreateWithoutNewAssetInput,
+        Prisma.MaintenanceReplacementUncheckedCreateWithoutNewAssetInput
+      >
+    | Prisma.MaintenanceReplacementCreateWithoutNewAssetInput[]
+    | Prisma.MaintenanceReplacementUncheckedCreateWithoutNewAssetInput[];
+  connectOrCreate?:
+    | Prisma.MaintenanceReplacementCreateOrConnectWithoutNewAssetInput
+    | Prisma.MaintenanceReplacementCreateOrConnectWithoutNewAssetInput[];
+  createMany?: Prisma.MaintenanceReplacementCreateManyNewAssetInputEnvelope;
+  connect?:
+    | Prisma.MaintenanceReplacementWhereUniqueInput
+    | Prisma.MaintenanceReplacementWhereUniqueInput[];
+};
+
+export type MaintenanceReplacementUncheckedCreateNestedManyWithoutOldAssetInput =
+  {
+    create?:
+      | Prisma.XOR<
+          Prisma.MaintenanceReplacementCreateWithoutOldAssetInput,
+          Prisma.MaintenanceReplacementUncheckedCreateWithoutOldAssetInput
+        >
+      | Prisma.MaintenanceReplacementCreateWithoutOldAssetInput[]
+      | Prisma.MaintenanceReplacementUncheckedCreateWithoutOldAssetInput[];
+    connectOrCreate?:
+      | Prisma.MaintenanceReplacementCreateOrConnectWithoutOldAssetInput
+      | Prisma.MaintenanceReplacementCreateOrConnectWithoutOldAssetInput[];
+    createMany?: Prisma.MaintenanceReplacementCreateManyOldAssetInputEnvelope;
+    connect?:
+      | Prisma.MaintenanceReplacementWhereUniqueInput
+      | Prisma.MaintenanceReplacementWhereUniqueInput[];
+  };
+
+export type MaintenanceReplacementUncheckedCreateNestedManyWithoutNewAssetInput =
+  {
+    create?:
+      | Prisma.XOR<
+          Prisma.MaintenanceReplacementCreateWithoutNewAssetInput,
+          Prisma.MaintenanceReplacementUncheckedCreateWithoutNewAssetInput
+        >
+      | Prisma.MaintenanceReplacementCreateWithoutNewAssetInput[]
+      | Prisma.MaintenanceReplacementUncheckedCreateWithoutNewAssetInput[];
+    connectOrCreate?:
+      | Prisma.MaintenanceReplacementCreateOrConnectWithoutNewAssetInput
+      | Prisma.MaintenanceReplacementCreateOrConnectWithoutNewAssetInput[];
+    createMany?: Prisma.MaintenanceReplacementCreateManyNewAssetInputEnvelope;
+    connect?:
+      | Prisma.MaintenanceReplacementWhereUniqueInput
+      | Prisma.MaintenanceReplacementWhereUniqueInput[];
+  };
+
+export type MaintenanceReplacementUpdateManyWithoutOldAssetNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.MaintenanceReplacementCreateWithoutOldAssetInput,
+        Prisma.MaintenanceReplacementUncheckedCreateWithoutOldAssetInput
+      >
+    | Prisma.MaintenanceReplacementCreateWithoutOldAssetInput[]
+    | Prisma.MaintenanceReplacementUncheckedCreateWithoutOldAssetInput[];
+  connectOrCreate?:
+    | Prisma.MaintenanceReplacementCreateOrConnectWithoutOldAssetInput
+    | Prisma.MaintenanceReplacementCreateOrConnectWithoutOldAssetInput[];
+  upsert?:
+    | Prisma.MaintenanceReplacementUpsertWithWhereUniqueWithoutOldAssetInput
+    | Prisma.MaintenanceReplacementUpsertWithWhereUniqueWithoutOldAssetInput[];
+  createMany?: Prisma.MaintenanceReplacementCreateManyOldAssetInputEnvelope;
+  set?:
+    | Prisma.MaintenanceReplacementWhereUniqueInput
+    | Prisma.MaintenanceReplacementWhereUniqueInput[];
+  disconnect?:
+    | Prisma.MaintenanceReplacementWhereUniqueInput
+    | Prisma.MaintenanceReplacementWhereUniqueInput[];
+  delete?:
+    | Prisma.MaintenanceReplacementWhereUniqueInput
+    | Prisma.MaintenanceReplacementWhereUniqueInput[];
+  connect?:
+    | Prisma.MaintenanceReplacementWhereUniqueInput
+    | Prisma.MaintenanceReplacementWhereUniqueInput[];
+  update?:
+    | Prisma.MaintenanceReplacementUpdateWithWhereUniqueWithoutOldAssetInput
+    | Prisma.MaintenanceReplacementUpdateWithWhereUniqueWithoutOldAssetInput[];
+  updateMany?:
+    | Prisma.MaintenanceReplacementUpdateManyWithWhereWithoutOldAssetInput
+    | Prisma.MaintenanceReplacementUpdateManyWithWhereWithoutOldAssetInput[];
+  deleteMany?:
+    | Prisma.MaintenanceReplacementScalarWhereInput
+    | Prisma.MaintenanceReplacementScalarWhereInput[];
+};
+
+export type MaintenanceReplacementUpdateManyWithoutNewAssetNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.MaintenanceReplacementCreateWithoutNewAssetInput,
+        Prisma.MaintenanceReplacementUncheckedCreateWithoutNewAssetInput
+      >
+    | Prisma.MaintenanceReplacementCreateWithoutNewAssetInput[]
+    | Prisma.MaintenanceReplacementUncheckedCreateWithoutNewAssetInput[];
+  connectOrCreate?:
+    | Prisma.MaintenanceReplacementCreateOrConnectWithoutNewAssetInput
+    | Prisma.MaintenanceReplacementCreateOrConnectWithoutNewAssetInput[];
+  upsert?:
+    | Prisma.MaintenanceReplacementUpsertWithWhereUniqueWithoutNewAssetInput
+    | Prisma.MaintenanceReplacementUpsertWithWhereUniqueWithoutNewAssetInput[];
+  createMany?: Prisma.MaintenanceReplacementCreateManyNewAssetInputEnvelope;
+  set?:
+    | Prisma.MaintenanceReplacementWhereUniqueInput
+    | Prisma.MaintenanceReplacementWhereUniqueInput[];
+  disconnect?:
+    | Prisma.MaintenanceReplacementWhereUniqueInput
+    | Prisma.MaintenanceReplacementWhereUniqueInput[];
+  delete?:
+    | Prisma.MaintenanceReplacementWhereUniqueInput
+    | Prisma.MaintenanceReplacementWhereUniqueInput[];
+  connect?:
+    | Prisma.MaintenanceReplacementWhereUniqueInput
+    | Prisma.MaintenanceReplacementWhereUniqueInput[];
+  update?:
+    | Prisma.MaintenanceReplacementUpdateWithWhereUniqueWithoutNewAssetInput
+    | Prisma.MaintenanceReplacementUpdateWithWhereUniqueWithoutNewAssetInput[];
+  updateMany?:
+    | Prisma.MaintenanceReplacementUpdateManyWithWhereWithoutNewAssetInput
+    | Prisma.MaintenanceReplacementUpdateManyWithWhereWithoutNewAssetInput[];
+  deleteMany?:
+    | Prisma.MaintenanceReplacementScalarWhereInput
+    | Prisma.MaintenanceReplacementScalarWhereInput[];
+};
+
+export type MaintenanceReplacementUncheckedUpdateManyWithoutOldAssetNestedInput =
+  {
+    create?:
+      | Prisma.XOR<
+          Prisma.MaintenanceReplacementCreateWithoutOldAssetInput,
+          Prisma.MaintenanceReplacementUncheckedCreateWithoutOldAssetInput
+        >
+      | Prisma.MaintenanceReplacementCreateWithoutOldAssetInput[]
+      | Prisma.MaintenanceReplacementUncheckedCreateWithoutOldAssetInput[];
+    connectOrCreate?:
+      | Prisma.MaintenanceReplacementCreateOrConnectWithoutOldAssetInput
+      | Prisma.MaintenanceReplacementCreateOrConnectWithoutOldAssetInput[];
+    upsert?:
+      | Prisma.MaintenanceReplacementUpsertWithWhereUniqueWithoutOldAssetInput
+      | Prisma.MaintenanceReplacementUpsertWithWhereUniqueWithoutOldAssetInput[];
+    createMany?: Prisma.MaintenanceReplacementCreateManyOldAssetInputEnvelope;
+    set?:
+      | Prisma.MaintenanceReplacementWhereUniqueInput
+      | Prisma.MaintenanceReplacementWhereUniqueInput[];
+    disconnect?:
+      | Prisma.MaintenanceReplacementWhereUniqueInput
+      | Prisma.MaintenanceReplacementWhereUniqueInput[];
+    delete?:
+      | Prisma.MaintenanceReplacementWhereUniqueInput
+      | Prisma.MaintenanceReplacementWhereUniqueInput[];
+    connect?:
+      | Prisma.MaintenanceReplacementWhereUniqueInput
+      | Prisma.MaintenanceReplacementWhereUniqueInput[];
+    update?:
+      | Prisma.MaintenanceReplacementUpdateWithWhereUniqueWithoutOldAssetInput
+      | Prisma.MaintenanceReplacementUpdateWithWhereUniqueWithoutOldAssetInput[];
+    updateMany?:
+      | Prisma.MaintenanceReplacementUpdateManyWithWhereWithoutOldAssetInput
+      | Prisma.MaintenanceReplacementUpdateManyWithWhereWithoutOldAssetInput[];
+    deleteMany?:
+      | Prisma.MaintenanceReplacementScalarWhereInput
+      | Prisma.MaintenanceReplacementScalarWhereInput[];
+  };
+
+export type MaintenanceReplacementUncheckedUpdateManyWithoutNewAssetNestedInput =
+  {
+    create?:
+      | Prisma.XOR<
+          Prisma.MaintenanceReplacementCreateWithoutNewAssetInput,
+          Prisma.MaintenanceReplacementUncheckedCreateWithoutNewAssetInput
+        >
+      | Prisma.MaintenanceReplacementCreateWithoutNewAssetInput[]
+      | Prisma.MaintenanceReplacementUncheckedCreateWithoutNewAssetInput[];
+    connectOrCreate?:
+      | Prisma.MaintenanceReplacementCreateOrConnectWithoutNewAssetInput
+      | Prisma.MaintenanceReplacementCreateOrConnectWithoutNewAssetInput[];
+    upsert?:
+      | Prisma.MaintenanceReplacementUpsertWithWhereUniqueWithoutNewAssetInput
+      | Prisma.MaintenanceReplacementUpsertWithWhereUniqueWithoutNewAssetInput[];
+    createMany?: Prisma.MaintenanceReplacementCreateManyNewAssetInputEnvelope;
+    set?:
+      | Prisma.MaintenanceReplacementWhereUniqueInput
+      | Prisma.MaintenanceReplacementWhereUniqueInput[];
+    disconnect?:
+      | Prisma.MaintenanceReplacementWhereUniqueInput
+      | Prisma.MaintenanceReplacementWhereUniqueInput[];
+    delete?:
+      | Prisma.MaintenanceReplacementWhereUniqueInput
+      | Prisma.MaintenanceReplacementWhereUniqueInput[];
+    connect?:
+      | Prisma.MaintenanceReplacementWhereUniqueInput
+      | Prisma.MaintenanceReplacementWhereUniqueInput[];
+    update?:
+      | Prisma.MaintenanceReplacementUpdateWithWhereUniqueWithoutNewAssetInput
+      | Prisma.MaintenanceReplacementUpdateWithWhereUniqueWithoutNewAssetInput[];
+    updateMany?:
+      | Prisma.MaintenanceReplacementUpdateManyWithWhereWithoutNewAssetInput
+      | Prisma.MaintenanceReplacementUpdateManyWithWhereWithoutNewAssetInput[];
+    deleteMany?:
+      | Prisma.MaintenanceReplacementScalarWhereInput
+      | Prisma.MaintenanceReplacementScalarWhereInput[];
+  };
 
 export type MaintenanceReplacementCreateNestedManyWithoutMaintenanceInput = {
   create?:
@@ -527,16 +872,177 @@ export type MaintenanceReplacementUncheckedUpdateManyWithoutMaintenanceNestedInp
       | Prisma.MaintenanceReplacementScalarWhereInput[];
   };
 
+export type NullableEnumAssetConditionFieldUpdateOperationsInput = {
+  set?: $Enums.AssetCondition | null;
+};
+
+export type MaintenanceReplacementCreateWithoutOldAssetInput = {
+  oldAssetDesc: string;
+  newAssetDesc: string;
+  conditionAfter?: $Enums.AssetCondition | null;
+  note?: string | null;
+  maintenance: Prisma.MaintenanceCreateNestedOneWithoutReplacementsInput;
+  newAsset?: Prisma.AssetCreateNestedOneWithoutReplacementsAsNewInput;
+};
+
+export type MaintenanceReplacementUncheckedCreateWithoutOldAssetInput = {
+  id?: number;
+  maintenanceId: number;
+  newAssetId?: string | null;
+  oldAssetDesc: string;
+  newAssetDesc: string;
+  conditionAfter?: $Enums.AssetCondition | null;
+  note?: string | null;
+};
+
+export type MaintenanceReplacementCreateOrConnectWithoutOldAssetInput = {
+  where: Prisma.MaintenanceReplacementWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.MaintenanceReplacementCreateWithoutOldAssetInput,
+    Prisma.MaintenanceReplacementUncheckedCreateWithoutOldAssetInput
+  >;
+};
+
+export type MaintenanceReplacementCreateManyOldAssetInputEnvelope = {
+  data:
+    | Prisma.MaintenanceReplacementCreateManyOldAssetInput
+    | Prisma.MaintenanceReplacementCreateManyOldAssetInput[];
+  skipDuplicates?: boolean;
+};
+
+export type MaintenanceReplacementCreateWithoutNewAssetInput = {
+  oldAssetDesc: string;
+  newAssetDesc: string;
+  conditionAfter?: $Enums.AssetCondition | null;
+  note?: string | null;
+  maintenance: Prisma.MaintenanceCreateNestedOneWithoutReplacementsInput;
+  oldAsset?: Prisma.AssetCreateNestedOneWithoutReplacementsAsOldInput;
+};
+
+export type MaintenanceReplacementUncheckedCreateWithoutNewAssetInput = {
+  id?: number;
+  maintenanceId: number;
+  oldAssetId?: string | null;
+  oldAssetDesc: string;
+  newAssetDesc: string;
+  conditionAfter?: $Enums.AssetCondition | null;
+  note?: string | null;
+};
+
+export type MaintenanceReplacementCreateOrConnectWithoutNewAssetInput = {
+  where: Prisma.MaintenanceReplacementWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.MaintenanceReplacementCreateWithoutNewAssetInput,
+    Prisma.MaintenanceReplacementUncheckedCreateWithoutNewAssetInput
+  >;
+};
+
+export type MaintenanceReplacementCreateManyNewAssetInputEnvelope = {
+  data:
+    | Prisma.MaintenanceReplacementCreateManyNewAssetInput
+    | Prisma.MaintenanceReplacementCreateManyNewAssetInput[];
+  skipDuplicates?: boolean;
+};
+
+export type MaintenanceReplacementUpsertWithWhereUniqueWithoutOldAssetInput = {
+  where: Prisma.MaintenanceReplacementWhereUniqueInput;
+  update: Prisma.XOR<
+    Prisma.MaintenanceReplacementUpdateWithoutOldAssetInput,
+    Prisma.MaintenanceReplacementUncheckedUpdateWithoutOldAssetInput
+  >;
+  create: Prisma.XOR<
+    Prisma.MaintenanceReplacementCreateWithoutOldAssetInput,
+    Prisma.MaintenanceReplacementUncheckedCreateWithoutOldAssetInput
+  >;
+};
+
+export type MaintenanceReplacementUpdateWithWhereUniqueWithoutOldAssetInput = {
+  where: Prisma.MaintenanceReplacementWhereUniqueInput;
+  data: Prisma.XOR<
+    Prisma.MaintenanceReplacementUpdateWithoutOldAssetInput,
+    Prisma.MaintenanceReplacementUncheckedUpdateWithoutOldAssetInput
+  >;
+};
+
+export type MaintenanceReplacementUpdateManyWithWhereWithoutOldAssetInput = {
+  where: Prisma.MaintenanceReplacementScalarWhereInput;
+  data: Prisma.XOR<
+    Prisma.MaintenanceReplacementUpdateManyMutationInput,
+    Prisma.MaintenanceReplacementUncheckedUpdateManyWithoutOldAssetInput
+  >;
+};
+
+export type MaintenanceReplacementScalarWhereInput = {
+  AND?:
+    | Prisma.MaintenanceReplacementScalarWhereInput
+    | Prisma.MaintenanceReplacementScalarWhereInput[];
+  OR?: Prisma.MaintenanceReplacementScalarWhereInput[];
+  NOT?:
+    | Prisma.MaintenanceReplacementScalarWhereInput
+    | Prisma.MaintenanceReplacementScalarWhereInput[];
+  id?: Prisma.IntFilter<'MaintenanceReplacement'> | number;
+  maintenanceId?: Prisma.IntFilter<'MaintenanceReplacement'> | number;
+  oldAssetId?:
+    | Prisma.StringNullableFilter<'MaintenanceReplacement'>
+    | string
+    | null;
+  newAssetId?:
+    | Prisma.StringNullableFilter<'MaintenanceReplacement'>
+    | string
+    | null;
+  oldAssetDesc?: Prisma.StringFilter<'MaintenanceReplacement'> | string;
+  newAssetDesc?: Prisma.StringFilter<'MaintenanceReplacement'> | string;
+  conditionAfter?:
+    | Prisma.EnumAssetConditionNullableFilter<'MaintenanceReplacement'>
+    | $Enums.AssetCondition
+    | null;
+  note?: Prisma.StringNullableFilter<'MaintenanceReplacement'> | string | null;
+};
+
+export type MaintenanceReplacementUpsertWithWhereUniqueWithoutNewAssetInput = {
+  where: Prisma.MaintenanceReplacementWhereUniqueInput;
+  update: Prisma.XOR<
+    Prisma.MaintenanceReplacementUpdateWithoutNewAssetInput,
+    Prisma.MaintenanceReplacementUncheckedUpdateWithoutNewAssetInput
+  >;
+  create: Prisma.XOR<
+    Prisma.MaintenanceReplacementCreateWithoutNewAssetInput,
+    Prisma.MaintenanceReplacementUncheckedCreateWithoutNewAssetInput
+  >;
+};
+
+export type MaintenanceReplacementUpdateWithWhereUniqueWithoutNewAssetInput = {
+  where: Prisma.MaintenanceReplacementWhereUniqueInput;
+  data: Prisma.XOR<
+    Prisma.MaintenanceReplacementUpdateWithoutNewAssetInput,
+    Prisma.MaintenanceReplacementUncheckedUpdateWithoutNewAssetInput
+  >;
+};
+
+export type MaintenanceReplacementUpdateManyWithWhereWithoutNewAssetInput = {
+  where: Prisma.MaintenanceReplacementScalarWhereInput;
+  data: Prisma.XOR<
+    Prisma.MaintenanceReplacementUpdateManyMutationInput,
+    Prisma.MaintenanceReplacementUncheckedUpdateManyWithoutNewAssetInput
+  >;
+};
+
 export type MaintenanceReplacementCreateWithoutMaintenanceInput = {
   oldAssetDesc: string;
   newAssetDesc: string;
+  conditionAfter?: $Enums.AssetCondition | null;
   note?: string | null;
+  oldAsset?: Prisma.AssetCreateNestedOneWithoutReplacementsAsOldInput;
+  newAsset?: Prisma.AssetCreateNestedOneWithoutReplacementsAsNewInput;
 };
 
 export type MaintenanceReplacementUncheckedCreateWithoutMaintenanceInput = {
   id?: number;
+  oldAssetId?: string | null;
+  newAssetId?: string | null;
   oldAssetDesc: string;
   newAssetDesc: string;
+  conditionAfter?: $Enums.AssetCondition | null;
   note?: string | null;
 };
 
@@ -585,45 +1091,147 @@ export type MaintenanceReplacementUpdateManyWithWhereWithoutMaintenanceInput = {
   >;
 };
 
-export type MaintenanceReplacementScalarWhereInput = {
-  AND?:
-    | Prisma.MaintenanceReplacementScalarWhereInput
-    | Prisma.MaintenanceReplacementScalarWhereInput[];
-  OR?: Prisma.MaintenanceReplacementScalarWhereInput[];
-  NOT?:
-    | Prisma.MaintenanceReplacementScalarWhereInput
-    | Prisma.MaintenanceReplacementScalarWhereInput[];
-  id?: Prisma.IntFilter<'MaintenanceReplacement'> | number;
-  maintenanceId?: Prisma.IntFilter<'MaintenanceReplacement'> | number;
-  oldAssetDesc?: Prisma.StringFilter<'MaintenanceReplacement'> | string;
-  newAssetDesc?: Prisma.StringFilter<'MaintenanceReplacement'> | string;
-  note?: Prisma.StringNullableFilter<'MaintenanceReplacement'> | string | null;
+export type MaintenanceReplacementCreateManyOldAssetInput = {
+  id?: number;
+  maintenanceId: number;
+  newAssetId?: string | null;
+  oldAssetDesc: string;
+  newAssetDesc: string;
+  conditionAfter?: $Enums.AssetCondition | null;
+  note?: string | null;
+};
+
+export type MaintenanceReplacementCreateManyNewAssetInput = {
+  id?: number;
+  maintenanceId: number;
+  oldAssetId?: string | null;
+  oldAssetDesc: string;
+  newAssetDesc: string;
+  conditionAfter?: $Enums.AssetCondition | null;
+  note?: string | null;
+};
+
+export type MaintenanceReplacementUpdateWithoutOldAssetInput = {
+  oldAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  newAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  conditionAfter?:
+    | Prisma.NullableEnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition
+    | null;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  maintenance?: Prisma.MaintenanceUpdateOneRequiredWithoutReplacementsNestedInput;
+  newAsset?: Prisma.AssetUpdateOneWithoutReplacementsAsNewNestedInput;
+};
+
+export type MaintenanceReplacementUncheckedUpdateWithoutOldAssetInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  maintenanceId?: Prisma.IntFieldUpdateOperationsInput | number;
+  newAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  oldAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  newAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  conditionAfter?:
+    | Prisma.NullableEnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition
+    | null;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+};
+
+export type MaintenanceReplacementUncheckedUpdateManyWithoutOldAssetInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  maintenanceId?: Prisma.IntFieldUpdateOperationsInput | number;
+  newAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  oldAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  newAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  conditionAfter?:
+    | Prisma.NullableEnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition
+    | null;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+};
+
+export type MaintenanceReplacementUpdateWithoutNewAssetInput = {
+  oldAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  newAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  conditionAfter?:
+    | Prisma.NullableEnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition
+    | null;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  maintenance?: Prisma.MaintenanceUpdateOneRequiredWithoutReplacementsNestedInput;
+  oldAsset?: Prisma.AssetUpdateOneWithoutReplacementsAsOldNestedInput;
+};
+
+export type MaintenanceReplacementUncheckedUpdateWithoutNewAssetInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  maintenanceId?: Prisma.IntFieldUpdateOperationsInput | number;
+  oldAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  oldAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  newAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  conditionAfter?:
+    | Prisma.NullableEnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition
+    | null;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+};
+
+export type MaintenanceReplacementUncheckedUpdateManyWithoutNewAssetInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  maintenanceId?: Prisma.IntFieldUpdateOperationsInput | number;
+  oldAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  oldAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  newAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  conditionAfter?:
+    | Prisma.NullableEnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition
+    | null;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type MaintenanceReplacementCreateManyMaintenanceInput = {
   id?: number;
+  oldAssetId?: string | null;
+  newAssetId?: string | null;
   oldAssetDesc: string;
   newAssetDesc: string;
+  conditionAfter?: $Enums.AssetCondition | null;
   note?: string | null;
 };
 
 export type MaintenanceReplacementUpdateWithoutMaintenanceInput = {
   oldAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
   newAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  conditionAfter?:
+    | Prisma.NullableEnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition
+    | null;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  oldAsset?: Prisma.AssetUpdateOneWithoutReplacementsAsOldNestedInput;
+  newAsset?: Prisma.AssetUpdateOneWithoutReplacementsAsNewNestedInput;
 };
 
 export type MaintenanceReplacementUncheckedUpdateWithoutMaintenanceInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
+  oldAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  newAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   oldAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
   newAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  conditionAfter?:
+    | Prisma.NullableEnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition
+    | null;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
 export type MaintenanceReplacementUncheckedUpdateManyWithoutMaintenanceInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
+  oldAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  newAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   oldAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
   newAssetDesc?: Prisma.StringFieldUpdateOperationsInput | string;
+  conditionAfter?:
+    | Prisma.NullableEnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition
+    | null;
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 
@@ -634,10 +1242,15 @@ export type MaintenanceReplacementSelect<
   {
     id?: boolean;
     maintenanceId?: boolean;
+    oldAssetId?: boolean;
+    newAssetId?: boolean;
     oldAssetDesc?: boolean;
     newAssetDesc?: boolean;
+    conditionAfter?: boolean;
     note?: boolean;
     maintenance?: boolean | Prisma.MaintenanceDefaultArgs<ExtArgs>;
+    oldAsset?: boolean | Prisma.MaintenanceReplacement$oldAssetArgs<ExtArgs>;
+    newAsset?: boolean | Prisma.MaintenanceReplacement$newAssetArgs<ExtArgs>;
   },
   ExtArgs['result']['maintenanceReplacement']
 >;
@@ -649,10 +1262,15 @@ export type MaintenanceReplacementSelectCreateManyAndReturn<
   {
     id?: boolean;
     maintenanceId?: boolean;
+    oldAssetId?: boolean;
+    newAssetId?: boolean;
     oldAssetDesc?: boolean;
     newAssetDesc?: boolean;
+    conditionAfter?: boolean;
     note?: boolean;
     maintenance?: boolean | Prisma.MaintenanceDefaultArgs<ExtArgs>;
+    oldAsset?: boolean | Prisma.MaintenanceReplacement$oldAssetArgs<ExtArgs>;
+    newAsset?: boolean | Prisma.MaintenanceReplacement$newAssetArgs<ExtArgs>;
   },
   ExtArgs['result']['maintenanceReplacement']
 >;
@@ -664,10 +1282,15 @@ export type MaintenanceReplacementSelectUpdateManyAndReturn<
   {
     id?: boolean;
     maintenanceId?: boolean;
+    oldAssetId?: boolean;
+    newAssetId?: boolean;
     oldAssetDesc?: boolean;
     newAssetDesc?: boolean;
+    conditionAfter?: boolean;
     note?: boolean;
     maintenance?: boolean | Prisma.MaintenanceDefaultArgs<ExtArgs>;
+    oldAsset?: boolean | Prisma.MaintenanceReplacement$oldAssetArgs<ExtArgs>;
+    newAsset?: boolean | Prisma.MaintenanceReplacement$newAssetArgs<ExtArgs>;
   },
   ExtArgs['result']['maintenanceReplacement']
 >;
@@ -675,8 +1298,11 @@ export type MaintenanceReplacementSelectUpdateManyAndReturn<
 export type MaintenanceReplacementSelectScalar = {
   id?: boolean;
   maintenanceId?: boolean;
+  oldAssetId?: boolean;
+  newAssetId?: boolean;
   oldAssetDesc?: boolean;
   newAssetDesc?: boolean;
+  conditionAfter?: boolean;
   note?: boolean;
 };
 
@@ -684,7 +1310,14 @@ export type MaintenanceReplacementOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  'id' | 'maintenanceId' | 'oldAssetDesc' | 'newAssetDesc' | 'note',
+  | 'id'
+  | 'maintenanceId'
+  | 'oldAssetId'
+  | 'newAssetId'
+  | 'oldAssetDesc'
+  | 'newAssetDesc'
+  | 'conditionAfter'
+  | 'note',
   ExtArgs['result']['maintenanceReplacement']
 >;
 export type MaintenanceReplacementInclude<
@@ -692,18 +1325,24 @@ export type MaintenanceReplacementInclude<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   maintenance?: boolean | Prisma.MaintenanceDefaultArgs<ExtArgs>;
+  oldAsset?: boolean | Prisma.MaintenanceReplacement$oldAssetArgs<ExtArgs>;
+  newAsset?: boolean | Prisma.MaintenanceReplacement$newAssetArgs<ExtArgs>;
 };
 export type MaintenanceReplacementIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   maintenance?: boolean | Prisma.MaintenanceDefaultArgs<ExtArgs>;
+  oldAsset?: boolean | Prisma.MaintenanceReplacement$oldAssetArgs<ExtArgs>;
+  newAsset?: boolean | Prisma.MaintenanceReplacement$newAssetArgs<ExtArgs>;
 };
 export type MaintenanceReplacementIncludeUpdateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = {
   maintenance?: boolean | Prisma.MaintenanceDefaultArgs<ExtArgs>;
+  oldAsset?: boolean | Prisma.MaintenanceReplacement$oldAssetArgs<ExtArgs>;
+  newAsset?: boolean | Prisma.MaintenanceReplacement$newAssetArgs<ExtArgs>;
 };
 
 export type $MaintenanceReplacementPayload<
@@ -713,13 +1352,18 @@ export type $MaintenanceReplacementPayload<
   name: 'MaintenanceReplacement';
   objects: {
     maintenance: Prisma.$MaintenancePayload<ExtArgs>;
+    oldAsset: Prisma.$AssetPayload<ExtArgs> | null;
+    newAsset: Prisma.$AssetPayload<ExtArgs> | null;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
       id: number;
       maintenanceId: number;
+      oldAssetId: string | null;
+      newAssetId: string | null;
       oldAssetDesc: string;
       newAssetDesc: string;
+      conditionAfter: $Enums.AssetCondition | null;
       note: string | null;
     },
     ExtArgs['result']['maintenanceReplacement']
@@ -1313,6 +1957,38 @@ export interface Prisma__MaintenanceReplacementClient<
     ExtArgs,
     GlobalOmitOptions
   >;
+  oldAsset<T extends Prisma.MaintenanceReplacement$oldAssetArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<
+      T,
+      Prisma.MaintenanceReplacement$oldAssetArgs<ExtArgs>
+    >,
+  ): Prisma.Prisma__AssetClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$AssetPayload<ExtArgs>,
+      T,
+      'findUniqueOrThrow',
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
+  newAsset<T extends Prisma.MaintenanceReplacement$newAssetArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<
+      T,
+      Prisma.MaintenanceReplacement$newAssetArgs<ExtArgs>
+    >,
+  ): Prisma.Prisma__AssetClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$AssetPayload<ExtArgs>,
+      T,
+      'findUniqueOrThrow',
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1357,8 +2033,14 @@ export interface Prisma__MaintenanceReplacementClient<
 export interface MaintenanceReplacementFieldRefs {
   readonly id: Prisma.FieldRef<'MaintenanceReplacement', 'Int'>;
   readonly maintenanceId: Prisma.FieldRef<'MaintenanceReplacement', 'Int'>;
+  readonly oldAssetId: Prisma.FieldRef<'MaintenanceReplacement', 'String'>;
+  readonly newAssetId: Prisma.FieldRef<'MaintenanceReplacement', 'String'>;
   readonly oldAssetDesc: Prisma.FieldRef<'MaintenanceReplacement', 'String'>;
   readonly newAssetDesc: Prisma.FieldRef<'MaintenanceReplacement', 'String'>;
+  readonly conditionAfter: Prisma.FieldRef<
+    'MaintenanceReplacement',
+    'AssetCondition'
+  >;
   readonly note: Prisma.FieldRef<'MaintenanceReplacement', 'String'>;
 }
 
@@ -1833,6 +2515,50 @@ export type MaintenanceReplacementDeleteManyArgs<
    * Limit how many MaintenanceReplacements to delete.
    */
   limit?: number;
+};
+
+/**
+ * MaintenanceReplacement.oldAsset
+ */
+export type MaintenanceReplacement$oldAssetArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Asset
+   */
+  select?: Prisma.AssetSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Asset
+   */
+  omit?: Prisma.AssetOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetInclude<ExtArgs> | null;
+  where?: Prisma.AssetWhereInput;
+};
+
+/**
+ * MaintenanceReplacement.newAsset
+ */
+export type MaintenanceReplacement$newAssetArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Asset
+   */
+  select?: Prisma.AssetSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Asset
+   */
+  omit?: Prisma.AssetOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetInclude<ExtArgs> | null;
+  where?: Prisma.AssetWhereInput;
 };
 
 /**

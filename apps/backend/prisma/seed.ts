@@ -81,6 +81,7 @@ async function main() {
   //    SUPERADMIN, ADMIN_LOGISTIK, ADMIN_PURCHASE, LEADER, STAFF
   // ============================================================
   const hashedPassword = await bcrypt.hash('Trinity@2026', 12);
+  const hashedTestPassword = await bcrypt.hash('TestPassword123!', 12);
 
   const usersData = [
     {
@@ -128,6 +129,116 @@ async function main() {
       divisionId: divTek.id,
       phone: '081200000005',
     },
+    // ── UAT Test Accounts (T5-20) ──
+    {
+      employeeId: 'EMP-UAT-001',
+      fullName: 'UAT Superadmin',
+      email: 'superadmin@test.com',
+      password: hashedTestPassword,
+      role: UserRole.SUPERADMIN,
+      divisionId: divMgt.id,
+      phone: '081300000001',
+    },
+    {
+      employeeId: 'EMP-UAT-002',
+      fullName: 'UAT Admin Logistik',
+      email: 'logistik@test.com',
+      password: hashedTestPassword,
+      role: UserRole.ADMIN_LOGISTIK,
+      divisionId: divLog.id,
+      phone: '081300000002',
+    },
+    {
+      employeeId: 'EMP-UAT-003',
+      fullName: 'UAT Admin Purchase',
+      email: 'purchase@test.com',
+      password: hashedTestPassword,
+      role: UserRole.ADMIN_PURCHASE,
+      divisionId: divPur.id,
+      phone: '081300000003',
+    },
+    {
+      employeeId: 'EMP-UAT-004',
+      fullName: 'UAT Leader',
+      email: 'leader@test.com',
+      password: hashedTestPassword,
+      role: UserRole.LEADER,
+      divisionId: divTek.id,
+      phone: '081300000004',
+    },
+    {
+      employeeId: 'EMP-UAT-005',
+      fullName: 'UAT Staff 1',
+      email: 'staff1@test.com',
+      password: hashedTestPassword,
+      role: UserRole.STAFF,
+      divisionId: divTek.id,
+      phone: '081300000005',
+    },
+    {
+      employeeId: 'EMP-UAT-006',
+      fullName: 'UAT Staff 2',
+      email: 'staff2@test.com',
+      password: hashedTestPassword,
+      role: UserRole.STAFF,
+      divisionId: divTek.id,
+      phone: '081300000006',
+    },
+    // ── Additional Division Users ──
+    {
+      employeeId: 'EMP-006',
+      fullName: 'Admin Logistik 2',
+      email: 'logistik2@trinity.com',
+      password: hashedPassword,
+      role: UserRole.ADMIN_LOGISTIK,
+      divisionId: divLog.id,
+      phone: '081200000006',
+    },
+    {
+      employeeId: 'EMP-007',
+      fullName: 'Admin Purchase 2',
+      email: 'purchase2@trinity.com',
+      password: hashedPassword,
+      role: UserRole.ADMIN_PURCHASE,
+      divisionId: divPur.id,
+      phone: '081200000007',
+    },
+    {
+      employeeId: 'EMP-008',
+      fullName: 'Leader Logistik',
+      email: 'leader2@trinity.com',
+      password: hashedPassword,
+      role: UserRole.LEADER,
+      divisionId: divLog.id,
+      phone: '081200000008',
+    },
+    {
+      employeeId: 'EMP-009',
+      fullName: 'Leader Purchase',
+      email: 'leader3@trinity.com',
+      password: hashedPassword,
+      role: UserRole.LEADER,
+      divisionId: divPur.id,
+      phone: '081200000009',
+    },
+    {
+      employeeId: 'EMP-010',
+      fullName: 'Staff Logistik',
+      email: 'staff2@trinity.com',
+      password: hashedPassword,
+      role: UserRole.STAFF,
+      divisionId: divLog.id,
+      phone: '081200000010',
+    },
+    {
+      employeeId: 'EMP-011',
+      fullName: 'Staff Management',
+      email: 'staff3@trinity.com',
+      password: hashedPassword,
+      role: UserRole.STAFF,
+      divisionId: divMgt.id,
+      phone: '081200000011',
+    },
   ];
 
   for (const user of usersData) {
@@ -144,7 +255,9 @@ async function main() {
       create: { ...user, isActive: true },
     });
   }
-  console.log('✅ Users seeded (5 roles)');
+  console.log(
+    '✅ Users seeded (16 users: 5 roles + 6 UAT accounts + 5 additional)',
+  );
 
   const superadmin = await prisma.user.findUniqueOrThrow({
     where: { email: 'admin@trinity.com' },
@@ -1515,7 +1628,7 @@ async function main() {
   console.log('\n🎉 Seed completed!');
   console.log('   📊 Summary:');
   console.log('   - 4 Divisions');
-  console.log('   - 5 Users (1 per role)');
+  console.log('   - 16 Users (5 main + 6 UAT test accounts + 5 additional)');
   console.log('   - 3 Asset Categories → 9 Types → 11 Models');
   console.log('   - 11 Purchase records + 8 Depreciation records');
   console.log('   - 20 Assets + Stock movements');
@@ -1529,6 +1642,13 @@ async function main() {
   console.log('   - 2 Infra Projects');
   console.log('   - 1 Installation, 1 Maintenance, 1 Dismantle');
   console.log('   - 5 Notifications');
+  console.log('\n   🔑 UAT Test Accounts:');
+  console.log('   - superadmin@test.com  / TestPassword123!');
+  console.log('   - logistik@test.com    / TestPassword123!');
+  console.log('   - purchase@test.com    / TestPassword123!');
+  console.log('   - leader@test.com      / TestPassword123!');
+  console.log('   - staff1@test.com      / TestPassword123!');
+  console.log('   - staff2@test.com      / TestPassword123!');
 }
 
 main()

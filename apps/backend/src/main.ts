@@ -20,8 +20,27 @@ async function bootstrap() {
   // Global prefix
   app.setGlobalPrefix('api/v1');
 
-  // Security — Helmet HTTP headers
-  app.use(helmet());
+  // Security — Helmet HTTP headers (T5-13: OWASP Security Headers)
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          imgSrc: ["'self'", 'data:', 'blob:'],
+          connectSrc: ["'self'"],
+          fontSrc: ["'self'"],
+          objectSrc: ["'none'"],
+          frameAncestors: ["'none'"],
+        },
+      },
+      hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
+      frameguard: { action: 'deny' },
+      noSniff: true,
+      xssFilter: true,
+    }),
+  );
 
   // Compression — gzip responses
   app.use(compression());

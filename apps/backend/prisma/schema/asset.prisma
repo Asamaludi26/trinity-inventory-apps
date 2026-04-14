@@ -82,14 +82,19 @@ model Asset {
   dismantleItems       DismantleItem[]
   handoverItems        HandoverItem[]
   loanAssetAssignments LoanAssetAssignment[]
+  replacementsAsOld    MaintenanceReplacement[] @relation("ReplacementOldAsset")
+  replacementsAsNew    MaintenanceReplacement[] @relation("ReplacementNewAsset")
   repairs              Repair[]
   stockMovements       StockMovement[]
 
   @@index([status, categoryId])
+  @@index([status, modelId])
+  @@index([status, currentUserId])
   @@index([serialNumber])
   @@index([currentUserId])
   @@index([code])
-  @@index([version])
+  @@index([isDeleted, status])
+  @@index([createdAt])
   @@map("assets")
 }
 

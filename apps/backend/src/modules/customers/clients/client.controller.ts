@@ -3,10 +3,13 @@ import {
   Get,
   Post,
   Patch,
+  Delete,
   Body,
   Param,
   Query,
   ParseUUIDPipe,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -59,5 +62,14 @@ export class ClientController {
     @Body() dto: UpdateClientDto,
   ) {
     return this.clientService.update(id, dto);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @AuthPermissions(PERMISSIONS.CUSTOMERS_DELETE)
+  @ApiOperation({ summary: 'Hapus pelanggan (soft delete)' })
+  @ApiResponse({ status: 204, description: 'Pelanggan berhasil dihapus' })
+  async remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.clientService.remove(id);
   }
 }

@@ -56,6 +56,7 @@ export function LoginPage() {
               src="/tmi1.png"
               alt="Trinity Inventory Apps"
               className="h-16 w-auto object-contain"
+              loading="lazy"
               onError={(e) => {
                 (e.target as HTMLImageElement).src = '/tmi1.png';
               }}

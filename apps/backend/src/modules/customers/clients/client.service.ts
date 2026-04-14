@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
@@ -110,6 +114,7 @@ export class ClientService {
     return this.prisma.customer.create({
       data: {
         code,
+        isActive: false,
         ...dto,
       },
     });
@@ -124,11 +129,98 @@ export class ClientService {
   }
 
   async remove(id: string) {
-    await this.findOne(id);
+    const customer = await this.findOne(id);
+
+    // T3-04: Deletion protection — check transaction history
+    const hasHistory = await this.prisma.$transaction(async (tx) => {
+      const [instCount, maintCount, dismCount] = await Promise.all([
+        tx.installation.count({
+          where: { customerId: customer.id, isDeleted: false },
+        }),
+        tx.maintenance.count({
+          where: { customerId: customer.id, isDeleted: false },
+        }),
+        tx.dismantle.count({
+          where: { customerId: customer.id, isDeleted: false },
+        }),
+      ]);
+      return instCount + maintCount + dismCount > 0;
+    });
+
+    if (hasHistory) {
+      throw new UnprocessableEntityException(
+        'Pelanggan memiliki riwayat transaksi. Ubah status ke INACTIVE.',
+      );
+    }
+
     await this.prisma.customer.update({
       where: { uuid: id },
       data: { isDeleted: true },
     });
     return null;
+  }
+
+  /**
+   * T3-02: Auto-activate customer when first installation completes
+   */
+  async activateOnInstallation(
+    customerId: number,
+    tx: Prisma.TransactionClient,
+  ): Promise<void> {
+    const customer = await tx.customer.findUnique({
+      where: { id: customerId },
+    });
+    if (customer && !customer.isActive) {
+      await tx.customer.update({
+        where: { id: customerId },
+        data: { isActive: true },
+      });
+    }
+  }
+
+  /**
+   * T3-02: Auto-deactivate customer when all assets dismantled
+   */
+  async deactivateOnDismantle(
+    customerId: number,
+    tx: Prisma.TransactionClient,
+  ): Promise<void> {
+    // Count remaining IN_USE assets linked via installations for this customer
+    const remainingAssets = await tx.installation.count({
+      where: {
+        customerId,
+        status: 'COMPLETED',
+        isDeleted: false,
+        materials: {
+          some: {
+            model: {
+              assets: {
+                some: { status: 'IN_USE', isDeleted: false },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    // Also check dismantled items still IN_USE
+    const inUseAssets = await tx.asset.count({
+      where: {
+        status: 'IN_USE',
+        isDeleted: false,
+        dismantleItems: {
+          some: {
+            dismantle: { customerId, isDeleted: false },
+          },
+        },
+      },
+    });
+
+    if (remainingAssets === 0 && inUseAssets === 0) {
+      await tx.customer.update({
+        where: { id: customerId },
+        data: { isActive: false },
+      });
+    }
   }
 }

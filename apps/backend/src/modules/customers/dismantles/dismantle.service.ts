@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
 import { StockMovementService } from '../../transactions/stock-movements/stock-movement.service';
+import { ClientService } from '../clients/client.service';
 import { CreateDismantleDto } from './dto/create-dismantle.dto';
 import { UpdateDismantleDto } from './dto/update-dismantle.dto';
 import { FilterDismantleDto } from './dto/filter-dismantle.dto';
@@ -16,11 +17,28 @@ import {
   AssetCondition,
 } from '../../../generated/prisma/client';
 
+/** Map condition → asset status per CUSTOMER_OPERATIONS.md §4 */
+function mapConditionToStatus(condition: AssetCondition): AssetStatus {
+  switch (condition) {
+    case AssetCondition.NEW:
+    case AssetCondition.GOOD:
+    case AssetCondition.FAIR:
+      return AssetStatus.IN_STORAGE;
+    case AssetCondition.POOR:
+      return AssetStatus.UNDER_REPAIR;
+    case AssetCondition.BROKEN:
+      return AssetStatus.DAMAGED;
+    default:
+      return AssetStatus.IN_STORAGE;
+  }
+}
+
 @Injectable()
 export class DismantleService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly stockMovementService: StockMovementService,
+    private readonly clientService: ClientService,
   ) {}
 
   private async generateCode(): Promise<string> {
@@ -68,6 +86,7 @@ export class DismantleService {
         orderBy: { [orderField]: sortOrder },
         include: {
           customer: { select: { id: true, name: true, code: true } },
+          _count: { select: { items: true } },
         },
       }),
       this.prisma.dismantle.count({ where }),
@@ -182,7 +201,7 @@ export class DismantleService {
         },
       });
 
-      // Return each asset to storage
+      // T3-16: Per-item condition → status mapping
       for (const item of existing.items) {
         const conditionInfo = itemConditions?.find(
           (c) => c.assetId === item.assetId,
@@ -190,35 +209,41 @@ export class DismantleService {
         const conditionAfter =
           conditionInfo?.conditionAfter ?? AssetCondition.GOOD;
 
+        // Map condition to appropriate status
+        const newStatus = mapConditionToStatus(conditionAfter);
+
         // Update dismantle item condition
         await tx.dismantleItem.update({
           where: { id: item.id },
           data: { conditionAfter },
         });
 
-        // Return asset to IN_STORAGE
+        // Update asset status based on condition
         await tx.asset.update({
           where: { id: item.assetId },
           data: {
-            status: AssetStatus.IN_STORAGE,
+            status: newStatus,
             condition: conditionAfter,
             currentUserId: null,
           },
         });
 
-        // Create stock movement IN
+        // Create stock movement
         await this.stockMovementService.create(
           {
             assetId: item.assetId,
             type: MovementType.DISMANTLE_RETURN,
             quantity: 1,
             reference: existing.code,
-            note: `Dismantle ${existing.code} - aset dikembalikan ke gudang`,
+            note: `Dismantle ${existing.code} - kondisi: ${conditionAfter} → status: ${newStatus}`,
             createdById: userId,
           },
           tx,
         );
       }
+
+      // T3-02: Check remaining assets → auto-INACTIVE customer
+      await this.clientService.deactivateOnDismantle(existing.customerId, tx);
 
       return dismantle;
     });

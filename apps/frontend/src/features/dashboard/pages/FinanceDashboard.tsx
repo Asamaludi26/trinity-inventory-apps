@@ -1,13 +1,17 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ShoppingCart, TrendingDown, Wallet, ClipboardList } from 'lucide-react';
 import { dashboardApi } from '../api';
-import { StatCard, RecentActivityTable } from '../components';
+import { StatCard, RecentActivityTable, DashboardTimeFilter } from '../components';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { DashboardFilter } from '../types';
 
 export function FinanceDashboard() {
+  const [filter, setFilter] = useState<DashboardFilter>({ preset: '30d' });
+
   const { data: statsData, isLoading: statsLoading } = useQuery({
-    queryKey: ['dashboard', 'finance', 'stats'],
-    queryFn: () => dashboardApi.getFinanceStats(),
+    queryKey: ['dashboard', 'finance', 'stats', filter],
+    queryFn: () => dashboardApi.getFinanceStats(filter),
     select: (res) => res.data.data,
   });
 
@@ -34,6 +38,12 @@ export function FinanceDashboard() {
 
   return (
     <div className="flex flex-col gap-6">
+      {/* Time Filter */}
+      <div className="flex items-center justify-between">
+        <p className="text-muted-foreground text-sm">Filter periode</p>
+        <DashboardTimeFilter filter={filter} onChange={setFilter} />
+      </div>
+
       {/* Stat Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard

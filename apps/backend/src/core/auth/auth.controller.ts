@@ -46,6 +46,7 @@ export class AuthController {
 
   @Post('logout')
   @HttpCode(HttpStatus.OK)
+  @Throttle({ default: { ttl: 60000, limit: 10 } })
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: 'Logout — invalidate refresh token' })
   @ApiResponse({ status: 200, description: 'Logout berhasil' })
@@ -56,6 +57,7 @@ export class AuthController {
 
   @Patch('change-password')
   @HttpCode(HttpStatus.OK)
+  @Throttle({ default: { ttl: 60000, limit: 3 } })
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: 'Ganti password' })
   @ApiResponse({ status: 200, description: 'Password berhasil diubah' })

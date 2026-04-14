@@ -47,6 +47,171 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-15] — Sprint Rebuild Completion Analysis & Asset Bug Fix
+
+#### Added
+
+- `00_PLANNING/SPRINT/ANALYSIS/SPRINT_REBUILD_COMPLETION_ANALYSIS.md` — Comprehensive Sprint 0–5 completion analysis: per-task breakdown, gap analysis, blocking issues, remediation roadmap
+
+#### Fixed
+
+- `apps/frontend/src/features/assets/api/assets.api.ts` — Fixed `categoryApi`, `typeApi`, `modelApi` type definitions: changed from `ApiResponse<T[]>` to `ApiResponse<PaginatedResponse<T>>` to match backend paginated response
+- `apps/frontend/src/features/assets/hooks/useCategories.ts` — Fixed `useCategories` hook: extract `res.data.data.data` (items array from paginated response) instead of `res.data.data` (paginated wrapper object)
+- `apps/frontend/src/features/assets/hooks/useTypes.ts` — Same fix for `useTypes` hook
+- `apps/frontend/src/features/assets/hooks/useModels.ts` — Same fix for `useModels` hook
+- **Root Cause**: `categories?.map is not a function` — Backend returns `{ data: [], meta: {} }` (paginated), but frontend hooks treated it as flat array
+
+#### Quality Gate
+
+- ✅ Frontend typecheck: 0 errors
+- ✅ Frontend lint: 0 errors
+
+#### Agents Involved
+
+- documentation (sprint analysis report)
+- frontend (API type fix, hook data extraction fix)
+
+### [2026-04-15] — Sprint 5 Stabilization: Security Audit, Performance, UAT Preparation
+
+#### Added
+
+- `apps/backend/prisma/schema/auth.prisma` — `failedLoginAttempts` (Int, default 0) and `lockedUntil` (DateTime?) fields for account lockout mechanism (T5-12: OWASP A07)
+- `apps/backend/prisma/migrations/20260414174443_sprint5_account_lockout_and_performance_indexes/` — Migration: account lockout fields + composite performance indexes
+- `apps/backend/test/helpers/test-app.helper.ts` — Shared E2E test utilities: `createTestApp()`, `loginUser()`, `authRequest()`, `TEST_USERS`
+- `apps/backend/test/auth.e2e-spec.ts` — Auth flow E2E tests: login, refresh, logout, RBAC, account lockout (T5-01)
+- `apps/backend/test/asset-lifecycle.e2e-spec.ts` — Asset lifecycle E2E tests: CRUD, categories, stock management (T5-01)
+- `apps/backend/test/transaction-lifecycle.e2e-spec.ts` — Transaction lifecycle E2E tests: requests, loans, returns, handovers, repairs, OCC, response format consistency (T5-02)
+- `apps/backend/test/customer-operations.e2e-spec.ts` — Customer operations E2E tests: CRUD, installations, maintenances, dismantles (T5-03)
+- UAT test accounts seeded: `superadmin@test.com`, `logistik@test.com`, `purchase@test.com`, `leader@test.com`, `staff1@test.com`, `staff2@test.com` (T5-20)
+- 11 additional users for realistic UAT data (16 total users, multi-division coverage) (T5-19)
+
+#### Changed
+
+- `apps/backend/src/core/auth/auth.service.ts` — Account lockout: 5 failed attempts → 15min lock; failed attempt counter; lockout check on login; auto-reset on successful login; detailed security logging (T5-12)
+- `apps/backend/src/core/auth/auth.controller.ts` — Added `@Throttle()` to logout (10 req/min) and change-password (3 req/min) endpoints (T5-13)
+- `apps/backend/src/main.ts` — Enhanced Helmet config: explicit CSP directives, HSTS (max-age 1 year + preload), frameguard DENY, X-Content-Type-Options, X-XSS-Protection (T5-13)
+- `apps/backend/prisma/schema/asset.prisma` — Added composite indexes: `[status, modelId]`, `[status, currentUserId]`, `[isDeleted, status]`, `[createdAt]` (T5-15)
+- `apps/backend/prisma/schema/transaction.prisma` — Added composite indexes: `[status, createdById]`, `[isDeleted, status]` on Requests and LoanRequests (T5-15)
+- `apps/backend/prisma/schema/customer.prisma` — Added composite index: `[isActive, isDeleted]` on Customer (T5-15)
+- `apps/backend/prisma/schema/schema.prisma` — Added composite indexes: `[assetId, type]`, `[assetId, createdAt]` on StockMovement (T5-15)
+- `apps/frontend/src/components/form/QrCodeSection.tsx` — Added `loading="lazy"` to QR code image (T5-17)
+- `apps/frontend/src/features/auth/pages/LoginPage.tsx` — Added `loading="lazy"` to logo image (T5-17)
+- `apps/backend/prisma/seed.ts` — Expanded seed data: 16 users (6 UAT accounts + 5 additional), UAT credentials logged in summary (T5-19, T5-20)
+
+#### Removed
+
+- `xlsx` package from frontend dependencies — Prototype Pollution + ReDoS vulnerabilities (GHSA-4r6h-8v6p-xvw6, GHSA-5pgg-2g8v-p4x9); not actually imported in code, backend uses `exceljs` instead (T5-14)
+
+#### Security
+
+- **OWASP A01 (Broken Access Control)**: Verified all endpoints use `@AuthPermissions()` guard; global JWT + Roles + Permissions guards in correct order (T5-09) ✅
+- **OWASP A02 (Cryptographic Failures)**: bcrypt cost 12 ✅; JWT secret min 32 chars ✅; token version tracking ✅; access token in memory only ✅ (T5-10)
+- **OWASP A03 (Injection)**: Zero raw SQL (`$queryRawUnsafe`) usage ✅; all queries via Prisma parameterized ✅; validation pipe global whitelist ✅ (T5-11)
+- **OWASP A07 (Authentication Failures)**: Login throttled 5 req/min ✅; account lockout after 5 failed attempts ✅; token rotation via tokenVersion ✅; JWT 15m access + 7d refresh ✅ (T5-12)
+- **Security Headers**: Helmet CSP + HSTS + frameguard + noSniff + xssFilter ✅ (T5-13)
+- **Dependency Audit**: Removed vulnerable `xlsx` package; `@hono/node-server` (Prisma transitive dep, moderate) noted (T5-14)
+
+#### Quality Gate
+
+- ✅ Backend lint: 0 errors
+- ✅ Frontend lint: 0 errors
+- ✅ Frontend typecheck: 0 errors
+
+#### Agents Involved
+
+- security (OWASP audit T5-09 to T5-14)
+- backend (account lockout, throttling, helmet config, auth service hardening)
+- database (Prisma migration, composite indexes, UAT seed expansion)
+- frontend (image lazy loading, dependency cleanup)
+- documentation (changelog)
+
+---
+
+### [2026-04-15] — Sprint 4 Dashboard & Cross-Cutting: Time Filter, SSE Notifications
+
+#### Added
+
+- `apps/backend/src/modules/dashboards/dto/dashboard-query.dto.ts` — `DashboardPreset` union type, `DateRange` interface, `resolveDashboardDateRange()` helper function to compute `from`/`to` from preset or explicit dates; default: last 30 days
+- `apps/backend/src/core/notifications/notification.service.ts` — SSE stream via `Subject<NotificationEvent>`; `getNotificationStream(userId)` returns `Observable<MessageEvent>` filtered by user; `create()` now emits to stream after DB insert
+- `apps/backend/src/core/notifications/notification.controller.ts` — `@Sse('stream')` endpoint: JWT auth via query param `token`, heartbeat every 30s via `merge(notifications$, heartbeat$)`, no auth required (`@Public()`)
+- `apps/backend/src/core/notifications/notification.module.ts` — Imports `JwtModule` for SSE token verification
+- `apps/frontend/src/features/dashboard/components/DashboardTimeFilter.tsx` — Preset selector (Hari ini / 7 Hari / 30 Hari / 3 Bulan / 6 Bulan / 1 Tahun)
+- `apps/frontend/src/features/notifications/hooks/useNotifications.ts` — `useNotificationSSE()` hook using `EventSource` for real-time bell badge updates; SSE stream connects on mount, invalidates notification query cache on each message
+
+#### Changed
+
+- `apps/backend/src/modules/dashboards/dashboard.service.ts` — `getStats()`, `getFinanceStats()`, `getOperationsStats()` now accept `DashboardQueryDto`; queries filter by `createdAt`/`updatedAt`/`purchaseDate` within the resolved date range
+- `apps/backend/src/modules/dashboards/dashboard.controller.ts` — All stats endpoints now accept `@Query() query: DashboardQueryDto` with optional `preset`, `dateFrom`, `dateTo` params added via `@ApiQuery()`
+- `apps/frontend/src/features/dashboard/api/dashboard.api.ts` — `getStats()`, `getFinanceStats()`, `getOperationsStats()` accept optional `DashboardFilter` param object
+- `apps/frontend/src/features/dashboard/types/index.ts` — Added `DashboardPreset`, `DashboardFilter`, `PRESET_LABELS`
+- `apps/frontend/src/features/dashboard/pages/SuperAdminDashboard.tsx` — State `filter` with `DashboardTimeFilter` widget; `queryKey` includes filter for cache separation
+- `apps/frontend/src/features/dashboard/pages/FinanceDashboard.tsx` — Time filter integration with `DashboardTimeFilter`
+- `apps/frontend/src/features/dashboard/pages/OperationsDashboard.tsx` — Time filter integration with `DashboardTimeFilter`
+- `apps/frontend/src/features/notifications/index.ts` — Exports `useNotificationSSE`
+- `apps/frontend/src/features/notifications/hooks/useNotifications.ts` — Reduced polling interval from 30s to 60s (fallback, primary is SSE); added `useNotificationSSE`
+
+#### Quality Gate
+
+- ✅ Backend lint: 0 errors
+- ✅ Backend typecheck: 0 errors
+- ✅ Frontend lint: 0 errors
+- ✅ Frontend typecheck: 0 errors
+
+#### Agents Involved
+
+- backend (dashboard time filter, SSE notifications)
+- frontend (DashboardTimeFilter component, SSE hook, dashboard pages)
+- documentation (changelog)
+
+### [2026-04-15] — Sprint 3 Customers & Projects: FIFO, Auto-Status, Condition Mapping
+
+#### Added
+
+- `prisma/migrations/20260414172049_sprint3_maintenance_priority_worktypes_replacement_assets` — Migration: `priority`, `workTypes` on Maintenance; `oldAssetId`, `newAssetId`, `conditionAfter` on MaintenanceReplacement; reverse relations on Asset
+- `apps/backend/src/modules/customers/clients/client.service.ts` — `activateOnInstallation()`: T3-02 auto-activate INACTIVE→ACTIVE on first installation; `deactivateOnDismantle()`: auto-deactivate when 0 IN_USE assets; `remove()`: T3-04 deletion protection (checks installation/maintenance/dismantle history)
+- `apps/backend/src/modules/customers/clients/client.controller.ts` — `DELETE /customers/:uuid` endpoint with `@HttpCode(204)`
+- `apps/frontend/src/features/customers/types/index.ts` — `DismantleItem` interface; `priority`, `workTypes` on Maintenance; `modelId` on materials; `oldAssetId`/`newAssetId`/`conditionAfter` on replacements
+
+#### Changed
+
+- `apps/backend/src/modules/customers/installations/installation.service.ts` — Full rewrite: FIFO consumption via `FifoConsumptionService` for materials with `modelId`, customer auto-activation after complete
+- `apps/backend/src/modules/customers/maintenance/maintenance.service.ts` — Full rewrite: FIFO consumption; T3-11 replacement logic (validates old=IN_USE, new=IN_STORAGE, condition→status mapping, dual StockMovements); resolution validation; priority/workTypes support
+- `apps/backend/src/modules/customers/dismantles/dismantle.service.ts` — Full rewrite: `mapConditionToStatus()` (NEW/GOOD/FAIR→IN_STORAGE, POOR→UNDER_REPAIR, BROKEN→DAMAGED); customer auto-INACTIVE via `ClientService`
+- `apps/backend/src/modules/customers/maintenance/maintenance.controller.ts` — `complete()` accepts `@Body('resolution')` parameter
+- `apps/backend/src/modules/customers/dismantles/dismantle.controller.ts` — `complete()` accepts `@Body('itemConditions')` array with `{ assetId, conditionAfter }`; fixed `AssetCondition` type cast
+- `apps/backend/src/modules/customers/maintenance/dto/create-maintenance.dto.ts` — Added `priority` (HIGH/MEDIUM/LOW), `workTypes[]`, `modelId` on materials, `oldAssetId`/`newAssetId`/`conditionAfter` on replacements
+- `apps/backend/src/modules/customers/installations/dto/create-installation.dto.ts` — Added `modelId` on `InstallationMaterialDto`
+- `apps/backend/src/modules/customers/installations/installation.module.ts` — Imports: `AssetModule`, `ClientModule`
+- `apps/backend/src/modules/customers/maintenance/maintenance.module.ts` — Imports: `AssetModule`
+- `apps/backend/src/modules/customers/dismantles/dismantle.module.ts` — Imports: `ClientModule`
+- `apps/frontend/src/features/customers/api/customers.api.ts` — `maintenanceApi.complete()` accepts `{ resolution }` body; `dismantleApi.complete()` accepts `{ itemConditions }` body
+- `apps/frontend/src/features/customers/hooks/useMaintenance.ts` — `useCompleteMaintenance` accepts `{ id, resolution }` object
+- `apps/frontend/src/features/customers/hooks/useDismantles.ts` — `useCompleteDismantle` accepts `{ id, itemConditions }` object
+- `apps/frontend/src/features/customers/schemas/index.ts` — Added `modelId` on installation/maintenance materials; `priority`/`workTypes` on maintenance; `items` array on dismantle
+- `apps/frontend/src/features/customers/pages/MaintenanceDetailPage.tsx` — Priority badge, workTypes display, model column in materials table, asset code in replacements table, conditionAfter badge
+- `apps/frontend/src/features/customers/pages/MaintenanceListPage.tsx` — Priority badge column
+- `apps/frontend/src/features/customers/pages/DismantleDetailPage.tsx` — Items table (asset code/name, conditionAfter badge)
+- `apps/frontend/src/features/customers/pages/DismantleListPage.tsx` — Items count column
+
+#### Fixed
+
+- `apps/backend/src/modules/dashboards/dashboard.service.ts` — Removed unused `DateRange` import and `dateFilter` variable (pre-existing lint errors)
+- Dismantle complete: all returned assets were set to `IN_STORAGE` regardless of condition — now maps via `mapConditionToStatus()`
+- Maintenance complete: replacements only tracked descriptions — now tracks actual asset IDs with condition→status transitions
+
+#### Quality Gate
+
+- ✅ Frontend lint: 0 errors
+- ✅ Backend lint: 0 errors
+- ✅ Frontend typecheck: 0 errors
+
+#### Agents Involved
+
+- backend (client, installation, maintenance, dismantle services/controllers/DTOs/modules)
+- frontend (types, schemas, API, hooks, pages)
+- database (Prisma migration)
+- documentation (changelog)
+
 ### [2026-04-15] — Sprint 2 Transactions: Approval Engine, Request, Loan, Return, Handover, Repair
 
 #### Added

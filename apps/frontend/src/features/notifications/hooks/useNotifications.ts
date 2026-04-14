@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { notificationApi } from '../api/notifications.api';
+import { useAuthStore } from '@/store/useAuthStore';
+import { ENV } from '@/config/env';
 
 const NOTIFICATIONS_KEY = ['notifications'];
 
@@ -14,7 +17,7 @@ export function useUnreadCount() {
   return useQuery({
     queryKey: [...NOTIFICATIONS_KEY, 'unread-count'],
     queryFn: () => notificationApi.getUnreadCount().then((res) => res.data.data.count),
-    refetchInterval: 30_000,
+    refetchInterval: 60_000,
   });
 }
 
@@ -36,4 +39,32 @@ export function useMarkAllAsRead() {
       queryClient.invalidateQueries({ queryKey: NOTIFICATIONS_KEY });
     },
   });
+}
+
+/**
+ * SSE listener — automatically invalidates notification queries when new notifications arrive.
+ * Should be called once at the app level (e.g. in AppLayout).
+ */
+export function useNotificationSSE() {
+  const token = useAuthStore((state) => state.accessToken);
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (!token) return;
+
+    const url = `${ENV.API_BASE_URL}/notifications/stream?token=${encodeURIComponent(token)}`;
+    const es = new EventSource(url);
+
+    es.onmessage = () => {
+      queryClient.invalidateQueries({ queryKey: NOTIFICATIONS_KEY });
+    };
+
+    es.onerror = () => {
+      es.close();
+    };
+
+    return () => {
+      es.close();
+    };
+  }, [token, queryClient]);
 }

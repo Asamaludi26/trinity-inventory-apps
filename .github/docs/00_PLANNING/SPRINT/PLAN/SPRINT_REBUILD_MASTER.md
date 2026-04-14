@@ -114,6 +114,7 @@ API Layer    → object literal pattern: assetApi.getAll(), assetApi.create()
 pnpm --filter ./apps/frontend/ lint
 pnpm --filter ./apps/frontend/ typecheck
 pnpm --filter ./apps/backend/ lint
+pnpm --filter ./apps/backend/ typecheck
 ```
 
 **Warning = Error. SEMUA HARUS resolved. Tidak ada pengecualian.**

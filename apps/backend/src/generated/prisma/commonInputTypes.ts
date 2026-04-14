@@ -155,40 +155,6 @@ export type EnumTrackingMethodNullableFilter<$PrismaModel = never> = {
     | null;
 };
 
-export type EnumAssetClassificationFilter<$PrismaModel = never> = {
-  equals?:
-    | $Enums.AssetClassification
-    | Prisma.EnumAssetClassificationFieldRefInput<$PrismaModel>;
-  in?:
-    | $Enums.AssetClassification[]
-    | Prisma.ListEnumAssetClassificationFieldRefInput<$PrismaModel>;
-  notIn?:
-    | $Enums.AssetClassification[]
-    | Prisma.ListEnumAssetClassificationFieldRefInput<$PrismaModel>;
-  not?:
-    | Prisma.NestedEnumAssetClassificationFilter<$PrismaModel>
-    | $Enums.AssetClassification;
-};
-
-export type EnumTrackingMethodNullableFilter<$PrismaModel = never> = {
-  equals?:
-    | $Enums.TrackingMethod
-    | Prisma.EnumTrackingMethodFieldRefInput<$PrismaModel>
-    | null;
-  in?:
-    | $Enums.TrackingMethod[]
-    | Prisma.ListEnumTrackingMethodFieldRefInput<$PrismaModel>
-    | null;
-  notIn?:
-    | $Enums.TrackingMethod[]
-    | Prisma.ListEnumTrackingMethodFieldRefInput<$PrismaModel>
-    | null;
-  not?:
-    | Prisma.NestedEnumTrackingMethodNullableFilter<$PrismaModel>
-    | $Enums.TrackingMethod
-    | null;
-};
-
 export type StringNullableFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel> | null;
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null;
@@ -351,49 +317,6 @@ export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedIntNullableFilter<$PrismaModel>;
   _min?: Prisma.NestedIntNullableFilter<$PrismaModel>;
   _max?: Prisma.NestedIntNullableFilter<$PrismaModel>;
-};
-
-export type EnumAssetClassificationWithAggregatesFilter<$PrismaModel = never> =
-  {
-    equals?:
-      | $Enums.AssetClassification
-      | Prisma.EnumAssetClassificationFieldRefInput<$PrismaModel>;
-    in?:
-      | $Enums.AssetClassification[]
-      | Prisma.ListEnumAssetClassificationFieldRefInput<$PrismaModel>;
-    notIn?:
-      | $Enums.AssetClassification[]
-      | Prisma.ListEnumAssetClassificationFieldRefInput<$PrismaModel>;
-    not?:
-      | Prisma.NestedEnumAssetClassificationWithAggregatesFilter<$PrismaModel>
-      | $Enums.AssetClassification;
-    _count?: Prisma.NestedIntFilter<$PrismaModel>;
-    _min?: Prisma.NestedEnumAssetClassificationFilter<$PrismaModel>;
-    _max?: Prisma.NestedEnumAssetClassificationFilter<$PrismaModel>;
-  };
-
-export type EnumTrackingMethodNullableWithAggregatesFilter<
-  $PrismaModel = never,
-> = {
-  equals?:
-    | $Enums.TrackingMethod
-    | Prisma.EnumTrackingMethodFieldRefInput<$PrismaModel>
-    | null;
-  in?:
-    | $Enums.TrackingMethod[]
-    | Prisma.ListEnumTrackingMethodFieldRefInput<$PrismaModel>
-    | null;
-  notIn?:
-    | $Enums.TrackingMethod[]
-    | Prisma.ListEnumTrackingMethodFieldRefInput<$PrismaModel>
-    | null;
-  not?:
-    | Prisma.NestedEnumTrackingMethodNullableWithAggregatesFilter<$PrismaModel>
-    | $Enums.TrackingMethod
-    | null;
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>;
-  _min?: Prisma.NestedEnumTrackingMethodNullableFilter<$PrismaModel>;
-  _max?: Prisma.NestedEnumTrackingMethodNullableFilter<$PrismaModel>;
 };
 
 export type EnumAssetClassificationWithAggregatesFilter<$PrismaModel = never> =
@@ -1231,40 +1154,6 @@ export type NestedEnumTrackingMethodNullableFilter<$PrismaModel = never> = {
     | null;
 };
 
-export type NestedEnumAssetClassificationFilter<$PrismaModel = never> = {
-  equals?:
-    | $Enums.AssetClassification
-    | Prisma.EnumAssetClassificationFieldRefInput<$PrismaModel>;
-  in?:
-    | $Enums.AssetClassification[]
-    | Prisma.ListEnumAssetClassificationFieldRefInput<$PrismaModel>;
-  notIn?:
-    | $Enums.AssetClassification[]
-    | Prisma.ListEnumAssetClassificationFieldRefInput<$PrismaModel>;
-  not?:
-    | Prisma.NestedEnumAssetClassificationFilter<$PrismaModel>
-    | $Enums.AssetClassification;
-};
-
-export type NestedEnumTrackingMethodNullableFilter<$PrismaModel = never> = {
-  equals?:
-    | $Enums.TrackingMethod
-    | Prisma.EnumTrackingMethodFieldRefInput<$PrismaModel>
-    | null;
-  in?:
-    | $Enums.TrackingMethod[]
-    | Prisma.ListEnumTrackingMethodFieldRefInput<$PrismaModel>
-    | null;
-  notIn?:
-    | $Enums.TrackingMethod[]
-    | Prisma.ListEnumTrackingMethodFieldRefInput<$PrismaModel>
-    | null;
-  not?:
-    | Prisma.NestedEnumTrackingMethodNullableFilter<$PrismaModel>
-    | $Enums.TrackingMethod
-    | null;
-};
-
 export type NestedStringNullableFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel> | null;
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null;
@@ -1432,50 +1321,6 @@ export type NestedFloatNullableFilter<$PrismaModel = never> = {
   gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>;
   gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>;
   not?: Prisma.NestedFloatNullableFilter<$PrismaModel> | number | null;
-};
-
-export type NestedEnumAssetClassificationWithAggregatesFilter<
-  $PrismaModel = never,
-> = {
-  equals?:
-    | $Enums.AssetClassification
-    | Prisma.EnumAssetClassificationFieldRefInput<$PrismaModel>;
-  in?:
-    | $Enums.AssetClassification[]
-    | Prisma.ListEnumAssetClassificationFieldRefInput<$PrismaModel>;
-  notIn?:
-    | $Enums.AssetClassification[]
-    | Prisma.ListEnumAssetClassificationFieldRefInput<$PrismaModel>;
-  not?:
-    | Prisma.NestedEnumAssetClassificationWithAggregatesFilter<$PrismaModel>
-    | $Enums.AssetClassification;
-  _count?: Prisma.NestedIntFilter<$PrismaModel>;
-  _min?: Prisma.NestedEnumAssetClassificationFilter<$PrismaModel>;
-  _max?: Prisma.NestedEnumAssetClassificationFilter<$PrismaModel>;
-};
-
-export type NestedEnumTrackingMethodNullableWithAggregatesFilter<
-  $PrismaModel = never,
-> = {
-  equals?:
-    | $Enums.TrackingMethod
-    | Prisma.EnumTrackingMethodFieldRefInput<$PrismaModel>
-    | null;
-  in?:
-    | $Enums.TrackingMethod[]
-    | Prisma.ListEnumTrackingMethodFieldRefInput<$PrismaModel>
-    | null;
-  notIn?:
-    | $Enums.TrackingMethod[]
-    | Prisma.ListEnumTrackingMethodFieldRefInput<$PrismaModel>
-    | null;
-  not?:
-    | Prisma.NestedEnumTrackingMethodNullableWithAggregatesFilter<$PrismaModel>
-    | $Enums.TrackingMethod
-    | null;
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>;
-  _min?: Prisma.NestedEnumTrackingMethodNullableFilter<$PrismaModel>;
-  _max?: Prisma.NestedEnumTrackingMethodNullableFilter<$PrismaModel>;
 };
 
 export type NestedEnumAssetClassificationWithAggregatesFilter<

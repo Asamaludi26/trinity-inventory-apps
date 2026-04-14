@@ -8,8 +8,11 @@ import {
   IsDateString,
   MaxLength,
   Min,
+  IsIn,
+  IsEnum,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { AssetCondition } from '../../../../generated/prisma/client';
 
 export class MaintenanceMaterialDto {
   @IsNotEmpty({ message: 'Deskripsi material wajib diisi' })
@@ -21,6 +24,11 @@ export class MaintenanceMaterialDto {
   @IsInt()
   @Min(1, { message: 'Jumlah minimal 1' })
   quantity: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  modelId?: number;
 
   @IsOptional()
   @IsString()
@@ -40,6 +48,18 @@ export class MaintenanceReplacementDto {
 
   @IsOptional()
   @IsString()
+  oldAssetId?: string;
+
+  @IsOptional()
+  @IsString()
+  newAssetId?: string;
+
+  @IsOptional()
+  @IsEnum(AssetCondition, { message: 'Kondisi aset tidak valid' })
+  conditionAfter?: AssetCondition;
+
+  @IsOptional()
+  @IsString()
   note?: string;
 }
 
@@ -48,6 +68,17 @@ export class CreateMaintenanceDto {
   @IsInt()
   @IsNotEmpty({ message: 'Customer wajib dipilih' })
   customerId: number;
+
+  @IsOptional()
+  @IsIn(['HIGH', 'MEDIUM', 'LOW'], {
+    message: 'Prioritas harus HIGH, MEDIUM, atau LOW',
+  })
+  priority?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  workTypes?: string[];
 
   @IsOptional()
   @IsDateString()

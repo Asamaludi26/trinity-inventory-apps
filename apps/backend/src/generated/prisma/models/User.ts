@@ -30,12 +30,14 @@ export type UserAvgAggregateOutputType = {
   id: number | null;
   divisionId: number | null;
   tokenVersion: number | null;
+  failedLoginAttempts: number | null;
 };
 
 export type UserSumAggregateOutputType = {
   id: number | null;
   divisionId: number | null;
   tokenVersion: number | null;
+  failedLoginAttempts: number | null;
 };
 
 export type UserMinAggregateOutputType = {
@@ -53,6 +55,8 @@ export type UserMinAggregateOutputType = {
   isDeleted: boolean | null;
   tokenVersion: number | null;
   lastLoginAt: Date | null;
+  failedLoginAttempts: number | null;
+  lockedUntil: Date | null;
   createdAt: Date | null;
   updatedAt: Date | null;
   mustChangePassword: boolean | null;
@@ -73,6 +77,8 @@ export type UserMaxAggregateOutputType = {
   isDeleted: boolean | null;
   tokenVersion: number | null;
   lastLoginAt: Date | null;
+  failedLoginAttempts: number | null;
+  lockedUntil: Date | null;
   createdAt: Date | null;
   updatedAt: Date | null;
   mustChangePassword: boolean | null;
@@ -94,6 +100,8 @@ export type UserCountAggregateOutputType = {
   isDeleted: number;
   tokenVersion: number;
   lastLoginAt: number;
+  failedLoginAttempts: number;
+  lockedUntil: number;
   createdAt: number;
   updatedAt: number;
   mustChangePassword: number;
@@ -104,12 +112,14 @@ export type UserAvgAggregateInputType = {
   id?: true;
   divisionId?: true;
   tokenVersion?: true;
+  failedLoginAttempts?: true;
 };
 
 export type UserSumAggregateInputType = {
   id?: true;
   divisionId?: true;
   tokenVersion?: true;
+  failedLoginAttempts?: true;
 };
 
 export type UserMinAggregateInputType = {
@@ -127,6 +137,8 @@ export type UserMinAggregateInputType = {
   isDeleted?: true;
   tokenVersion?: true;
   lastLoginAt?: true;
+  failedLoginAttempts?: true;
+  lockedUntil?: true;
   createdAt?: true;
   updatedAt?: true;
   mustChangePassword?: true;
@@ -147,6 +159,8 @@ export type UserMaxAggregateInputType = {
   isDeleted?: true;
   tokenVersion?: true;
   lastLoginAt?: true;
+  failedLoginAttempts?: true;
+  lockedUntil?: true;
   createdAt?: true;
   updatedAt?: true;
   mustChangePassword?: true;
@@ -168,6 +182,8 @@ export type UserCountAggregateInputType = {
   isDeleted?: true;
   tokenVersion?: true;
   lastLoginAt?: true;
+  failedLoginAttempts?: true;
+  lockedUntil?: true;
   createdAt?: true;
   updatedAt?: true;
   mustChangePassword?: true;
@@ -283,6 +299,8 @@ export type UserGroupByOutputType = {
   isDeleted: boolean;
   tokenVersion: number;
   lastLoginAt: Date | null;
+  failedLoginAttempts: number;
+  lockedUntil: Date | null;
   createdAt: Date;
   updatedAt: Date;
   mustChangePassword: boolean;
@@ -325,6 +343,8 @@ export type UserWhereInput = {
   isDeleted?: Prisma.BoolFilter<'User'> | boolean;
   tokenVersion?: Prisma.IntFilter<'User'> | number;
   lastLoginAt?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
+  failedLoginAttempts?: Prisma.IntFilter<'User'> | number;
+  lockedUntil?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
   createdAt?: Prisma.DateTimeFilter<'User'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'User'> | Date | string;
   mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
@@ -366,6 +386,8 @@ export type UserOrderByWithRelationInput = {
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder;
+  failedLoginAttempts?: Prisma.SortOrder;
+  lockedUntil?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   mustChangePassword?: Prisma.SortOrder;
@@ -408,6 +430,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     isDeleted?: Prisma.BoolFilter<'User'> | boolean;
     tokenVersion?: Prisma.IntFilter<'User'> | number;
     lastLoginAt?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
+    failedLoginAttempts?: Prisma.IntFilter<'User'> | number;
+    lockedUntil?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
     createdAt?: Prisma.DateTimeFilter<'User'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'User'> | Date | string;
     mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
@@ -451,6 +475,8 @@ export type UserOrderByWithAggregationInput = {
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder;
+  failedLoginAttempts?: Prisma.SortOrder;
+  lockedUntil?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   mustChangePassword?: Prisma.SortOrder;
@@ -488,6 +514,12 @@ export type UserScalarWhereWithAggregatesInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntWithAggregatesFilter<'User'> | number;
+  lockedUntil?:
+    | Prisma.DateTimeNullableWithAggregatesFilter<'User'>
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<'User'> | Date | string;
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<'User'> | Date | string;
   mustChangePassword?: Prisma.BoolWithAggregatesFilter<'User'> | boolean;
@@ -507,6 +539,8 @@ export type UserCreateInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -545,6 +579,8 @@ export type UserUncheckedCreateInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -580,6 +616,12 @@ export type UserUpdateInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
   lastLoginAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -626,6 +668,12 @@ export type UserUncheckedUpdateInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -663,6 +711,8 @@ export type UserCreateManyInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -682,6 +732,12 @@ export type UserUpdateManyMutationInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
   lastLoginAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -707,6 +763,12 @@ export type UserUncheckedUpdateManyInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
   lastLoginAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -742,6 +804,8 @@ export type UserCountOrderByAggregateInput = {
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
   lastLoginAt?: Prisma.SortOrder;
+  failedLoginAttempts?: Prisma.SortOrder;
+  lockedUntil?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   mustChangePassword?: Prisma.SortOrder;
@@ -751,6 +815,7 @@ export type UserAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   divisionId?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
+  failedLoginAttempts?: Prisma.SortOrder;
 };
 
 export type UserMaxOrderByAggregateInput = {
@@ -768,6 +833,8 @@ export type UserMaxOrderByAggregateInput = {
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
   lastLoginAt?: Prisma.SortOrder;
+  failedLoginAttempts?: Prisma.SortOrder;
+  lockedUntil?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   mustChangePassword?: Prisma.SortOrder;
@@ -788,6 +855,8 @@ export type UserMinOrderByAggregateInput = {
   isDeleted?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
   lastLoginAt?: Prisma.SortOrder;
+  failedLoginAttempts?: Prisma.SortOrder;
+  lockedUntil?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   mustChangePassword?: Prisma.SortOrder;
@@ -797,6 +866,7 @@ export type UserSumOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   divisionId?: Prisma.SortOrder;
   tokenVersion?: Prisma.SortOrder;
+  failedLoginAttempts?: Prisma.SortOrder;
 };
 
 export type UserListRelationFilter = {
@@ -1333,6 +1403,8 @@ export type UserCreateWithoutCurrentAssetsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1370,6 +1442,8 @@ export type UserUncheckedCreateWithoutCurrentAssetsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1412,6 +1486,8 @@ export type UserCreateWithoutRecordedAssetsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1449,6 +1525,8 @@ export type UserUncheckedCreateWithoutRecordedAssetsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1515,6 +1593,12 @@ export type UserUpdateWithoutCurrentAssetsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -1552,6 +1636,12 @@ export type UserUncheckedUpdateWithoutCurrentAssetsInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
   lastLoginAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -1614,6 +1704,12 @@ export type UserUpdateWithoutRecordedAssetsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -1655,6 +1751,12 @@ export type UserUncheckedUpdateWithoutRecordedAssetsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -1689,6 +1791,8 @@ export type UserCreateWithoutDivisionInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1725,6 +1829,8 @@ export type UserUncheckedCreateWithoutDivisionInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1808,6 +1914,8 @@ export type UserScalarWhereInput = {
   isDeleted?: Prisma.BoolFilter<'User'> | boolean;
   tokenVersion?: Prisma.IntFilter<'User'> | number;
   lastLoginAt?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
+  failedLoginAttempts?: Prisma.IntFilter<'User'> | number;
+  lockedUntil?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
   createdAt?: Prisma.DateTimeFilter<'User'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'User'> | Date | string;
   mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
@@ -1827,6 +1935,8 @@ export type UserCreateWithoutCreatedPurchasesInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1864,6 +1974,8 @@ export type UserUncheckedCreateWithoutCreatedPurchasesInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1930,6 +2042,12 @@ export type UserUpdateWithoutCreatedPurchasesInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -1971,6 +2089,12 @@ export type UserUncheckedUpdateWithoutCreatedPurchasesInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2005,6 +2129,8 @@ export type UserCreateWithoutCreatedDepreciationsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2042,6 +2168,8 @@ export type UserUncheckedCreateWithoutCreatedDepreciationsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2108,6 +2236,12 @@ export type UserUpdateWithoutCreatedDepreciationsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2149,6 +2283,12 @@ export type UserUncheckedUpdateWithoutCreatedDepreciationsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2183,6 +2323,8 @@ export type UserCreateWithoutStockThresholdsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2220,6 +2362,8 @@ export type UserUncheckedCreateWithoutStockThresholdsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2286,6 +2430,12 @@ export type UserUpdateWithoutStockThresholdsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2327,6 +2477,12 @@ export type UserUncheckedUpdateWithoutStockThresholdsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2361,6 +2517,8 @@ export type UserCreateWithoutStockMovementsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2398,6 +2556,8 @@ export type UserUncheckedCreateWithoutStockMovementsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2464,6 +2624,12 @@ export type UserUpdateWithoutStockMovementsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2505,6 +2671,12 @@ export type UserUncheckedUpdateWithoutStockMovementsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2539,6 +2711,8 @@ export type UserCreateWithoutAttachmentsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2576,6 +2750,8 @@ export type UserUncheckedCreateWithoutAttachmentsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2642,6 +2818,12 @@ export type UserUpdateWithoutAttachmentsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2683,6 +2865,12 @@ export type UserUncheckedUpdateWithoutAttachmentsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2717,6 +2905,8 @@ export type UserCreateWithoutActivityLogsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2754,6 +2944,8 @@ export type UserUncheckedCreateWithoutActivityLogsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2820,6 +3012,12 @@ export type UserUpdateWithoutActivityLogsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2861,6 +3059,12 @@ export type UserUncheckedUpdateWithoutActivityLogsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2895,6 +3099,8 @@ export type UserCreateWithoutNotificationsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2932,6 +3138,8 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2998,6 +3206,12 @@ export type UserUpdateWithoutNotificationsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3039,6 +3253,12 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3073,6 +3293,8 @@ export type UserCreateWithoutCreatedRequestsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3110,6 +3332,8 @@ export type UserUncheckedCreateWithoutCreatedRequestsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3176,6 +3400,12 @@ export type UserUpdateWithoutCreatedRequestsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3217,6 +3447,12 @@ export type UserUncheckedUpdateWithoutCreatedRequestsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3251,6 +3487,8 @@ export type UserCreateWithoutCreatedLoanRequestsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3288,6 +3526,8 @@ export type UserUncheckedCreateWithoutCreatedLoanRequestsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3354,6 +3594,12 @@ export type UserUpdateWithoutCreatedLoanRequestsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3395,6 +3641,12 @@ export type UserUncheckedUpdateWithoutCreatedLoanRequestsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3429,6 +3681,8 @@ export type UserCreateWithoutCreatedAssetReturnsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3466,6 +3720,8 @@ export type UserUncheckedCreateWithoutCreatedAssetReturnsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3532,6 +3788,12 @@ export type UserUpdateWithoutCreatedAssetReturnsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3573,6 +3835,12 @@ export type UserUncheckedUpdateWithoutCreatedAssetReturnsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3607,6 +3875,8 @@ export type UserCreateWithoutHandoversFromInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3644,6 +3914,8 @@ export type UserUncheckedCreateWithoutHandoversFromInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3686,6 +3958,8 @@ export type UserCreateWithoutHandoversToInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3723,6 +3997,8 @@ export type UserUncheckedCreateWithoutHandoversToInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3765,6 +4041,8 @@ export type UserCreateWithoutHandoversWitnessInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3802,6 +4080,8 @@ export type UserUncheckedCreateWithoutHandoversWitnessInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3868,6 +4148,12 @@ export type UserUpdateWithoutHandoversFromInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3905,6 +4191,12 @@ export type UserUncheckedUpdateWithoutHandoversFromInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
   lastLoginAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -3967,6 +4259,12 @@ export type UserUpdateWithoutHandoversToInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4004,6 +4302,12 @@ export type UserUncheckedUpdateWithoutHandoversToInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
   lastLoginAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -4066,6 +4370,12 @@ export type UserUpdateWithoutHandoversWitnessInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4107,6 +4417,12 @@ export type UserUncheckedUpdateWithoutHandoversWitnessInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4141,6 +4457,8 @@ export type UserCreateWithoutCreatedRepairsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -4178,6 +4496,8 @@ export type UserUncheckedCreateWithoutCreatedRepairsInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -4244,6 +4564,12 @@ export type UserUpdateWithoutCreatedRepairsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4285,6 +4611,12 @@ export type UserUncheckedUpdateWithoutCreatedRepairsInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4320,6 +4652,8 @@ export type UserCreateManyDivisionInput = {
   isDeleted?: boolean;
   tokenVersion?: number;
   lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -4339,6 +4673,12 @@ export type UserUpdateWithoutDivisionInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
   lastLoginAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -4383,6 +4723,12 @@ export type UserUncheckedUpdateWithoutDivisionInput = {
     | Date
     | string
     | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4419,6 +4765,12 @@ export type UserUncheckedUpdateManyWithoutDivisionInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
   lastLoginAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
     | string
@@ -4672,6 +5024,8 @@ export type UserSelect<
     isDeleted?: boolean;
     tokenVersion?: boolean;
     lastLoginAt?: boolean;
+    failedLoginAttempts?: boolean;
+    lockedUntil?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     mustChangePassword?: boolean;
@@ -4723,6 +5077,8 @@ export type UserSelectCreateManyAndReturn<
     isDeleted?: boolean;
     tokenVersion?: boolean;
     lastLoginAt?: boolean;
+    failedLoginAttempts?: boolean;
+    lockedUntil?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     mustChangePassword?: boolean;
@@ -4751,6 +5107,8 @@ export type UserSelectUpdateManyAndReturn<
     isDeleted?: boolean;
     tokenVersion?: boolean;
     lastLoginAt?: boolean;
+    failedLoginAttempts?: boolean;
+    lockedUntil?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     mustChangePassword?: boolean;
@@ -4775,6 +5133,8 @@ export type UserSelectScalar = {
   isDeleted?: boolean;
   tokenVersion?: boolean;
   lastLoginAt?: boolean;
+  failedLoginAttempts?: boolean;
+  lockedUntil?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
   mustChangePassword?: boolean;
@@ -4799,6 +5159,8 @@ export type UserOmit<
   | 'isDeleted'
   | 'tokenVersion'
   | 'lastLoginAt'
+  | 'failedLoginAttempts'
+  | 'lockedUntil'
   | 'createdAt'
   | 'updatedAt'
   | 'mustChangePassword',
@@ -4883,6 +5245,8 @@ export type $UserPayload<
       isDeleted: boolean;
       tokenVersion: number;
       lastLoginAt: Date | null;
+      failedLoginAttempts: number;
+      lockedUntil: Date | null;
       createdAt: Date;
       updatedAt: Date;
       mustChangePassword: boolean;
@@ -5688,6 +6052,8 @@ export interface UserFieldRefs {
   readonly isDeleted: Prisma.FieldRef<'User', 'Boolean'>;
   readonly tokenVersion: Prisma.FieldRef<'User', 'Int'>;
   readonly lastLoginAt: Prisma.FieldRef<'User', 'DateTime'>;
+  readonly failedLoginAttempts: Prisma.FieldRef<'User', 'Int'>;
+  readonly lockedUntil: Prisma.FieldRef<'User', 'DateTime'>;
   readonly createdAt: Prisma.FieldRef<'User', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'User', 'DateTime'>;
   readonly mustChangePassword: Prisma.FieldRef<'User', 'Boolean'>;

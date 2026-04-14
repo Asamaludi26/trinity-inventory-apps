@@ -49,7 +49,8 @@ export function useUpdateMaintenanceStatus() {
 export function useCompleteMaintenance() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => maintenanceApi.complete(id),
+    mutationFn: ({ id, resolution }: { id: number; resolution?: string }) =>
+      maintenanceApi.complete(id, resolution ? { resolution } : undefined),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: QUERY_KEY });
       toast.success('Maintenance berhasil diselesaikan');

@@ -29,6 +29,7 @@ export const createInstallationSchema = z.object({
       z.object({
         description: z.string().min(1, 'Deskripsi material wajib diisi').max(255),
         quantity: z.coerce.number().int().positive('Jumlah harus positif'),
+        modelId: z.coerce.number().int().positive().optional(),
         note: z.string().optional(),
       }),
     )
@@ -44,11 +45,14 @@ export const createMaintenanceSchema = z.object({
   scheduledAt: z.string().optional(),
   issueReport: z.string().optional(),
   note: z.string().optional(),
+  priority: z.enum(['HIGH', 'MEDIUM', 'LOW']).default('MEDIUM'),
+  workTypes: z.array(z.string()).optional(),
   materials: z
     .array(
       z.object({
         description: z.string().min(1, 'Deskripsi material wajib diisi').max(255),
         quantity: z.coerce.number().int().positive('Jumlah harus positif'),
+        modelId: z.coerce.number().int().positive().optional(),
         note: z.string().optional(),
       }),
     )
@@ -64,6 +68,14 @@ export const createDismantleSchema = z.object({
   scheduledAt: z.string().optional(),
   reason: z.string().optional(),
   note: z.string().optional(),
+  items: z
+    .array(
+      z.object({
+        assetId: z.string().min(1, 'Asset wajib dipilih'),
+        note: z.string().optional(),
+      }),
+    )
+    .optional(),
 });
 
 // ================================

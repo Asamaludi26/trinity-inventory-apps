@@ -107,3 +107,22 @@ export interface PendingReturnItem {
   dueDate: string;
   isOverdue: boolean;
 }
+
+// ─── Time Filter ───────────────────────────────────────────────────────────────
+
+export type DashboardPreset = 'today' | '7d' | '30d' | '3m' | '6m' | '1y';
+
+export interface DashboardFilter {
+  preset?: DashboardPreset;
+  dateFrom?: string;
+  dateTo?: string;
+}
+
+export const PRESET_LABELS: Record<DashboardPreset, string> = {
+  today: 'Hari Ini',
+  '7d': '7 Hari',
+  '30d': '30 Hari',
+  '3m': '3 Bulan',
+  '6m': '6 Bulan',
+  '1y': '1 Tahun',
+};

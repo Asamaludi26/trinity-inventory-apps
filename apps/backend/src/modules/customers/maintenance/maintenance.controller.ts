@@ -78,8 +78,9 @@ export class MaintenanceController {
   })
   async complete(
     @Param('id', ParseIntPipe) id: number,
+    @Body('resolution') resolution: string | undefined,
     @CurrentUser() user: JwtPayload,
   ) {
-    return this.maintenanceService.complete(id, user.sub);
+    return this.maintenanceService.complete(id, user.sub, resolution);
   }
 }

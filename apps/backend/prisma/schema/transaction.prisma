@@ -22,6 +22,8 @@ model Request {
   @@index([createdById])
   @@index([code])
   @@index([createdAt])
+  @@index([status, createdById])
+  @@index([isDeleted, status])
   @@map("requests")
 }
 
@@ -62,6 +64,8 @@ model LoanRequest {
   @@index([status])
   @@index([createdById])
   @@index([code])
+  @@index([status, createdById])
+  @@index([isDeleted, status])
   @@map("loan_requests")
 }
 

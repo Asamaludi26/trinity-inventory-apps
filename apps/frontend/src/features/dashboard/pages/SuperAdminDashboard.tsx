@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   Package,
@@ -13,12 +14,16 @@ import {
   RecentActivityTable,
   AssetTrendChart,
   CategoryDistributionChart,
+  DashboardTimeFilter,
 } from '../components';
+import type { DashboardFilter } from '../types';
 
 export function SuperAdminDashboard() {
+  const [filter, setFilter] = useState<DashboardFilter>({ preset: '30d' });
+
   const { data: statsData, isLoading: statsLoading } = useQuery({
-    queryKey: ['dashboard', 'stats'],
-    queryFn: () => dashboardApi.getStats(),
+    queryKey: ['dashboard', 'stats', filter],
+    queryFn: () => dashboardApi.getStats(filter),
     select: (res) => res.data.data,
   });
 
@@ -42,6 +47,12 @@ export function SuperAdminDashboard() {
 
   return (
     <div className="flex flex-col gap-6">
+      {/* Time Filter */}
+      <div className="flex items-center justify-between">
+        <p className="text-muted-foreground text-sm">Filter periode</p>
+        <DashboardTimeFilter filter={filter} onChange={setFilter} />
+      </div>
+
       {/* Stat Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
         <StatCard

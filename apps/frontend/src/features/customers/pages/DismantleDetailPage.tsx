@@ -6,7 +6,16 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { StatusBadge } from '@/components/ui/status-badge';
+import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { useDismantle, useCompleteDismantle } from '../hooks';
 import { AttachmentSection } from '@/components/form';
 
@@ -27,10 +36,13 @@ export function DismantleDetailPage() {
 
   const handleComplete = () => {
     if (!id) return;
-    completeDismantle.mutate(Number(id), {
-      onSuccess: () => toast.success('Dismantle berhasil diselesaikan'),
-      onError: () => toast.error('Gagal menyelesaikan dismantle'),
-    });
+    completeDismantle.mutate(
+      { id: Number(id) },
+      {
+        onSuccess: () => toast.success('Dismantle berhasil diselesaikan'),
+        onError: () => toast.error('Gagal menyelesaikan dismantle'),
+      },
+    );
   };
 
   if (isLoading) {
@@ -134,6 +146,47 @@ export function DismantleDetailPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Dismantle Items */}
+      {dismantle.items && dismantle.items.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Aset Dibongkar ({dismantle.items.length})</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="rounded-lg border">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-12">#</TableHead>
+                    <TableHead>Kode Aset</TableHead>
+                    <TableHead>Nama Aset</TableHead>
+                    <TableHead>Kondisi Setelah</TableHead>
+                    <TableHead>Catatan</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {dismantle.items.map((item, idx) => (
+                    <TableRow key={item.id}>
+                      <TableCell className="text-muted-foreground">{idx + 1}</TableCell>
+                      <TableCell className="font-mono text-xs">{item.asset?.code ?? '-'}</TableCell>
+                      <TableCell>{item.asset?.name ?? '-'}</TableCell>
+                      <TableCell>
+                        {item.conditionAfter ? (
+                          <Badge variant="outline">{item.conditionAfter}</Badge>
+                        ) : (
+                          '-'
+                        )}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground">{item.note || '-'}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Lampiran */}
       <AttachmentSection entityType="Dismantle" entityId={id} />

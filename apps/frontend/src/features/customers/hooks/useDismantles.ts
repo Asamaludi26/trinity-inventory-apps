@@ -49,7 +49,13 @@ export function useUpdateDismantleStatus() {
 export function useCompleteDismantle() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => dismantleApi.complete(id),
+    mutationFn: ({
+      id,
+      itemConditions,
+    }: {
+      id: number;
+      itemConditions?: Array<{ assetId: string; conditionAfter: string }>;
+    }) => dismantleApi.complete(id, itemConditions ? { itemConditions } : undefined),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: QUERY_KEY });
       toast.success('Dismantle berhasil diselesaikan');

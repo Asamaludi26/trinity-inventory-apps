@@ -6,7 +6,7 @@ const MODELS_KEY = ['assets', 'models'];
 export function useModels(typeId?: number) {
   return useQuery({
     queryKey: [...MODELS_KEY, typeId],
-    queryFn: () => modelApi.getAll(typeId).then((res) => res.data.data),
+    queryFn: () => modelApi.getAll(typeId).then((res) => res.data.data.data),
   });
 }
 

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { StatusBadge } from '@/components/ui/status-badge';
+import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import {
   Table,
@@ -35,10 +36,13 @@ export function MaintenanceDetailPage() {
 
   const handleComplete = () => {
     if (!id) return;
-    completeMaintenance.mutate(Number(id), {
-      onSuccess: () => toast.success('Maintenance berhasil diselesaikan'),
-      onError: () => toast.error('Gagal menyelesaikan maintenance'),
-    });
+    completeMaintenance.mutate(
+      { id: Number(id) },
+      {
+        onSuccess: () => toast.success('Maintenance berhasil diselesaikan'),
+        onError: () => toast.error('Gagal menyelesaikan maintenance'),
+      },
+    );
   };
 
   if (isLoading) {
@@ -113,6 +117,36 @@ export function MaintenanceDetailPage() {
                 <span className="text-sm text-muted-foreground">Selesai</span>
                 <span className="text-sm">{formatDate(maintenance.completedAt)}</span>
               </div>
+              <Separator />
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Prioritas</span>
+                <Badge
+                  variant={
+                    maintenance.priority === 'HIGH'
+                      ? 'destructive'
+                      : maintenance.priority === 'LOW'
+                        ? 'secondary'
+                        : 'default'
+                  }
+                >
+                  {maintenance.priority}
+                </Badge>
+              </div>
+              {maintenance.workTypes && maintenance.workTypes.length > 0 && (
+                <>
+                  <Separator />
+                  <div>
+                    <span className="text-sm text-muted-foreground">Jenis Pekerjaan</span>
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {maintenance.workTypes.map((wt) => (
+                        <Badge key={wt} variant="outline">
+                          {wt}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
             </CardContent>
           </Card>
 
@@ -153,6 +187,7 @@ export function MaintenanceDetailPage() {
                   <TableRow>
                     <TableHead className="w-12">#</TableHead>
                     <TableHead>Deskripsi</TableHead>
+                    <TableHead>Model</TableHead>
                     <TableHead className="w-24 text-right">Jumlah</TableHead>
                     <TableHead>Catatan</TableHead>
                   </TableRow>
@@ -160,7 +195,7 @@ export function MaintenanceDetailPage() {
                 <TableBody>
                   {!maintenance.materials?.length ? (
                     <TableRow>
-                      <TableCell colSpan={4} className="text-center text-muted-foreground">
+                      <TableCell colSpan={5} className="text-center text-muted-foreground">
                         Tidak ada material
                       </TableCell>
                     </TableRow>
@@ -169,6 +204,9 @@ export function MaintenanceDetailPage() {
                       <TableRow key={mat.id}>
                         <TableCell className="text-muted-foreground">{idx + 1}</TableCell>
                         <TableCell>{mat.description}</TableCell>
+                        <TableCell className="text-muted-foreground">
+                          {mat.model?.name || '-'}
+                        </TableCell>
                         <TableCell className="text-right">{mat.quantity}</TableCell>
                         <TableCell className="text-muted-foreground">{mat.note || '-'}</TableCell>
                       </TableRow>
@@ -196,6 +234,7 @@ export function MaintenanceDetailPage() {
                       <TableHead className="w-12">#</TableHead>
                       <TableHead>Aset Lama</TableHead>
                       <TableHead>Aset Baru</TableHead>
+                      <TableHead>Kondisi Setelah</TableHead>
                       <TableHead>Catatan</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -203,8 +242,29 @@ export function MaintenanceDetailPage() {
                     {maintenance.replacements.map((rep, idx) => (
                       <TableRow key={rep.id}>
                         <TableCell className="text-muted-foreground">{idx + 1}</TableCell>
-                        <TableCell>{rep.oldAssetDesc}</TableCell>
-                        <TableCell>{rep.newAssetDesc}</TableCell>
+                        <TableCell>
+                          <div>{rep.oldAssetDesc}</div>
+                          {rep.oldAsset && (
+                            <span className="text-xs text-muted-foreground font-mono">
+                              {rep.oldAsset.code}
+                            </span>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <div>{rep.newAssetDesc}</div>
+                          {rep.newAsset && (
+                            <span className="text-xs text-muted-foreground font-mono">
+                              {rep.newAsset.code}
+                            </span>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {rep.conditionAfter ? (
+                            <Badge variant="outline">{rep.conditionAfter}</Badge>
+                          ) : (
+                            '-'
+                          )}
+                        </TableCell>
                         <TableCell className="text-muted-foreground">{rep.note || '-'}</TableCell>
                       </TableRow>
                     ))}

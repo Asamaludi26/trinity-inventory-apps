@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { StatusBadge } from '@/components/ui/status-badge';
+import { Badge } from '@/components/ui/badge';
 import {
   Table,
   TableBody,
@@ -100,6 +101,7 @@ export function MaintenanceListPage() {
               <TableHead>Kode</TableHead>
               <TableHead>Pelanggan</TableHead>
               <TableHead>Laporan Masalah</TableHead>
+              <TableHead>Prioritas</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Jadwal</TableHead>
               <TableHead>PIC</TableHead>
@@ -109,7 +111,7 @@ export function MaintenanceListPage() {
             {isLoading ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <TableRow key={i}>
-                  {Array.from({ length: 6 }).map((__, j) => (
+                  {Array.from({ length: 7 }).map((__, j) => (
                     <TableCell key={j}>
                       <Skeleton className="h-4 w-full" />
                     </TableCell>
@@ -118,7 +120,7 @@ export function MaintenanceListPage() {
               ))
             ) : !data?.data.length ? (
               <TableRow>
-                <TableCell colSpan={6}>
+                <TableCell colSpan={7}>
                   <EmptyState
                     icon={<Settings className="h-12 w-12" />}
                     title="Belum ada maintenance"
@@ -137,6 +139,19 @@ export function MaintenanceListPage() {
                   <TableCell className="font-medium">{m.customer?.name ?? '-'}</TableCell>
                   <TableCell className="text-muted-foreground max-w-[300px] truncate">
                     {m.issueReport || '-'}
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={
+                        m.priority === 'HIGH'
+                          ? 'destructive'
+                          : m.priority === 'LOW'
+                            ? 'secondary'
+                            : 'default'
+                      }
+                    >
+                      {m.priority}
+                    </Badge>
                   </TableCell>
                   <TableCell>
                     <StatusBadge status={m.status} />

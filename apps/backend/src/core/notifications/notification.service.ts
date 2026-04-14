@@ -1,11 +1,19 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { Subject, Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { PrismaService } from '../database/prisma.service';
 import { NotificationType } from '../../generated/prisma/client';
 import { WhatsAppService } from './whatsapp.service';
 
+interface NotificationEvent {
+  userId: number;
+  data: Record<string, unknown>;
+}
+
 @Injectable()
 export class NotificationService {
   private readonly logger = new Logger(NotificationService.name);
+  private readonly notificationStream$ = new Subject<NotificationEvent>();
 
   constructor(
     private readonly prisma: PrismaService,
@@ -27,6 +35,20 @@ export class NotificationService {
       `Notification sent to user ${params.userId}: ${params.title}`,
     );
 
+    // Emit to SSE stream so connected clients receive it in real-time
+    this.notificationStream$.next({
+      userId: params.userId,
+      data: {
+        id: notification.id,
+        type: notification.type,
+        title: notification.title,
+        message: notification.message,
+        link: notification.link,
+        isRead: notification.isRead,
+        createdAt: notification.createdAt,
+      },
+    });
+
     // Optionally send WhatsApp message if service is configured
     if (this.whatsapp.isEnabled) {
       const user = await this.prisma.user.findUnique({
@@ -40,6 +62,13 @@ export class NotificationService {
     }
 
     return notification;
+  }
+
+  getNotificationStream(userId: number): Observable<MessageEvent> {
+    return this.notificationStream$.pipe(
+      filter((event) => event.userId === userId),
+      map((event) => ({ data: event.data }) as MessageEvent),
+    );
   }
 
   async markAsRead(notificationId: number, userId: number) {

@@ -59,7 +59,7 @@ export const stockApi = {
 // ================================
 
 export const categoryApi = {
-  getAll: () => api.get<ApiResponse<AssetCategory[]>>('/assets/categories'),
+  getAll: () => api.get<ApiResponse<PaginatedResponse<AssetCategory>>>('/assets/categories'),
 
   create: (data: { name: string }) =>
     api.post<ApiResponse<AssetCategory>>('/assets/categories', data),
@@ -76,7 +76,7 @@ export const categoryApi = {
 
 export const typeApi = {
   getAll: (categoryId?: number) =>
-    api.get<ApiResponse<AssetType[]>>('/assets/types', { params: { categoryId } }),
+    api.get<ApiResponse<PaginatedResponse<AssetType>>>('/assets/types', { params: { categoryId } }),
 
   create: (data: { categoryId: number; name: string }) =>
     api.post<ApiResponse<AssetType>>('/assets/types', data),
@@ -93,7 +93,7 @@ export const typeApi = {
 
 export const modelApi = {
   getAll: (typeId?: number) =>
-    api.get<ApiResponse<AssetModel[]>>('/assets/models', { params: { typeId } }),
+    api.get<ApiResponse<PaginatedResponse<AssetModel>>>('/assets/models', { params: { typeId } }),
 
   create: (data: { typeId: number; name: string; brand: string }) =>
     api.post<ApiResponse<AssetModel>>('/assets/models', data),

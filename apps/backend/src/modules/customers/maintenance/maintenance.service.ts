@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
 import { StockMovementService } from '../../transactions/stock-movements/stock-movement.service';
+import { FifoConsumptionService } from '../../assets/fifo-consumption.service';
 import { CreateMaintenanceDto } from './dto/create-maintenance.dto';
 import { UpdateMaintenanceDto } from './dto/update-maintenance.dto';
 import { FilterMaintenanceDto } from './dto/filter-maintenance.dto';
@@ -13,13 +14,31 @@ import {
   TransactionStatus,
   MovementType,
   AssetStatus,
+  AssetCondition,
 } from '../../../generated/prisma/client';
+
+/** Map dismantle/replacement condition → asset status */
+function mapConditionToStatus(condition: AssetCondition): AssetStatus {
+  switch (condition) {
+    case AssetCondition.NEW:
+    case AssetCondition.GOOD:
+    case AssetCondition.FAIR:
+      return AssetStatus.IN_STORAGE;
+    case AssetCondition.POOR:
+      return AssetStatus.UNDER_REPAIR;
+    case AssetCondition.BROKEN:
+      return AssetStatus.DAMAGED;
+    default:
+      return AssetStatus.IN_STORAGE;
+  }
+}
 
 @Injectable()
 export class MaintenanceService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly stockMovementService: StockMovementService,
+    private readonly fifoConsumptionService: FifoConsumptionService,
   ) {}
 
   private async generateCode(): Promise<string> {
@@ -84,8 +103,21 @@ export class MaintenanceService {
       where: { id, isDeleted: false },
       include: {
         customer: { select: { id: true, name: true, code: true } },
-        materials: true,
-        replacements: true,
+        materials: {
+          include: {
+            model: { select: { id: true, name: true, brand: true } },
+          },
+        },
+        replacements: {
+          include: {
+            oldAsset: {
+              select: { id: true, code: true, name: true, status: true },
+            },
+            newAsset: {
+              select: { id: true, code: true, name: true, status: true },
+            },
+          },
+        },
       },
     });
 
@@ -102,6 +134,8 @@ export class MaintenanceService {
       data: {
         code,
         customerId: dto.customerId,
+        priority: dto.priority ?? 'MEDIUM',
+        workTypes: dto.workTypes ?? [],
         scheduledAt: dto.scheduledAt ? new Date(dto.scheduledAt) : undefined,
         issueReport: dto.issueReport,
         resolution: dto.resolution,
@@ -112,6 +146,7 @@ export class MaintenanceService {
               description: m.description,
               quantity: m.quantity,
               note: m.note,
+              ...(m.modelId && { modelId: m.modelId }),
             })),
           },
         }),
@@ -121,6 +156,8 @@ export class MaintenanceService {
               oldAssetDesc: r.oldAssetDesc,
               newAssetDesc: r.newAssetDesc,
               note: r.note,
+              ...(r.oldAssetId && { oldAssetId: r.oldAssetId }),
+              ...(r.newAssetId && { newAssetId: r.newAssetId }),
             })),
           },
         }),
@@ -143,17 +180,30 @@ export class MaintenanceService {
     return this.prisma.maintenance.update({
       where: { id },
       data: {
-        ...dto,
         ...(dto.scheduledAt && { scheduledAt: new Date(dto.scheduledAt) }),
+        ...(dto.issueReport !== undefined && {
+          issueReport: dto.issueReport,
+        }),
+        ...(dto.resolution !== undefined && { resolution: dto.resolution }),
+        ...(dto.priority !== undefined && { priority: dto.priority }),
+        ...(dto.workTypes !== undefined && { workTypes: dto.workTypes }),
       },
       include: { customer: { select: { id: true, name: true } } },
     });
   }
 
-  async complete(id: number, userId: number) {
+  async complete(id: number, userId: number, resolution?: string) {
     const existing = await this.findOne(id);
     if (existing.status === TransactionStatus.COMPLETED) {
       throw new BadRequestException('Maintenance sudah selesai');
+    }
+
+    // Resolution wajib saat complete
+    const finalResolution = resolution || existing.resolution;
+    if (!finalResolution) {
+      throw new BadRequestException(
+        'Resolusi wajib diisi saat menyelesaikan maintenance',
+      );
     }
 
     return this.prisma.$transaction(async (tx) => {
@@ -162,6 +212,7 @@ export class MaintenanceService {
         data: {
           status: TransactionStatus.COMPLETED,
           completedAt: new Date(),
+          resolution: finalResolution,
         },
         include: {
           customer: { select: { id: true, name: true } },
@@ -170,36 +221,96 @@ export class MaintenanceService {
         },
       });
 
-      // Stock movement OUT for replacement materials
+      // T3-12: FIFO consumption for materials
       for (const material of existing.materials) {
         if (material.modelId) {
-          const assets = await tx.asset.findMany({
-            where: {
-              modelId: material.modelId,
-              status: AssetStatus.IN_STORAGE,
-              isDeleted: false,
-            },
-            take: material.quantity,
+          await this.fifoConsumptionService.consumeMaterial(
+            material.modelId,
+            material.quantity,
+            existing.code,
+            'MAINTENANCE',
+            userId,
+            tx,
+          );
+        }
+      }
+
+      // T3-11: Process replacements — condition → status mapping
+      for (const replacement of existing.replacements) {
+        if (replacement.oldAssetId && replacement.newAssetId) {
+          // Validate old asset is IN_USE
+          const oldAsset = await tx.asset.findUnique({
+            where: { id: replacement.oldAssetId },
           });
-
-          for (const asset of assets) {
-            await tx.asset.update({
-              where: { id: asset.id },
-              data: { status: AssetStatus.IN_USE },
-            });
-
-            await this.stockMovementService.create(
-              {
-                assetId: asset.id,
-                type: MovementType.MAINTENANCE,
-                quantity: 1,
-                reference: existing.code,
-                note: `Maintenance ${existing.code} - ${material.description}`,
-                createdById: userId,
-              },
-              tx,
+          if (!oldAsset || oldAsset.status !== AssetStatus.IN_USE) {
+            throw new BadRequestException(
+              `Aset lama ${replacement.oldAssetDesc} tidak dalam status IN_USE`,
             );
           }
+
+          // Validate new asset is IN_STORAGE
+          const newAsset = await tx.asset.findUnique({
+            where: { id: replacement.newAssetId },
+          });
+          if (!newAsset || newAsset.status !== AssetStatus.IN_STORAGE) {
+            throw new BadRequestException(
+              `Aset baru ${replacement.newAssetDesc} tidak dalam status IN_STORAGE`,
+            );
+          }
+
+          // Determine condition for old asset
+          const conditionAfter =
+            replacement.conditionAfter ?? AssetCondition.FAIR;
+          const oldAssetNewStatus = mapConditionToStatus(conditionAfter);
+
+          // Update old asset — return based on condition
+          await tx.asset.update({
+            where: { id: replacement.oldAssetId },
+            data: {
+              status: oldAssetNewStatus,
+              condition: conditionAfter,
+              currentUserId: null,
+            },
+          });
+
+          // Update new asset — deploy to customer
+          await tx.asset.update({
+            where: { id: replacement.newAssetId },
+            data: {
+              status: AssetStatus.IN_USE,
+              currentUserId: null,
+            },
+          });
+
+          // Update replacement record with condition
+          await tx.maintenanceReplacement.update({
+            where: { id: replacement.id },
+            data: { conditionAfter },
+          });
+
+          // StockMovements for both assets
+          await this.stockMovementService.create(
+            {
+              assetId: replacement.oldAssetId,
+              type: MovementType.MAINTENANCE,
+              quantity: 1,
+              reference: existing.code,
+              note: `Maintenance ${existing.code} - aset lama dikembalikan`,
+              createdById: userId,
+            },
+            tx,
+          );
+          await this.stockMovementService.create(
+            {
+              assetId: replacement.newAssetId,
+              type: MovementType.INSTALLATION,
+              quantity: -1,
+              reference: existing.code,
+              note: `Maintenance ${existing.code} - aset baru dipasang`,
+              createdById: userId,
+            },
+            tx,
+          );
         }
       }
 

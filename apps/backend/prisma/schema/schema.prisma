@@ -35,6 +35,8 @@ model StockMovement {
   @@index([assetId])
   @@index([type])
   @@index([createdAt])
+  @@index([assetId, type])
+  @@index([assetId, createdAt])
   @@map("stock_movements")
 }
 

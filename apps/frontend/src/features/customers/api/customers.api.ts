@@ -70,7 +70,8 @@ export const maintenanceApi = {
   updateStatus: (id: number, data: Record<string, unknown>) =>
     api.patch<ApiResponse<void>>(`/maintenance/${id}/status`, data),
 
-  complete: (id: number) => api.patch<ApiResponse<void>>(`/maintenance/${id}/complete`),
+  complete: (id: number, data?: { resolution?: string }) =>
+    api.patch<ApiResponse<void>>(`/maintenance/${id}/complete`, data),
 };
 
 // ================================
@@ -91,5 +92,8 @@ export const dismantleApi = {
   updateStatus: (id: number, data: Record<string, unknown>) =>
     api.patch<ApiResponse<void>>(`/dismantle/${id}/status`, data),
 
-  complete: (id: number) => api.patch<ApiResponse<void>>(`/dismantle/${id}/complete`),
+  complete: (
+    id: number,
+    data?: { itemConditions?: Array<{ assetId: string; conditionAfter: string }> },
+  ) => api.patch<ApiResponse<void>>(`/dismantle/${id}/complete`, data),
 };

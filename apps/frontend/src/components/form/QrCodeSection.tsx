@@ -26,6 +26,7 @@ export function QrCodeSection({ assetId, assetCode }: QrCodeSectionProps) {
             src={qrDataUrl}
             alt={`QR Code - ${assetCode}`}
             className="h-40 w-40 rounded border"
+            loading="lazy"
           />
         ) : (
           <div className="flex h-40 w-40 items-center justify-center rounded border text-sm text-muted-foreground">

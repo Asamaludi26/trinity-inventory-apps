@@ -23,6 +23,11 @@ export class InstallationMaterialDto {
   quantity: number;
 
   @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  modelId?: number;
+
+  @IsOptional()
   @IsString()
   note?: string;
 }

@@ -13,6 +13,8 @@ import { JwtPayload } from '../../common/interfaces';
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
+  private static readonly MAX_FAILED_ATTEMPTS = 5;
+  private static readonly LOCKOUT_DURATION_MINUTES = 15;
 
   constructor(
     private readonly prisma: PrismaService,
@@ -27,13 +29,57 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      this.logger.warn(`Login gagal: email ${email} tidak ditemukan`);
+      throw new UnauthorizedException('Email atau password salah');
+    }
+
+    // Check account lockout
+    if (user.lockedUntil && user.lockedUntil > new Date()) {
+      const minutesLeft = Math.ceil(
+        (user.lockedUntil.getTime() - Date.now()) / 60000,
+      );
+      this.logger.warn(
+        `Login ditolak: akun ${email} terkunci selama ${minutesLeft} menit`,
+      );
+      throw new UnauthorizedException(
+        `Akun terkunci. Coba lagi dalam ${minutesLeft} menit`,
+      );
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      const attempts = user.failedLoginAttempts + 1;
+      const updateData: { failedLoginAttempts: number; lockedUntil?: Date } = {
+        failedLoginAttempts: attempts,
+      };
+
+      if (attempts >= AuthService.MAX_FAILED_ATTEMPTS) {
+        updateData.lockedUntil = new Date(
+          Date.now() + AuthService.LOCKOUT_DURATION_MINUTES * 60 * 1000,
+        );
+        this.logger.warn(
+          `Akun ${email} terkunci setelah ${attempts} percobaan gagal`,
+        );
+      }
+
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: updateData,
+      });
+
+      this.logger.warn(
+        `Login gagal: password salah untuk ${email} (percobaan ke-${attempts})`,
+      );
+      throw new UnauthorizedException('Email atau password salah');
+    }
+
+    // Reset failed attempts on successful login
+    if (user.failedLoginAttempts > 0 || user.lockedUntil) {
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: { failedLoginAttempts: 0, lockedUntil: null },
+      });
     }
 
     const { password: _password, ...result } = user;

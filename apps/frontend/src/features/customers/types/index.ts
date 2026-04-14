@@ -1,4 +1,4 @@
-import type { TransactionStatus, PaginationParams, UserSummary } from '@/types';
+import type { TransactionStatus, PaginationParams, UserSummary, AssetCondition } from '@/types';
 
 // ================================
 // Customer (Pelanggan)
@@ -53,6 +53,8 @@ export interface InstallationMaterial {
   description: string;
   quantity: number;
   note: string | null;
+  modelId: number | null;
+  model?: { id: number; name: string } | null;
 }
 
 // ================================
@@ -68,6 +70,8 @@ export interface Maintenance {
   completedAt: string | null;
   issueReport: string | null;
   resolution: string | null;
+  priority: string;
+  workTypes: string[];
   createdById: number;
   isDeleted: boolean;
   createdAt: string;
@@ -84,6 +88,8 @@ export interface MaintenanceMaterial {
   description: string;
   quantity: number;
   note: string | null;
+  modelId: number | null;
+  model?: { id: number; name: string } | null;
 }
 
 export interface MaintenanceReplacement {
@@ -91,12 +97,26 @@ export interface MaintenanceReplacement {
   maintenanceId: number;
   oldAssetDesc: string;
   newAssetDesc: string;
+  oldAssetId: string | null;
+  newAssetId: string | null;
+  conditionAfter: AssetCondition | null;
   note: string | null;
+  oldAsset?: { id: string; code: string; name: string } | null;
+  newAsset?: { id: string; code: string; name: string } | null;
 }
 
 // ================================
 // Dismantle (Pembongkaran)
 // ================================
+
+export interface DismantleItem {
+  id: number;
+  dismantleId: number;
+  assetId: string;
+  note: string | null;
+  conditionAfter: AssetCondition | null;
+  asset?: { id: string; code: string; name: string; status: string; condition: string };
+}
 
 export interface Dismantle {
   id: number;
@@ -113,6 +133,8 @@ export interface Dismantle {
   updatedAt: string;
   customer?: Customer;
   createdBy?: UserSummary;
+  items?: DismantleItem[];
+  _count?: { items: number };
 }
 
 // ================================

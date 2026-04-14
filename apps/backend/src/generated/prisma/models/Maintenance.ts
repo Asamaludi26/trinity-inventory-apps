@@ -43,6 +43,7 @@ export type MaintenanceMinAggregateOutputType = {
   code: string | null;
   customerId: number | null;
   status: $Enums.TransactionStatus | null;
+  priority: string | null;
   scheduledAt: Date | null;
   completedAt: Date | null;
   issueReport: string | null;
@@ -58,6 +59,7 @@ export type MaintenanceMaxAggregateOutputType = {
   code: string | null;
   customerId: number | null;
   status: $Enums.TransactionStatus | null;
+  priority: string | null;
   scheduledAt: Date | null;
   completedAt: Date | null;
   issueReport: string | null;
@@ -73,6 +75,8 @@ export type MaintenanceCountAggregateOutputType = {
   code: number;
   customerId: number;
   status: number;
+  priority: number;
+  workTypes: number;
   scheduledAt: number;
   completedAt: number;
   issueReport: number;
@@ -101,6 +105,7 @@ export type MaintenanceMinAggregateInputType = {
   code?: true;
   customerId?: true;
   status?: true;
+  priority?: true;
   scheduledAt?: true;
   completedAt?: true;
   issueReport?: true;
@@ -116,6 +121,7 @@ export type MaintenanceMaxAggregateInputType = {
   code?: true;
   customerId?: true;
   status?: true;
+  priority?: true;
   scheduledAt?: true;
   completedAt?: true;
   issueReport?: true;
@@ -131,6 +137,8 @@ export type MaintenanceCountAggregateInputType = {
   code?: true;
   customerId?: true;
   status?: true;
+  priority?: true;
+  workTypes?: true;
   scheduledAt?: true;
   completedAt?: true;
   issueReport?: true;
@@ -240,6 +248,8 @@ export type MaintenanceGroupByOutputType = {
   code: string;
   customerId: number;
   status: $Enums.TransactionStatus;
+  priority: string;
+  workTypes: string[];
   scheduledAt: Date | null;
   completedAt: Date | null;
   issueReport: string | null;
@@ -278,6 +288,8 @@ export type MaintenanceWhereInput = {
   status?:
     | Prisma.EnumTransactionStatusFilter<'Maintenance'>
     | $Enums.TransactionStatus;
+  priority?: Prisma.StringFilter<'Maintenance'> | string;
+  workTypes?: Prisma.StringNullableListFilter<'Maintenance'>;
   scheduledAt?:
     | Prisma.DateTimeNullableFilter<'Maintenance'>
     | Date
@@ -307,6 +319,8 @@ export type MaintenanceOrderByWithRelationInput = {
   code?: Prisma.SortOrder;
   customerId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
+  priority?: Prisma.SortOrder;
+  workTypes?: Prisma.SortOrder;
   scheduledAt?: Prisma.SortOrderInput | Prisma.SortOrder;
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
   issueReport?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -331,6 +345,8 @@ export type MaintenanceWhereUniqueInput = Prisma.AtLeast<
     status?:
       | Prisma.EnumTransactionStatusFilter<'Maintenance'>
       | $Enums.TransactionStatus;
+    priority?: Prisma.StringFilter<'Maintenance'> | string;
+    workTypes?: Prisma.StringNullableListFilter<'Maintenance'>;
     scheduledAt?:
       | Prisma.DateTimeNullableFilter<'Maintenance'>
       | Date
@@ -362,6 +378,8 @@ export type MaintenanceOrderByWithAggregationInput = {
   code?: Prisma.SortOrder;
   customerId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
+  priority?: Prisma.SortOrder;
+  workTypes?: Prisma.SortOrder;
   scheduledAt?: Prisma.SortOrderInput | Prisma.SortOrder;
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
   issueReport?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -391,6 +409,8 @@ export type MaintenanceScalarWhereWithAggregatesInput = {
   status?:
     | Prisma.EnumTransactionStatusWithAggregatesFilter<'Maintenance'>
     | $Enums.TransactionStatus;
+  priority?: Prisma.StringWithAggregatesFilter<'Maintenance'> | string;
+  workTypes?: Prisma.StringNullableListFilter<'Maintenance'>;
   scheduledAt?:
     | Prisma.DateTimeNullableWithAggregatesFilter<'Maintenance'>
     | Date
@@ -424,6 +444,8 @@ export type MaintenanceScalarWhereWithAggregatesInput = {
 export type MaintenanceCreateInput = {
   code: string;
   status?: $Enums.TransactionStatus;
+  priority?: string;
+  workTypes?: Prisma.MaintenanceCreateworkTypesInput | string[];
   scheduledAt?: Date | string | null;
   completedAt?: Date | string | null;
   issueReport?: string | null;
@@ -442,6 +464,8 @@ export type MaintenanceUncheckedCreateInput = {
   code: string;
   customerId: number;
   status?: $Enums.TransactionStatus;
+  priority?: string;
+  workTypes?: Prisma.MaintenanceCreateworkTypesInput | string[];
   scheduledAt?: Date | string | null;
   completedAt?: Date | string | null;
   issueReport?: string | null;
@@ -459,6 +483,8 @@ export type MaintenanceUpdateInput = {
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
+  priority?: Prisma.StringFieldUpdateOperationsInput | string;
+  workTypes?: Prisma.MaintenanceUpdateworkTypesInput | string[];
   scheduledAt?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
@@ -487,6 +513,8 @@ export type MaintenanceUncheckedUpdateInput = {
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
+  priority?: Prisma.StringFieldUpdateOperationsInput | string;
+  workTypes?: Prisma.MaintenanceUpdateworkTypesInput | string[];
   scheduledAt?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
@@ -512,6 +540,8 @@ export type MaintenanceCreateManyInput = {
   code: string;
   customerId: number;
   status?: $Enums.TransactionStatus;
+  priority?: string;
+  workTypes?: Prisma.MaintenanceCreateworkTypesInput | string[];
   scheduledAt?: Date | string | null;
   completedAt?: Date | string | null;
   issueReport?: string | null;
@@ -527,6 +557,8 @@ export type MaintenanceUpdateManyMutationInput = {
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
+  priority?: Prisma.StringFieldUpdateOperationsInput | string;
+  workTypes?: Prisma.MaintenanceUpdateworkTypesInput | string[];
   scheduledAt?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
@@ -552,6 +584,8 @@ export type MaintenanceUncheckedUpdateManyInput = {
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
+  priority?: Prisma.StringFieldUpdateOperationsInput | string;
+  workTypes?: Prisma.MaintenanceUpdateworkTypesInput | string[];
   scheduledAt?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
@@ -580,11 +614,21 @@ export type MaintenanceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder;
 };
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null;
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null;
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>;
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>;
+  isEmpty?: boolean;
+};
+
 export type MaintenanceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   code?: Prisma.SortOrder;
   customerId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
+  priority?: Prisma.SortOrder;
+  workTypes?: Prisma.SortOrder;
   scheduledAt?: Prisma.SortOrder;
   completedAt?: Prisma.SortOrder;
   issueReport?: Prisma.SortOrder;
@@ -606,6 +650,7 @@ export type MaintenanceMaxOrderByAggregateInput = {
   code?: Prisma.SortOrder;
   customerId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
+  priority?: Prisma.SortOrder;
   scheduledAt?: Prisma.SortOrder;
   completedAt?: Prisma.SortOrder;
   issueReport?: Prisma.SortOrder;
@@ -621,6 +666,7 @@ export type MaintenanceMinOrderByAggregateInput = {
   code?: Prisma.SortOrder;
   customerId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
+  priority?: Prisma.SortOrder;
   scheduledAt?: Prisma.SortOrder;
   completedAt?: Prisma.SortOrder;
   issueReport?: Prisma.SortOrder;
@@ -752,6 +798,15 @@ export type MaintenanceUncheckedUpdateManyWithoutCustomerNestedInput = {
     | Prisma.MaintenanceScalarWhereInput[];
 };
 
+export type MaintenanceCreateworkTypesInput = {
+  set: string[];
+};
+
+export type MaintenanceUpdateworkTypesInput = {
+  set?: string[];
+  push?: string | string[];
+};
+
 export type MaintenanceCreateNestedOneWithoutMaterialsInput = {
   create?: Prisma.XOR<
     Prisma.MaintenanceCreateWithoutMaterialsInput,
@@ -807,6 +862,8 @@ export type MaintenanceUpdateOneRequiredWithoutReplacementsNestedInput = {
 export type MaintenanceCreateWithoutCustomerInput = {
   code: string;
   status?: $Enums.TransactionStatus;
+  priority?: string;
+  workTypes?: Prisma.MaintenanceCreateworkTypesInput | string[];
   scheduledAt?: Date | string | null;
   completedAt?: Date | string | null;
   issueReport?: string | null;
@@ -823,6 +880,8 @@ export type MaintenanceUncheckedCreateWithoutCustomerInput = {
   id?: number;
   code: string;
   status?: $Enums.TransactionStatus;
+  priority?: string;
+  workTypes?: Prisma.MaintenanceCreateworkTypesInput | string[];
   scheduledAt?: Date | string | null;
   completedAt?: Date | string | null;
   issueReport?: string | null;
@@ -892,6 +951,8 @@ export type MaintenanceScalarWhereInput = {
   status?:
     | Prisma.EnumTransactionStatusFilter<'Maintenance'>
     | $Enums.TransactionStatus;
+  priority?: Prisma.StringFilter<'Maintenance'> | string;
+  workTypes?: Prisma.StringNullableListFilter<'Maintenance'>;
   scheduledAt?:
     | Prisma.DateTimeNullableFilter<'Maintenance'>
     | Date
@@ -913,6 +974,8 @@ export type MaintenanceScalarWhereInput = {
 export type MaintenanceCreateWithoutMaterialsInput = {
   code: string;
   status?: $Enums.TransactionStatus;
+  priority?: string;
+  workTypes?: Prisma.MaintenanceCreateworkTypesInput | string[];
   scheduledAt?: Date | string | null;
   completedAt?: Date | string | null;
   issueReport?: string | null;
@@ -930,6 +993,8 @@ export type MaintenanceUncheckedCreateWithoutMaterialsInput = {
   code: string;
   customerId: number;
   status?: $Enums.TransactionStatus;
+  priority?: string;
+  workTypes?: Prisma.MaintenanceCreateworkTypesInput | string[];
   scheduledAt?: Date | string | null;
   completedAt?: Date | string | null;
   issueReport?: string | null;
@@ -974,6 +1039,8 @@ export type MaintenanceUpdateWithoutMaterialsInput = {
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
+  priority?: Prisma.StringFieldUpdateOperationsInput | string;
+  workTypes?: Prisma.MaintenanceUpdateworkTypesInput | string[];
   scheduledAt?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
@@ -1001,6 +1068,8 @@ export type MaintenanceUncheckedUpdateWithoutMaterialsInput = {
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
+  priority?: Prisma.StringFieldUpdateOperationsInput | string;
+  workTypes?: Prisma.MaintenanceUpdateworkTypesInput | string[];
   scheduledAt?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
@@ -1023,6 +1092,8 @@ export type MaintenanceUncheckedUpdateWithoutMaterialsInput = {
 export type MaintenanceCreateWithoutReplacementsInput = {
   code: string;
   status?: $Enums.TransactionStatus;
+  priority?: string;
+  workTypes?: Prisma.MaintenanceCreateworkTypesInput | string[];
   scheduledAt?: Date | string | null;
   completedAt?: Date | string | null;
   issueReport?: string | null;
@@ -1040,6 +1111,8 @@ export type MaintenanceUncheckedCreateWithoutReplacementsInput = {
   code: string;
   customerId: number;
   status?: $Enums.TransactionStatus;
+  priority?: string;
+  workTypes?: Prisma.MaintenanceCreateworkTypesInput | string[];
   scheduledAt?: Date | string | null;
   completedAt?: Date | string | null;
   issueReport?: string | null;
@@ -1084,6 +1157,8 @@ export type MaintenanceUpdateWithoutReplacementsInput = {
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
+  priority?: Prisma.StringFieldUpdateOperationsInput | string;
+  workTypes?: Prisma.MaintenanceUpdateworkTypesInput | string[];
   scheduledAt?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
@@ -1111,6 +1186,8 @@ export type MaintenanceUncheckedUpdateWithoutReplacementsInput = {
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
+  priority?: Prisma.StringFieldUpdateOperationsInput | string;
+  workTypes?: Prisma.MaintenanceUpdateworkTypesInput | string[];
   scheduledAt?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
@@ -1134,6 +1211,8 @@ export type MaintenanceCreateManyCustomerInput = {
   id?: number;
   code: string;
   status?: $Enums.TransactionStatus;
+  priority?: string;
+  workTypes?: Prisma.MaintenanceCreateworkTypesInput | string[];
   scheduledAt?: Date | string | null;
   completedAt?: Date | string | null;
   issueReport?: string | null;
@@ -1149,6 +1228,8 @@ export type MaintenanceUpdateWithoutCustomerInput = {
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
+  priority?: Prisma.StringFieldUpdateOperationsInput | string;
+  workTypes?: Prisma.MaintenanceUpdateworkTypesInput | string[];
   scheduledAt?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
@@ -1175,6 +1256,8 @@ export type MaintenanceUncheckedUpdateWithoutCustomerInput = {
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
+  priority?: Prisma.StringFieldUpdateOperationsInput | string;
+  workTypes?: Prisma.MaintenanceUpdateworkTypesInput | string[];
   scheduledAt?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
@@ -1201,6 +1284,8 @@ export type MaintenanceUncheckedUpdateManyWithoutCustomerInput = {
   status?:
     | Prisma.EnumTransactionStatusFieldUpdateOperationsInput
     | $Enums.TransactionStatus;
+  priority?: Prisma.StringFieldUpdateOperationsInput | string;
+  workTypes?: Prisma.MaintenanceUpdateworkTypesInput | string[];
   scheduledAt?:
     | Prisma.NullableDateTimeFieldUpdateOperationsInput
     | Date
@@ -1278,6 +1363,8 @@ export type MaintenanceSelect<
     code?: boolean;
     customerId?: boolean;
     status?: boolean;
+    priority?: boolean;
+    workTypes?: boolean;
     scheduledAt?: boolean;
     completedAt?: boolean;
     issueReport?: boolean;
@@ -1303,6 +1390,8 @@ export type MaintenanceSelectCreateManyAndReturn<
     code?: boolean;
     customerId?: boolean;
     status?: boolean;
+    priority?: boolean;
+    workTypes?: boolean;
     scheduledAt?: boolean;
     completedAt?: boolean;
     issueReport?: boolean;
@@ -1325,6 +1414,8 @@ export type MaintenanceSelectUpdateManyAndReturn<
     code?: boolean;
     customerId?: boolean;
     status?: boolean;
+    priority?: boolean;
+    workTypes?: boolean;
     scheduledAt?: boolean;
     completedAt?: boolean;
     issueReport?: boolean;
@@ -1343,6 +1434,8 @@ export type MaintenanceSelectScalar = {
   code?: boolean;
   customerId?: boolean;
   status?: boolean;
+  priority?: boolean;
+  workTypes?: boolean;
   scheduledAt?: boolean;
   completedAt?: boolean;
   issueReport?: boolean;
@@ -1361,6 +1454,8 @@ export type MaintenanceOmit<
   | 'code'
   | 'customerId'
   | 'status'
+  | 'priority'
+  | 'workTypes'
   | 'scheduledAt'
   | 'completedAt'
   | 'issueReport'
@@ -1409,6 +1504,8 @@ export type $MaintenancePayload<
       code: string;
       customerId: number;
       status: $Enums.TransactionStatus;
+      priority: string;
+      workTypes: string[];
       scheduledAt: Date | null;
       completedAt: Date | null;
       issueReport: string | null;
@@ -2052,6 +2149,8 @@ export interface MaintenanceFieldRefs {
   readonly code: Prisma.FieldRef<'Maintenance', 'String'>;
   readonly customerId: Prisma.FieldRef<'Maintenance', 'Int'>;
   readonly status: Prisma.FieldRef<'Maintenance', 'TransactionStatus'>;
+  readonly priority: Prisma.FieldRef<'Maintenance', 'String'>;
+  readonly workTypes: Prisma.FieldRef<'Maintenance', 'String[]'>;
   readonly scheduledAt: Prisma.FieldRef<'Maintenance', 'DateTime'>;
   readonly completedAt: Prisma.FieldRef<'Maintenance', 'DateTime'>;
   readonly issueReport: Prisma.FieldRef<'Maintenance', 'String'>;

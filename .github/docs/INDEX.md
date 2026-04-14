@@ -60,14 +60,15 @@ Start with these guides:
 
 Start with these:
 
-| Document                        | Path                                                               | Duration | Key Info                                       |
-| ------------------------------- | ------------------------------------------------------------------ | -------- | ---------------------------------------------- |
-| **Test Plan & UAT**             | `04_OPERATIONS/TEST_PLAN_AND_UAT.md`                               | 45 min   | UAT schedule, test scenarios, Go-Live criteria |
-| **Security & RBAC Matrix**      | `03_STANDARDS_AND_PROCEDURES/SECURITY_AND_RBAC_MATRIX.md`          | 30 min   | Role permissions, OWASP compliance             |
-| **Infrastructure & Deployment** | `04_OPERATIONS/INFRASTRUCTURE_AND_DEPLOYMENT.md`                   | 30 min   | Server requirements, env config                |
-| **AI Orchestration**            | `.github/README.md` + `.github/orchestration/OPUS_COORDINATION.md` | 45 min   | How AI agents coordinate on tasks              |
-| **Change Log**                  | `changelog/ReadMe.md`                                              | Variable | Version history & features                     |
-| **UAT Readiness**               | `04_OPERATIONS/UAT_READINESS_CHECKLIST.md`                         | 30 min   | Pre-production readiness                       |
+| Document                        | Path                                                                | Duration | Key Info                                       |
+| ------------------------------- | ------------------------------------------------------------------- | -------- | ---------------------------------------------- |
+| **Test Plan & UAT**             | `04_OPERATIONS/TEST_PLAN_AND_UAT.md`                                | 45 min   | UAT schedule, test scenarios, Go-Live criteria |
+| **Security & RBAC Matrix**      | `03_STANDARDS_AND_PROCEDURES/SECURITY_AND_RBAC_MATRIX.md`           | 30 min   | Role permissions, OWASP compliance             |
+| **Infrastructure & Deployment** | `04_OPERATIONS/INFRASTRUCTURE_AND_DEPLOYMENT.md`                    | 30 min   | Server requirements, env config                |
+| **AI Orchestration**            | `.github/README.md` + `.github/orchestration/OPUS_COORDINATION.md`  | 45 min   | How AI agents coordinate on tasks              |
+| **Change Log**                  | `changelog/ReadMe.md`                                               | Variable | Version history & features                     |
+| **UAT Readiness**               | `04_OPERATIONS/UAT_READINESS_CHECKLIST.md`                          | 30 min   | Pre-production readiness                       |
+| **Sprint Completion Analysis**  | `00_PLANNING/SPRINT/ANALYSIS/SPRINT_REBUILD_COMPLETION_ANALYSIS.md` | 20 min   | Sprint 0–5 completion %, gap analysis, roadmap |
 
 ---
 

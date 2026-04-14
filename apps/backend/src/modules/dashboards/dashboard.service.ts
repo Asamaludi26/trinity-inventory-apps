@@ -5,6 +5,7 @@ import {
   AssetStatus,
   TransactionStatus,
 } from '../../generated/prisma/client';
+import { DashboardQueryDto, resolveDashboardDateRange } from './dto';
 
 // Status sets for reusable filtering
 const ACTIVE_TRANSACTION_STATUSES: TransactionStatus[] = [
@@ -43,7 +44,10 @@ export class DashboardService {
 
   // ──────────────── Superadmin Dashboard ────────────────
 
-  async getStats() {
+  async getStats(query: DashboardQueryDto = {}) {
+    const { from, to } = resolveDashboardDateRange(query);
+    const dateFilter = { gte: from, lte: to };
+
     const [
       totalAssets,
       pendingRequests,
@@ -51,27 +55,36 @@ export class DashboardService {
       damagedAssets,
       underRepair,
     ] = await Promise.all([
-      this.prisma.asset.count({ where: { isDeleted: false } }),
+      this.prisma.asset.count({
+        where: { isDeleted: false, createdAt: dateFilter },
+      }),
       this.prisma.request.count({
         where: {
           isDeleted: false,
           status: { in: PENDING_APPROVAL_STATUSES },
+          createdAt: dateFilter,
         },
       }),
       this.prisma.loanRequest.count({
         where: {
           isDeleted: false,
           status: { in: ACTIVE_TRANSACTION_STATUSES },
+          createdAt: dateFilter,
         },
       }),
       this.prisma.asset.count({
         where: {
           isDeleted: false,
           condition: { in: [AssetCondition.BROKEN, AssetCondition.POOR] },
+          updatedAt: dateFilter,
         },
       }),
       this.prisma.asset.count({
-        where: { isDeleted: false, status: AssetStatus.UNDER_REPAIR },
+        where: {
+          isDeleted: false,
+          status: AssetStatus.UNDER_REPAIR,
+          updatedAt: dateFilter,
+        },
       }),
     ]);
 
@@ -182,15 +195,17 @@ export class DashboardService {
 
   // ──────────────── Finance Dashboard ────────────────
 
-  async getFinanceStats() {
-    const now = new Date();
+  async getFinanceStats(query: DashboardQueryDto = {}) {
+    const { from, to } = resolveDashboardDateRange(query);
 
     const [totalPurchases, depreciations, pendingApprovals] = await Promise.all(
       [
-        this.prisma.purchaseMasterData.count({ where: { isDeleted: false } }),
+        this.prisma.purchaseMasterData.count({
+          where: { isDeleted: false, purchaseDate: { gte: from, lte: to } },
+        }),
         this.prisma.depreciation.findMany({
           where: {
-            startDate: { lte: now },
+            startDate: { lte: to },
           },
           include: {
             purchase: { select: { totalPrice: true } },
@@ -330,20 +345,29 @@ export class DashboardService {
 
   // ──────────────── Operations Dashboard ────────────────
 
-  async getOperationsStats() {
+  async getOperationsStats(query: DashboardQueryDto = {}) {
+    const { from, to } = resolveDashboardDateRange(query);
+    const dateFilter = { gte: from, lte: to };
     const now = new Date();
 
     const [totalAssets, underRepair, overdueLoans, criticalStock] =
       await Promise.all([
-        this.prisma.asset.count({ where: { isDeleted: false } }),
         this.prisma.asset.count({
-          where: { isDeleted: false, status: AssetStatus.UNDER_REPAIR },
+          where: { isDeleted: false, createdAt: dateFilter },
+        }),
+        this.prisma.asset.count({
+          where: {
+            isDeleted: false,
+            status: AssetStatus.UNDER_REPAIR,
+            updatedAt: dateFilter,
+          },
         }),
         this.prisma.loanRequest.count({
           where: {
             isDeleted: false,
             status: { in: ACTIVE_TRANSACTION_STATUSES },
             expectedReturn: { lt: now },
+            createdAt: dateFilter,
           },
         }),
         this.getLowStockAlertCount(),

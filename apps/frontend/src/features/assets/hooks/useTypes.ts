@@ -6,7 +6,7 @@ const TYPES_KEY = ['assets', 'types'];
 export function useTypes(categoryId?: number) {
   return useQuery({
     queryKey: [...TYPES_KEY, categoryId],
-    queryFn: () => typeApi.getAll(categoryId).then((res) => res.data.data),
+    queryFn: () => typeApi.getAll(categoryId).then((res) => res.data.data.data),
   });
 }
 

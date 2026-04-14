@@ -14,6 +14,8 @@ model User {
   isDeleted            Boolean              @default(false) @map("is_deleted")
   tokenVersion         Int                  @default(0) @map("token_version")
   lastLoginAt          DateTime?            @map("last_login_at")
+  failedLoginAttempts  Int                  @default(0) @map("failed_login_attempts")
+  lockedUntil          DateTime?            @map("locked_until")
   createdAt            DateTime             @default(now()) @map("created_at")
   updatedAt            DateTime             @updatedAt @map("updated_at")
   mustChangePassword   Boolean              @default(false) @map("must_change_password")

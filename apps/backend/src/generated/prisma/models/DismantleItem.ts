@@ -635,10 +635,6 @@ export type DismantleItemUncheckedUpdateManyWithoutDismantleNestedInput = {
     | Prisma.DismantleItemScalarWhereInput[];
 };
 
-export type NullableEnumAssetConditionFieldUpdateOperationsInput = {
-  set?: $Enums.AssetCondition | null;
-};
-
 export type DismantleItemCreateWithoutAssetInput = {
   conditionAfter?: $Enums.AssetCondition | null;
   note?: string | null;

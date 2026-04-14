@@ -14,12 +14,14 @@ import type {
   DivisionMemberAsset,
   PersonalAssetItem,
   PendingReturnItem,
+  DashboardFilter,
 } from '../types';
 import type { ApiResponse } from '@/types';
 
 export const dashboardApi = {
   // Super Admin
-  getStats: () => api.get<ApiResponse<DashboardStats>>('/dashboard/stats'),
+  getStats: (filter?: DashboardFilter) =>
+    api.get<ApiResponse<DashboardStats>>('/dashboard/stats', { params: filter }),
   getRecentActivity: (limit = 10) =>
     api.get<ApiResponse<RecentActivity[]>>('/dashboard/recent-activity', {
       params: { limit },
@@ -32,13 +34,16 @@ export const dashboardApi = {
     api.get<ApiResponse<AssetCategoryDistribution[]>>('/dashboard/category-distribution'),
 
   // Admin Purchase
-  getFinanceStats: () => api.get<ApiResponse<FinanceDashboardStats>>('/dashboard/finance/stats'),
+  getFinanceStats: (filter?: DashboardFilter) =>
+    api.get<ApiResponse<FinanceDashboardStats>>('/dashboard/finance/stats', { params: filter }),
   getSpendingByCategory: () =>
     api.get<ApiResponse<CategorySpending[]>>('/dashboard/finance/spending-by-category'),
 
   // Admin Logistik
-  getOperationsStats: () =>
-    api.get<ApiResponse<OperationsDashboardStats>>('/dashboard/operations/stats'),
+  getOperationsStats: (filter?: DashboardFilter) =>
+    api.get<ApiResponse<OperationsDashboardStats>>('/dashboard/operations/stats', {
+      params: filter,
+    }),
   getStockAlerts: () =>
     api.get<ApiResponse<StockAlertItem[]>>('/dashboard/operations/stock-alerts'),
   getDailyOps: () => api.get<ApiResponse<DailyOpsStats>>('/dashboard/operations/daily-ops'),

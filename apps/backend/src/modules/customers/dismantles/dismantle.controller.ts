@@ -23,6 +23,7 @@ import {
 import { AuthPermissions, CurrentUser } from '../../../common/decorators';
 import { PERMISSIONS } from '../../../common/constants';
 import { JwtPayload } from '../../../common/interfaces';
+import { AssetCondition } from '../../../generated/prisma/client';
 
 @ApiTags('Dismantles')
 @ApiBearerAuth('access-token')
@@ -76,13 +77,12 @@ export class DismantleController {
   async complete(
     @Param('id', ParseIntPipe) id: number,
     @Body('itemConditions')
-    itemConditions: Array<{ assetId: string; conditionAfter: string }>,
+    itemConditions: Array<{
+      assetId: string;
+      conditionAfter: AssetCondition;
+    }>,
     @CurrentUser() user: JwtPayload,
   ) {
-    return this.dismantleService.complete(
-      id,
-      user.sub,
-      itemConditions as never,
-    );
+    return this.dismantleService.complete(id, user.sub, itemConditions);
   }
 }
