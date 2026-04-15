@@ -30,12 +30,14 @@ export type MaintenanceAvgAggregateOutputType = {
   id: number | null;
   customerId: number | null;
   createdById: number | null;
+  version: number | null;
 };
 
 export type MaintenanceSumAggregateOutputType = {
   id: number | null;
   customerId: number | null;
   createdById: number | null;
+  version: number | null;
 };
 
 export type MaintenanceMinAggregateOutputType = {
@@ -50,6 +52,7 @@ export type MaintenanceMinAggregateOutputType = {
   resolution: string | null;
   createdById: number | null;
   isDeleted: boolean | null;
+  version: number | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -66,6 +69,7 @@ export type MaintenanceMaxAggregateOutputType = {
   resolution: string | null;
   createdById: number | null;
   isDeleted: boolean | null;
+  version: number | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -83,6 +87,7 @@ export type MaintenanceCountAggregateOutputType = {
   resolution: number;
   createdById: number;
   isDeleted: number;
+  version: number;
   createdAt: number;
   updatedAt: number;
   _all: number;
@@ -92,12 +97,14 @@ export type MaintenanceAvgAggregateInputType = {
   id?: true;
   customerId?: true;
   createdById?: true;
+  version?: true;
 };
 
 export type MaintenanceSumAggregateInputType = {
   id?: true;
   customerId?: true;
   createdById?: true;
+  version?: true;
 };
 
 export type MaintenanceMinAggregateInputType = {
@@ -112,6 +119,7 @@ export type MaintenanceMinAggregateInputType = {
   resolution?: true;
   createdById?: true;
   isDeleted?: true;
+  version?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -128,6 +136,7 @@ export type MaintenanceMaxAggregateInputType = {
   resolution?: true;
   createdById?: true;
   isDeleted?: true;
+  version?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -145,6 +154,7 @@ export type MaintenanceCountAggregateInputType = {
   resolution?: true;
   createdById?: true;
   isDeleted?: true;
+  version?: true;
   createdAt?: true;
   updatedAt?: true;
   _all?: true;
@@ -256,6 +266,7 @@ export type MaintenanceGroupByOutputType = {
   resolution: string | null;
   createdById: number;
   isDeleted: boolean;
+  version: number;
   createdAt: Date;
   updatedAt: Date;
   _count: MaintenanceCountAggregateOutputType | null;
@@ -304,6 +315,7 @@ export type MaintenanceWhereInput = {
   resolution?: Prisma.StringNullableFilter<'Maintenance'> | string | null;
   createdById?: Prisma.IntFilter<'Maintenance'> | number;
   isDeleted?: Prisma.BoolFilter<'Maintenance'> | boolean;
+  version?: Prisma.IntFilter<'Maintenance'> | number;
   createdAt?: Prisma.DateTimeFilter<'Maintenance'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Maintenance'> | Date | string;
   materials?: Prisma.MaintenanceMaterialListRelationFilter;
@@ -327,6 +339,7 @@ export type MaintenanceOrderByWithRelationInput = {
   resolution?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   materials?: Prisma.MaintenanceMaterialOrderByRelationAggregateInput;
@@ -361,6 +374,7 @@ export type MaintenanceWhereUniqueInput = Prisma.AtLeast<
     resolution?: Prisma.StringNullableFilter<'Maintenance'> | string | null;
     createdById?: Prisma.IntFilter<'Maintenance'> | number;
     isDeleted?: Prisma.BoolFilter<'Maintenance'> | boolean;
+    version?: Prisma.IntFilter<'Maintenance'> | number;
     createdAt?: Prisma.DateTimeFilter<'Maintenance'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Maintenance'> | Date | string;
     materials?: Prisma.MaintenanceMaterialListRelationFilter;
@@ -386,6 +400,7 @@ export type MaintenanceOrderByWithAggregationInput = {
   resolution?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   _count?: Prisma.MaintenanceCountOrderByAggregateInput;
@@ -431,6 +446,7 @@ export type MaintenanceScalarWhereWithAggregatesInput = {
     | null;
   createdById?: Prisma.IntWithAggregatesFilter<'Maintenance'> | number;
   isDeleted?: Prisma.BoolWithAggregatesFilter<'Maintenance'> | boolean;
+  version?: Prisma.IntWithAggregatesFilter<'Maintenance'> | number;
   createdAt?:
     | Prisma.DateTimeWithAggregatesFilter<'Maintenance'>
     | Date
@@ -452,6 +468,7 @@ export type MaintenanceCreateInput = {
   resolution?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   materials?: Prisma.MaintenanceMaterialCreateNestedManyWithoutMaintenanceInput;
@@ -472,6 +489,7 @@ export type MaintenanceUncheckedCreateInput = {
   resolution?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   materials?: Prisma.MaintenanceMaterialUncheckedCreateNestedManyWithoutMaintenanceInput;
@@ -499,6 +517,7 @@ export type MaintenanceUpdateInput = {
   resolution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   materials?: Prisma.MaintenanceMaterialUpdateManyWithoutMaintenanceNestedInput;
@@ -529,6 +548,7 @@ export type MaintenanceUncheckedUpdateInput = {
   resolution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   materials?: Prisma.MaintenanceMaterialUncheckedUpdateManyWithoutMaintenanceNestedInput;
@@ -548,6 +568,7 @@ export type MaintenanceCreateManyInput = {
   resolution?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -573,6 +594,7 @@ export type MaintenanceUpdateManyMutationInput = {
   resolution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -600,6 +622,7 @@ export type MaintenanceUncheckedUpdateManyInput = {
   resolution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -635,6 +658,7 @@ export type MaintenanceCountOrderByAggregateInput = {
   resolution?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -643,6 +667,7 @@ export type MaintenanceAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   customerId?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
 };
 
 export type MaintenanceMaxOrderByAggregateInput = {
@@ -657,6 +682,7 @@ export type MaintenanceMaxOrderByAggregateInput = {
   resolution?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -673,6 +699,7 @@ export type MaintenanceMinOrderByAggregateInput = {
   resolution?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -681,6 +708,7 @@ export type MaintenanceSumOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   customerId?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
 };
 
 export type MaintenanceScalarRelationFilter = {
@@ -870,6 +898,7 @@ export type MaintenanceCreateWithoutCustomerInput = {
   resolution?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   materials?: Prisma.MaintenanceMaterialCreateNestedManyWithoutMaintenanceInput;
@@ -888,6 +917,7 @@ export type MaintenanceUncheckedCreateWithoutCustomerInput = {
   resolution?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   materials?: Prisma.MaintenanceMaterialUncheckedCreateNestedManyWithoutMaintenanceInput;
@@ -967,6 +997,7 @@ export type MaintenanceScalarWhereInput = {
   resolution?: Prisma.StringNullableFilter<'Maintenance'> | string | null;
   createdById?: Prisma.IntFilter<'Maintenance'> | number;
   isDeleted?: Prisma.BoolFilter<'Maintenance'> | boolean;
+  version?: Prisma.IntFilter<'Maintenance'> | number;
   createdAt?: Prisma.DateTimeFilter<'Maintenance'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Maintenance'> | Date | string;
 };
@@ -982,6 +1013,7 @@ export type MaintenanceCreateWithoutMaterialsInput = {
   resolution?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   replacements?: Prisma.MaintenanceReplacementCreateNestedManyWithoutMaintenanceInput;
@@ -1001,6 +1033,7 @@ export type MaintenanceUncheckedCreateWithoutMaterialsInput = {
   resolution?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   replacements?: Prisma.MaintenanceReplacementUncheckedCreateNestedManyWithoutMaintenanceInput;
@@ -1055,6 +1088,7 @@ export type MaintenanceUpdateWithoutMaterialsInput = {
   resolution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   replacements?: Prisma.MaintenanceReplacementUpdateManyWithoutMaintenanceNestedInput;
@@ -1084,6 +1118,7 @@ export type MaintenanceUncheckedUpdateWithoutMaterialsInput = {
   resolution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   replacements?: Prisma.MaintenanceReplacementUncheckedUpdateManyWithoutMaintenanceNestedInput;
@@ -1100,6 +1135,7 @@ export type MaintenanceCreateWithoutReplacementsInput = {
   resolution?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   materials?: Prisma.MaintenanceMaterialCreateNestedManyWithoutMaintenanceInput;
@@ -1119,6 +1155,7 @@ export type MaintenanceUncheckedCreateWithoutReplacementsInput = {
   resolution?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   materials?: Prisma.MaintenanceMaterialUncheckedCreateNestedManyWithoutMaintenanceInput;
@@ -1173,6 +1210,7 @@ export type MaintenanceUpdateWithoutReplacementsInput = {
   resolution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   materials?: Prisma.MaintenanceMaterialUpdateManyWithoutMaintenanceNestedInput;
@@ -1202,6 +1240,7 @@ export type MaintenanceUncheckedUpdateWithoutReplacementsInput = {
   resolution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   materials?: Prisma.MaintenanceMaterialUncheckedUpdateManyWithoutMaintenanceNestedInput;
@@ -1219,6 +1258,7 @@ export type MaintenanceCreateManyCustomerInput = {
   resolution?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -1244,6 +1284,7 @@ export type MaintenanceUpdateWithoutCustomerInput = {
   resolution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   materials?: Prisma.MaintenanceMaterialUpdateManyWithoutMaintenanceNestedInput;
@@ -1272,6 +1313,7 @@ export type MaintenanceUncheckedUpdateWithoutCustomerInput = {
   resolution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   materials?: Prisma.MaintenanceMaterialUncheckedUpdateManyWithoutMaintenanceNestedInput;
@@ -1300,6 +1342,7 @@ export type MaintenanceUncheckedUpdateManyWithoutCustomerInput = {
   resolution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -1371,6 +1414,7 @@ export type MaintenanceSelect<
     resolution?: boolean;
     createdById?: boolean;
     isDeleted?: boolean;
+    version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     materials?: boolean | Prisma.Maintenance$materialsArgs<ExtArgs>;
@@ -1398,6 +1442,7 @@ export type MaintenanceSelectCreateManyAndReturn<
     resolution?: boolean;
     createdById?: boolean;
     isDeleted?: boolean;
+    version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
@@ -1422,6 +1467,7 @@ export type MaintenanceSelectUpdateManyAndReturn<
     resolution?: boolean;
     createdById?: boolean;
     isDeleted?: boolean;
+    version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
@@ -1442,6 +1488,7 @@ export type MaintenanceSelectScalar = {
   resolution?: boolean;
   createdById?: boolean;
   isDeleted?: boolean;
+  version?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
 };
@@ -1462,6 +1509,7 @@ export type MaintenanceOmit<
   | 'resolution'
   | 'createdById'
   | 'isDeleted'
+  | 'version'
   | 'createdAt'
   | 'updatedAt',
   ExtArgs['result']['maintenance']
@@ -1512,6 +1560,7 @@ export type $MaintenancePayload<
       resolution: string | null;
       createdById: number;
       isDeleted: boolean;
+      version: number;
       createdAt: Date;
       updatedAt: Date;
     },
@@ -2157,6 +2206,7 @@ export interface MaintenanceFieldRefs {
   readonly resolution: Prisma.FieldRef<'Maintenance', 'String'>;
   readonly createdById: Prisma.FieldRef<'Maintenance', 'Int'>;
   readonly isDeleted: Prisma.FieldRef<'Maintenance', 'Boolean'>;
+  readonly version: Prisma.FieldRef<'Maintenance', 'Int'>;
   readonly createdAt: Prisma.FieldRef<'Maintenance', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'Maintenance', 'DateTime'>;
 }

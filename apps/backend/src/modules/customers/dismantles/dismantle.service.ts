@@ -9,6 +9,7 @@ import { ClientService } from '../clients/client.service';
 import { CreateDismantleDto } from './dto/create-dismantle.dto';
 import { UpdateDismantleDto } from './dto/update-dismantle.dto';
 import { FilterDismantleDto } from './dto/filter-dismantle.dto';
+import { assertOccSuccess } from '../../../common/helpers/occ.helper';
 import {
   Prisma,
   TransactionStatus,
@@ -164,14 +165,18 @@ export class DismantleService {
       );
     }
     const { items: _items, scheduledAt, ...rest } = dto;
-    return this.prisma.dismantle.update({
-      where: { id },
+    const version = (dto as { version?: number }).version ?? existing.version;
+    const result = await this.prisma.dismantle.updateMany({
+      where: { id, version },
       data: {
         ...rest,
         ...(scheduledAt && { scheduledAt: new Date(scheduledAt) }),
+        version: { increment: 1 },
       },
-      include: { customer: { select: { id: true, name: true } } },
     });
+    assertOccSuccess(result.count);
+
+    return this.findOne(id);
   }
 
   async complete(
@@ -185,12 +190,19 @@ export class DismantleService {
     }
 
     return this.prisma.$transaction(async (tx) => {
-      const dismantle = await tx.dismantle.update({
-        where: { id },
+      // OCC: Update dismantle status with version check
+      const result = await tx.dismantle.updateMany({
+        where: { id, version: existing.version },
         data: {
           status: TransactionStatus.COMPLETED,
           completedAt: new Date(),
+          version: { increment: 1 },
         },
+      });
+      assertOccSuccess(result.count);
+
+      const dismantle = await tx.dismantle.findUnique({
+        where: { id },
         include: {
           customer: { select: { id: true, name: true } },
           items: {

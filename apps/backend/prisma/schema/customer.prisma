@@ -34,6 +34,7 @@ model Installation {
   note        String?
   createdById Int                    @map("created_by_id")
   isDeleted   Boolean                @default(false) @map("is_deleted")
+  version     Int                    @default(1)
   createdAt   DateTime               @default(now()) @map("created_at")
   updatedAt   DateTime               @updatedAt @map("updated_at")
   materials   InstallationMaterial[]
@@ -73,6 +74,7 @@ model Maintenance {
   resolution   String?
   createdById  Int                      @map("created_by_id")
   isDeleted    Boolean                  @default(false) @map("is_deleted")
+  version      Int                      @default(1)
   createdAt    DateTime                 @default(now()) @map("created_at")
   updatedAt    DateTime                 @updatedAt @map("updated_at")
   materials    MaintenanceMaterial[]
@@ -130,6 +132,7 @@ model Dismantle {
   note        String?
   createdById Int               @map("created_by_id")
   isDeleted   Boolean           @default(false) @map("is_deleted")
+  version     Int               @default(1)
   createdAt   DateTime          @default(now()) @map("created_at")
   updatedAt   DateTime          @updatedAt @map("updated_at")
   items       DismantleItem[]

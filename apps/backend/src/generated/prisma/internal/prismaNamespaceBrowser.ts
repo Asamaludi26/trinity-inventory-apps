@@ -136,6 +136,9 @@ export const AssetModelScalarFieldEnum = {
   typeId: 'typeId',
   name: 'name',
   brand: 'brand',
+  unit: 'unit',
+  containerUnit: 'containerUnit',
+  containerSize: 'containerSize',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -259,6 +262,7 @@ export const InstallationScalarFieldEnum = {
   note: 'note',
   createdById: 'createdById',
   isDeleted: 'isDeleted',
+  version: 'version',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 } as const;
@@ -291,6 +295,7 @@ export const MaintenanceScalarFieldEnum = {
   resolution: 'resolution',
   createdById: 'createdById',
   isDeleted: 'isDeleted',
+  version: 'version',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 } as const;
@@ -335,6 +340,7 @@ export const DismantleScalarFieldEnum = {
   note: 'note',
   createdById: 'createdById',
   isDeleted: 'isDeleted',
+  version: 'version',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 } as const;

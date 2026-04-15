@@ -31,6 +31,9 @@ model AssetModel {
   typeId                Int                    @map("type_id")
   name                  String                 @db.VarChar(255)
   brand                 String                 @db.VarChar(255)
+  unit                  String?                @db.VarChar(20)  // Base unit: pcs, meter, kg, liter
+  containerUnit         String?                @map("container_unit") @db.VarChar(20) // Container: box, roll, drum
+  containerSize         Decimal?               @map("container_size") @db.Decimal(15, 2) // How many base units per container
   isDeleted             Boolean                @default(false) @map("is_deleted")
   createdAt             DateTime               @default(now()) @map("created_at")
   updatedAt             DateTime               @updatedAt @map("updated_at")

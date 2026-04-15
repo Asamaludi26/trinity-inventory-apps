@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Subject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { PrismaService } from '../database/prisma.service';
-import { NotificationType } from '../../generated/prisma/client';
+import { NotificationType, UserRole } from '../../generated/prisma/client';
 import { WhatsAppService } from './whatsapp.service';
 
 interface NotificationEvent {
@@ -225,5 +225,167 @@ export class NotificationService {
       message: `${params.transactionType} ${params.transactionCode} dari ${params.requesterName} menunggu persetujuan Anda.`,
       link: params.link,
     });
+  }
+
+  // ──────────────── Role & Division Routing ────────────────
+
+  /**
+   * Send notification to all active users with a specific role.
+   * Useful for system-wide alerts (e.g., stock threshold breached → ADMIN_LOGISTIC).
+   */
+  async notifyByRole(params: {
+    role: UserRole;
+    type: NotificationType;
+    title: string;
+    message: string;
+    link?: string;
+  }): Promise<void> {
+    const users = await this.prisma.user.findMany({
+      where: { role: params.role, isActive: true, isDeleted: false },
+      select: { id: true },
+    });
+
+    for (const user of users) {
+      this.create({
+        userId: user.id,
+        type: params.type,
+        title: params.title,
+        message: params.message,
+        link: params.link,
+      }).catch((err) =>
+        this.logger.warn(`Failed to notify user ${user.id}: ${err.message}`),
+      );
+    }
+  }
+
+  /**
+   * Send notification to all active users in a specific division.
+   * Useful for division-scoped alerts (e.g., division asset updates).
+   */
+  async notifyByDivision(params: {
+    divisionId: number;
+    type: NotificationType;
+    title: string;
+    message: string;
+    link?: string;
+  }): Promise<void> {
+    const users = await this.prisma.user.findMany({
+      where: {
+        divisionId: params.divisionId,
+        isActive: true,
+        isDeleted: false,
+      },
+      select: { id: true },
+    });
+
+    for (const user of users) {
+      this.create({
+        userId: user.id,
+        type: params.type,
+        title: params.title,
+        message: params.message,
+        link: params.link,
+      }).catch((err) =>
+        this.logger.warn(`Failed to notify user ${user.id}: ${err.message}`),
+      );
+    }
+  }
+
+  /**
+   * Send notification to users with a specific role in a specific division.
+   * Useful for targeted alerts (e.g., division leader for approval).
+   */
+  async notifyRoleInDivision(params: {
+    role: UserRole;
+    divisionId: number;
+    type: NotificationType;
+    title: string;
+    message: string;
+    link?: string;
+  }): Promise<void> {
+    const users = await this.prisma.user.findMany({
+      where: {
+        role: params.role,
+        divisionId: params.divisionId,
+        isActive: true,
+        isDeleted: false,
+      },
+      select: { id: true },
+    });
+
+    for (const user of users) {
+      this.create({
+        userId: user.id,
+        type: params.type,
+        title: params.title,
+        message: params.message,
+        link: params.link,
+      }).catch((err) =>
+        this.logger.warn(`Failed to notify user ${user.id}: ${err.message}`),
+      );
+    }
+  }
+
+  /**
+   * Send stock threshold alert to logistics admins.
+   * Called from scheduler when stock falls below threshold.
+   */
+  async notifyStockAlert(params: {
+    modelName: string;
+    currentStock: number;
+    threshold: number;
+  }): Promise<void> {
+    const status =
+      params.currentStock === 0
+        ? 'HABIS'
+        : params.currentStock <= params.threshold / 2
+          ? 'KRITIS'
+          : 'RENDAH';
+
+    await this.notifyByRole({
+      role: UserRole.ADMIN_LOGISTIK,
+      type: NotificationType.WARNING,
+      title: `Stok ${status}: ${params.modelName}`,
+      message:
+        `Stok ${params.modelName} saat ini ${params.currentStock} unit ` +
+        `(threshold: ${params.threshold}). Segera lakukan pengadaan.`,
+      link: '/assets/stock',
+    });
+  }
+
+  /**
+   * Send overdue loan reminder to the borrower + their division leader.
+   */
+  async notifyLoanOverdue(params: {
+    borrowerUserId: number;
+    borrowerDivisionId: number | null;
+    loanCode: string;
+    assetName: string;
+    daysOverdue: number;
+  }): Promise<void> {
+    // Notify the borrower directly
+    await this.create({
+      userId: params.borrowerUserId,
+      type: NotificationType.REMINDER,
+      title: 'Pinjaman Jatuh Tempo',
+      message:
+        `Pinjaman ${params.loanCode} (${params.assetName}) sudah terlambat ` +
+        `${params.daysOverdue} hari. Segera kembalikan.`,
+      link: `/transactions/loans/${params.loanCode}`,
+    }).catch(() => {});
+
+    // Also notify division leader if available
+    if (params.borrowerDivisionId) {
+      await this.notifyRoleInDivision({
+        role: UserRole.LEADER,
+        divisionId: params.borrowerDivisionId,
+        type: NotificationType.WARNING,
+        title: 'Pinjaman Anggota Jatuh Tempo',
+        message:
+          `Pinjaman ${params.loanCode} (${params.assetName}) oleh anggota divisi ` +
+          `sudah terlambat ${params.daysOverdue} hari.`,
+        link: `/transactions/loans/${params.loanCode}`,
+      });
+    }
   }
 }

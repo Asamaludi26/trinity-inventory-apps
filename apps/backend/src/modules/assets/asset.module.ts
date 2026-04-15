@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AssetController } from './asset.controller';
 import { AssetService } from './asset.service';
 import { FifoConsumptionService } from './fifo-consumption.service';
+import { UnitConversionService } from './unit-conversion.service';
 import { CategoryModule } from './categories/category.module';
 import { CategoryController } from './categories/category.controller';
 import { AssetTypeModule } from './types/asset-type.module';
@@ -31,7 +32,7 @@ import { DepreciationController } from './depreciation/depreciation.controller';
     DepreciationController,
     AssetController, // Has @Get(':id') — MUST be last
   ],
-  providers: [AssetService, FifoConsumptionService],
-  exports: [AssetService, FifoConsumptionService],
+  providers: [AssetService, FifoConsumptionService, UnitConversionService],
+  exports: [AssetService, FifoConsumptionService, UnitConversionService],
 })
 export class AssetModule {}

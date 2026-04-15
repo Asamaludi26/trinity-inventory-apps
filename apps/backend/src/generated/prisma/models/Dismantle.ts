@@ -30,12 +30,14 @@ export type DismantleAvgAggregateOutputType = {
   id: number | null;
   customerId: number | null;
   createdById: number | null;
+  version: number | null;
 };
 
 export type DismantleSumAggregateOutputType = {
   id: number | null;
   customerId: number | null;
   createdById: number | null;
+  version: number | null;
 };
 
 export type DismantleMinAggregateOutputType = {
@@ -49,6 +51,7 @@ export type DismantleMinAggregateOutputType = {
   note: string | null;
   createdById: number | null;
   isDeleted: boolean | null;
+  version: number | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -64,6 +67,7 @@ export type DismantleMaxAggregateOutputType = {
   note: string | null;
   createdById: number | null;
   isDeleted: boolean | null;
+  version: number | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -79,6 +83,7 @@ export type DismantleCountAggregateOutputType = {
   note: number;
   createdById: number;
   isDeleted: number;
+  version: number;
   createdAt: number;
   updatedAt: number;
   _all: number;
@@ -88,12 +93,14 @@ export type DismantleAvgAggregateInputType = {
   id?: true;
   customerId?: true;
   createdById?: true;
+  version?: true;
 };
 
 export type DismantleSumAggregateInputType = {
   id?: true;
   customerId?: true;
   createdById?: true;
+  version?: true;
 };
 
 export type DismantleMinAggregateInputType = {
@@ -107,6 +114,7 @@ export type DismantleMinAggregateInputType = {
   note?: true;
   createdById?: true;
   isDeleted?: true;
+  version?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -122,6 +130,7 @@ export type DismantleMaxAggregateInputType = {
   note?: true;
   createdById?: true;
   isDeleted?: true;
+  version?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -137,6 +146,7 @@ export type DismantleCountAggregateInputType = {
   note?: true;
   createdById?: true;
   isDeleted?: true;
+  version?: true;
   createdAt?: true;
   updatedAt?: true;
   _all?: true;
@@ -246,6 +256,7 @@ export type DismantleGroupByOutputType = {
   note: string | null;
   createdById: number;
   isDeleted: boolean;
+  version: number;
   createdAt: Date;
   updatedAt: Date;
   _count: DismantleCountAggregateOutputType | null;
@@ -292,6 +303,7 @@ export type DismantleWhereInput = {
   note?: Prisma.StringNullableFilter<'Dismantle'> | string | null;
   createdById?: Prisma.IntFilter<'Dismantle'> | number;
   isDeleted?: Prisma.BoolFilter<'Dismantle'> | boolean;
+  version?: Prisma.IntFilter<'Dismantle'> | number;
   createdAt?: Prisma.DateTimeFilter<'Dismantle'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Dismantle'> | Date | string;
   items?: Prisma.DismantleItemListRelationFilter;
@@ -312,6 +324,7 @@ export type DismantleOrderByWithRelationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   items?: Prisma.DismantleItemOrderByRelationAggregateInput;
@@ -343,6 +356,7 @@ export type DismantleWhereUniqueInput = Prisma.AtLeast<
     note?: Prisma.StringNullableFilter<'Dismantle'> | string | null;
     createdById?: Prisma.IntFilter<'Dismantle'> | number;
     isDeleted?: Prisma.BoolFilter<'Dismantle'> | boolean;
+    version?: Prisma.IntFilter<'Dismantle'> | number;
     createdAt?: Prisma.DateTimeFilter<'Dismantle'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Dismantle'> | Date | string;
     items?: Prisma.DismantleItemListRelationFilter;
@@ -365,6 +379,7 @@ export type DismantleOrderByWithAggregationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   _count?: Prisma.DismantleCountOrderByAggregateInput;
@@ -405,6 +420,7 @@ export type DismantleScalarWhereWithAggregatesInput = {
   note?: Prisma.StringNullableWithAggregatesFilter<'Dismantle'> | string | null;
   createdById?: Prisma.IntWithAggregatesFilter<'Dismantle'> | number;
   isDeleted?: Prisma.BoolWithAggregatesFilter<'Dismantle'> | boolean;
+  version?: Prisma.IntWithAggregatesFilter<'Dismantle'> | number;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<'Dismantle'> | Date | string;
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<'Dismantle'> | Date | string;
 };
@@ -418,6 +434,7 @@ export type DismantleCreateInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.DismantleItemCreateNestedManyWithoutDismantleInput;
@@ -435,6 +452,7 @@ export type DismantleUncheckedCreateInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutDismantleInput;
@@ -459,6 +477,7 @@ export type DismantleUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.DismantleItemUpdateManyWithoutDismantleNestedInput;
@@ -486,6 +505,7 @@ export type DismantleUncheckedUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.DismantleItemUncheckedUpdateManyWithoutDismantleNestedInput;
@@ -502,6 +522,7 @@ export type DismantleCreateManyInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -525,6 +546,7 @@ export type DismantleUpdateManyMutationInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -550,6 +572,7 @@ export type DismantleUncheckedUpdateManyInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -575,6 +598,7 @@ export type DismantleCountOrderByAggregateInput = {
   note?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -583,6 +607,7 @@ export type DismantleAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   customerId?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
 };
 
 export type DismantleMaxOrderByAggregateInput = {
@@ -596,6 +621,7 @@ export type DismantleMaxOrderByAggregateInput = {
   note?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -611,6 +637,7 @@ export type DismantleMinOrderByAggregateInput = {
   note?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -619,6 +646,7 @@ export type DismantleSumOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   customerId?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
 };
 
 export type DismantleScalarRelationFilter = {
@@ -767,6 +795,7 @@ export type DismantleCreateWithoutCustomerInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.DismantleItemCreateNestedManyWithoutDismantleInput;
@@ -782,6 +811,7 @@ export type DismantleUncheckedCreateWithoutCustomerInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutDismantleInput;
@@ -854,6 +884,7 @@ export type DismantleScalarWhereInput = {
   note?: Prisma.StringNullableFilter<'Dismantle'> | string | null;
   createdById?: Prisma.IntFilter<'Dismantle'> | number;
   isDeleted?: Prisma.BoolFilter<'Dismantle'> | boolean;
+  version?: Prisma.IntFilter<'Dismantle'> | number;
   createdAt?: Prisma.DateTimeFilter<'Dismantle'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Dismantle'> | Date | string;
 };
@@ -867,6 +898,7 @@ export type DismantleCreateWithoutItemsInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   customer: Prisma.CustomerCreateNestedOneWithoutDismantlesInput;
@@ -883,6 +915,7 @@ export type DismantleUncheckedCreateWithoutItemsInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -934,6 +967,7 @@ export type DismantleUpdateWithoutItemsInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   customer?: Prisma.CustomerUpdateOneRequiredWithoutDismantlesNestedInput;
@@ -960,6 +994,7 @@ export type DismantleUncheckedUpdateWithoutItemsInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -974,6 +1009,7 @@ export type DismantleCreateManyCustomerInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -997,6 +1033,7 @@ export type DismantleUpdateWithoutCustomerInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.DismantleItemUpdateManyWithoutDismantleNestedInput;
@@ -1022,6 +1059,7 @@ export type DismantleUncheckedUpdateWithoutCustomerInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.DismantleItemUncheckedUpdateManyWithoutDismantleNestedInput;
@@ -1047,6 +1085,7 @@ export type DismantleUncheckedUpdateManyWithoutCustomerInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -1104,6 +1143,7 @@ export type DismantleSelect<
     note?: boolean;
     createdById?: boolean;
     isDeleted?: boolean;
+    version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     items?: boolean | Prisma.Dismantle$itemsArgs<ExtArgs>;
@@ -1128,6 +1168,7 @@ export type DismantleSelectCreateManyAndReturn<
     note?: boolean;
     createdById?: boolean;
     isDeleted?: boolean;
+    version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
@@ -1150,6 +1191,7 @@ export type DismantleSelectUpdateManyAndReturn<
     note?: boolean;
     createdById?: boolean;
     isDeleted?: boolean;
+    version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
@@ -1168,6 +1210,7 @@ export type DismantleSelectScalar = {
   note?: boolean;
   createdById?: boolean;
   isDeleted?: boolean;
+  version?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
 };
@@ -1186,6 +1229,7 @@ export type DismantleOmit<
   | 'note'
   | 'createdById'
   | 'isDeleted'
+  | 'version'
   | 'createdAt'
   | 'updatedAt',
   ExtArgs['result']['dismantle']
@@ -1232,6 +1276,7 @@ export type $DismantlePayload<
       note: string | null;
       createdById: number;
       isDeleted: boolean;
+      version: number;
       createdAt: Date;
       updatedAt: Date;
     },
@@ -1861,6 +1906,7 @@ export interface DismantleFieldRefs {
   readonly note: Prisma.FieldRef<'Dismantle', 'String'>;
   readonly createdById: Prisma.FieldRef<'Dismantle', 'Int'>;
   readonly isDeleted: Prisma.FieldRef<'Dismantle', 'Boolean'>;
+  readonly version: Prisma.FieldRef<'Dismantle', 'Int'>;
   readonly createdAt: Prisma.FieldRef<'Dismantle', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'Dismantle', 'DateTime'>;
 }

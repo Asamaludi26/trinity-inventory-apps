@@ -1,6 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../../core/database/prisma.service';
 import { TrackingMethod, Prisma } from '../../generated/prisma/client';
+import { UnitConversionService } from './unit-conversion.service';
 
 /**
  * FIFO Material Consumption Service
@@ -9,7 +10,10 @@ import { TrackingMethod, Prisma } from '../../generated/prisma/client';
  */
 @Injectable()
 export class FifoConsumptionService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly unitConversion: UnitConversionService,
+  ) {}
 
   /**
    * Consume material using FIFO algorithm
@@ -117,6 +121,55 @@ export class FifoConsumptionService {
     return {
       consumed: quantityNeeded,
       movements: movementIds,
+    };
+  }
+
+  /**
+   * Consume material with automatic container → base unit conversion.
+   * If the model has containerUnit/containerSize configured, the input
+   * quantity is treated as container units and converted to base units
+   * before FIFO consumption.
+   */
+  async consumeMaterialWithConversion(
+    modelId: number,
+    quantity: number,
+    isContainerUnit: boolean,
+    reference: string,
+    movementType: 'INSTALLATION' | 'MAINTENANCE',
+    userId: number,
+    tx?: Prisma.TransactionClient,
+  ): Promise<{ consumed: number; baseUnit: string; movements: number[] }> {
+    let baseQuantity = quantity;
+    let baseUnit = 'pcs';
+
+    if (isContainerUnit) {
+      const conversion = await this.unitConversion.toBaseUnit(
+        modelId,
+        quantity,
+      );
+      baseQuantity = conversion.baseQuantity;
+      baseUnit = conversion.baseUnit;
+    } else {
+      const model = await (tx || this.prisma).assetModel.findUnique({
+        where: { id: modelId },
+        select: { unit: true },
+      });
+      baseUnit = model?.unit ?? 'pcs';
+    }
+
+    const result = await this.consumeMaterial(
+      modelId,
+      baseQuantity,
+      reference,
+      movementType,
+      userId,
+      tx,
+    );
+
+    return {
+      consumed: result.consumed,
+      baseUnit,
+      movements: result.movements,
     };
   }
 

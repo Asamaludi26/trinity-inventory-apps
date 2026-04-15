@@ -30,12 +30,14 @@ export type InstallationAvgAggregateOutputType = {
   id: number | null;
   customerId: number | null;
   createdById: number | null;
+  version: number | null;
 };
 
 export type InstallationSumAggregateOutputType = {
   id: number | null;
   customerId: number | null;
   createdById: number | null;
+  version: number | null;
 };
 
 export type InstallationMinAggregateOutputType = {
@@ -49,6 +51,7 @@ export type InstallationMinAggregateOutputType = {
   note: string | null;
   createdById: number | null;
   isDeleted: boolean | null;
+  version: number | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -64,6 +67,7 @@ export type InstallationMaxAggregateOutputType = {
   note: string | null;
   createdById: number | null;
   isDeleted: boolean | null;
+  version: number | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -79,6 +83,7 @@ export type InstallationCountAggregateOutputType = {
   note: number;
   createdById: number;
   isDeleted: number;
+  version: number;
   createdAt: number;
   updatedAt: number;
   _all: number;
@@ -88,12 +93,14 @@ export type InstallationAvgAggregateInputType = {
   id?: true;
   customerId?: true;
   createdById?: true;
+  version?: true;
 };
 
 export type InstallationSumAggregateInputType = {
   id?: true;
   customerId?: true;
   createdById?: true;
+  version?: true;
 };
 
 export type InstallationMinAggregateInputType = {
@@ -107,6 +114,7 @@ export type InstallationMinAggregateInputType = {
   note?: true;
   createdById?: true;
   isDeleted?: true;
+  version?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -122,6 +130,7 @@ export type InstallationMaxAggregateInputType = {
   note?: true;
   createdById?: true;
   isDeleted?: true;
+  version?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -137,6 +146,7 @@ export type InstallationCountAggregateInputType = {
   note?: true;
   createdById?: true;
   isDeleted?: true;
+  version?: true;
   createdAt?: true;
   updatedAt?: true;
   _all?: true;
@@ -247,6 +257,7 @@ export type InstallationGroupByOutputType = {
   note: string | null;
   createdById: number;
   isDeleted: boolean;
+  version: number;
   createdAt: Date;
   updatedAt: Date;
   _count: InstallationCountAggregateOutputType | null;
@@ -293,6 +304,7 @@ export type InstallationWhereInput = {
   note?: Prisma.StringNullableFilter<'Installation'> | string | null;
   createdById?: Prisma.IntFilter<'Installation'> | number;
   isDeleted?: Prisma.BoolFilter<'Installation'> | boolean;
+  version?: Prisma.IntFilter<'Installation'> | number;
   createdAt?: Prisma.DateTimeFilter<'Installation'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Installation'> | Date | string;
   materials?: Prisma.InstallationMaterialListRelationFilter;
@@ -313,6 +325,7 @@ export type InstallationOrderByWithRelationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   materials?: Prisma.InstallationMaterialOrderByRelationAggregateInput;
@@ -344,6 +357,7 @@ export type InstallationWhereUniqueInput = Prisma.AtLeast<
     note?: Prisma.StringNullableFilter<'Installation'> | string | null;
     createdById?: Prisma.IntFilter<'Installation'> | number;
     isDeleted?: Prisma.BoolFilter<'Installation'> | boolean;
+    version?: Prisma.IntFilter<'Installation'> | number;
     createdAt?: Prisma.DateTimeFilter<'Installation'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Installation'> | Date | string;
     materials?: Prisma.InstallationMaterialListRelationFilter;
@@ -366,6 +380,7 @@ export type InstallationOrderByWithAggregationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   _count?: Prisma.InstallationCountOrderByAggregateInput;
@@ -409,6 +424,7 @@ export type InstallationScalarWhereWithAggregatesInput = {
     | null;
   createdById?: Prisma.IntWithAggregatesFilter<'Installation'> | number;
   isDeleted?: Prisma.BoolWithAggregatesFilter<'Installation'> | boolean;
+  version?: Prisma.IntWithAggregatesFilter<'Installation'> | number;
   createdAt?:
     | Prisma.DateTimeWithAggregatesFilter<'Installation'>
     | Date
@@ -428,6 +444,7 @@ export type InstallationCreateInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   materials?: Prisma.InstallationMaterialCreateNestedManyWithoutInstallationInput;
@@ -445,6 +462,7 @@ export type InstallationUncheckedCreateInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   materials?: Prisma.InstallationMaterialUncheckedCreateNestedManyWithoutInstallationInput;
@@ -469,6 +487,7 @@ export type InstallationUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   materials?: Prisma.InstallationMaterialUpdateManyWithoutInstallationNestedInput;
@@ -496,6 +515,7 @@ export type InstallationUncheckedUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   materials?: Prisma.InstallationMaterialUncheckedUpdateManyWithoutInstallationNestedInput;
@@ -512,6 +532,7 @@ export type InstallationCreateManyInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -535,6 +556,7 @@ export type InstallationUpdateManyMutationInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -560,6 +582,7 @@ export type InstallationUncheckedUpdateManyInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -585,6 +608,7 @@ export type InstallationCountOrderByAggregateInput = {
   note?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -593,6 +617,7 @@ export type InstallationAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   customerId?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
 };
 
 export type InstallationMaxOrderByAggregateInput = {
@@ -606,6 +631,7 @@ export type InstallationMaxOrderByAggregateInput = {
   note?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -621,6 +647,7 @@ export type InstallationMinOrderByAggregateInput = {
   note?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -629,6 +656,7 @@ export type InstallationSumOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   customerId?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
+  version?: Prisma.SortOrder;
 };
 
 export type InstallationScalarRelationFilter = {
@@ -785,6 +813,7 @@ export type InstallationCreateWithoutCustomerInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   materials?: Prisma.InstallationMaterialCreateNestedManyWithoutInstallationInput;
@@ -800,6 +829,7 @@ export type InstallationUncheckedCreateWithoutCustomerInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   materials?: Prisma.InstallationMaterialUncheckedCreateNestedManyWithoutInstallationInput;
@@ -876,6 +906,7 @@ export type InstallationScalarWhereInput = {
   note?: Prisma.StringNullableFilter<'Installation'> | string | null;
   createdById?: Prisma.IntFilter<'Installation'> | number;
   isDeleted?: Prisma.BoolFilter<'Installation'> | boolean;
+  version?: Prisma.IntFilter<'Installation'> | number;
   createdAt?: Prisma.DateTimeFilter<'Installation'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Installation'> | Date | string;
 };
@@ -889,6 +920,7 @@ export type InstallationCreateWithoutMaterialsInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   customer: Prisma.CustomerCreateNestedOneWithoutInstallationsInput;
@@ -905,6 +937,7 @@ export type InstallationUncheckedCreateWithoutMaterialsInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -956,6 +989,7 @@ export type InstallationUpdateWithoutMaterialsInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   customer?: Prisma.CustomerUpdateOneRequiredWithoutInstallationsNestedInput;
@@ -982,6 +1016,7 @@ export type InstallationUncheckedUpdateWithoutMaterialsInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -996,6 +1031,7 @@ export type InstallationCreateManyCustomerInput = {
   note?: string | null;
   createdById: number;
   isDeleted?: boolean;
+  version?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -1019,6 +1055,7 @@ export type InstallationUpdateWithoutCustomerInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   materials?: Prisma.InstallationMaterialUpdateManyWithoutInstallationNestedInput;
@@ -1044,6 +1081,7 @@ export type InstallationUncheckedUpdateWithoutCustomerInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   materials?: Prisma.InstallationMaterialUncheckedUpdateManyWithoutInstallationNestedInput;
@@ -1069,6 +1107,7 @@ export type InstallationUncheckedUpdateManyWithoutCustomerInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -1126,6 +1165,7 @@ export type InstallationSelect<
     note?: boolean;
     createdById?: boolean;
     isDeleted?: boolean;
+    version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     materials?: boolean | Prisma.Installation$materialsArgs<ExtArgs>;
@@ -1150,6 +1190,7 @@ export type InstallationSelectCreateManyAndReturn<
     note?: boolean;
     createdById?: boolean;
     isDeleted?: boolean;
+    version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
@@ -1172,6 +1213,7 @@ export type InstallationSelectUpdateManyAndReturn<
     note?: boolean;
     createdById?: boolean;
     isDeleted?: boolean;
+    version?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>;
@@ -1190,6 +1232,7 @@ export type InstallationSelectScalar = {
   note?: boolean;
   createdById?: boolean;
   isDeleted?: boolean;
+  version?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
 };
@@ -1208,6 +1251,7 @@ export type InstallationOmit<
   | 'note'
   | 'createdById'
   | 'isDeleted'
+  | 'version'
   | 'createdAt'
   | 'updatedAt',
   ExtArgs['result']['installation']
@@ -1254,6 +1298,7 @@ export type $InstallationPayload<
       note: string | null;
       createdById: number;
       isDeleted: boolean;
+      version: number;
       createdAt: Date;
       updatedAt: Date;
     },
@@ -1889,6 +1934,7 @@ export interface InstallationFieldRefs {
   readonly note: Prisma.FieldRef<'Installation', 'String'>;
   readonly createdById: Prisma.FieldRef<'Installation', 'Int'>;
   readonly isDeleted: Prisma.FieldRef<'Installation', 'Boolean'>;
+  readonly version: Prisma.FieldRef<'Installation', 'Int'>;
   readonly createdAt: Prisma.FieldRef<'Installation', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'Installation', 'DateTime'>;
 }

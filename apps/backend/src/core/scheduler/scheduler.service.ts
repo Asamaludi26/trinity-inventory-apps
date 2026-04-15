@@ -47,57 +47,39 @@ export class SchedulerService {
     this.logger.log(`Found ${overdueLoans.length} overdue loans`);
 
     for (const loan of overdueLoans) {
-      // Notify borrower
-      await this.notificationService.create({
-        userId: loan.createdById,
-        type: NotificationType.WARNING,
-        title: 'Peminjaman Overdue',
-        message: `Peminjaman ${loan.code} telah melewati batas waktu pengembalian. Segera kembalikan aset yang dipinjam.`,
-        link: `/loans/${loan.id}`,
-      });
+      const daysOverdue = Math.ceil(
+        (today.getTime() -
+          (loan.expectedReturn?.getTime() ?? today.getTime())) /
+          (1000 * 60 * 60 * 24),
+      );
 
-      // Notify Leaders in the same division
-      if (loan.createdBy.divisionId) {
-        const leaders = await this.prisma.user.findMany({
-          where: {
-            role: UserRole.LEADER,
-            divisionId: loan.createdBy.divisionId,
-            isActive: true,
-            isDeleted: false,
-          },
-          select: { id: true },
-        });
-
-        for (const leader of leaders) {
-          await this.notificationService.create({
-            userId: leader.id,
-            type: NotificationType.WARNING,
-            title: 'Peminjaman Overdue — Anggota Tim',
-            message: `Peminjaman ${loan.code} oleh ${loan.createdBy.fullName} telah melewati batas waktu pengembalian.`,
-            link: `/loans/${loan.id}`,
-          });
-        }
-      }
+      // Use role-aware notification routing
+      await this.notificationService
+        .notifyLoanOverdue({
+          borrowerUserId: loan.createdById,
+          borrowerDivisionId: loan.createdBy.divisionId,
+          loanCode: loan.code,
+          assetName: `Peminjaman #${loan.code}`,
+          daysOverdue,
+        })
+        .catch((err) =>
+          this.logger.warn(
+            `Failed to send overdue notification for ${loan.code}: ${err.message}`,
+          ),
+        );
 
       // Notify all Admin Logistik
-      const adminLogistiks = await this.prisma.user.findMany({
-        where: {
+      await this.notificationService
+        .notifyByRole({
           role: UserRole.ADMIN_LOGISTIK,
-          isActive: true,
-          isDeleted: false,
-        },
-        select: { id: true },
-      });
-
-      for (const admin of adminLogistiks) {
-        await this.notificationService.create({
-          userId: admin.id,
           type: NotificationType.WARNING,
           title: 'Peminjaman Overdue',
-          message: `Peminjaman ${loan.code} oleh ${loan.createdBy.fullName} telah melewati batas waktu pengembalian.`,
+          message: `Peminjaman ${loan.code} oleh ${loan.createdBy.fullName} telah melewati batas waktu pengembalian (${daysOverdue} hari).`,
           link: `/loans/${loan.id}`,
-        });
-      }
+        })
+        .catch((err) =>
+          this.logger.warn(`Failed to notify admin logistik: ${err.message}`),
+        );
 
       // Emit SSE event
       this.eventsService.emitTransactionUpdate({
@@ -212,38 +194,29 @@ export class SchedulerService {
       });
 
       if (currentStock <= threshold.minQuantity) {
-        // Notify Admin Logistik
-        const admins = await this.prisma.user.findMany({
+        // Avoid duplicate notifications: check if already notified today
+        const existingNotif = await this.prisma.notification.findFirst({
           where: {
-            role: { in: [UserRole.ADMIN_LOGISTIK, UserRole.SUPERADMIN] },
-            isActive: true,
-            isDeleted: false,
+            type: NotificationType.WARNING,
+            title: { contains: threshold.model.name },
+            createdAt: {
+              gte: new Date(new Date().setHours(0, 0, 0, 0)),
+            },
           },
-          select: { id: true },
         });
 
-        for (const admin of admins) {
-          // Avoid duplicate notifications: check if already notified today
-          const existingNotif = await this.prisma.notification.findFirst({
-            where: {
-              userId: admin.id,
-              type: NotificationType.WARNING,
-              title: { contains: `Stok ${threshold.model.name}` },
-              createdAt: {
-                gte: new Date(new Date().setHours(0, 0, 0, 0)),
-              },
-            },
-          });
-
-          if (!existingNotif) {
-            await this.notificationService.create({
-              userId: admin.id,
-              type: NotificationType.WARNING,
-              title: `Stok ${threshold.model.name} Rendah`,
-              message: `Stok ${threshold.model.name} saat ini ${currentStock} unit, di bawah batas minimum ${threshold.minQuantity} unit.`,
-              link: '/assets/stock',
-            });
-          }
+        if (!existingNotif) {
+          await this.notificationService
+            .notifyStockAlert({
+              modelName: threshold.model.name,
+              currentStock,
+              threshold: threshold.minQuantity,
+            })
+            .catch((err) =>
+              this.logger.warn(
+                `Failed to send stock alert for ${threshold.model.name}: ${err.message}`,
+              ),
+            );
         }
       }
     }

@@ -9,6 +9,7 @@ import { FifoConsumptionService } from '../../assets/fifo-consumption.service';
 import { CreateMaintenanceDto } from './dto/create-maintenance.dto';
 import { UpdateMaintenanceDto } from './dto/update-maintenance.dto';
 import { FilterMaintenanceDto } from './dto/filter-maintenance.dto';
+import { assertOccSuccess } from '../../../common/helpers/occ.helper';
 import {
   Prisma,
   TransactionStatus,
@@ -177,8 +178,10 @@ export class MaintenanceService {
         'Maintenance yang sudah selesai tidak dapat diubah',
       );
     }
-    return this.prisma.maintenance.update({
-      where: { id },
+
+    const version = (dto as { version?: number }).version ?? existing.version;
+    const result = await this.prisma.maintenance.updateMany({
+      where: { id, version },
       data: {
         ...(dto.scheduledAt && { scheduledAt: new Date(dto.scheduledAt) }),
         ...(dto.issueReport !== undefined && {
@@ -187,9 +190,12 @@ export class MaintenanceService {
         ...(dto.resolution !== undefined && { resolution: dto.resolution }),
         ...(dto.priority !== undefined && { priority: dto.priority }),
         ...(dto.workTypes !== undefined && { workTypes: dto.workTypes }),
+        version: { increment: 1 },
       },
-      include: { customer: { select: { id: true, name: true } } },
     });
+    assertOccSuccess(result.count);
+
+    return this.findOne(id);
   }
 
   async complete(id: number, userId: number, resolution?: string) {
@@ -207,13 +213,19 @@ export class MaintenanceService {
     }
 
     return this.prisma.$transaction(async (tx) => {
-      const maintenance = await tx.maintenance.update({
-        where: { id },
+      const result = await tx.maintenance.updateMany({
+        where: { id, version: existing.version },
         data: {
           status: TransactionStatus.COMPLETED,
           completedAt: new Date(),
           resolution: finalResolution,
+          version: { increment: 1 },
         },
+      });
+      assertOccSuccess(result.count);
+
+      const maintenance = await tx.maintenance.findUnique({
+        where: { id },
         include: {
           customer: { select: { id: true, name: true } },
           materials: true,

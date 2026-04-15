@@ -3312,6 +3312,9 @@ export const AssetModelScalarFieldEnum = {
   typeId: 'typeId',
   name: 'name',
   brand: 'brand',
+  unit: 'unit',
+  containerUnit: 'containerUnit',
+  containerSize: 'containerSize',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -3435,6 +3438,7 @@ export const InstallationScalarFieldEnum = {
   note: 'note',
   createdById: 'createdById',
   isDeleted: 'isDeleted',
+  version: 'version',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 } as const;
@@ -3467,6 +3471,7 @@ export const MaintenanceScalarFieldEnum = {
   resolution: 'resolution',
   createdById: 'createdById',
   isDeleted: 'isDeleted',
+  version: 'version',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 } as const;
@@ -3511,6 +3516,7 @@ export const DismantleScalarFieldEnum = {
   note: 'note',
   createdById: 'createdById',
   isDeleted: 'isDeleted',
+  version: 'version',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 } as const;
@@ -3952,6 +3958,22 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<
 >;
 
 /**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'Decimal'
+>;
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'Decimal[]'
+>;
+
+/**
  * Reference to a field of type 'AssetClassification'
  */
 export type EnumAssetClassificationFieldRefInput<$PrismaModel> =
@@ -3976,22 +3998,6 @@ export type EnumTrackingMethodFieldRefInput<$PrismaModel> = FieldRefInputType<
  */
 export type ListEnumTrackingMethodFieldRefInput<$PrismaModel> =
   FieldRefInputType<$PrismaModel, 'TrackingMethod[]'>;
-
-/**
- * Reference to a field of type 'Decimal'
- */
-export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<
-  $PrismaModel,
-  'Decimal'
->;
-
-/**
- * Reference to a field of type 'Decimal[]'
- */
-export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<
-  $PrismaModel,
-  'Decimal[]'
->;
 
 /**
  * Reference to a field of type 'DepreciationMethod'

@@ -11,6 +11,7 @@ import { EventsService } from '../../../core/events/events.service';
 import { CreateInstallationDto } from './dto/create-installation.dto';
 import { UpdateInstallationDto } from './dto/update-installation.dto';
 import { FilterInstallationDto } from './dto/filter-installation.dto';
+import { assertOccSuccess } from '../../../common/helpers/occ.helper';
 import {
   Prisma,
   TransactionStatus,
@@ -140,14 +141,19 @@ export class InstallationService {
         'Instalasi yang sudah selesai tidak dapat diubah',
       );
     }
-    return this.prisma.installation.update({
-      where: { id },
+
+    const version = (dto as { version?: number }).version ?? existing.version;
+    const result = await this.prisma.installation.updateMany({
+      where: { id, version },
       data: {
         ...dto,
         ...(dto.scheduledAt && { scheduledAt: new Date(dto.scheduledAt) }),
+        version: { increment: 1 },
       },
-      include: { customer: { select: { id: true, name: true } } },
     });
+    assertOccSuccess(result.count);
+
+    return this.findOne(id);
   }
 
   async complete(id: number, userId: number) {
@@ -157,13 +163,19 @@ export class InstallationService {
     }
 
     return this.prisma.$transaction(async (tx) => {
-      // Update installation status
-      const installation = await tx.installation.update({
-        where: { id },
+      // OCC: Update installation status with version check
+      const result = await tx.installation.updateMany({
+        where: { id, version: existing.version },
         data: {
           status: TransactionStatus.COMPLETED,
           completedAt: new Date(),
+          version: { increment: 1 },
         },
+      });
+      assertOccSuccess(result.count);
+
+      const installation = await tx.installation.findUnique({
+        where: { id },
         include: {
           customer: { select: { id: true, name: true } },
           materials: {

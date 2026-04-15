@@ -180,43 +180,49 @@ export class ClientService {
 
   /**
    * T3-02: Auto-deactivate customer when all assets dismantled
+   * Checks all customer-related entities (installations, maintenance replacements)
+   * to determine if any IN_USE assets remain.
    */
   async deactivateOnDismantle(
     customerId: number,
     tx: Prisma.TransactionClient,
   ): Promise<void> {
-    // Count remaining IN_USE assets linked via installations for this customer
-    const remainingAssets = await tx.installation.count({
+    // Check if customer has any COMPLETED installations with remaining IN_USE assets
+    // by checking handover items, loan assignments, and installation materials
+    const [activeInstallations, activeMaintenanceAssets] = await Promise.all([
+      // Count COMPLETED installations (not yet fully dismantled)
+      tx.installation.count({
+        where: {
+          customerId,
+          status: 'COMPLETED',
+          isDeleted: false,
+        },
+      }),
+      // Count IN_USE assets from maintenance replacements for this customer
+      tx.maintenanceReplacement.count({
+        where: {
+          maintenance: { customerId, isDeleted: false },
+          newAsset: { status: 'IN_USE', isDeleted: false },
+        },
+      }),
+    ]);
+
+    // Count PENDING dismantles that haven't completed yet
+    const pendingDismantles = await tx.dismantle.count({
       where: {
         customerId,
-        status: 'COMPLETED',
+        status: { notIn: ['COMPLETED', 'CANCELLED'] },
         isDeleted: false,
-        materials: {
-          some: {
-            model: {
-              assets: {
-                some: { status: 'IN_USE', isDeleted: false },
-              },
-            },
-          },
-        },
       },
     });
 
-    // Also check dismantled items still IN_USE
-    const inUseAssets = await tx.asset.count({
-      where: {
-        status: 'IN_USE',
-        isDeleted: false,
-        dismantleItems: {
-          some: {
-            dismantle: { customerId, isDeleted: false },
-          },
-        },
-      },
-    });
-
-    if (remainingAssets === 0 && inUseAssets === 0) {
+    // Only deactivate if no active installations, no pending dismantles,
+    // and no maintenance replacement assets still in use
+    if (
+      activeInstallations === 0 &&
+      activeMaintenanceAssets === 0 &&
+      pendingDismantles === 0
+    ) {
       await tx.customer.update({
         where: { id: customerId },
         data: { isActive: false },

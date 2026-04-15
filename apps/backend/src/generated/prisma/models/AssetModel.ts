@@ -29,11 +29,13 @@ export type AggregateAssetModel = {
 export type AssetModelAvgAggregateOutputType = {
   id: number | null;
   typeId: number | null;
+  containerSize: runtime.Decimal | null;
 };
 
 export type AssetModelSumAggregateOutputType = {
   id: number | null;
   typeId: number | null;
+  containerSize: runtime.Decimal | null;
 };
 
 export type AssetModelMinAggregateOutputType = {
@@ -41,6 +43,9 @@ export type AssetModelMinAggregateOutputType = {
   typeId: number | null;
   name: string | null;
   brand: string | null;
+  unit: string | null;
+  containerUnit: string | null;
+  containerSize: runtime.Decimal | null;
   isDeleted: boolean | null;
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -51,6 +56,9 @@ export type AssetModelMaxAggregateOutputType = {
   typeId: number | null;
   name: string | null;
   brand: string | null;
+  unit: string | null;
+  containerUnit: string | null;
+  containerSize: runtime.Decimal | null;
   isDeleted: boolean | null;
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -61,6 +69,9 @@ export type AssetModelCountAggregateOutputType = {
   typeId: number;
   name: number;
   brand: number;
+  unit: number;
+  containerUnit: number;
+  containerSize: number;
   isDeleted: number;
   createdAt: number;
   updatedAt: number;
@@ -70,11 +81,13 @@ export type AssetModelCountAggregateOutputType = {
 export type AssetModelAvgAggregateInputType = {
   id?: true;
   typeId?: true;
+  containerSize?: true;
 };
 
 export type AssetModelSumAggregateInputType = {
   id?: true;
   typeId?: true;
+  containerSize?: true;
 };
 
 export type AssetModelMinAggregateInputType = {
@@ -82,6 +95,9 @@ export type AssetModelMinAggregateInputType = {
   typeId?: true;
   name?: true;
   brand?: true;
+  unit?: true;
+  containerUnit?: true;
+  containerSize?: true;
   isDeleted?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -92,6 +108,9 @@ export type AssetModelMaxAggregateInputType = {
   typeId?: true;
   name?: true;
   brand?: true;
+  unit?: true;
+  containerUnit?: true;
+  containerSize?: true;
   isDeleted?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -102,6 +121,9 @@ export type AssetModelCountAggregateInputType = {
   typeId?: true;
   name?: true;
   brand?: true;
+  unit?: true;
+  containerUnit?: true;
+  containerSize?: true;
   isDeleted?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -206,6 +228,9 @@ export type AssetModelGroupByOutputType = {
   typeId: number;
   name: string;
   brand: string;
+  unit: string | null;
+  containerUnit: string | null;
+  containerSize: runtime.Decimal | null;
   isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -237,6 +262,15 @@ export type AssetModelWhereInput = {
   typeId?: Prisma.IntFilter<'AssetModel'> | number;
   name?: Prisma.StringFilter<'AssetModel'> | string;
   brand?: Prisma.StringFilter<'AssetModel'> | string;
+  unit?: Prisma.StringNullableFilter<'AssetModel'> | string | null;
+  containerUnit?: Prisma.StringNullableFilter<'AssetModel'> | string | null;
+  containerSize?:
+    | Prisma.DecimalNullableFilter<'AssetModel'>
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFilter<'AssetModel'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'AssetModel'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'AssetModel'> | Date | string;
@@ -262,6 +296,9 @@ export type AssetModelOrderByWithRelationInput = {
   typeId?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
   brand?: Prisma.SortOrder;
+  unit?: Prisma.SortOrderInput | Prisma.SortOrder;
+  containerUnit?: Prisma.SortOrderInput | Prisma.SortOrder;
+  containerSize?: Prisma.SortOrderInput | Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -283,6 +320,15 @@ export type AssetModelWhereUniqueInput = Prisma.AtLeast<
     typeId?: Prisma.IntFilter<'AssetModel'> | number;
     name?: Prisma.StringFilter<'AssetModel'> | string;
     brand?: Prisma.StringFilter<'AssetModel'> | string;
+    unit?: Prisma.StringNullableFilter<'AssetModel'> | string | null;
+    containerUnit?: Prisma.StringNullableFilter<'AssetModel'> | string | null;
+    containerSize?:
+      | Prisma.DecimalNullableFilter<'AssetModel'>
+      | runtime.Decimal
+      | runtime.DecimalJsLike
+      | number
+      | string
+      | null;
     isDeleted?: Prisma.BoolFilter<'AssetModel'> | boolean;
     createdAt?: Prisma.DateTimeFilter<'AssetModel'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'AssetModel'> | Date | string;
@@ -310,6 +356,9 @@ export type AssetModelOrderByWithAggregationInput = {
   typeId?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
   brand?: Prisma.SortOrder;
+  unit?: Prisma.SortOrderInput | Prisma.SortOrder;
+  containerUnit?: Prisma.SortOrderInput | Prisma.SortOrder;
+  containerSize?: Prisma.SortOrderInput | Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -332,6 +381,21 @@ export type AssetModelScalarWhereWithAggregatesInput = {
   typeId?: Prisma.IntWithAggregatesFilter<'AssetModel'> | number;
   name?: Prisma.StringWithAggregatesFilter<'AssetModel'> | string;
   brand?: Prisma.StringWithAggregatesFilter<'AssetModel'> | string;
+  unit?:
+    | Prisma.StringNullableWithAggregatesFilter<'AssetModel'>
+    | string
+    | null;
+  containerUnit?:
+    | Prisma.StringNullableWithAggregatesFilter<'AssetModel'>
+    | string
+    | null;
+  containerSize?:
+    | Prisma.DecimalNullableWithAggregatesFilter<'AssetModel'>
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolWithAggregatesFilter<'AssetModel'> | boolean;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<'AssetModel'> | Date | string;
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<'AssetModel'> | Date | string;
@@ -340,6 +404,14 @@ export type AssetModelScalarWhereWithAggregatesInput = {
 export type AssetModelCreateInput = {
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -356,6 +428,14 @@ export type AssetModelUncheckedCreateInput = {
   typeId: number;
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -369,6 +449,18 @@ export type AssetModelUncheckedCreateInput = {
 export type AssetModelUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -385,6 +477,18 @@ export type AssetModelUncheckedUpdateInput = {
   typeId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -400,6 +504,14 @@ export type AssetModelCreateManyInput = {
   typeId: number;
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -408,6 +520,18 @@ export type AssetModelCreateManyInput = {
 export type AssetModelUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -418,6 +542,18 @@ export type AssetModelUncheckedUpdateManyInput = {
   typeId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -444,6 +580,9 @@ export type AssetModelCountOrderByAggregateInput = {
   typeId?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
   brand?: Prisma.SortOrder;
+  unit?: Prisma.SortOrder;
+  containerUnit?: Prisma.SortOrder;
+  containerSize?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -452,6 +591,7 @@ export type AssetModelCountOrderByAggregateInput = {
 export type AssetModelAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   typeId?: Prisma.SortOrder;
+  containerSize?: Prisma.SortOrder;
 };
 
 export type AssetModelMaxOrderByAggregateInput = {
@@ -459,6 +599,9 @@ export type AssetModelMaxOrderByAggregateInput = {
   typeId?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
   brand?: Prisma.SortOrder;
+  unit?: Prisma.SortOrder;
+  containerUnit?: Prisma.SortOrder;
+  containerSize?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -469,6 +612,9 @@ export type AssetModelMinOrderByAggregateInput = {
   typeId?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
   brand?: Prisma.SortOrder;
+  unit?: Prisma.SortOrder;
+  containerUnit?: Prisma.SortOrder;
+  containerSize?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -477,6 +623,7 @@ export type AssetModelMinOrderByAggregateInput = {
 export type AssetModelSumOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   typeId?: Prisma.SortOrder;
+  containerSize?: Prisma.SortOrder;
 };
 
 export type AssetModelNullableScalarRelationFilter = {
@@ -593,6 +740,18 @@ export type AssetModelUncheckedUpdateManyWithoutTypeNestedInput = {
   deleteMany?:
     | Prisma.AssetModelScalarWhereInput
     | Prisma.AssetModelScalarWhereInput[];
+};
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null;
+};
+
+export type NullableDecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string;
 };
 
 export type AssetModelCreateNestedOneWithoutAssetsInput = {
@@ -734,6 +893,14 @@ export type AssetModelUpdateOneRequiredWithoutStockThresholdNestedInput = {
 export type AssetModelCreateWithoutTypeInput = {
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -748,6 +915,14 @@ export type AssetModelUncheckedCreateWithoutTypeInput = {
   id?: number;
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -809,6 +984,15 @@ export type AssetModelScalarWhereInput = {
   typeId?: Prisma.IntFilter<'AssetModel'> | number;
   name?: Prisma.StringFilter<'AssetModel'> | string;
   brand?: Prisma.StringFilter<'AssetModel'> | string;
+  unit?: Prisma.StringNullableFilter<'AssetModel'> | string | null;
+  containerUnit?: Prisma.StringNullableFilter<'AssetModel'> | string | null;
+  containerSize?:
+    | Prisma.DecimalNullableFilter<'AssetModel'>
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFilter<'AssetModel'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'AssetModel'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'AssetModel'> | Date | string;
@@ -817,6 +1001,14 @@ export type AssetModelScalarWhereInput = {
 export type AssetModelCreateWithoutAssetsInput = {
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -832,6 +1024,14 @@ export type AssetModelUncheckedCreateWithoutAssetsInput = {
   typeId: number;
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -872,6 +1072,18 @@ export type AssetModelUpdateToOneWithWhereWithoutAssetsInput = {
 export type AssetModelUpdateWithoutAssetsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -887,6 +1099,18 @@ export type AssetModelUncheckedUpdateWithoutAssetsInput = {
   typeId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -899,6 +1123,14 @@ export type AssetModelUncheckedUpdateWithoutAssetsInput = {
 export type AssetModelCreateWithoutInstallationMaterialsInput = {
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -914,6 +1146,14 @@ export type AssetModelUncheckedCreateWithoutInstallationMaterialsInput = {
   typeId: number;
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -954,6 +1194,18 @@ export type AssetModelUpdateToOneWithWhereWithoutInstallationMaterialsInput = {
 export type AssetModelUpdateWithoutInstallationMaterialsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -969,6 +1221,18 @@ export type AssetModelUncheckedUpdateWithoutInstallationMaterialsInput = {
   typeId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -981,6 +1245,14 @@ export type AssetModelUncheckedUpdateWithoutInstallationMaterialsInput = {
 export type AssetModelCreateWithoutMaintenanceMaterialsInput = {
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -996,6 +1268,14 @@ export type AssetModelUncheckedCreateWithoutMaintenanceMaterialsInput = {
   typeId: number;
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1036,6 +1316,18 @@ export type AssetModelUpdateToOneWithWhereWithoutMaintenanceMaterialsInput = {
 export type AssetModelUpdateWithoutMaintenanceMaterialsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1051,6 +1343,18 @@ export type AssetModelUncheckedUpdateWithoutMaintenanceMaterialsInput = {
   typeId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1063,6 +1367,14 @@ export type AssetModelUncheckedUpdateWithoutMaintenanceMaterialsInput = {
 export type AssetModelCreateWithoutPurchaseMasterDataInput = {
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1078,6 +1390,14 @@ export type AssetModelUncheckedCreateWithoutPurchaseMasterDataInput = {
   typeId: number;
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1118,6 +1438,18 @@ export type AssetModelUpdateToOneWithWhereWithoutPurchaseMasterDataInput = {
 export type AssetModelUpdateWithoutPurchaseMasterDataInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1133,6 +1465,18 @@ export type AssetModelUncheckedUpdateWithoutPurchaseMasterDataInput = {
   typeId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1145,6 +1489,14 @@ export type AssetModelUncheckedUpdateWithoutPurchaseMasterDataInput = {
 export type AssetModelCreateWithoutStockThresholdInput = {
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1160,6 +1512,14 @@ export type AssetModelUncheckedCreateWithoutStockThresholdInput = {
   typeId: number;
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1200,6 +1560,18 @@ export type AssetModelUpdateToOneWithWhereWithoutStockThresholdInput = {
 export type AssetModelUpdateWithoutStockThresholdInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1215,6 +1587,18 @@ export type AssetModelUncheckedUpdateWithoutStockThresholdInput = {
   typeId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1228,6 +1612,14 @@ export type AssetModelCreateManyTypeInput = {
   id?: number;
   name: string;
   brand: string;
+  unit?: string | null;
+  containerUnit?: string | null;
+  containerSize?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1236,6 +1628,18 @@ export type AssetModelCreateManyTypeInput = {
 export type AssetModelUpdateWithoutTypeInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1250,6 +1654,18 @@ export type AssetModelUncheckedUpdateWithoutTypeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1264,6 +1680,18 @@ export type AssetModelUncheckedUpdateManyWithoutTypeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  containerUnit?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  containerSize?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1344,6 +1772,9 @@ export type AssetModelSelect<
     typeId?: boolean;
     name?: boolean;
     brand?: boolean;
+    unit?: boolean;
+    containerUnit?: boolean;
+    containerSize?: boolean;
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -1373,6 +1804,9 @@ export type AssetModelSelectCreateManyAndReturn<
     typeId?: boolean;
     name?: boolean;
     brand?: boolean;
+    unit?: boolean;
+    containerUnit?: boolean;
+    containerSize?: boolean;
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -1390,6 +1824,9 @@ export type AssetModelSelectUpdateManyAndReturn<
     typeId?: boolean;
     name?: boolean;
     brand?: boolean;
+    unit?: boolean;
+    containerUnit?: boolean;
+    containerSize?: boolean;
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -1403,6 +1840,9 @@ export type AssetModelSelectScalar = {
   typeId?: boolean;
   name?: boolean;
   brand?: boolean;
+  unit?: boolean;
+  containerUnit?: boolean;
+  containerSize?: boolean;
   isDeleted?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
@@ -1412,7 +1852,16 @@ export type AssetModelOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  'id' | 'typeId' | 'name' | 'brand' | 'isDeleted' | 'createdAt' | 'updatedAt',
+  | 'id'
+  | 'typeId'
+  | 'name'
+  | 'brand'
+  | 'unit'
+  | 'containerUnit'
+  | 'containerSize'
+  | 'isDeleted'
+  | 'createdAt'
+  | 'updatedAt',
   ExtArgs['result']['assetModel']
 >;
 export type AssetModelInclude<
@@ -1465,6 +1914,9 @@ export type $AssetModelPayload<
       typeId: number;
       name: string;
       brand: string;
+      unit: string | null;
+      containerUnit: string | null;
+      containerSize: runtime.Decimal | null;
       isDeleted: boolean;
       createdAt: Date;
       updatedAt: Date;
@@ -2149,6 +2601,9 @@ export interface AssetModelFieldRefs {
   readonly typeId: Prisma.FieldRef<'AssetModel', 'Int'>;
   readonly name: Prisma.FieldRef<'AssetModel', 'String'>;
   readonly brand: Prisma.FieldRef<'AssetModel', 'String'>;
+  readonly unit: Prisma.FieldRef<'AssetModel', 'String'>;
+  readonly containerUnit: Prisma.FieldRef<'AssetModel', 'String'>;
+  readonly containerSize: Prisma.FieldRef<'AssetModel', 'Decimal'>;
   readonly isDeleted: Prisma.FieldRef<'AssetModel', 'Boolean'>;
   readonly createdAt: Prisma.FieldRef<'AssetModel', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'AssetModel', 'DateTime'>;
