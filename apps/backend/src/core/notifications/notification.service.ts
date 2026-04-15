@@ -4,6 +4,7 @@ import { filter, map } from 'rxjs/operators';
 import { PrismaService } from '../database/prisma.service';
 import { NotificationType, UserRole } from '../../generated/prisma/client';
 import { WhatsAppService } from './whatsapp.service';
+import { WA_TEMPLATES } from './whatsapp-templates.constants';
 
 interface NotificationEvent {
   userId: number;
@@ -56,7 +57,7 @@ export class NotificationService {
         select: { phone: true },
       });
       if (user?.phone) {
-        const waMessage = `*${params.title}*\n${params.message}`;
+        const waMessage = WA_TEMPLATES.GENERIC(params.title, params.message);
         void this.whatsapp.sendMessage(user.phone, waMessage);
       }
     }

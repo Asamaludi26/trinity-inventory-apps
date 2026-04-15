@@ -47,6 +47,29 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-15] — Week 3 P2 Enhancement & UAT Prep: All P2 Items Resolved
+
+#### Added
+
+- `apps/backend/src/core/notifications/whatsapp-templates.constants.ts` — 6 WhatsApp message templates (Bahasa Indonesia) + `normalizePhoneNumber()` phone validation/normalisation
+- `apps/frontend/src/features/dashboard/components/SpendingByCategoryChart.tsx` — BarChart visualisation for finance spending per category (Recharts)
+- `.github/docs/03_OPERATIONS/UAT_READINESS_CHECKLIST.md` — UAT readiness checklist with 38 functional test scenarios, 13 non-functional checks, sign-off criteria, and timeline
+
+#### Changed
+
+- `apps/backend/src/core/notifications/whatsapp.service.ts` — Now validates + normalises phone numbers before sending (08xx→628xx)
+- `apps/backend/src/core/notifications/notification.service.ts` — Uses `WA_TEMPLATES.GENERIC()` for WhatsApp message formatting
+- `apps/frontend/src/features/dashboard/pages/FinanceDashboard.tsx` — Replaced plain spending list with `SpendingByCategoryChart` BarChart
+- `apps/frontend/src/features/dashboard/components/index.ts` — Added `SpendingByCategoryChart` export
+- `apps/backend/src/core/notifications/index.ts` — Added `WA_TEMPLATES` and `normalizePhoneNumber` exports
+- `.github/docs/00_PLANNING/SPRINT/ANALYSIS/SPRINT_REBUILD_COMPLETION_ANALYSIS.md` — Updated to v1.3 (P2 100% complete)
+
+#### Agents Involved
+
+- Orchestrator, Backend, Frontend, Documentation
+
+---
+
 ### [2026-04-15] — Week 1 P0 Critical Path: All Blocking Issues Resolved
 
 #### Added

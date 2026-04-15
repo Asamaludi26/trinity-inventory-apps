@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { normalizePhoneNumber } from './whatsapp-templates.constants';
 
 @Injectable()
 export class WhatsAppService {
@@ -20,12 +21,19 @@ export class WhatsAppService {
    * Send a WhatsApp message to a phone number.
    * Uses a generic HTTP POST compatible with Fonnte / WABLAS / custom gateway.
    * No-op (logs warning) when WHATSAPP_API_URL / WHATSAPP_TOKEN are not set.
+   * Validates and normalises the phone number before sending.
    */
   async sendMessage(phone: string, message: string): Promise<void> {
     if (!this.isEnabled) {
       this.logger.warn(
         `WhatsApp not configured - skipping message to ${phone}`,
       );
+      return;
+    }
+
+    const normalised = normalizePhoneNumber(phone);
+    if (!normalised) {
+      this.logger.warn(`Invalid phone number: ${phone} — skipping WhatsApp`);
       return;
     }
 
@@ -36,7 +44,7 @@ export class WhatsAppService {
           Authorization: this.token!,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ target: phone, message }),
+        body: JSON.stringify({ target: normalised, message }),
       });
 
       if (!response.ok) {

@@ -2,8 +2,12 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ShoppingCart, TrendingDown, Wallet, ClipboardList } from 'lucide-react';
 import { dashboardApi } from '../api';
-import { StatCard, RecentActivityTable, DashboardTimeFilter } from '../components';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  StatCard,
+  RecentActivityTable,
+  DashboardTimeFilter,
+  SpendingByCategoryChart,
+} from '../components';
 import type { DashboardFilter } from '../types';
 
 export function FinanceDashboard() {
@@ -73,34 +77,8 @@ export function FinanceDashboard() {
         />
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Pengeluaran per Kategori</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {spendingLoading ? (
-            <p className="text-sm text-muted-foreground">Memuat data kategori...</p>
-          ) : !spendingByCategory?.length ? (
-            <p className="text-sm text-muted-foreground">Belum ada data pengeluaran kategori.</p>
-          ) : (
-            <div className="space-y-3">
-              {spendingByCategory.map((item) => (
-                <div key={item.category} className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span
-                      className="h-3 w-3 rounded-full"
-                      style={{ backgroundColor: item.fill }}
-                      aria-hidden="true"
-                    />
-                    <span className="text-sm truncate">{item.category}</span>
-                  </div>
-                  <span className="text-sm font-medium">{formatCurrency(item.totalSpent)}</span>
-                </div>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      {/* Spending by Category Chart */}
+      <SpendingByCategoryChart data={spendingByCategory ?? []} isLoading={spendingLoading} />
 
       {/* Recent Activity */}
       <RecentActivityTable activities={activities ?? []} isLoading={activitiesLoading} />
