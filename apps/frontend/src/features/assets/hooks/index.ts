@@ -25,6 +25,7 @@ export {
 } from './useDepreciation';
 export { useBatchAssetRegistration } from './useBatchAssetRegistration';
 export { useThresholdAlerts, useModelThresholdAlert } from './useThresholdAlerts';
+export { useStockMovements } from './useStockMovements';
 export {
   useDepreciationCalculation,
   useSimpleDepreciationCalculation,

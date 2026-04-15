@@ -21,6 +21,7 @@ interface AuthState {
 
   setAuth: (user: UserData, accessToken: string, refreshToken: string) => void;
   setTokens: (accessToken: string, refreshToken: string) => void;
+  updateUser: (partial: Partial<UserData>) => void;
   logout: () => void;
 }
 
@@ -42,6 +43,12 @@ export const useAuthStore = create<AuthState>()(
         // accessToken disimpan di memory saja (tidak di localStorage) untuk mencegah XSS
         localStorage.setItem('refreshToken', refreshToken);
         set({ accessToken, refreshToken });
+      },
+
+      updateUser: (partial) => {
+        set((state) => ({
+          user: state.user ? { ...state.user, ...partial } : state.user,
+        }));
       },
 
       logout: () => {

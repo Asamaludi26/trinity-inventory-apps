@@ -59,4 +59,11 @@ export {
   useHoldProject,
   useResumeProject,
   useDeleteProject,
+  useAddProjectTask,
+  useUpdateProjectTask,
+  useRemoveProjectTask,
+  useAddProjectMaterial,
+  useRemoveProjectMaterial,
+  useAddProjectTeamMember,
+  useRemoveProjectTeamMember,
 } from './useProjects';

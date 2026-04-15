@@ -102,6 +102,7 @@ export type UserCountAggregateOutputType = {
   lastLoginAt: number;
   failedLoginAttempts: number;
   lockedUntil: number;
+  notificationPrefs: number;
   createdAt: number;
   updatedAt: number;
   mustChangePassword: number;
@@ -184,6 +185,7 @@ export type UserCountAggregateInputType = {
   lastLoginAt?: true;
   failedLoginAttempts?: true;
   lockedUntil?: true;
+  notificationPrefs?: true;
   createdAt?: true;
   updatedAt?: true;
   mustChangePassword?: true;
@@ -301,6 +303,7 @@ export type UserGroupByOutputType = {
   lastLoginAt: Date | null;
   failedLoginAttempts: number;
   lockedUntil: Date | null;
+  notificationPrefs: runtime.JsonValue | null;
   createdAt: Date;
   updatedAt: Date;
   mustChangePassword: boolean;
@@ -345,6 +348,7 @@ export type UserWhereInput = {
   lastLoginAt?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
   failedLoginAttempts?: Prisma.IntFilter<'User'> | number;
   lockedUntil?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
+  notificationPrefs?: Prisma.JsonNullableFilter<'User'>;
   createdAt?: Prisma.DateTimeFilter<'User'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'User'> | Date | string;
   mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
@@ -388,6 +392,7 @@ export type UserOrderByWithRelationInput = {
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder;
   failedLoginAttempts?: Prisma.SortOrder;
   lockedUntil?: Prisma.SortOrderInput | Prisma.SortOrder;
+  notificationPrefs?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   mustChangePassword?: Prisma.SortOrder;
@@ -432,6 +437,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     lastLoginAt?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
     failedLoginAttempts?: Prisma.IntFilter<'User'> | number;
     lockedUntil?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
+    notificationPrefs?: Prisma.JsonNullableFilter<'User'>;
     createdAt?: Prisma.DateTimeFilter<'User'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'User'> | Date | string;
     mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
@@ -477,6 +483,7 @@ export type UserOrderByWithAggregationInput = {
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder;
   failedLoginAttempts?: Prisma.SortOrder;
   lockedUntil?: Prisma.SortOrderInput | Prisma.SortOrder;
+  notificationPrefs?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   mustChangePassword?: Prisma.SortOrder;
@@ -520,6 +527,7 @@ export type UserScalarWhereWithAggregatesInput = {
     | Date
     | string
     | null;
+  notificationPrefs?: Prisma.JsonNullableWithAggregatesFilter<'User'>;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<'User'> | Date | string;
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<'User'> | Date | string;
   mustChangePassword?: Prisma.BoolWithAggregatesFilter<'User'> | boolean;
@@ -541,6 +549,9 @@ export type UserCreateInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -581,6 +592,9 @@ export type UserUncheckedCreateInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -626,6 +640,9 @@ export type UserUpdateInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -674,6 +691,9 @@ export type UserUncheckedUpdateInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -713,6 +733,9 @@ export type UserCreateManyInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -742,6 +765,9 @@ export type UserUpdateManyMutationInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -773,6 +799,9 @@ export type UserUncheckedUpdateManyInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -806,6 +835,7 @@ export type UserCountOrderByAggregateInput = {
   lastLoginAt?: Prisma.SortOrder;
   failedLoginAttempts?: Prisma.SortOrder;
   lockedUntil?: Prisma.SortOrder;
+  notificationPrefs?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   mustChangePassword?: Prisma.SortOrder;
@@ -1405,6 +1435,9 @@ export type UserCreateWithoutCurrentAssetsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1444,6 +1477,9 @@ export type UserUncheckedCreateWithoutCurrentAssetsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1488,6 +1524,9 @@ export type UserCreateWithoutRecordedAssetsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1527,6 +1566,9 @@ export type UserUncheckedCreateWithoutRecordedAssetsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1599,6 +1641,9 @@ export type UserUpdateWithoutCurrentAssetsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -1646,6 +1691,9 @@ export type UserUncheckedUpdateWithoutCurrentAssetsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -1710,6 +1758,9 @@ export type UserUpdateWithoutRecordedAssetsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -1757,6 +1808,9 @@ export type UserUncheckedUpdateWithoutRecordedAssetsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -1793,6 +1847,9 @@ export type UserCreateWithoutDivisionInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1831,6 +1888,9 @@ export type UserUncheckedCreateWithoutDivisionInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1916,6 +1976,7 @@ export type UserScalarWhereInput = {
   lastLoginAt?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
   failedLoginAttempts?: Prisma.IntFilter<'User'> | number;
   lockedUntil?: Prisma.DateTimeNullableFilter<'User'> | Date | string | null;
+  notificationPrefs?: Prisma.JsonNullableFilter<'User'>;
   createdAt?: Prisma.DateTimeFilter<'User'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'User'> | Date | string;
   mustChangePassword?: Prisma.BoolFilter<'User'> | boolean;
@@ -1937,6 +1998,9 @@ export type UserCreateWithoutCreatedPurchasesInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -1976,6 +2040,9 @@ export type UserUncheckedCreateWithoutCreatedPurchasesInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2048,6 +2115,9 @@ export type UserUpdateWithoutCreatedPurchasesInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2095,6 +2165,9 @@ export type UserUncheckedUpdateWithoutCreatedPurchasesInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2131,6 +2204,9 @@ export type UserCreateWithoutCreatedDepreciationsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2170,6 +2246,9 @@ export type UserUncheckedCreateWithoutCreatedDepreciationsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2242,6 +2321,9 @@ export type UserUpdateWithoutCreatedDepreciationsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2289,6 +2371,9 @@ export type UserUncheckedUpdateWithoutCreatedDepreciationsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2325,6 +2410,9 @@ export type UserCreateWithoutStockThresholdsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2364,6 +2452,9 @@ export type UserUncheckedCreateWithoutStockThresholdsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2436,6 +2527,9 @@ export type UserUpdateWithoutStockThresholdsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2483,6 +2577,9 @@ export type UserUncheckedUpdateWithoutStockThresholdsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2519,6 +2616,9 @@ export type UserCreateWithoutStockMovementsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2558,6 +2658,9 @@ export type UserUncheckedCreateWithoutStockMovementsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2630,6 +2733,9 @@ export type UserUpdateWithoutStockMovementsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2677,6 +2783,9 @@ export type UserUncheckedUpdateWithoutStockMovementsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2713,6 +2822,9 @@ export type UserCreateWithoutAttachmentsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2752,6 +2864,9 @@ export type UserUncheckedCreateWithoutAttachmentsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2824,6 +2939,9 @@ export type UserUpdateWithoutAttachmentsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2871,6 +2989,9 @@ export type UserUncheckedUpdateWithoutAttachmentsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -2907,6 +3028,9 @@ export type UserCreateWithoutActivityLogsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -2946,6 +3070,9 @@ export type UserUncheckedCreateWithoutActivityLogsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3018,6 +3145,9 @@ export type UserUpdateWithoutActivityLogsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3065,6 +3195,9 @@ export type UserUncheckedUpdateWithoutActivityLogsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3101,6 +3234,9 @@ export type UserCreateWithoutNotificationsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3140,6 +3276,9 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3212,6 +3351,9 @@ export type UserUpdateWithoutNotificationsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3259,6 +3401,9 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3295,6 +3440,9 @@ export type UserCreateWithoutCreatedRequestsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3334,6 +3482,9 @@ export type UserUncheckedCreateWithoutCreatedRequestsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3406,6 +3557,9 @@ export type UserUpdateWithoutCreatedRequestsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3453,6 +3607,9 @@ export type UserUncheckedUpdateWithoutCreatedRequestsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3489,6 +3646,9 @@ export type UserCreateWithoutCreatedLoanRequestsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3528,6 +3688,9 @@ export type UserUncheckedCreateWithoutCreatedLoanRequestsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3600,6 +3763,9 @@ export type UserUpdateWithoutCreatedLoanRequestsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3647,6 +3813,9 @@ export type UserUncheckedUpdateWithoutCreatedLoanRequestsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3683,6 +3852,9 @@ export type UserCreateWithoutCreatedAssetReturnsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3722,6 +3894,9 @@ export type UserUncheckedCreateWithoutCreatedAssetReturnsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3794,6 +3969,9 @@ export type UserUpdateWithoutCreatedAssetReturnsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3841,6 +4019,9 @@ export type UserUncheckedUpdateWithoutCreatedAssetReturnsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -3877,6 +4058,9 @@ export type UserCreateWithoutHandoversFromInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3916,6 +4100,9 @@ export type UserUncheckedCreateWithoutHandoversFromInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3960,6 +4147,9 @@ export type UserCreateWithoutHandoversToInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -3999,6 +4189,9 @@ export type UserUncheckedCreateWithoutHandoversToInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -4043,6 +4236,9 @@ export type UserCreateWithoutHandoversWitnessInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -4082,6 +4278,9 @@ export type UserUncheckedCreateWithoutHandoversWitnessInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -4154,6 +4353,9 @@ export type UserUpdateWithoutHandoversFromInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4201,6 +4403,9 @@ export type UserUncheckedUpdateWithoutHandoversFromInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4265,6 +4470,9 @@ export type UserUpdateWithoutHandoversToInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4312,6 +4520,9 @@ export type UserUncheckedUpdateWithoutHandoversToInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4376,6 +4587,9 @@ export type UserUpdateWithoutHandoversWitnessInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4423,6 +4637,9 @@ export type UserUncheckedUpdateWithoutHandoversWitnessInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4459,6 +4676,9 @@ export type UserCreateWithoutCreatedRepairsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -4498,6 +4718,9 @@ export type UserUncheckedCreateWithoutCreatedRepairsInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -4570,6 +4793,9 @@ export type UserUpdateWithoutCreatedRepairsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4617,6 +4843,9 @@ export type UserUncheckedUpdateWithoutCreatedRepairsInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4654,6 +4883,9 @@ export type UserCreateManyDivisionInput = {
   lastLoginAt?: Date | string | null;
   failedLoginAttempts?: number;
   lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   mustChangePassword?: boolean;
@@ -4683,6 +4915,9 @@ export type UserUpdateWithoutDivisionInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4729,6 +4964,9 @@ export type UserUncheckedUpdateWithoutDivisionInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -4775,6 +5013,9 @@ export type UserUncheckedUpdateManyWithoutDivisionInput = {
     | Date
     | string
     | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -5026,6 +5267,7 @@ export type UserSelect<
     lastLoginAt?: boolean;
     failedLoginAttempts?: boolean;
     lockedUntil?: boolean;
+    notificationPrefs?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     mustChangePassword?: boolean;
@@ -5079,6 +5321,7 @@ export type UserSelectCreateManyAndReturn<
     lastLoginAt?: boolean;
     failedLoginAttempts?: boolean;
     lockedUntil?: boolean;
+    notificationPrefs?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     mustChangePassword?: boolean;
@@ -5109,6 +5352,7 @@ export type UserSelectUpdateManyAndReturn<
     lastLoginAt?: boolean;
     failedLoginAttempts?: boolean;
     lockedUntil?: boolean;
+    notificationPrefs?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     mustChangePassword?: boolean;
@@ -5135,6 +5379,7 @@ export type UserSelectScalar = {
   lastLoginAt?: boolean;
   failedLoginAttempts?: boolean;
   lockedUntil?: boolean;
+  notificationPrefs?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
   mustChangePassword?: boolean;
@@ -5161,6 +5406,7 @@ export type UserOmit<
   | 'lastLoginAt'
   | 'failedLoginAttempts'
   | 'lockedUntil'
+  | 'notificationPrefs'
   | 'createdAt'
   | 'updatedAt'
   | 'mustChangePassword',
@@ -5247,6 +5493,7 @@ export type $UserPayload<
       lastLoginAt: Date | null;
       failedLoginAttempts: number;
       lockedUntil: Date | null;
+      notificationPrefs: runtime.JsonValue | null;
       createdAt: Date;
       updatedAt: Date;
       mustChangePassword: boolean;
@@ -6054,6 +6301,7 @@ export interface UserFieldRefs {
   readonly lastLoginAt: Prisma.FieldRef<'User', 'DateTime'>;
   readonly failedLoginAttempts: Prisma.FieldRef<'User', 'Int'>;
   readonly lockedUntil: Prisma.FieldRef<'User', 'DateTime'>;
+  readonly notificationPrefs: Prisma.FieldRef<'User', 'Json'>;
   readonly createdAt: Prisma.FieldRef<'User', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'User', 'DateTime'>;
   readonly mustChangePassword: Prisma.FieldRef<'User', 'Boolean'>;

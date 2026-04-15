@@ -414,4 +414,54 @@ export class HandoverService {
 
     return this.prisma.handover.findUnique({ where: { id } });
   }
+
+  /**
+   * FIFO recommendation: recommend available assets for handover
+   * sorted oldest-first (createdAt ASC). Only IN_STORAGE assets.
+   */
+  async getRecommendations(query: {
+    categoryId?: number;
+    typeId?: number;
+    modelId?: number;
+    search?: string;
+    limit?: number;
+  }) {
+    const { categoryId, typeId, modelId, search, limit = 20 } = query;
+
+    const where: Prisma.AssetWhereInput = {
+      isDeleted: false,
+      status: 'IN_STORAGE',
+      ...(categoryId && { categoryId }),
+      ...(typeId && { typeId }),
+      ...(modelId && { modelId }),
+      ...(search && {
+        OR: [
+          { name: { contains: search, mode: 'insensitive' } },
+          { code: { contains: search, mode: 'insensitive' } },
+        ],
+      }),
+    };
+
+    return this.prisma.asset.findMany({
+      where,
+      take: limit,
+      orderBy: [{ createdAt: 'asc' }],
+      select: {
+        id: true,
+        code: true,
+        name: true,
+        brand: true,
+        classification: true,
+        trackingMethod: true,
+        quantity: true,
+        currentBalance: true,
+        status: true,
+        condition: true,
+        createdAt: true,
+        category: { select: { id: true, name: true } },
+        type: { select: { id: true, name: true } },
+        model: { select: { id: true, name: true, brand: true, unit: true } },
+      },
+    });
+  }
 }

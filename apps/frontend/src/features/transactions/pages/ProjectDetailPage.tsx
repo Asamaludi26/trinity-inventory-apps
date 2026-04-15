@@ -1,14 +1,35 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Edit, CheckCircle, XCircle, Play, Ban, Pause, RotateCcw } from 'lucide-react';
+import {
+  ArrowLeft,
+  Edit,
+  CheckCircle,
+  XCircle,
+  Play,
+  Ban,
+  Pause,
+  RotateCcw,
+  Plus,
+  Trash2,
+} from 'lucide-react';
 import { toast } from 'sonner';
+import { useUsers } from '@/features/settings/hooks';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -17,6 +38,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Textarea } from '@/components/ui/textarea';
 import {
   useProject,
   useApproveProject,
@@ -26,11 +48,20 @@ import {
   useCompleteProject,
   useHoldProject,
   useResumeProject,
+  useAddProjectTask,
+  useUpdateProjectTask,
+  useRemoveProjectTask,
+  useAddProjectMaterial,
+  useRemoveProjectMaterial,
+  useAddProjectTeamMember,
+  useRemoveProjectTeamMember,
 } from '../hooks';
 import { RejectDialog } from '../components';
 import { AttachmentSection } from '@/components/form';
 import { usePermissions } from '@/hooks';
 import { P } from '@/config/permissions';
+
+const TASK_STATUS_OPTIONS = ['TODO', 'IN_PROGRESS', 'BLOCKED', 'COMPLETED'] as const;
 
 function formatDate(date: string | null) {
   if (!date) return '-';
@@ -45,6 +76,7 @@ export function ProjectDetailPage() {
   const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
   const { data: project, isLoading } = useProject(uuid);
+  const { data: usersData } = useUsers({ limit: 200 });
   const approveProject = useApproveProject();
   const rejectProject = useRejectProject();
   const executeProject = useExecuteProject();
@@ -52,8 +84,30 @@ export function ProjectDetailPage() {
   const completeProject = useCompleteProject();
   const holdProject = useHoldProject();
   const resumeProject = useResumeProject();
+  const addTask = useAddProjectTask();
+  const updateTask = useUpdateProjectTask();
+  const removeTask = useRemoveProjectTask();
+  const addMaterial = useAddProjectMaterial();
+  const removeMaterial = useRemoveProjectMaterial();
+  const addTeamMember = useAddProjectTeamMember();
+  const removeTeamMember = useRemoveProjectTeamMember();
   const [rejectOpen, setRejectOpen] = useState(false);
+  const [taskTitle, setTaskTitle] = useState('');
+  const [taskDescription, setTaskDescription] = useState('');
+  const [taskDueDate, setTaskDueDate] = useState('');
+  const [taskAssigneeId, setTaskAssigneeId] = useState('');
+  const [materialDescription, setMaterialDescription] = useState('');
+  const [materialQuantity, setMaterialQuantity] = useState('1');
+  const [materialNote, setMaterialNote] = useState('');
+  const [teamUserId, setTeamUserId] = useState('');
+  const [teamRole, setTeamRole] = useState('');
   const { can } = usePermissions();
+
+  const users = usersData?.data ?? [];
+  const userLabelById = new Map(users.map((user) => [user.id, `${user.fullName} (${user.role})`]));
+  const canManageTasks = can(P.PROJECTS_MANAGE_TASKS);
+  const canManageMaterials = can(P.PROJECTS_EDIT);
+  const canManageTeam = can(P.PROJECTS_MANAGE_TEAM);
 
   const handleApprove = () => {
     if (!uuid || !project) return;
@@ -131,6 +185,116 @@ export function ProjectDetailPage() {
       {
         onSuccess: () => toast.success('Proyek dilanjutkan'),
         onError: () => toast.error('Gagal melanjutkan proyek'),
+      },
+    );
+  };
+
+  const handleAddTask = () => {
+    if (!uuid || !taskTitle.trim()) return;
+    addTask.mutate(
+      {
+        uuid,
+        data: {
+          title: taskTitle.trim(),
+          description: taskDescription.trim() || undefined,
+          assigneeId: taskAssigneeId ? Number(taskAssigneeId) : undefined,
+          dueDate: taskDueDate || undefined,
+        },
+      },
+      {
+        onSuccess: () => {
+          toast.success('Tugas proyek ditambahkan');
+          setTaskTitle('');
+          setTaskDescription('');
+          setTaskDueDate('');
+          setTaskAssigneeId('');
+        },
+        onError: () => toast.error('Gagal menambahkan tugas proyek'),
+      },
+    );
+  };
+
+  const handleTaskStatusChange = (taskId: number, status: string) => {
+    if (!uuid) return;
+    updateTask.mutate(
+      { uuid, taskId, data: { status } },
+      {
+        onSuccess: () => toast.success('Status tugas diperbarui'),
+        onError: () => toast.error('Gagal memperbarui status tugas'),
+      },
+    );
+  };
+
+  const handleRemoveTask = (taskId: number) => {
+    if (!uuid) return;
+    removeTask.mutate(
+      { uuid, taskId },
+      {
+        onSuccess: () => toast.success('Tugas proyek dihapus'),
+        onError: () => toast.error('Gagal menghapus tugas proyek'),
+      },
+    );
+  };
+
+  const handleAddMaterial = () => {
+    if (!uuid || !materialDescription.trim()) return;
+    addMaterial.mutate(
+      {
+        uuid,
+        data: {
+          description: materialDescription.trim(),
+          quantity: Number(materialQuantity) || 1,
+          note: materialNote.trim() || undefined,
+        },
+      },
+      {
+        onSuccess: () => {
+          toast.success('Material proyek ditambahkan');
+          setMaterialDescription('');
+          setMaterialQuantity('1');
+          setMaterialNote('');
+        },
+        onError: () => toast.error('Gagal menambahkan material proyek'),
+      },
+    );
+  };
+
+  const handleRemoveMaterial = (materialId: number) => {
+    if (!uuid) return;
+    removeMaterial.mutate(
+      { uuid, materialId },
+      {
+        onSuccess: () => toast.success('Material proyek dihapus'),
+        onError: () => toast.error('Gagal menghapus material proyek'),
+      },
+    );
+  };
+
+  const handleAddTeamMember = () => {
+    if (!uuid || !teamUserId || !teamRole.trim()) return;
+    addTeamMember.mutate(
+      {
+        uuid,
+        data: { userId: Number(teamUserId), role: teamRole.trim() },
+      },
+      {
+        onSuccess: () => {
+          toast.success('Anggota tim ditambahkan');
+          setTeamUserId('');
+          setTeamRole('');
+        },
+        onError: () => toast.error('Gagal menambahkan anggota tim'),
+      },
+    );
+  };
+
+  const handleRemoveTeamMember = (memberId: number) => {
+    if (!uuid) return;
+    removeTeamMember.mutate(
+      { uuid, memberId },
+      {
+        onSuccess: () => toast.success('Anggota tim dihapus'),
+        onError: () => toast.error('Gagal menghapus anggota tim'),
       },
     );
   };
@@ -282,21 +446,78 @@ export function ProjectDetailPage() {
           <CardHeader>
             <CardTitle className="text-lg">Tugas ({project.tasks?.length ?? 0})</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-4">
+            {canManageTasks && (
+              <div className="grid gap-4 rounded-lg border p-4 md:grid-cols-2">
+                <div className="space-y-2 md:col-span-2">
+                  <Label htmlFor="task-title">Judul tugas</Label>
+                  <Input
+                    id="task-title"
+                    value={taskTitle}
+                    onChange={(event) => setTaskTitle(event.target.value)}
+                    placeholder="Contoh: Survey lokasi backbone"
+                  />
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                  <Label htmlFor="task-description">Deskripsi</Label>
+                  <Textarea
+                    id="task-description"
+                    value={taskDescription}
+                    onChange={(event) => setTaskDescription(event.target.value)}
+                    placeholder="Detail pekerjaan atau catatan teknis"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="task-assignee">PIC</Label>
+                  <Select value={taskAssigneeId} onValueChange={setTaskAssigneeId}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Pilih user" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {users.map((user) => (
+                        <SelectItem key={user.id} value={String(user.id)}>
+                          {user.fullName}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="task-due-date">Tenggat</Label>
+                  <Input
+                    id="task-due-date"
+                    type="date"
+                    value={taskDueDate}
+                    onChange={(event) => setTaskDueDate(event.target.value)}
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <Button onClick={handleAddTask} disabled={addTask.isPending || !taskTitle.trim()}>
+                    <Plus className="mr-2 h-4 w-4" />
+                    {addTask.isPending ? 'Menyimpan...' : 'Tambah Tugas'}
+                  </Button>
+                </div>
+              </div>
+            )}
             <div className="rounded-lg border">
               <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-12">#</TableHead>
                     <TableHead>Judul</TableHead>
+                    <TableHead>PIC</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Tenggat</TableHead>
+                    {canManageTasks && <TableHead className="w-24 text-right">Aksi</TableHead>}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {!project.tasks?.length ? (
                     <TableRow>
-                      <TableCell colSpan={4} className="text-center text-muted-foreground">
+                      <TableCell
+                        colSpan={canManageTasks ? 6 : 5}
+                        className="text-center text-muted-foreground"
+                      >
                         Belum ada tugas
                       </TableCell>
                     </TableRow>
@@ -304,13 +525,153 @@ export function ProjectDetailPage() {
                     project.tasks.map((task, idx) => (
                       <TableRow key={task.id}>
                         <TableCell className="text-muted-foreground">{idx + 1}</TableCell>
-                        <TableCell className="font-medium">{task.title}</TableCell>
                         <TableCell>
-                          <Badge variant="outline">{task.status}</Badge>
+                          <div className="space-y-1">
+                            <p className="font-medium">{task.title}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {task.description || '-'}
+                            </p>
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">
+                          {task.assigneeId
+                            ? (userLabelById.get(task.assigneeId) ?? `User #${task.assigneeId}`)
+                            : '-'}
+                        </TableCell>
+                        <TableCell>
+                          {canManageTasks ? (
+                            <Select
+                              value={task.status}
+                              onValueChange={(value) => handleTaskStatusChange(task.id, value)}
+                            >
+                              <SelectTrigger className="w-full min-w-40">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {TASK_STATUS_OPTIONS.map((status) => (
+                                  <SelectItem key={status} value={status}>
+                                    {status}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          ) : (
+                            <Badge variant="outline">{task.status}</Badge>
+                          )}
                         </TableCell>
                         <TableCell className="text-muted-foreground">
                           {formatDate(task.dueDate)}
                         </TableCell>
+                        {canManageTasks && (
+                          <TableCell className="text-right">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleRemoveTask(task.id)}
+                              disabled={removeTask.isPending}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </TableCell>
+                        )}
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Material ({project.materials?.length ?? 0})</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {canManageMaterials && (
+              <div className="grid gap-4 rounded-lg border p-4 md:grid-cols-2">
+                <div className="space-y-2 md:col-span-2">
+                  <Label htmlFor="material-description">Deskripsi material</Label>
+                  <Input
+                    id="material-description"
+                    value={materialDescription}
+                    onChange={(event) => setMaterialDescription(event.target.value)}
+                    placeholder="Contoh: Kabel FO single mode"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="material-quantity">Jumlah</Label>
+                  <Input
+                    id="material-quantity"
+                    type="number"
+                    min="1"
+                    value={materialQuantity}
+                    onChange={(event) => setMaterialQuantity(event.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="material-note">Catatan</Label>
+                  <Input
+                    id="material-note"
+                    value={materialNote}
+                    onChange={(event) => setMaterialNote(event.target.value)}
+                    placeholder="Opsional"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <Button
+                    onClick={handleAddMaterial}
+                    disabled={addMaterial.isPending || !materialDescription.trim()}
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    {addMaterial.isPending ? 'Menyimpan...' : 'Tambah Material'}
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            <div className="rounded-lg border">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-12">#</TableHead>
+                    <TableHead>Deskripsi</TableHead>
+                    <TableHead>Jumlah</TableHead>
+                    <TableHead>Catatan</TableHead>
+                    {canManageMaterials && <TableHead className="w-24 text-right">Aksi</TableHead>}
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {!project.materials?.length ? (
+                    <TableRow>
+                      <TableCell
+                        colSpan={canManageMaterials ? 5 : 4}
+                        className="text-center text-muted-foreground"
+                      >
+                        Belum ada material
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    project.materials.map((material, idx) => (
+                      <TableRow key={material.id}>
+                        <TableCell className="text-muted-foreground">{idx + 1}</TableCell>
+                        <TableCell className="font-medium">{material.description}</TableCell>
+                        <TableCell>{material.quantity}</TableCell>
+                        <TableCell className="text-muted-foreground">
+                          {material.note || '-'}
+                        </TableCell>
+                        {canManageMaterials && (
+                          <TableCell className="text-right">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleRemoveMaterial(material.id)}
+                              disabled={removeMaterial.isPending}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </TableCell>
+                        )}
                       </TableRow>
                     ))
                   )}
@@ -321,41 +682,103 @@ export function ProjectDetailPage() {
         </Card>
 
         {/* Team */}
-        {project.team && project.team.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Tim ({project.team.length})</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="rounded-lg border">
-                <Table>
-                  <TableHeader>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Tim ({project.team?.length ?? 0})</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {canManageTeam && (
+              <div className="grid gap-4 rounded-lg border p-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="team-user">User</Label>
+                  <Select value={teamUserId} onValueChange={setTeamUserId}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Pilih user" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {users.map((user) => (
+                        <SelectItem key={user.id} value={String(user.id)}>
+                          {user.fullName}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="team-role">Peran di proyek</Label>
+                  <Input
+                    id="team-role"
+                    value={teamRole}
+                    onChange={(event) => setTeamRole(event.target.value)}
+                    placeholder="Contoh: Supervisor Lapangan"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <Button
+                    onClick={handleAddTeamMember}
+                    disabled={addTeamMember.isPending || !teamUserId || !teamRole.trim()}
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    {addTeamMember.isPending ? 'Menyimpan...' : 'Tambah Anggota'}
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            <div className="rounded-lg border">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-12">#</TableHead>
+                    <TableHead>Anggota</TableHead>
+                    <TableHead>Peran</TableHead>
+                    <TableHead>Bergabung</TableHead>
+                    {canManageTeam && <TableHead className="w-24 text-right">Aksi</TableHead>}
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {!project.team?.length ? (
                     <TableRow>
-                      <TableHead className="w-12">#</TableHead>
-                      <TableHead>User ID</TableHead>
-                      <TableHead>Peran</TableHead>
-                      <TableHead>Bergabung</TableHead>
+                      <TableCell
+                        colSpan={canManageTeam ? 5 : 4}
+                        className="text-center text-muted-foreground"
+                      >
+                        Belum ada anggota tim
+                      </TableCell>
                     </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {project.team.map((member, idx) => (
+                  ) : (
+                    project.team.map((member, idx) => (
                       <TableRow key={member.id}>
                         <TableCell className="text-muted-foreground">{idx + 1}</TableCell>
-                        <TableCell>{member.userId}</TableCell>
+                        <TableCell>
+                          {userLabelById.get(member.userId) ?? `User #${member.userId}`}
+                        </TableCell>
                         <TableCell>
                           <Badge variant="outline">{member.role}</Badge>
                         </TableCell>
                         <TableCell className="text-muted-foreground">
                           {formatDate(member.joinedAt)}
                         </TableCell>
+                        {canManageTeam && (
+                          <TableCell className="text-right">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleRemoveTeamMember(member.id)}
+                              disabled={removeTeamMember.isPending}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </TableCell>
+                        )}
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Lampiran */}
         <AttachmentSection entityType="InfraProject" entityId={uuid} />

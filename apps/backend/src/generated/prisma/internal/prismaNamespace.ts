@@ -3384,6 +3384,7 @@ export const UserScalarFieldEnum = {
   lastLoginAt: 'lastLoginAt',
   failedLoginAttempts: 'failedLoginAttempts',
   lockedUntil: 'lockedUntil',
+  notificationPrefs: 'notificationPrefs',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   mustChangePassword: 'mustChangePassword',

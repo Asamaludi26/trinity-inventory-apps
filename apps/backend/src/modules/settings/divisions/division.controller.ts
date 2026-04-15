@@ -35,6 +35,12 @@ export class DivisionController {
     return this.divisionService.findOne(uuid);
   }
 
+  @Get(':uuid/stats')
+  @AuthPermissions(PERMISSIONS.DIVISIONS_MANAGE)
+  getStats(@Param('uuid') uuid: string) {
+    return this.divisionService.getDivisionStats(uuid);
+  }
+
   @Post()
   @AuthPermissions(PERMISSIONS.DIVISIONS_MANAGE)
   create(@Body() dto: CreateDivisionDto) {

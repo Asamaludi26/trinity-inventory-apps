@@ -5,7 +5,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../core/database/prisma.service';
-import { UserRole } from '../../../generated/prisma/client';
+import { UserRole, TransactionStatus } from '../../../generated/prisma/client';
 
 /**
  * Approval step definition in the matrix (template).
@@ -397,5 +397,193 @@ export class ApprovalService {
     });
 
     return approvers.map((u) => u.id);
+  }
+
+  /**
+   * Get transactions pending approval for a specific user based on their role.
+   * Queries all transaction types that use approval chains.
+   */
+  async getPendingApprovalsForUser(
+    userId: number,
+    userRole: UserRole,
+  ): Promise<
+    Array<{
+      type: string;
+      id: string;
+      code: string;
+      status: string;
+      createdAt: Date;
+      creatorName: string;
+    }>
+  > {
+    const pendingItems: Array<{
+      type: string;
+      id: string;
+      code: string;
+      status: string;
+      createdAt: Date;
+      creatorName: string;
+    }> = [];
+
+    // Query all transaction tables with approval chains
+    const [requests, loans, returns, handovers, repairs] = await Promise.all([
+      this.prisma.request.findMany({
+        where: {
+          isDeleted: false,
+          status: {
+            notIn: [
+              'COMPLETED',
+              'CANCELLED',
+              'REJECTED',
+            ] as TransactionStatus[],
+          },
+        },
+        select: {
+          id: true,
+          code: true,
+          status: true,
+          approvalChain: true,
+          createdAt: true,
+          createdBy: { select: { fullName: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+      }),
+      this.prisma.loanRequest.findMany({
+        where: {
+          isDeleted: false,
+          status: {
+            notIn: [
+              'COMPLETED',
+              'CANCELLED',
+              'REJECTED',
+            ] as TransactionStatus[],
+          },
+        },
+        select: {
+          id: true,
+          code: true,
+          status: true,
+          approvalChain: true,
+          createdAt: true,
+          createdBy: { select: { fullName: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+      }),
+      this.prisma.assetReturn.findMany({
+        where: {
+          isDeleted: false,
+          status: {
+            notIn: [
+              'COMPLETED',
+              'CANCELLED',
+              'REJECTED',
+            ] as TransactionStatus[],
+          },
+        },
+        select: {
+          id: true,
+          code: true,
+          status: true,
+          createdAt: true,
+          createdBy: { select: { fullName: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+      }),
+      this.prisma.handover.findMany({
+        where: {
+          isDeleted: false,
+          status: {
+            notIn: [
+              'COMPLETED',
+              'CANCELLED',
+              'REJECTED',
+            ] as TransactionStatus[],
+          },
+        },
+        select: {
+          id: true,
+          code: true,
+          status: true,
+          approvalChain: true,
+          createdAt: true,
+          fromUser: { select: { fullName: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+      }),
+      this.prisma.repair.findMany({
+        where: {
+          isDeleted: false,
+          status: {
+            notIn: [
+              'COMPLETED',
+              'CANCELLED',
+              'REJECTED',
+            ] as TransactionStatus[],
+          },
+        },
+        select: {
+          id: true,
+          code: true,
+          status: true,
+          approvalChain: true,
+          createdAt: true,
+          createdBy: { select: { fullName: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+      }),
+    ]);
+
+    const checkAndPush = (
+      items: Array<{
+        id: string;
+        code: string;
+        status: TransactionStatus;
+        approvalChain?: unknown;
+        createdAt: Date;
+      }>,
+      type: string,
+      getCreatorName: (item: unknown) => string,
+    ) => {
+      for (const item of items) {
+        if (!item.approvalChain) {
+          continue;
+        }
+        const chain = this.parseChain(item.approvalChain);
+        const pendingStep = this.getCurrentPendingStep(chain);
+        if (pendingStep && pendingStep.approverRole === userRole) {
+          pendingItems.push({
+            type,
+            id: item.id,
+            code: item.code,
+            status: item.status,
+            createdAt: item.createdAt,
+            creatorName: getCreatorName(item),
+          });
+        }
+      }
+    };
+
+    checkAndPush(requests, 'REQUEST', (i: any) => i.createdBy?.fullName ?? '-');
+    checkAndPush(loans, 'LOAN', (i: any) => i.createdBy?.fullName ?? '-');
+    checkAndPush(returns, 'RETURN', (i: any) => i.createdBy?.fullName ?? '-');
+    checkAndPush(
+      handovers,
+      'HANDOVER',
+      (i: any) => i.fromUser?.fullName ?? '-',
+    );
+    checkAndPush(repairs, 'REPAIR', (i: any) => i.createdBy?.fullName ?? '-');
+
+    // Sort by createdAt descending
+    pendingItems.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
+
+    return pendingItems;
   }
 }

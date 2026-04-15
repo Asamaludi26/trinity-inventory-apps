@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Edit, Trash2, QrCode } from 'lucide-react';
+import { ArrowLeft, Edit, Trash2, QrCode, ArrowDownUp } from 'lucide-react';
 import { useState } from 'react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { Separator } from '@/components/ui/separator';
-import { useAsset, useDeleteAsset } from '../hooks';
+import { useAsset, useDeleteAsset, useStockMovements } from '../hooks';
 import { AttachmentSection, QrCodeSection } from '@/components/form';
 import { usePermissions } from '@/hooks/use-permissions';
 import { P } from '@/config/permissions';
@@ -43,6 +43,7 @@ export function AssetDetailPage() {
   const navigate = useNavigate();
   const [showQR, setShowQR] = useState(false);
   const { data: asset, isLoading } = useAsset(id);
+  const { data: movements, isLoading: isLoadingMovements } = useStockMovements(id);
   const deleteAsset = useDeleteAsset();
   const { can } = usePermissions();
 
@@ -238,6 +239,52 @@ export function AssetDetailPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Riwayat Pergerakan Stok */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <ArrowDownUp className="size-5" />
+            Riwayat Pergerakan Stok
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {isLoadingMovements ? (
+            <div className="space-y-3">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <Skeleton key={i} className="h-12 w-full" />
+              ))}
+            </div>
+          ) : !movements?.length ? (
+            <p className="py-4 text-center text-sm text-muted-foreground">
+              Belum ada riwayat pergerakan stok.
+            </p>
+          ) : (
+            <div className="relative space-y-4">
+              <div className="absolute left-4 top-0 h-full w-px bg-border" />
+              {movements.map((movement) => (
+                <div key={movement.id} className="relative flex gap-4 pl-10">
+                  <div className="absolute left-2.5 top-1 size-3 rounded-full border-2 border-primary bg-background" />
+                  <div className="flex-1 rounded-lg border p-3">
+                    <div className="flex items-center justify-between">
+                      <Badge variant="outline">{movement.type}</Badge>
+                      <span className="text-xs text-muted-foreground">
+                        {formatDate(movement.createdAt)}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-sm">
+                      Qty: <span className="font-medium">{movement.quantity}</span>
+                    </p>
+                    {movement.notes && (
+                      <p className="mt-1 text-xs text-muted-foreground">{movement.notes}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Lampiran */}
       {id && <AttachmentSection entityType="Asset" entityId={id} />}

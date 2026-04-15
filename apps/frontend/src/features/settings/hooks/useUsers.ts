@@ -49,3 +49,11 @@ export function useDeleteUser() {
     },
   });
 }
+
+export function useUserStats(uuid: string | undefined) {
+  return useQuery({
+    queryKey: [...USERS_KEY, uuid, 'stats'],
+    queryFn: () => usersApi.getStats(uuid!).then((res) => res.data.data),
+    enabled: !!uuid,
+  });
+}

@@ -16,6 +16,7 @@ model User {
   lastLoginAt          DateTime?            @map("last_login_at")
   failedLoginAttempts  Int                  @default(0) @map("failed_login_attempts")
   lockedUntil          DateTime?            @map("locked_until")
+  notificationPrefs    Json?                @map("notification_prefs")
   createdAt            DateTime             @default(now()) @map("created_at")
   updatedAt            DateTime             @updatedAt @map("updated_at")
   mustChangePassword   Boolean              @default(false) @map("must_change_password")

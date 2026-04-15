@@ -7,13 +7,31 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { useCustomer, useDeleteCustomer } from '../hooks';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  useCustomer,
+  useDeleteCustomer,
+  useInstallations,
+  useMaintenance,
+  useDismantles,
+} from '../hooks';
+import type { Installation, Maintenance, Dismantle } from '../types';
 
 export function CustomerDetailPage() {
   const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
   const { data: customer, isLoading } = useCustomer(uuid ?? '');
   const deleteCustomer = useDeleteCustomer();
+
+  const { data: installations } = useInstallations(
+    customer ? { customerId: customer.id } : undefined,
+  );
+  const { data: maintenances } = useMaintenance(customer ? { customerId: customer.id } : undefined);
+  const { data: dismantles } = useDismantles(customer ? { customerId: customer.id } : undefined);
+
+  const installationItems = installations?.data ?? [];
+  const maintenanceItems = maintenances?.data ?? [];
+  const dismantleItems = dismantles?.data ?? [];
 
   const handleDelete = () => {
     if (!uuid) return;
@@ -151,6 +169,125 @@ export function CustomerDetailPage() {
           </CardContent>
         </Card>
       </div>
+
+      <Tabs defaultValue="installations" className="mt-6">
+        <TabsList>
+          <TabsTrigger value="installations">
+            Instalasi ({customer._count?.installations ?? 0})
+          </TabsTrigger>
+          <TabsTrigger value="maintenances">
+            Pemeliharaan ({customer._count?.maintenances ?? 0})
+          </TabsTrigger>
+          <TabsTrigger value="dismantles">
+            Pembongkaran ({customer._count?.dismantles ?? 0})
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="installations">
+          <Card>
+            <CardContent className="pt-6">
+              {installationItems.length ? (
+                <div className="space-y-3">
+                  {installationItems.map((inst: Installation) => (
+                    <div
+                      key={inst.id}
+                      className="flex cursor-pointer items-center justify-between rounded-lg border p-3 hover:bg-muted/50"
+                      onClick={() => navigate(`/customers/installations/${inst.id}`)}
+                    >
+                      <div>
+                        <p className="text-sm font-medium">{inst.code}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {inst.location ?? '-'} &middot;{' '}
+                          {inst.scheduledAt
+                            ? new Date(inst.scheduledAt).toLocaleDateString('id-ID')
+                            : '-'}
+                        </p>
+                      </div>
+                      <Badge variant={inst.status === 'COMPLETED' ? 'default' : 'secondary'}>
+                        {inst.status}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-center text-sm text-muted-foreground">
+                  Belum ada data instalasi.
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="maintenances">
+          <Card>
+            <CardContent className="pt-6">
+              {maintenanceItems.length ? (
+                <div className="space-y-3">
+                  {maintenanceItems.map((maint: Maintenance) => (
+                    <div
+                      key={maint.id}
+                      className="flex cursor-pointer items-center justify-between rounded-lg border p-3 hover:bg-muted/50"
+                      onClick={() => navigate(`/customers/maintenance/${maint.id}`)}
+                    >
+                      <div>
+                        <p className="text-sm font-medium">{maint.code}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {maint.issueReport ?? '-'} &middot;{' '}
+                          {maint.scheduledAt
+                            ? new Date(maint.scheduledAt).toLocaleDateString('id-ID')
+                            : '-'}
+                        </p>
+                      </div>
+                      <Badge variant={maint.status === 'COMPLETED' ? 'default' : 'secondary'}>
+                        {maint.status}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-center text-sm text-muted-foreground">
+                  Belum ada data pemeliharaan.
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="dismantles">
+          <Card>
+            <CardContent className="pt-6">
+              {dismantleItems.length ? (
+                <div className="space-y-3">
+                  {dismantleItems.map((dsm: Dismantle) => (
+                    <div
+                      key={dsm.id}
+                      className="flex cursor-pointer items-center justify-between rounded-lg border p-3 hover:bg-muted/50"
+                      onClick={() => navigate(`/customers/dismantles/${dsm.id}`)}
+                    >
+                      <div>
+                        <p className="text-sm font-medium">{dsm.code}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {dsm.reason ?? '-'} &middot;{' '}
+                          {dsm.scheduledAt
+                            ? new Date(dsm.scheduledAt).toLocaleDateString('id-ID')
+                            : '-'}
+                        </p>
+                      </div>
+                      <Badge variant={dsm.status === 'COMPLETED' ? 'default' : 'secondary'}>
+                        {dsm.status}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-center text-sm text-muted-foreground">
+                  Belum ada data pembongkaran.
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </PageContainer>
   );
 }

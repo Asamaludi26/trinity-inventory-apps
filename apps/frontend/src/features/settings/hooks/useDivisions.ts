@@ -62,3 +62,11 @@ export function useDeleteDivision() {
     },
   });
 }
+
+export function useDivisionStats(uuid: string | undefined) {
+  return useQuery({
+    queryKey: [...DIVISIONS_KEY, uuid, 'stats'],
+    queryFn: () => divisionsApi.getStats(uuid!).then((res) => res.data.data),
+    enabled: !!uuid,
+  });
+}

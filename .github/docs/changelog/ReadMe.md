@@ -47,6 +47,40 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-16] — Sprint 4 & 5 Completion: Stats, Avatar Upload, E2E Expansion
+
+#### Added
+
+- `apps/backend/src/modules/settings/users/user.service.ts` — `getUserStats(uuid)`: returns requestCount, loanRequestCount, repairCount, handoverCount, currentAssetCount via Prisma `_count`
+- `apps/backend/src/modules/settings/users/user.controller.ts` — `GET /settings/users/:uuid/stats`
+- `apps/backend/src/modules/settings/divisions/division.service.ts` — `getDivisionStats(uuid)`: returns totalMembers, activeMembers, requestCount, loanRequestCount, repairCount
+- `apps/backend/src/modules/settings/divisions/division.controller.ts` — `GET /settings/divisions/:uuid/stats`
+- `apps/backend/src/modules/settings/profile/profile.controller.ts` — `POST /settings/profile/avatar`: multer FileInterceptor, diskStorage → `uploads/avatar/`, 2 MB + JPG/PNG/WebP filter
+- `apps/backend/src/modules/settings/profile/profile.service.ts` — `uploadAvatar(userId, filename)`: saves `/uploads/avatar/{filename}` to DB, returns updated user
+- `apps/frontend/src/features/settings/api/settings.api.ts` — `UserStats` + `DivisionStats` types; `usersApi.getStats()`, `divisionsApi.getStats()`, `profileApi.uploadAvatar()`
+- `apps/frontend/src/features/settings/hooks/useUsers.ts` — `useUserStats(uuid)`
+- `apps/frontend/src/features/settings/hooks/useDivisions.ts` — `useDivisionStats(uuid)`
+- `apps/frontend/src/features/settings/hooks/useUploadAvatar.ts` — mutation hook: upload → `updateUser({ avatarUrl })` + toast
+- `apps/frontend/src/store/useAuthStore.ts` — `updateUser(partial)` action for partial in-store user updates
+- **E2E: `asset-lifecycle.e2e-spec.ts`** — +stock movements per asset, +search filters (accept/empty), +CONSUMED/IN_CUSTODY status filters, +pagination meta, +RBAC 401 (assets, categories, stock)
+- **E2E: `transaction-lifecycle.e2e-spec.ts`** — +return/handover detail, +project list/detail/status-filter, +PENDING/COMPLETED/IN_PROGRESS status filters, +pagination meta, +RBAC 401 (requests, loans)
+- **E2E: `customer-operations.e2e-spec.ts`** — +installation/maintenance/dismantle detail, +COMPLETED status filters, +customer search, +ACTIVE/INACTIVE filters, +pagination meta (customers/installations/maintenances), +RBAC 401
+
+#### Changed
+
+- `apps/frontend/src/features/settings/pages/UserDetailPage.tsx` — Added Statistik Aktivitas card (5 metrics in grid)
+- `apps/frontend/src/features/settings/pages/DivisionDetailPage.tsx` — Added Statistik Divisi card (5 metrics in grid)
+- `apps/frontend/src/features/settings/pages/ProfilePage.tsx` — Avatar now clickable with Camera overlay; hidden `<input type="file">` triggers upload on change; client-side 2 MB validation
+- `apps/frontend/src/features/settings/api/index.ts` — Exports `UserStats`, `DivisionStats`
+- `apps/frontend/src/features/settings/hooks/index.ts` — Exports `useUserStats`, `useDivisionStats`, `useUploadAvatar`
+- `.github/docs/00_PLANNING/SPRINT/ANALYSIS/SPRINT_REBUILD_COMPLETION_ANALYSIS.md` — Updated to v1.4: Sprint 3 60%→75%, Sprint 4 78%→92%, Sprint 5 55%→73%, total 76%→83%
+
+#### Agents Involved
+
+- Orchestrator, Backend, Frontend, Documentation
+
+---
+
 ### [2026-04-15] — Week 3 P2 Enhancement & UAT Prep: All P2 Items Resolved
 
 #### Added

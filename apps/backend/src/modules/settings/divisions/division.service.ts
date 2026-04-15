@@ -152,4 +152,48 @@ export class DivisionService {
       orderBy: { name: 'asc' },
     });
   }
+
+  async getDivisionStats(uuid: string) {
+    const division = await this.prisma.division.findUnique({
+      where: { uuid, isDeleted: false },
+      select: {
+        id: true,
+        _count: { select: { users: { where: { isDeleted: false } } } },
+      },
+    });
+
+    if (!division) throw new NotFoundException('Divisi tidak ditemukan');
+
+    const memberIds = await this.prisma.user.findMany({
+      where: { divisionId: division.id, isDeleted: false },
+      select: { id: true },
+    });
+    const ids = memberIds.map((u) => u.id);
+
+    const [activeMembers, requestCount, loanRequestCount, repairCount] =
+      await Promise.all([
+        this.prisma.user.count({
+          where: { divisionId: division.id, isDeleted: false, isActive: true },
+        }),
+        ids.length > 0
+          ? this.prisma.request.count({ where: { createdById: { in: ids } } })
+          : Promise.resolve(0),
+        ids.length > 0
+          ? this.prisma.loanRequest.count({
+              where: { createdById: { in: ids } },
+            })
+          : Promise.resolve(0),
+        ids.length > 0
+          ? this.prisma.repair.count({ where: { createdById: { in: ids } } })
+          : Promise.resolve(0),
+      ]);
+
+    return {
+      totalMembers: division._count.users,
+      activeMembers,
+      requestCount,
+      loanRequestCount,
+      repairCount,
+    };
+  }
 }

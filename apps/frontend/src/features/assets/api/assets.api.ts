@@ -8,6 +8,7 @@ import type {
   PurchaseMasterData,
   Depreciation,
   StockSummary,
+  StockMovement,
   AssetFilterParams,
   StockFilterParams,
   PurchaseFilterParams,
@@ -34,12 +35,11 @@ export const assetApi = {
 
   remove: (id: string) => api.delete<ApiResponse<void>>(`/assets/${id}`),
 
-  /**
-   * Batch register multiple assets with same model
-   * POST /assets/batch
-   */
   createBatch: (data: Record<string, unknown>) =>
     api.post<ApiResponse<BatchAssetRegistration>>('/assets/batch', data),
+
+  getStockMovements: (assetId: string) =>
+    api.get<ApiResponse<StockMovement[]>>(`/stock-movements/asset/${assetId}`),
 };
 
 // ================================

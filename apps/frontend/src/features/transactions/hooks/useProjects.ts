@@ -134,3 +134,108 @@ export function useDeleteProject() {
     },
   });
 }
+
+export function useAddProjectTask() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      uuid,
+      data,
+    }: {
+      uuid: string;
+      data: {
+        title: string;
+        description?: string;
+        assigneeId?: number;
+        dueDate?: string;
+      };
+    }) => projectApi.addTask(uuid, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
+    },
+  });
+}
+
+export function useUpdateProjectTask() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      uuid,
+      taskId,
+      data,
+    }: {
+      uuid: string;
+      taskId: number;
+      data: {
+        title?: string;
+        description?: string;
+        status?: string;
+        assigneeId?: number;
+        dueDate?: string;
+      };
+    }) => projectApi.updateTask(uuid, taskId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
+    },
+  });
+}
+
+export function useRemoveProjectTask() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, taskId }: { uuid: string; taskId: number }) =>
+      projectApi.removeTask(uuid, taskId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
+    },
+  });
+}
+
+export function useAddProjectMaterial() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      uuid,
+      data,
+    }: {
+      uuid: string;
+      data: { modelId?: number; description: string; quantity: number; note?: string };
+    }) => projectApi.addMaterial(uuid, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
+    },
+  });
+}
+
+export function useRemoveProjectMaterial() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, materialId }: { uuid: string; materialId: number }) =>
+      projectApi.removeMaterial(uuid, materialId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
+    },
+  });
+}
+
+export function useAddProjectTeamMember() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, data }: { uuid: string; data: { userId: number; role: string } }) =>
+      projectApi.addTeamMember(uuid, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
+    },
+  });
+}
+
+export function useRemoveProjectTeamMember() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ uuid, memberId }: { uuid: string; memberId: number }) =>
+      projectApi.removeTeamMember(uuid, memberId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PROJECTS_KEY });
+    },
+  });
+}

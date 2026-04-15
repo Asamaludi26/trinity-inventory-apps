@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { User as UserIcon, Mail, Building2, Shield, KeyRound } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { User as UserIcon, Mail, Building2, Shield, KeyRound, Camera } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuthStore } from '@/store/useAuthStore';
 import { authApi } from '@/features/auth/api/auth.api';
 import { toast } from 'sonner';
+import { useUploadAvatar } from '../hooks';
 
 const ROLE_LABELS: Record<string, string> = {
   SUPERADMIN: 'Super Admin',
@@ -21,6 +23,7 @@ const ROLE_LABELS: Record<string, string> = {
 };
 
 export function ProfilePage() {
+  const navigate = useNavigate();
   const { user } = useAuthStore();
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: '',
@@ -28,6 +31,8 @@ export function ProfilePage() {
     confirmPassword: '',
   });
   const [saving, setSaving] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const uploadAvatar = useUploadAvatar();
 
   if (!user) return null;
 
@@ -37,6 +42,19 @@ export function ProfilePage() {
     .join('')
     .slice(0, 2)
     .toUpperCase();
+
+  function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const MAX_SIZE = 2 * 1024 * 1024;
+    if (file.size > MAX_SIZE) {
+      toast.error('Ukuran file maksimal 2 MB');
+      return;
+    }
+    uploadAvatar.mutate(file);
+    // reset input so same file can be re-selected
+    e.target.value = '';
+  }
 
   async function handlePasswordChange() {
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
@@ -73,10 +91,28 @@ export function ProfilePage() {
         {/* Profile Card */}
         <Card className="md:col-span-1">
           <CardContent className="flex flex-col items-center gap-4 pt-6">
-            <Avatar className="h-24 w-24">
-              <AvatarImage src={user.avatarUrl ?? undefined} alt={user.fullName} />
-              <AvatarFallback className="text-2xl">{initials}</AvatarFallback>
-            </Avatar>
+            <div className="relative">
+              <Avatar className="h-24 w-24">
+                <AvatarImage src={user.avatarUrl ?? undefined} alt={user.fullName} />
+                <AvatarFallback className="text-2xl">{initials}</AvatarFallback>
+              </Avatar>
+              <button
+                type="button"
+                aria-label="Ubah foto profil"
+                disabled={uploadAvatar.isPending}
+                onClick={() => fileInputRef.current?.click()}
+                className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50 opacity-0 hover:opacity-100 transition-opacity cursor-pointer disabled:cursor-not-allowed"
+              >
+                <Camera className="h-6 w-6 text-white" />
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                className="hidden"
+                onChange={handleAvatarChange}
+              />
+            </div>
             <div className="text-center">
               <h3 className="text-lg font-semibold">{user.fullName}</h3>
               <p className="text-sm text-muted-foreground">{user.email}</p>
@@ -85,6 +121,13 @@ export function ProfilePage() {
               <Shield className="mr-1 h-3 w-3" />
               {ROLE_LABELS[user.role] ?? user.role}
             </Badge>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate('/settings/notification-preferences')}
+            >
+              Preferensi Notifikasi
+            </Button>
             {user.division && (
               <div className="flex items-center gap-1 text-sm text-muted-foreground">
                 <Building2 className="h-4 w-4" />

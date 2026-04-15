@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Trash2, Shield, Mail, Phone, Building2, Hash } from 'lucide-react';
+import { ArrowLeft, Trash2, Shield, Mail, Phone, Building2, Hash, BarChart2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { useUser, useDeleteUser } from '../hooks';
+import { useUser, useDeleteUser, useUserStats } from '../hooks';
 import type { UserRole } from '@/types';
 
 const ROLE_LABELS: Record<UserRole, string> = {
@@ -30,6 +30,7 @@ export function UserDetailPage() {
   const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
   const { data: user, isLoading } = useUser(uuid);
+  const { data: stats } = useUserStats(uuid);
   const deleteUser = useDeleteUser();
 
   const handleDelete = () => {
@@ -158,6 +159,41 @@ export function UserDetailPage() {
           </CardContent>
         </Card>
       </div>
+
+      {stats && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <BarChart2 className="h-4 w-4" />
+              Statistik Aktivitas
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
+              <div className="rounded-lg border p-3 text-center">
+                <p className="text-2xl font-bold">{stats.requestCount}</p>
+                <p className="text-xs text-muted-foreground mt-1">Permintaan</p>
+              </div>
+              <div className="rounded-lg border p-3 text-center">
+                <p className="text-2xl font-bold">{stats.loanRequestCount}</p>
+                <p className="text-xs text-muted-foreground mt-1">Peminjaman</p>
+              </div>
+              <div className="rounded-lg border p-3 text-center">
+                <p className="text-2xl font-bold">{stats.repairCount}</p>
+                <p className="text-xs text-muted-foreground mt-1">Perbaikan</p>
+              </div>
+              <div className="rounded-lg border p-3 text-center">
+                <p className="text-2xl font-bold">{stats.handoverCount}</p>
+                <p className="text-xs text-muted-foreground mt-1">Serah Terima</p>
+              </div>
+              <div className="rounded-lg border p-3 text-center">
+                <p className="text-2xl font-bold">{stats.currentAssetCount}</p>
+                <p className="text-xs text-muted-foreground mt-1">Aset Dipegang</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </PageContainer>
   );
 }

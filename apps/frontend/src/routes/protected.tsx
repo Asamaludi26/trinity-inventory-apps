@@ -1,16 +1,25 @@
 import type { RouteObject } from 'react-router-dom';
 import { RoleProtectedRoute } from '@/components/guard/RoleProtectedRoute';
 
+const ALL_ROLES = ['SUPERADMIN', 'ADMIN_LOGISTIK', 'ADMIN_PURCHASE', 'LEADER', 'STAFF'] as const;
+
 export const protectedRoutes: RouteObject[] = [
   // Notifications — accessible by all roles
   {
     path: '/notifications',
-    lazy: () => import('../features/notifications/pages/NotificationListPage'),
+    element: <RoleProtectedRoute allowedRoles={[...ALL_ROLES]} />,
+    children: [
+      {
+        index: true,
+        lazy: () => import('../features/notifications/pages/NotificationListPage'),
+      },
+    ],
   },
 
   // F-01: Dashboard — accessible by all roles
   {
     path: '/dashboard',
+    element: <RoleProtectedRoute allowedRoles={[...ALL_ROLES]} />,
     children: [
       {
         index: true,
@@ -89,9 +98,10 @@ export const protectedRoutes: RouteObject[] = [
     ],
   },
 
-  // F-04: Transaksi — all roles can create/view
+  // F-04: Transaksi — all roles can create/view (backend enforces fine-grained RBAC)
   {
     path: '/requests',
+    element: <RoleProtectedRoute allowedRoles={[...ALL_ROLES]} />,
     children: [
       {
         index: true,
@@ -109,6 +119,7 @@ export const protectedRoutes: RouteObject[] = [
   },
   {
     path: '/loans',
+    element: <RoleProtectedRoute allowedRoles={[...ALL_ROLES]} />,
     children: [
       {
         index: true,
@@ -126,6 +137,7 @@ export const protectedRoutes: RouteObject[] = [
   },
   {
     path: '/returns',
+    element: <RoleProtectedRoute allowedRoles={[...ALL_ROLES]} />,
     children: [
       {
         index: true,
@@ -143,6 +155,7 @@ export const protectedRoutes: RouteObject[] = [
   },
   {
     path: '/handovers',
+    element: <RoleProtectedRoute allowedRoles={[...ALL_ROLES]} />,
     children: [
       {
         index: true,
@@ -160,6 +173,9 @@ export const protectedRoutes: RouteObject[] = [
   },
   {
     path: '/repairs',
+    element: (
+      <RoleProtectedRoute allowedRoles={['SUPERADMIN', 'ADMIN_LOGISTIK', 'LEADER', 'STAFF']} />
+    ),
     children: [
       {
         index: true,
@@ -177,6 +193,9 @@ export const protectedRoutes: RouteObject[] = [
   },
   {
     path: '/projects',
+    element: (
+      <RoleProtectedRoute allowedRoles={['SUPERADMIN', 'ADMIN_LOGISTIK', 'LEADER', 'STAFF']} />
+    ),
     children: [
       {
         index: true,
@@ -280,6 +299,10 @@ export const protectedRoutes: RouteObject[] = [
       {
         path: 'profile',
         lazy: () => import('../features/settings/pages/ProfilePage'),
+      },
+      {
+        path: 'notification-preferences',
+        lazy: () => import('../features/settings/pages/NotificationPreferencesPage'),
       },
       {
         // Users & Divisions — SUPERADMIN only

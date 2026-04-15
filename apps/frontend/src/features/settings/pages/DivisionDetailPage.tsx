@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Trash2, Users, Hash, FileText, Briefcase } from 'lucide-react';
+import { ArrowLeft, Trash2, Users, Hash, FileText, Briefcase, BarChart2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -7,12 +7,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { useDivision, useDeleteDivision } from '../hooks';
+import { useDivision, useDeleteDivision, useDivisionStats } from '../hooks';
 
 export function DivisionDetailPage() {
   const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
   const { data: division, isLoading } = useDivision(uuid);
+  const { data: stats } = useDivisionStats(uuid);
   const deleteDivision = useDeleteDivision();
 
   const handleDelete = () => {
@@ -138,6 +139,41 @@ export function DivisionDetailPage() {
           </CardContent>
         </Card>
       </div>
+
+      {stats && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <BarChart2 className="h-4 w-4" />
+              Statistik Divisi
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
+              <div className="rounded-lg border p-3 text-center">
+                <p className="text-2xl font-bold">{stats.totalMembers}</p>
+                <p className="text-xs text-muted-foreground mt-1">Total Anggota</p>
+              </div>
+              <div className="rounded-lg border p-3 text-center">
+                <p className="text-2xl font-bold">{stats.activeMembers}</p>
+                <p className="text-xs text-muted-foreground mt-1">Anggota Aktif</p>
+              </div>
+              <div className="rounded-lg border p-3 text-center">
+                <p className="text-2xl font-bold">{stats.requestCount}</p>
+                <p className="text-xs text-muted-foreground mt-1">Permintaan</p>
+              </div>
+              <div className="rounded-lg border p-3 text-center">
+                <p className="text-2xl font-bold">{stats.loanRequestCount}</p>
+                <p className="text-xs text-muted-foreground mt-1">Peminjaman</p>
+              </div>
+              <div className="rounded-lg border p-3 text-center">
+                <p className="text-2xl font-bold">{stats.repairCount}</p>
+                <p className="text-xs text-muted-foreground mt-1">Perbaikan</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </PageContainer>
   );
 }

@@ -226,6 +226,228 @@ describe('Transaction Lifecycle (e2e) — T5-02', () => {
 
   // ── Response Format Consistency ──
 
+  // ── Status Filters ──
+
+  describe('Status Filters — All Transaction Types', () => {
+    it('should filter requests by PENDING status', async () => {
+      const res = await authRequest(
+        app,
+        'get',
+        '/transactions/requests?status=PENDING&limit=5',
+        adminLogistik,
+      ).expect(200);
+
+      expect(res.body.success).toBe(true);
+      for (const req of res.body.data.items) {
+        expect(req.status).toBe('PENDING');
+      }
+    });
+
+    it('should filter requests by COMPLETED status', async () => {
+      const res = await authRequest(
+        app,
+        'get',
+        '/transactions/requests?status=COMPLETED&limit=5',
+        adminLogistik,
+      ).expect(200);
+
+      expect(res.body.success).toBe(true);
+      for (const req of res.body.data.items) {
+        expect(req.status).toBe('COMPLETED');
+      }
+    });
+
+    it('should filter loans by IN_PROGRESS status', async () => {
+      const res = await authRequest(
+        app,
+        'get',
+        '/transactions/loans?status=IN_PROGRESS&limit=5',
+        adminLogistik,
+      ).expect(200);
+
+      expect(res.body.success).toBe(true);
+      for (const loan of res.body.data.items) {
+        expect(loan.status).toBe('IN_PROGRESS');
+      }
+    });
+
+    it('should filter repairs by COMPLETED status', async () => {
+      const res = await authRequest(
+        app,
+        'get',
+        '/transactions/repairs?status=COMPLETED&limit=5',
+        adminLogistik,
+      ).expect(200);
+
+      expect(res.body.success).toBe(true);
+      for (const repair of res.body.data.items) {
+        expect(repair.status).toBe('COMPLETED');
+      }
+    });
+  });
+
+  // ── Return Detail ──
+
+  describe('Return — Detail', () => {
+    it('should get return detail with required fields', async () => {
+      const listRes = await authRequest(
+        app,
+        'get',
+        '/transactions/returns?page=1&limit=1',
+        adminLogistik,
+      ).expect(200);
+
+      if (listRes.body.data.items.length > 0) {
+        const returnId = listRes.body.data.items[0].id;
+        const detailRes = await authRequest(
+          app,
+          'get',
+          `/transactions/returns/${returnId}`,
+          adminLogistik,
+        ).expect(200);
+
+        expect(detailRes.body.success).toBe(true);
+        expect(detailRes.body.data).toHaveProperty('status');
+        expect(detailRes.body.data).toHaveProperty('id');
+      }
+    });
+  });
+
+  // ── Handover Detail ──
+
+  describe('Handover — Detail', () => {
+    it('should get handover detail with required fields', async () => {
+      const listRes = await authRequest(
+        app,
+        'get',
+        '/transactions/handovers?page=1&limit=1',
+        adminLogistik,
+      ).expect(200);
+
+      if (listRes.body.data.items.length > 0) {
+        const handoverId = listRes.body.data.items[0].id;
+        const detailRes = await authRequest(
+          app,
+          'get',
+          `/transactions/handovers/${handoverId}`,
+          adminLogistik,
+        ).expect(200);
+
+        expect(detailRes.body.success).toBe(true);
+        expect(detailRes.body.data).toHaveProperty('status');
+        expect(detailRes.body.data).toHaveProperty('id');
+      }
+    });
+  });
+
+  // ── Projects ──
+
+  describe('Projects — Lifecycle', () => {
+    it('should list projects', async () => {
+      const res = await authRequest(
+        app,
+        'get',
+        '/transactions/projects',
+        adminLogistik,
+      ).expect(200);
+
+      expect(res.body.success).toBe(true);
+      expect(res.body.data).toHaveProperty('items');
+    });
+
+    it('should get project detail', async () => {
+      const listRes = await authRequest(
+        app,
+        'get',
+        '/transactions/projects?page=1&limit=1',
+        adminLogistik,
+      ).expect(200);
+
+      if (listRes.body.data.items.length > 0) {
+        const projectId = listRes.body.data.items[0].id;
+        const detailRes = await authRequest(
+          app,
+          'get',
+          `/transactions/projects/${projectId}`,
+          adminLogistik,
+        ).expect(200);
+
+        expect(detailRes.body.success).toBe(true);
+        expect(detailRes.body.data).toHaveProperty('status');
+      }
+    });
+
+    it('should filter projects by status', async () => {
+      const statusList = ['IN_PROGRESS', 'COMPLETED', 'PENDING'];
+      for (const status of statusList) {
+        const res = await authRequest(
+          app,
+          'get',
+          `/transactions/projects?status=${status}&limit=5`,
+          adminLogistik,
+        ).expect(200);
+
+        expect(res.body.success).toBe(true);
+        for (const project of res.body.data.items) {
+          expect(project.status).toBe(status);
+        }
+      }
+    });
+  });
+
+  // ── Pagination Meta ──
+
+  describe('Pagination Meta — Transaction Lists', () => {
+    it('should return valid pagination meta for requests', async () => {
+      const res = await authRequest(
+        app,
+        'get',
+        '/transactions/requests?page=1&limit=5',
+        adminLogistik,
+      ).expect(200);
+
+      const meta = res.body.data.meta;
+      expect(meta).toHaveProperty('total');
+      expect(meta).toHaveProperty('page', 1);
+      expect(meta).toHaveProperty('limit', 5);
+      expect(meta.total).toBeGreaterThanOrEqual(0);
+    });
+
+    it('should return valid pagination meta for loans', async () => {
+      const res = await authRequest(
+        app,
+        'get',
+        '/transactions/loans?page=1&limit=5',
+        adminLogistik,
+      ).expect(200);
+
+      const meta = res.body.data.meta;
+      expect(meta).toHaveProperty('total');
+      expect(meta).toHaveProperty('page', 1);
+      expect(meta.total).toBeGreaterThanOrEqual(0);
+    });
+  });
+
+  // ── RBAC ──
+
+  describe('RBAC — Authentication Required', () => {
+    it('should return 401 for unauthenticated request list', async () => {
+      const supertest = (await import('supertest')).default;
+      const res = await supertest(app.getHttpServer()).get(
+        '/api/v1/transactions/requests',
+      );
+      expect(res.status).toBe(401);
+    });
+
+    it('should return 401 for unauthenticated loan list', async () => {
+      const supertest = (await import('supertest')).default;
+      const res = await supertest(app.getHttpServer()).get(
+        '/api/v1/transactions/loans',
+      );
+      expect(res.status).toBe(401);
+    });
+  });
+
   describe('Response Format Consistency (T5-04)', () => {
     it('should return consistent success format', async () => {
       const res = await authRequest(

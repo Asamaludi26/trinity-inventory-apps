@@ -29,6 +29,12 @@ export class UserController {
     return this.userService.findOne(uuid);
   }
 
+  @Get(':uuid/stats')
+  @AuthPermissions(PERMISSIONS.USERS_VIEW)
+  getStats(@Param('uuid') uuid: string) {
+    return this.userService.getUserStats(uuid);
+  }
+
   @Post()
   @AuthPermissions(PERMISSIONS.USERS_CREATE)
   create(@Body() dto: CreateUserDto) {

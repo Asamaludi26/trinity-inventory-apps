@@ -210,4 +210,33 @@ export class UserService {
     this.logger.log(`User soft-deleted: ${existing.email}`);
     return { message: 'User berhasil dihapus' };
   }
+
+  async getUserStats(uuid: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { uuid, isDeleted: false },
+      select: {
+        id: true,
+        _count: {
+          select: {
+            createdRequests: true,
+            createdLoanRequests: true,
+            createdRepairs: true,
+            handoversFrom: true,
+            handoversTo: true,
+            currentAssets: true,
+          },
+        },
+      },
+    });
+
+    if (!user) throw new NotFoundException('User tidak ditemukan');
+
+    return {
+      requestCount: user._count.createdRequests,
+      loanRequestCount: user._count.createdLoanRequests,
+      repairCount: user._count.createdRepairs,
+      handoverCount: user._count.handoversFrom + user._count.handoversTo,
+      currentAssetCount: user._count.currentAssets,
+    };
+  }
 }

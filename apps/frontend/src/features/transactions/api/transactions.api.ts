@@ -193,5 +193,44 @@ export const projectApi = {
   resume: (uuid: string, version: number) =>
     api.patch<ApiResponse<void>>(`/projects/${uuid}/resume`, { version }),
 
+  addTask: (
+    uuid: string,
+    data: {
+      title: string;
+      description?: string;
+      assigneeId?: number;
+      dueDate?: string;
+    },
+  ) => api.post<ApiResponse<void>>(`/projects/${uuid}/tasks`, data),
+
+  updateTask: (
+    uuid: string,
+    taskId: number,
+    data: {
+      title?: string;
+      description?: string;
+      status?: string;
+      assigneeId?: number;
+      dueDate?: string;
+    },
+  ) => api.patch<ApiResponse<void>>(`/projects/${uuid}/tasks/${taskId}`, data),
+
+  removeTask: (uuid: string, taskId: number) =>
+    api.delete<ApiResponse<void>>(`/projects/${uuid}/tasks/${taskId}`),
+
+  addMaterial: (
+    uuid: string,
+    data: { modelId?: number; description: string; quantity: number; note?: string },
+  ) => api.post<ApiResponse<void>>(`/projects/${uuid}/materials`, data),
+
+  removeMaterial: (uuid: string, materialId: number) =>
+    api.delete<ApiResponse<void>>(`/projects/${uuid}/materials/${materialId}`),
+
+  addTeamMember: (uuid: string, data: { userId: number; role: string }) =>
+    api.post<ApiResponse<void>>(`/projects/${uuid}/team`, data),
+
+  removeTeamMember: (uuid: string, memberId: number) =>
+    api.delete<ApiResponse<void>>(`/projects/${uuid}/team/${memberId}`),
+
   remove: (uuid: string) => api.delete<ApiResponse<void>>(`/projects/${uuid}`),
 };

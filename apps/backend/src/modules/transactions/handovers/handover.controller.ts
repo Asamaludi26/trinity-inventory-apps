@@ -41,6 +41,27 @@ export class HandoverController {
     return this.handoverService.findAll(query, user.sub, user.role);
   }
 
+  @Get('recommendations')
+  @AuthPermissions(PERMISSIONS.ASSETS_HANDOVER)
+  @ApiOperation({
+    summary: 'Rekomendasi aset untuk serah terima (FIFO — oldest first)',
+  })
+  async getRecommendations(
+    @Query('categoryId') categoryId?: string,
+    @Query('typeId') typeId?: string,
+    @Query('modelId') modelId?: string,
+    @Query('search') search?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.handoverService.getRecommendations({
+      categoryId: categoryId ? Number(categoryId) : undefined,
+      typeId: typeId ? Number(typeId) : undefined,
+      modelId: modelId ? Number(modelId) : undefined,
+      search,
+      limit: limit ? Number(limit) : undefined,
+    });
+  }
+
   @Get(':id')
   @AuthPermissions(PERMISSIONS.HANDOVERS_VIEW)
   @ApiOperation({ summary: 'Detail serah terima' })
