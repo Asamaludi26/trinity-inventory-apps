@@ -4,9 +4,42 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": ">=22.19.0",
+    "pnpm": ">=10.18.3"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky"
+    "prepare": "husky",
+    "// === DEVELOPMENT (Local) ===": "",
+    "dev": "pnpm run --parallel dev:*",
+    "dev:frontend": "pnpm --filter ./apps/frontend dev",
+    "dev:backend": "pnpm --filter ./apps/backend start:dev",
+    "// === TESTING ===": "",
+    "test": "pnpm -r test",
+    "test:frontend": "pnpm --filter ./apps/frontend test",
+    "test:backend": "pnpm --filter ./apps/backend test",
+    "// === BUILD ===": "",
+    "build": "pnpm -r build",
+    "build:frontend": "pnpm --filter ./apps/frontend build",
+    "build:backend": "pnpm --filter ./apps/backend build",
+    "// === CODE QUALITY ===": "",
+    "lint": "pnpm -r lint",
+    "lint:fix": "pnpm -r lint:fix",
+    "format": "pnpm -r format",
+    "typecheck": "pnpm -r typecheck",
+    "validate": "pnpm run lint && pnpm run typecheck && pnpm run test",
+    "// === DATABASE CORE ===": "",
+    "db:generate": "pnpm --filter ./apps/backend prisma:generate",
+    "db:migrate": "pnpm --filter ./apps/backend prisma:migrate",
+    "db:migrate:prod": "pnpm --filter ./apps/backend prisma:migrate:prod",
+    "db:push": "pnpm --filter ./apps/backend prisma:push",
+    "db:seed": "pnpm --filter ./apps/backend prisma:seed",
+    "db:reset": "pnpm --filter ./apps/backend prisma:reset",
+    "db:studio": "pnpm --filter ./apps/backend prisma:studio",
+    "// === UTILITIES ===": "",
+    "clean": "pnpm -r clean && rm -rf node_modules",
+    "reinstall": "pnpm clean && pnpm install",
+    "preinstall": "npx only-allow pnpm"
   },
   "keywords": [],
   "author": "",
@@ -31,12 +64,12 @@
   },
   "lint-staged": {
     "frontend/**/*.{ts,tsx}": [
-      "pnpm --filter frontend exec eslint --fix",
-      "pnpm --filter frontend exec prettier --write"
+      "pnpm --filter ./apps/frontend exec eslint --fix",
+      "pnpm --filter ./apps/frontend exec prettier --write"
     ],
     "backend/**/*.ts": [
-      "pnpm --filter backend exec eslint --fix",
-      "pnpm --filter backend exec prettier --write"
+      "pnpm --filter ./apps/backend exec eslint --fix",
+      "pnpm --filter ./apps/backend exec prettier --write"
     ]
   }
 }
