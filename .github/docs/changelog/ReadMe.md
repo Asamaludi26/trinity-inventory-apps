@@ -47,6 +47,40 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-17] — Final Gap Resolution: Classification, Recovery, Barcode Backend, Tests, Charts
+
+#### Added
+
+- `apps/backend/src/modules/assets/asset.service.ts` — `validateClassificationUpdate()`: enforces classification rules on asset update (merges existing + DTO before validation)
+- `apps/backend/src/modules/customers/dismantles/dismantle.service.ts` — `recoverCustomerMaterials()`: reverse-FIFO recovery via `FifoConsumptionService.recoverMaterial()` on dismantle completion
+- `apps/backend/src/modules/qrcode/qrcode.service.ts` — `generateBarcodeForAsset()`, `generateBarcodeDataUrl()`, `generateBatchBarcode()` using `bwip-js` (Code128)
+- `apps/backend/src/modules/qrcode/qrcode.controller.ts` — 3 barcode endpoints: `GET /qrcode/barcode/assets/:id`, `GET .../data-url`, `POST .../batch`
+- `apps/frontend/src/components/form/BarcodeSection.tsx` — Server-generated barcode display component
+- `apps/frontend/src/lib/export-import.ts` — `barcodeApi` object (getImage, getDataUrl, getBatch)
+- `apps/frontend/src/hooks/use-export-import.ts` — `useAssetBarcode()`, `useDownloadBarcode()` hooks
+- 8 new frontend test files: PageContainer, StatusBadge, EmptyState, Card, ConfirmDialog, FormInput, Badge, Input (53 new tests)
+
+#### Changed
+
+- `apps/backend/src/modules/customers/dismantles/dismantle.module.ts` — Added `AssetModule` import for `FifoConsumptionService` DI
+- `apps/frontend/src/features/settings/pages/UsersDivisionsPage.tsx` — Replaced Badge lists with Recharts PieChart (role distribution) + BarChart (division member counts)
+- `apps/frontend/src/components/form/index.ts` — Added `BarcodeSection` export
+- `.github/docs/00_PLANNING/SPRINT/ANALYSIS/COVERAGE_ANALYSIS.md` — All 8 remaining gaps marked ✅ RESOLVED
+
+#### Quality Gate
+
+- ✅ Frontend lint: 0 errors, 0 warnings
+- ✅ Frontend typecheck: 0 errors
+- ✅ Backend lint: 0 errors, 0 warnings
+- ✅ Backend typecheck: 0 errors
+- ✅ Frontend tests: 78/78 passing (13 test files)
+
+#### Agents Involved
+
+- Orchestrator, Backend, Frontend, Documentation
+
+---
+
 ### [2026-04-17] — Sprint 100% Completion: All 9 Remaining Gaps Resolved
 
 #### Added

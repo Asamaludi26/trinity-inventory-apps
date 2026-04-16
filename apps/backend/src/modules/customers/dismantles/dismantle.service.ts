@@ -6,6 +6,7 @@ import {
 import { PrismaService } from '../../../core/database/prisma.service';
 import { StockMovementService } from '../../transactions/stock-movements/stock-movement.service';
 import { ClientService } from '../clients/client.service';
+import { FifoConsumptionService } from '../../assets/fifo-consumption.service';
 import { CreateDismantleDto } from './dto/create-dismantle.dto';
 import { UpdateDismantleDto } from './dto/update-dismantle.dto';
 import { FilterDismantleDto } from './dto/filter-dismantle.dto';
@@ -40,6 +41,7 @@ export class DismantleService {
     private readonly prisma: PrismaService,
     private readonly stockMovementService: StockMovementService,
     private readonly clientService: ClientService,
+    private readonly fifoConsumption: FifoConsumptionService,
   ) {}
 
   private async generateCode(): Promise<string> {
@@ -254,10 +256,74 @@ export class DismantleService {
         );
       }
 
+      // Material Recovery (reverse-FIFO): recover materials used in installations/maintenances
+      await this.recoverCustomerMaterials(
+        existing.customerId,
+        existing.code,
+        userId,
+        tx,
+      );
+
       // T3-02: Check remaining assets → auto-INACTIVE customer
       await this.clientService.deactivateOnDismantle(existing.customerId, tx);
 
       return dismantle;
     });
+  }
+
+  /**
+   * Recover materials from completed installations and maintenances
+   * for the given customer back to stock using reverse-FIFO.
+   */
+  private async recoverCustomerMaterials(
+    customerId: number,
+    dismantleCode: string,
+    userId: number,
+    tx: Prisma.TransactionClient,
+  ): Promise<void> {
+    // Gather materials from completed installations
+    const installationMaterials = await tx.installationMaterial.findMany({
+      where: {
+        installation: {
+          customerId,
+          status: TransactionStatus.COMPLETED,
+        },
+        modelId: { not: null },
+      },
+      select: { modelId: true, quantity: true },
+    });
+
+    // Gather materials from completed maintenances
+    const maintenanceMaterials = await tx.maintenanceMaterial.findMany({
+      where: {
+        maintenance: {
+          customerId,
+          status: TransactionStatus.COMPLETED,
+        },
+        modelId: { not: null },
+      },
+      select: { modelId: true, quantity: true },
+    });
+
+    // Aggregate quantities per model
+    const recoveryMap = new Map<number, number>();
+    for (const mat of [...installationMaterials, ...maintenanceMaterials]) {
+      if (!mat.modelId) continue;
+      recoveryMap.set(
+        mat.modelId,
+        (recoveryMap.get(mat.modelId) ?? 0) + mat.quantity,
+      );
+    }
+
+    // Recover each material via reverse-FIFO
+    for (const [modelId, quantity] of recoveryMap) {
+      await this.fifoConsumption.recoverMaterial(
+        modelId,
+        quantity,
+        dismantleCode,
+        userId,
+        tx,
+      );
+    }
   }
 }

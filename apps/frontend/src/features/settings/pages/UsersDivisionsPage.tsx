@@ -2,12 +2,23 @@ import { useSearchParams } from 'react-router-dom';
 import { PageContainer } from '../../../components/layout/PageContainer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Users, Building2, ShieldCheck, UserCheck, UserX } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { UsersTab } from '../components/UsersTab';
 import { DivisionsTab } from '../components/DivisionsTab';
 import { useUsers, useDivisions } from '../hooks';
+import {
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from 'recharts';
 
 const VALID_TABS = ['summary', 'users', 'divisions'] as const;
 type TabValue = (typeof VALID_TABS)[number];
@@ -19,6 +30,8 @@ const ROLE_LABELS: Record<string, string> = {
   LEADER: 'Leader',
   STAFF: 'Staff',
 };
+
+const PIE_COLORS = ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4'];
 
 function SummaryTab() {
   const { data: usersData, isLoading: usersLoading } = useUsers({ limit: 200 });
@@ -104,7 +117,7 @@ function SummaryTab() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        {/* Per-role breakdown */}
+        {/* Per-role breakdown - Pie Chart */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-sm">
@@ -119,23 +132,36 @@ function SummaryTab() {
                   <Skeleton key={i} className="h-6 w-full" />
                 ))}
               </div>
+            ) : Object.keys(roleCounts).length === 0 ? (
+              <p className="text-sm text-muted-foreground">Belum ada data.</p>
             ) : (
-              <div className="space-y-3">
-                {Object.entries(roleCounts).map(([role, count]) => (
-                  <div key={role} className="flex items-center justify-between">
-                    <span className="text-sm">{ROLE_LABELS[role] ?? role}</span>
-                    <Badge variant="secondary">{count}</Badge>
-                  </div>
-                ))}
-                {Object.keys(roleCounts).length === 0 && (
-                  <p className="text-sm text-muted-foreground">Belum ada data.</p>
-                )}
-              </div>
+              <ResponsiveContainer width="100%" height={240}>
+                <PieChart>
+                  <Pie
+                    data={Object.entries(roleCounts).map(([role, count]) => ({
+                      name: ROLE_LABELS[role] ?? role,
+                      value: count,
+                    }))}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={50}
+                    outerRadius={80}
+                    paddingAngle={3}
+                    dataKey="value"
+                    label={({ name, value }) => `${name}: ${value}`}
+                  >
+                    {Object.keys(roleCounts).map((_, index) => (
+                      <Cell key={index} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
             )}
           </CardContent>
         </Card>
 
-        {/* Per-division user count */}
+        {/* Per-division user count - Bar Chart */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-sm">
@@ -150,18 +176,36 @@ function SummaryTab() {
                   <Skeleton key={i} className="h-6 w-full" />
                 ))}
               </div>
+            ) : divisions.length === 0 ? (
+              <p className="text-sm text-muted-foreground">Belum ada divisi.</p>
             ) : (
-              <div className="space-y-3">
-                {divisions.map((div) => (
-                  <div key={div.id} className="flex items-center justify-between">
-                    <span className="text-sm">{div.name}</span>
-                    <Badge variant="secondary">{divisionUserCounts[div.id] ?? 0}</Badge>
-                  </div>
-                ))}
-                {divisions.length === 0 && (
-                  <p className="text-sm text-muted-foreground">Belum ada divisi.</p>
-                )}
-              </div>
+              <ResponsiveContainer width="100%" height={240}>
+                <BarChart
+                  data={divisions.map((div) => ({
+                    name: div.name,
+                    anggota: divisionUserCounts[div.id] ?? 0,
+                  }))}
+                  margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
+                >
+                  <XAxis
+                    dataKey="name"
+                    tick={{ fontSize: 12 }}
+                    interval={0}
+                    angle={-20}
+                    textAnchor="end"
+                    height={60}
+                  />
+                  <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
+                  <Tooltip />
+                  <Legend />
+                  <Bar
+                    dataKey="anggota"
+                    name="Jumlah Anggota"
+                    fill="hsl(var(--primary))"
+                    radius={[4, 4, 0, 0]}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
             )}
           </CardContent>
         </Card>

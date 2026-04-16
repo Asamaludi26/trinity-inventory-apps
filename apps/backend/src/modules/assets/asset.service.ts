@@ -170,6 +170,76 @@ export class AssetService {
     }
   }
 
+  /**
+   * Validate classification rules on update.
+   * Merges existing asset fields with update DTO to validate complete state.
+   */
+  private validateClassificationUpdate(
+    dto: UpdateAssetDto,
+    existing: {
+      classification: AssetClassification;
+      trackingMethod: TrackingMethod | null;
+      quantity: number | null;
+      currentBalance: { toNumber(): number } | null;
+      serialNumber: string | null;
+    },
+  ): void {
+    const classification = dto.classification ?? existing.classification;
+    const trackingMethod = dto.trackingMethod ?? existing.trackingMethod;
+    const quantity = dto.quantity ?? existing.quantity;
+    const currentBalance =
+      dto.currentBalance ?? existing.currentBalance?.toNumber() ?? null;
+    const serialNumber = dto.serialNumber ?? existing.serialNumber;
+
+    if (
+      classification === AssetClassification.ASSET ||
+      trackingMethod === TrackingMethod.INDIVIDUAL
+    ) {
+      if (quantity && quantity !== 1) {
+        throw new BadRequestException(
+          'Aset INDIVIDUAL harus memiliki quantity = 1',
+        );
+      }
+      if (
+        classification === AssetClassification.ASSET &&
+        trackingMethod === TrackingMethod.INDIVIDUAL &&
+        !serialNumber
+      ) {
+        throw new BadRequestException(
+          'Aset INDIVIDUAL wajib memiliki serial number',
+        );
+      }
+    }
+
+    if (classification === AssetClassification.MATERIAL) {
+      if (trackingMethod === TrackingMethod.INDIVIDUAL) {
+        throw new BadRequestException(
+          'Material tidak dapat menggunakan tracking method INDIVIDUAL',
+        );
+      }
+      if (
+        trackingMethod === TrackingMethod.COUNT &&
+        quantity !== null &&
+        quantity !== undefined &&
+        quantity < 1
+      ) {
+        throw new BadRequestException(
+          'Material COUNT harus memiliki quantity minimal 1',
+        );
+      }
+      if (
+        trackingMethod === TrackingMethod.MEASUREMENT &&
+        currentBalance !== null &&
+        currentBalance !== undefined &&
+        currentBalance <= 0
+      ) {
+        throw new BadRequestException(
+          'Material MEASUREMENT harus memiliki currentBalance > 0',
+        );
+      }
+    }
+  }
+
   async create(dto: CreateAssetDto, recordedById: number) {
     // Enforce classification rules
     this.validateClassification(dto);
@@ -298,6 +368,9 @@ export class AssetService {
     if (dto.status && dto.status !== asset.status) {
       AssetStatusMachine.validateTransition(asset.status, dto.status);
     }
+
+    // Validate classification rules on update
+    this.validateClassificationUpdate(dto, asset);
 
     const { count } = await this.prisma.asset.updateMany({
       where: { id, version },

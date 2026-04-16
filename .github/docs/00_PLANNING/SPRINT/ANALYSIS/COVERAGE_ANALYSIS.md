@@ -258,18 +258,18 @@
 
 All sprint tasks from the original plan have been executed. See detailed status in `SPRINT_ANALYSIS_REPORT.md`.
 
-### Remaining Gaps to 100%
+### Remaining Gaps to 100% — ✅ ALL RESOLVED
 
-| #   | Task                                        | Priority | Effort | Sprint |
-| --- | ------------------------------------------- | -------- | ------ | ------ |
-| 1   | Asset classification enforcement (logic)    | HIGH     | M      | S1     |
-| 2   | Frontend React.lazy() for route-based split | MEDIUM   | S      | S0     |
-| 3   | Dismantle material recovery (reverse-FIFO)  | MEDIUM   | M      | S3     |
-| 4   | Audit log before/after diff view            | LOW      | M      | S4     |
-| 5   | Barcode generation (Code 128)               | LOW      | S      | S4     |
-| 6   | Frontend component tests setup              | HIGH     | L      | S5     |
-| 7   | Project task progress % calculation         | LOW      | S      | S3     |
-| 8   | Users/Divisions summary charts              | LOW      | S      | S4     |
+| #   | Task                                        | Priority | Effort | Sprint | Status                                                                                            |
+| --- | ------------------------------------------- | -------- | ------ | ------ | ------------------------------------------------------------------------------------------------- |
+| 1   | Asset classification enforcement (logic)    | HIGH     | M      | S1     | ✅ RESOLVED — `validateClassificationUpdate()` in `asset.service.ts`                              |
+| 2   | Frontend React.lazy() for route-based split | MEDIUM   | S      | S0     | ✅ RESOLVED — Already implemented in route config                                                 |
+| 3   | Dismantle material recovery (reverse-FIFO)  | MEDIUM   | M      | S3     | ✅ RESOLVED — `recoverCustomerMaterials()` in `dismantle.service.ts` via `FifoConsumptionService` |
+| 4   | Audit log before/after diff view            | LOW      | M      | S4     | ✅ RESOLVED — `AuditDiffView.tsx` implemented                                                     |
+| 5   | Barcode generation (Code 128)               | LOW      | S      | S4     | ✅ RESOLVED — Backend `bwip-js` endpoints + Frontend `BarcodeSection.tsx`                         |
+| 6   | Frontend component tests setup              | HIGH     | L      | S5     | ✅ RESOLVED — 13 test files, 78 tests passing (vitest)                                            |
+| 7   | Project task progress % calculation         | LOW      | S      | S3     | ✅ RESOLVED — `calculateProgress()` in `project.service.ts`                                       |
+| 8   | Users/Divisions summary charts              | LOW      | S      | S4     | ✅ RESOLVED — Recharts PieChart + BarChart in `UsersDivisionsPage.tsx`                            |
 
 ---
 

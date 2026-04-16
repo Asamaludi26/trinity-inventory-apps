@@ -5,6 +5,7 @@ import {
   exportApi,
   importApi,
   qrCodeApi,
+  barcodeApi,
   type ExportFormat,
   type ImportResult,
   type ImportPreviewResult,
@@ -184,5 +185,29 @@ export function useDownloadQrCode() {
     },
     onSuccess: () => toast.success('QR code berhasil diunduh'),
     onError: () => toast.error('Gagal mengunduh QR code'),
+  });
+}
+
+// ================================
+// Barcode Hooks
+// ================================
+
+export function useAssetBarcode(assetId: string | undefined) {
+  return useQuery({
+    queryKey: ['barcode', assetId],
+    queryFn: () => barcodeApi.getDataUrl(assetId!).then((res) => res.data.data.dataUrl),
+    enabled: !!assetId,
+    staleTime: 5 * 60 * 1000,
+  });
+}
+
+export function useDownloadBarcode() {
+  return useMutation({
+    mutationFn: async (params: { assetId: string; code: string }) => {
+      const res = await barcodeApi.getImage(params.assetId);
+      downloadBlob(res.data as Blob, `barcode_${params.code}.png`);
+    },
+    onSuccess: () => toast.success('Barcode berhasil diunduh'),
+    onError: () => toast.error('Gagal mengunduh barcode'),
   });
 }

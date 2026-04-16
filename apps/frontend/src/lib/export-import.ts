@@ -104,3 +104,21 @@ export const qrCodeApi = {
       { assetIds },
     ),
 };
+
+// ================================
+// Barcode API
+// ================================
+
+export const barcodeApi = {
+  getImage: (assetId: string) =>
+    api.get(`/qrcode/barcode/assets/${assetId}`, { responseType: 'blob' }),
+
+  getDataUrl: (assetId: string) =>
+    api.get<ApiResponse<{ dataUrl: string }>>(`/qrcode/barcode/assets/${assetId}/data-url`),
+
+  getBatch: (assetIds: string[]) =>
+    api.post<ApiResponse<Array<{ assetId: string; code: string; dataUrl: string }>>>(
+      '/qrcode/barcode/assets/batch',
+      { assetIds },
+    ),
+};

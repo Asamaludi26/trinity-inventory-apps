@@ -45,4 +45,34 @@ export class QrCodeController {
   async getBatchQr(@Body() body: { assetIds: string[] }) {
     return this.qrCodeService.generateBatchQr(body.assetIds);
   }
+
+  @Get('barcode/assets/:id')
+  @ApiOperation({ summary: 'Generate barcode Code 128 image untuk aset' })
+  @ApiResponse({ status: 200, description: 'Barcode PNG image' })
+  async getBarcodeImage(@Param('id') id: string, @Res() res: Response) {
+    const { buffer, contentType, filename } =
+      await this.qrCodeService.generateBarcodeForAsset(id);
+
+    res.set({
+      'Content-Type': contentType,
+      'Content-Disposition': `inline; filename="${filename}"`,
+      'Content-Length': buffer.length,
+    });
+    res.end(buffer);
+  }
+
+  @Get('barcode/assets/:id/data-url')
+  @ApiOperation({ summary: 'Generate barcode Code 128 data URL untuk aset' })
+  @ApiResponse({ status: 200, description: 'Barcode data URL string' })
+  async getBarcodeDataUrl(@Param('id') id: string) {
+    const dataUrl = await this.qrCodeService.generateBarcodeDataUrl(id);
+    return { dataUrl };
+  }
+
+  @Post('barcode/assets/batch')
+  @ApiOperation({ summary: 'Generate barcodes Code 128 untuk beberapa aset' })
+  @ApiResponse({ status: 200, description: 'Array barcodes' })
+  async getBatchBarcode(@Body() body: { assetIds: string[] }) {
+    return this.qrCodeService.generateBatchBarcode(body.assetIds);
+  }
 }
