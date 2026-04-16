@@ -7,6 +7,7 @@ import {
 import { PrismaService } from '../../../core/database/prisma.service';
 import { NotificationService } from '../../../core/notifications/notification.service';
 import { EventsService } from '../../../core/events/events.service';
+import { FifoConsumptionService } from '../../assets/fifo-consumption.service';
 import {
   CreateProjectDto,
   ProjectTaskDto,
@@ -28,6 +29,7 @@ export class ProjectService {
     private readonly prisma: PrismaService,
     private readonly notificationService: NotificationService,
     private readonly eventsService: EventsService,
+    private readonly fifoConsumption: FifoConsumptionService,
   ) {}
 
   private async generateCode(): Promise<string> {
@@ -323,22 +325,25 @@ export class ProjectService {
       );
     }
 
-    const { count } = await this.prisma.infraProject.updateMany({
-      where: { id, version },
-      data: {
-        status: TransactionStatus.IN_PROGRESS,
-        version: { increment: 1 },
-      },
-    });
+    const result = await this.prisma.$transaction(async (tx) => {
+      const { count } = await tx.infraProject.updateMany({
+        where: { id, version },
+        data: {
+          status: TransactionStatus.IN_PROGRESS,
+          version: { increment: 1 },
+        },
+      });
 
-    if (count === 0) {
-      throw new ConflictException(
-        'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
-      );
-    }
+      if (count === 0) {
+        throw new ConflictException(
+          'Data telah diubah oleh pengguna lain. Silakan muat ulang data.',
+        );
+      }
 
-    const result = await this.prisma.infraProject.findUnique({
-      where: { id },
+      // FIFO material consumption for project materials
+      await this.consumeProjectMaterials(existing, tx);
+
+      return tx.infraProject.findUnique({ where: { id } });
     });
 
     this.eventsService.emitTransactionUpdate({
@@ -360,6 +365,36 @@ export class ProjectService {
       .catch(() => {});
 
     return result;
+  }
+
+  /**
+   * Consume materials via FIFO when project execution starts.
+   * Each allocated material with a modelId triggers FIFO consumption from stock.
+   */
+  private async consumeProjectMaterials(
+    project: {
+      id: string;
+      code: string;
+      createdById: number;
+      materials: Array<{ modelId: number | null; quantity: number }>;
+    },
+    tx: Prisma.TransactionClient,
+  ): Promise<void> {
+    const materialsWithModel = project.materials.filter(
+      (m): m is typeof m & { modelId: number } =>
+        m.modelId !== null && m.quantity > 0,
+    );
+
+    for (const material of materialsWithModel) {
+      await this.fifoConsumption.consumeMaterial(
+        material.modelId,
+        material.quantity,
+        `PROJECT-${project.code}`,
+        'CONSUMED',
+        project.createdById,
+        tx,
+      );
+    }
   }
 
   async cancel(id: string, userId: number, version: number) {

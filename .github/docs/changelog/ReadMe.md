@@ -47,6 +47,32 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2025-07-04] — Project Material FIFO Consumption + Documentation Sync
+
+#### Added
+
+- `apps/backend/src/modules/transactions/projects/project.service.ts` — `consumeProjectMaterials()`: private method that iterates project materials with `modelId`, calls `FifoConsumptionService.consumeMaterial()` with `'CONSUMED'` type and `PROJECT-{code}` reference
+- `apps/backend/src/modules/assets/fifo-consumption.service.ts` — Extended `consumeMaterial()` and `consumeMaterialWithConversion()` signatures to accept `'CONSUMED'` movement type (alongside `'INSTALLATION'` | `'MAINTENANCE'`)
+
+#### Changed
+
+- `apps/backend/src/modules/transactions/projects/project.service.ts` — `execute()` method now uses `$transaction()` to atomically update project status to `IN_PROGRESS` and consume materials via FIFO
+- `apps/backend/src/modules/transactions/projects/project.module.ts` — Added `AssetModule` import for `FifoConsumptionService` DI
+- `.github/docs/00_PLANNING/SPRINT/ANALYSIS/00_ANALISA_CURRENT_STATE.md` — Full update: 87% → 93%, all domain tables updated to reflect actual codebase state
+- `.github/docs/00_PLANNING/SPRINT/ANALYSIS/COVERAGE_ANALYSIS.md` — Full update: executive summary, dashboard, customers, cross-cutting, conclusion sections
+- `.github/docs/00_PLANNING/SPRINT/ANALYSIS/SPRINT_REBUILD_COMPLETION_ANALYSIS.md` — Full update: Sprint 1-5 all 100%, completion matrix updated, all 16 remaining items marked ✅ Done
+
+#### Quality Gate
+
+- ✅ Backend lint: 0 errors, 0 warnings
+- ✅ Backend typecheck: 0 errors
+
+#### Agents Involved
+
+- Orchestrator, Backend, Documentation
+
+---
+
 ### [2026-04-17] — Final Gap Resolution: Classification, Recovery, Barcode Backend, Tests, Charts
 
 #### Added

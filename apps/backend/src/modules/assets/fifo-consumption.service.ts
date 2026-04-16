@@ -33,7 +33,7 @@ export class FifoConsumptionService {
     modelId: number,
     quantityNeeded: number,
     reference: string,
-    movementType: 'INSTALLATION' | 'MAINTENANCE',
+    movementType: 'INSTALLATION' | 'MAINTENANCE' | 'CONSUMED',
     userId: number,
     tx?: Prisma.TransactionClient,
   ): Promise<{ consumed: number; movements: number[] }> {
@@ -102,8 +102,7 @@ export class FifoConsumptionService {
       const movement = await prismaClient.stockMovement.create({
         data: {
           assetId: asset.id,
-          type:
-            movementType === 'INSTALLATION' ? 'INSTALLATION' : 'MAINTENANCE',
+          type: movementType,
           quantity: -consumed,
           reference,
           note: `FIFO consumption: ${consumed} dari batch ${asset.code}`,
@@ -139,7 +138,7 @@ export class FifoConsumptionService {
     quantity: number,
     isContainerUnit: boolean,
     reference: string,
-    movementType: 'INSTALLATION' | 'MAINTENANCE',
+    movementType: 'INSTALLATION' | 'MAINTENANCE' | 'CONSUMED',
     userId: number,
     tx?: Prisma.TransactionClient,
   ): Promise<{ consumed: number; baseUnit: string; movements: number[] }> {
