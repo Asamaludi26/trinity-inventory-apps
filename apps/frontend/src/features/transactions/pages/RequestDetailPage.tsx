@@ -35,7 +35,8 @@ import {
   useCancelRequest,
   useExecuteRequest,
 } from '../hooks';
-import { RejectDialog, ApprovalTimeline } from '../components';
+import { RejectDialog, ApprovalTimeline, PurchaseProcessDialog } from '../components';
+import type { PurchaseProcessData } from '../components';
 import { AttachmentSection } from '@/components/form';
 import { usePermissions } from '@/hooks';
 import { P } from '@/config/permissions';
@@ -66,6 +67,7 @@ export function RequestDetailPage() {
   const executeRequest = useExecuteRequest();
   const [rejectOpen, setRejectOpen] = useState(false);
   const [approveOpen, setApproveOpen] = useState(false);
+  const [purchaseProcessOpen, setPurchaseProcessOpen] = useState(false);
   const [approveNote, setApproveNote] = useState('');
   const [itemAdjustments, setItemAdjustments] = useState<Record<number, number>>({});
   const { canAny, can } = usePermissions();
@@ -130,11 +132,31 @@ export function RequestDetailPage() {
 
   const handleExecute = () => {
     if (!uuid || !request) return;
+    // For APPROVED → PURCHASING, open purchase process dialog
+    if (request.status === 'APPROVED') {
+      setPurchaseProcessOpen(true);
+      return;
+    }
     executeRequest.mutate(
       { uuid, version: request.version },
       {
         onSuccess: () => toast.success('Status permintaan berhasil diperbarui'),
         onError: () => toast.error('Gagal memperbarui status permintaan'),
+      },
+    );
+  };
+
+  const handlePurchaseProcess = (_data: PurchaseProcessData): void => {
+    void _data;
+    if (!uuid || !request) return;
+    executeRequest.mutate(
+      { uuid, version: request.version },
+      {
+        onSuccess: () => {
+          toast.success('Pengadaan berhasil diproses');
+          setPurchaseProcessOpen(false);
+        },
+        onError: () => toast.error('Gagal memproses pengadaan'),
       },
     );
   };
@@ -426,6 +448,13 @@ export function RequestDetailPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <PurchaseProcessDialog
+        open={purchaseProcessOpen}
+        onOpenChange={setPurchaseProcessOpen}
+        onConfirm={handlePurchaseProcess}
+        isPending={executeRequest.isPending}
+      />
     </PageContainer>
   );
 }

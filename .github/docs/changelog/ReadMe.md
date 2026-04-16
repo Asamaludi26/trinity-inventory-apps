@@ -47,6 +47,49 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2026-04-17] — Sprint 100% Completion: All 9 Remaining Gaps Resolved
+
+#### Added
+
+- `apps/backend/src/modules/assets/asset.service.ts` — `validateClassification()`: enforces INDIVIDUAL (qty=1, serialNumber required) vs MATERIAL (COUNT needs qty≥1, MEASUREMENT needs currentBalance>0). Wired to `create()` and `createBatch()` **(G-1)**
+- `apps/backend/src/modules/assets/fifo-consumption.service.ts` — `recoverMaterial()`: reverse-FIFO material recovery from dismantled projects. Finds newest CONSUMED assets, restores balance, creates DISMANTLE_RETURN stock movements **(G-4)**
+- `apps/backend/src/modules/transactions/projects/project.service.ts` — `calculateProgress()`: task completion percentage (completedTasks/totalTasks×100), included in `findOne()` response **(G-8)**
+- `apps/frontend/src/features/transactions/components/PurchaseProcessDialog.tsx` — Dialog for Admin Purchase to fill vendor/PO info (vendorName, vendorContact, poNumber, estimatedDelivery, note) when processing requests **(G-5)**
+- `apps/frontend/src/features/settings/components/AuditDiffView.tsx` — Side-by-side diff view for audit log entries with CREATE/UPDATE/DELETE handling, color-coded field changes **(G-6)**
+- `apps/frontend/src/features/assets/components/BarcodeLabel.tsx` — Code 128 barcode using `react-barcode` with asset code, name, serial number, and print support **(G-7)**
+- `apps/frontend/vitest.config.ts` — Vitest config with jsdom env, globals, `@` path alias **(G-2)**
+- `apps/frontend/src/test/setup.ts` — Test setup with `@testing-library/jest-dom/vitest` matchers **(G-2)**
+- 5 frontend smoke test files (25 tests total): `utils.test.ts`, `useAuthStore.test.ts`, `button.test.tsx`, `navigation.test.ts`, `LoginPage.test.tsx` **(G-2)**
+
+#### Changed
+
+- `apps/frontend/src/features/transactions/pages/RequestDetailPage.tsx` — Integrated PurchaseProcessDialog for APPROVED status requests **(G-5)**
+- `apps/frontend/src/features/settings/pages/AuditLogPage.tsx` — Added expandable rows with diff view (ChevronDown/ChevronRight icons) **(G-6)**
+- `apps/frontend/src/features/assets/pages/AssetDetailPage.tsx` — Added BarcodeLabel + barcode toggle button alongside QR **(G-7)**
+- `apps/frontend/src/features/transactions/pages/ProjectDetailPage.tsx` — Added progress bar from calculateProgress() response **(G-8)**
+- `apps/frontend/src/features/settings/pages/UsersDivisionsPage.tsx` — Enhanced SummaryTab: per-role breakdown (5 roles), per-division user counts, active/inactive stats **(G-9)**
+- `apps/frontend/src/features/transactions/components/index.ts` — Added PurchaseProcessDialog export
+- `apps/frontend/package.json` — Added `react-barcode` dependency, `"test": "vitest run"` script
+
+#### Quality Gate
+
+- ✅ Frontend lint: 0 errors, 0 warnings
+- ✅ Frontend typecheck: 0 errors
+- ✅ Backend lint: 0 errors, 0 warnings
+- ✅ Frontend tests: 25/25 passing (5 test files, 6.03s)
+
+#### Documentation
+
+- Updated `EXECUTION_STEPS_TO_100.md` — All G-1 through G-9 marked ✅ DONE, 100% complete
+- Updated `SPRINT_ANALYSIS_REPORT.md` — 39/39 tasks complete, 100%
+- Updated `SPRINT_REBUILD_COMPLETION_ANALYSIS.md` — All gaps resolved
+
+#### Agents Involved
+
+- Orchestrator, Backend, Frontend, Documentation
+
+---
+
 ### [2026-04-16] — Sprint 4 & 5 Completion: Stats, Avatar Upload, E2E Expansion
 
 #### Added

@@ -1,6 +1,6 @@
 # Coverage Analysis & Sprint Plan — Trinity Inventory Apps
 
-**Tanggal Analisa**: 12 April 2026
+**Tanggal Analisa**: 16 April 2026 (Updated from 12 April)
 **Referensi**: PRD v3.1, SDD v3.1, UIUX Design Document v1.0, API Contract v1.0
 **Metode**: Full codebase audit (backend + frontend + database schema)
 
@@ -13,56 +13,56 @@
 | **Overall Coverage**                | **100%** |
 | **Backend Coverage**                | **95%**  |
 | **Frontend Coverage**               | **95%**  |
-| **Database Schema Coverage**        | **92%**  |
-| **Cross-Cutting Concerns Coverage** | **90%**  |
+| **Database Schema Coverage**        | **95%**  |
+| **Cross-Cutting Concerns Coverage** | **93%**  |
 
 ---
 
 ## 2. Coverage Breakdown per Domain
 
-### 2.1 Database Schema (92%)
+### 2.1 Database Schema (95%)
 
-| Model/Entity                                 | Status         | Notes                                 |
-| -------------------------------------------- | -------------- | ------------------------------------- |
-| User                                         | ✅ Complete    | 45+ fields, full audit                |
-| Division                                     | ✅ Complete    | Fieldwork flag, leader FK             |
-| AssetCategory                                | ✅ Complete    |                                       |
-| AssetType                                    | ✅ Complete    | Category→Type hierarchy               |
-| AssetModel                                   | ✅ Complete    | Type→Model→Brand                      |
-| Asset                                        | ✅ Complete    | 26+ fields, status/condition          |
-| AssetRegistration                            | ✅ Complete    |                                       |
-| StockThreshold                               | ✅ Complete    |                                       |
-| StockMovement                                | ✅ Complete    |                                       |
-| PurchaseMasterData                           | ✅ Complete    |                                       |
-| Depreciation                                 | ✅ Complete    |                                       |
-| Request + RequestItem                        | ✅ Complete    |                                       |
-| LoanRequest + LoanItem + LoanAssetAssignment | ✅ Complete    |                                       |
-| AssetReturn + AssetReturnItem                | ✅ Complete    |                                       |
-| Handover + HandoverItem                      | ✅ Complete    |                                       |
-| InfraProject + Task + Material + TeamMember  | ✅ Complete    |                                       |
-| Customer                                     | ✅ Complete    |                                       |
-| Installation + InstallationMaterial          | ✅ Complete    |                                       |
-| Maintenance + Material + Replacement         | ✅ Complete    |                                       |
-| Dismantle                                    | ✅ Complete    |                                       |
-| Attachment                                   | ✅ Complete    |                                       |
-| ActivityLog                                  | ✅ Complete    |                                       |
-| Notification                                 | ✅ Complete    |                                       |
-| **Repair / AssetRepair**                     | ❌ **MISSING** | Tidak ada model di transaction.prisma |
+| Model/Entity                                 | Status      | Notes                               |
+| -------------------------------------------- | ----------- | ----------------------------------- |
+| User                                         | ✅ Complete | 45+ fields, full audit + notifPrefs |
+| Division                                     | ✅ Complete | Fieldwork flag, leader FK           |
+| AssetCategory                                | ✅ Complete |                                     |
+| AssetType                                    | ✅ Complete | Category→Type hierarchy             |
+| AssetModel                                   | ✅ Complete | Type→Model→Brand + unit conversion  |
+| Asset                                        | ✅ Complete | 26+ fields, status/condition + OCC  |
+| AssetRegistration                            | ✅ Complete |                                     |
+| StockThreshold                               | ✅ Complete |                                     |
+| StockMovement                                | ✅ Complete |                                     |
+| PurchaseMasterData                           | ✅ Complete |                                     |
+| Depreciation                                 | ✅ Complete |                                     |
+| Request + RequestItem                        | ✅ Complete |                                     |
+| LoanRequest + LoanItem + LoanAssetAssignment | ✅ Complete |                                     |
+| AssetReturn + AssetReturnItem                | ✅ Complete | version/rejection tracking          |
+| Handover + HandoverItem                      | ✅ Complete |                                     |
+| InfraProject + Task + Material + TeamMember  | ✅ Complete |                                     |
+| Customer                                     | ✅ Complete |                                     |
+| Installation + InstallationMaterial          | ✅ Complete | OCC version field added             |
+| Maintenance + Material + Replacement         | ✅ Complete | OCC version field added             |
+| Dismantle                                    | ✅ Complete | OCC version field added             |
+| Attachment                                   | ✅ Complete |                                     |
+| ActivityLog                                  | ✅ Complete |                                     |
+| Notification                                 | ✅ Complete |                                     |
+| Repair / AssetRepair                         | ✅ Complete | Full repair model + LOST flow       |
 
-**Gap**: Model `Repair` (Lapor Rusak / Perbaikan Aset) belum dibuat di schema. Ini blocker untuk seluruh modul Repair (F-04e).
+**Gap**: ~~Model `Repair` (Lapor Rusak) belum dibuat~~ ✅ RESOLVED — Repair model fully implemented with 5-state workflow + LOST flow.
 
 ---
 
 ### 2.2 Backend API — Per Module
 
-#### A. Authentication (95%)
+#### A. Authentication (98%)
 
-| Endpoint                    | Status | Notes                                |
-| --------------------------- | ------ | ------------------------------------ |
-| POST /auth/login            | ✅     | JWT + bcrypt                         |
-| POST /auth/refresh          | ✅     | Token rotation                       |
-| POST /auth/logout           | ✅     | Token invalidation                   |
-| PATCH /auth/change-password | ❌     | Endpoint tidak ada di AuthController |
+| Endpoint                    | Status | Notes                                  |
+| --------------------------- | ------ | -------------------------------------- |
+| POST /auth/login            | ✅     | JWT + bcrypt + account lockout         |
+| POST /auth/refresh          | ✅     | Token rotation + version check         |
+| POST /auth/logout           | ✅     | Token invalidation + version increment |
+| PATCH /auth/change-password | ✅     | Implemented in profile + auth flow     |
 
 #### B. Dashboard — F-01 (90%)
 
@@ -81,32 +81,32 @@
 | GET /dashboard/personal/assets          | ✅     |                                |
 | GET /dashboard/personal/pending-returns | ✅     |                                |
 
-#### C. Assets — F-02 (85%)
+#### C. Assets — F-02 (92%)
 
-| Endpoint                      | Status | Notes                  |
-| ----------------------------- | ------ | ---------------------- |
-| CRUD /assets                  | ✅     | Full implementation    |
-| GET /assets/stock (3 views)   | ✅     | main/division/personal |
-| CRUD /assets/categories       | ✅     |                        |
-| CRUD /assets/types            | ✅     |                        |
-| CRUD /assets/models           | ✅     |                        |
-| CRUD /assets/purchases        | ✅     |                        |
-| CRUD /assets/depreciation     | ✅     |                        |
-| PATCH /assets/stock/threshold | ⚠️     | Perlu verifikasi       |
-| QR/Barcode generation         | ❌     | Tidak ada endpoint     |
+| Endpoint                         | Status | Notes                  |
+| -------------------------------- | ------ | ---------------------- |
+| CRUD /assets                     | ✅     | Full implementation    |
+| GET /assets/stock (3 views)      | ✅     | main/division/personal |
+| CRUD /assets/categories          | ✅     |                        |
+| CRUD /assets/types               | ✅     |                        |
+| CRUD /assets/models              | ✅     |                        |
+| CRUD /assets/purchases           | ✅     |                        |
+| CRUD /assets/depreciation        | ✅     |                        |
+| PUT /assets/models/:id/threshold | ✅     | upsert pattern         |
+| QR/Barcode generation            | ✅     | QR via qrcode module   |
 
-#### D. Transactions — F-04 (75%)
+#### D. Transactions — F-04 (92%)
 
-| Sub-Module  | CRUD | Approve/Reject | Execute | Cancel | Status                     |
-| ----------- | ---- | -------------- | ------- | ------ | -------------------------- |
-| Requests    | ✅   | ✅             | ✅      | ✅     | **Complete**               |
-| Loans       | ✅   | ✅             | ✅      | ✅     | **Complete**               |
-| Returns     | ✅   | ✅             | ✅      | ✅     | **Complete**               |
-| Handovers   | ✅   | ✅             | ✅      | ✅     | **Complete**               |
-| Projects    | ✅   | ✅             | ✅      | ✅     | **Complete**               |
-| **Repairs** | ❌   | ❌             | ❌      | ❌     | **STUB (no Prisma model)** |
+| Sub-Module  | CRUD | Approve/Reject | Execute | Cancel | Status                         |
+| ----------- | ---- | -------------- | ------- | ------ | ------------------------------ |
+| Requests    | ✅   | ✅             | ✅      | ✅     | **Complete**                   |
+| Loans       | ✅   | ✅             | ✅      | ✅     | **Complete**                   |
+| Returns     | ✅   | ✅             | ✅      | ✅     | **Complete** + reject/resubmit |
+| Handovers   | ✅   | ✅             | ✅      | ✅     | **Complete** + FIFO reco       |
+| Projects    | ✅   | ✅             | ✅      | ✅     | **Complete**                   |
+| **Repairs** | ✅   | ✅             | ✅      | ✅     | **Complete** + LOST flow       |
 
-**Approval Engine**: ⚠️ Hardcoded chains, bukan dynamic per PRD 6.3.
+**Approval Engine**: ✅ Dynamic chain per `creatorRole` + `module` via `APPROVAL_MATRIX`.
 
 #### E. Customers — F-05 (85%)
 
@@ -117,26 +117,28 @@
 | Maintenance   | ✅   | Complete |
 | Dismantles    | ✅   | Complete |
 
-#### F. Settings — F-06 (85%)
+#### F. Settings — F-06 (95%)
 
-| Endpoint                         | Status | Notes                               |
-| -------------------------------- | ------ | ----------------------------------- |
-| GET/PATCH /settings/profile      | ✅     |                                     |
-| CRUD /settings/users             | ✅     | SUPERADMIN only                     |
-| CRUD /settings/divisions         | ✅     |                                     |
-| GET /settings/audit              | ✅     | SUPERADMIN only                     |
-| PATCH /settings/profile/password | ❌     | Tidak ada dedicated change-password |
+| Endpoint                         | Status | Notes                          |
+| -------------------------------- | ------ | ------------------------------ |
+| GET/PATCH /settings/profile      | ✅     | + avatar upload                |
+| CRUD /settings/users             | ✅     | SUPERADMIN only                |
+| CRUD /settings/divisions         | ✅     |                                |
+| GET /settings/audit              | ✅     | SUPERADMIN only                |
+| PATCH /settings/profile/password | ✅     | Change password implemented    |
+| GET/PATCH notification-prefs     | ✅     | Notification preferences, JSON |
+| POST /settings/profile/avatar    | ✅     | JPEG/PNG/WebP, 2MB limit       |
 
 ---
 
 ### 2.3 Frontend — Per Module
 
-#### A. Auth (95%)
+#### A. Auth (98%)
 
 | Page                          | Status | Connected to API |
 | ----------------------------- | ------ | ---------------- |
 | LoginPage                     | ✅     | ✅               |
-| Change Password (first login) | ❌     | N/A              |
+| Change Password (first login) | ✅     | ✅               |
 
 #### B. Dashboard — F-01 (85%)
 
@@ -161,18 +163,19 @@
 | PurchasesPage (List/Form/Detail)    | ✅     |                            |
 | DepreciationPage (List/Form/Detail) | ✅     |                            |
 
-#### D. Transactions — F-04 (65%)
+#### D. Transactions — F-04 (90%)
 
-| Page                     | Status | Notes                                   |
-| ------------------------ | ------ | --------------------------------------- |
-| RequestList/Form/Detail  | ✅     | Form works, API connected               |
-| LoanList/Form/Detail     | ✅     |                                         |
-| ReturnList/Form/Detail   | ✅     |                                         |
-| HandoverList/Form/Detail | ✅     |                                         |
-| RepairList/Form/Detail   | ⚠️     | UI exists, backend STUB                 |
-| ProjectList/Form/Detail  | ✅     |                                         |
-| **🔴 Approval Buttons**  | ❌     | **onClick handlers MISSING**            |
-| **🔴 Rejection Dialog**  | ❌     | Tidak ada dialog input alasan rejection |
+| Page                     | Status | Notes                                       |
+| ------------------------ | ------ | ------------------------------------------- |
+| RequestList/Form/Detail  | ✅     | Form works, API connected                   |
+| LoanList/Form/Detail     | ✅     | + overdue indicators                        |
+| ReturnList/Form/Detail   | ✅     | + reject/resubmit flow                      |
+| HandoverList/Form/Detail | ✅     | + FIFO recommendation                       |
+| RepairList/Form/Detail   | ✅     | Full UI + LOST flow dialogs                 |
+| ProjectList/Form/Detail  | ✅     |                                             |
+| Approval Buttons         | ✅     | onClick handlers connected                  |
+| Approval Timeline        | ✅     | `ApprovalTimeline` component in all details |
+| Rejection Dialog         | ✅     | Input reason + alasan mandatory             |
 
 #### E. Customers — F-05 (85%)
 
@@ -183,146 +186,90 @@
 | MaintenanceList/Form/Detail  | ✅     |       |
 | DismantleList/Form/Detail    | ✅     |       |
 
-#### F. Settings — F-06 (80%)
+#### F. Settings — F-06 (95%)
 
-| Page                        | Status | Notes                            |
-| --------------------------- | ------ | -------------------------------- |
-| ProfilePage                 | ✅     |                                  |
-| UsersDivisionsPage (tabbed) | ✅     | Summary + Users + Divisions tabs |
-| UserForm/DetailPage         | ✅     |                                  |
-| DivisionForm/DetailPage     | ✅     |                                  |
-| Change Password Form        | ❌     | Tidak ada di ProfilePage         |
+| Page                        | Status | Notes                                |
+| --------------------------- | ------ | ------------------------------------ |
+| ProfilePage                 | ✅     | + avatar upload + change password    |
+| UsersDivisionsPage (tabbed) | ✅     | Summary + Users + Divisions tabs     |
+| UserForm/DetailPage         | ✅     |                                      |
+| DivisionForm/DetailPage     | ✅     |                                      |
+| Change Password Form        | ✅     | In ProfilePage + auth changePassword |
+| Notification Preferences    | ✅     | Toggle per notification type         |
 
 ---
 
-### 2.4 Cross-Cutting Concerns (35%)
+### 2.4 Cross-Cutting Concerns (93%)
 
-| Feature                        | Backend                              | Frontend                         | Overall |
-| ------------------------------ | ------------------------------------ | -------------------------------- | ------- |
-| **RBAC Route Protection**      | ✅ (Guards)                          | ✅ (RoleProtectedRoute applied)  | ✅ 100% |
-| **Audit Trail (Auto-logging)** | ✅ (AuditTrailInterceptor global)    | N/A                              | ✅ 100% |
-| **Notifications (In-App)**     | ✅ (Auto-triggered on status change) | ✅ (Bell + dropdown + badge)     | ✅ 100% |
-| **WhatsApp Notifications**     | ❌                                   | N/A                              | ❌ 0%   |
-| **File Upload/Attachment**     | ✅ (UploadModule + static serve)     | ✅ (AttachmentSection component) | ✅ 100% |
-| **Export Excel/PDF**           | ✅ (ExportModule XLSX/CSV/PDF)       | ✅ (ExportButton + hooks)        | ✅ 100% |
-| **QR/Barcode**                 | ✅ (QrCodeModule PNG/DataURL/Batch)  | ✅ (QrCodeSection + hooks)       | ✅ 100% |
-| **Import Data (Excel)**        | ✅ (ImportModule XLSX/CSV)           | ✅ (ImportDialog + hooks)        | ✅ 100% |
-| **Error Pages (404/500)**      | N/A                                  | ❌                               | ❌ 0%   |
-| **Error Boundary**             | N/A                                  | ❌                               | ❌ 0%   |
-| **Multi-theme (Dark/Light)**   | N/A                                  | ✅                               | ✅ 100% |
-| **Responsive Design**          | N/A                                  | ⚠️ (Partial)                     | ⚠️ 60%  |
+| Feature                        | Backend                              | Frontend                          | Overall |
+| ------------------------------ | ------------------------------------ | --------------------------------- | ------- |
+| **RBAC Route Protection**      | ✅ (Guards)                          | ✅ (RoleProtectedRoute applied)   | ✅ 100% |
+| **Audit Trail (Auto-logging)** | ✅ (AuditTrailInterceptor global)    | N/A                               | ✅ 100% |
+| **Notifications (In-App)**     | ✅ (Auto-triggered on status change) | ✅ (Bell + dropdown + badge)      | ✅ 100% |
+| **WhatsApp Notifications**     | ✅ (Templates + Fonnte/WABLAS)       | N/A                               | ✅ 90%  |
+| **File Upload/Attachment**     | ✅ (UploadModule + static serve)     | ✅ (AttachmentSection component)  | ✅ 100% |
+| **Export Excel/PDF**           | ✅ (ExportModule XLSX/CSV/PDF)       | ✅ (ExportButton + hooks)         | ✅ 100% |
+| **QR/Barcode**                 | ✅ (QrCodeModule PNG/DataURL/Batch)  | ✅ (QrCodeSection + hooks)        | ✅ 100% |
+| **Import Data (Excel)**        | ✅ (ImportModule XLSX/CSV)           | ✅ (ImportDialog + hooks)         | ✅ 100% |
+| **Error Pages (404/500)**      | N/A                                  | ✅ (NotFoundPage + ErrorBoundary) | ✅ 100% |
+| **Error Boundary**             | N/A                                  | ✅ (ErrorBoundary.tsx in App)     | ✅ 100% |
+| **Multi-theme (Dark/Light)**   | N/A                                  | ✅                                | ✅ 100% |
+| **Responsive Design**          | N/A                                  | ✅ (useIsMobile + card view)      | ✅ 85%  |
 
 ---
 
 ## 3. Problem Report — Issues Found
 
-### 🔴 CRITICAL (Blocking core workflows)
+### 🔴 CRITICAL (Blocking core workflows) — ✅ ALL RESOLVED
 
-| #    | Issue                                                                                                               | Location                                                                                             | Impact                                                                   |
-| ---- | ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| C-01 | **Approval buttons non-functional** — Approve/Reject/Cancel buttons di Detail pages tidak memiliki onClick handlers | Frontend: RequestDetailPage, LoanDetailPage, HandoverDetailPage, ReturnDetailPage, ProjectDetailPage | Workflow approval 100% broken — users cannot approve/reject transactions |
-| C-02 | **Repair module STUB** — No Prisma model, empty controller/service                                                  | Backend: transaction.prisma + repairs/                                                               | Modul "Lapor Rusak" (F-04e) tidak berfungsi sama sekali                  |
-| C-03 | **Role-based route protection NOT APPLIED** — RoleProtectedRoute component exists but unused                        | Frontend: routes/protected.tsx                                                                       | Semua user bisa akses semua halaman (STAFF bisa manage users)            |
+| #    | Issue                                           | Location                               | Status                                                         |
+| ---- | ----------------------------------------------- | -------------------------------------- | -------------------------------------------------------------- |
+| C-01 | ~~**Approval buttons non-functional**~~         | Frontend: All DetailPages              | ✅ RESOLVED — onClick handlers + ApprovalTimeline connected    |
+| C-02 | ~~**Repair module STUB**~~                      | Backend: transaction.prisma + repairs/ | ✅ RESOLVED — Full Repair model + 5-state workflow + LOST flow |
+| C-03 | ~~**Role-based route protection NOT APPLIED**~~ | Frontend: routes/protected.tsx         | ✅ RESOLVED — RoleProtectedRoute applied                       |
 
-### 🟡 HIGH (Important functionality gaps)
+### 🟡 HIGH (Important functionality gaps) — ✅ ALL RESOLVED
 
-| #    | Issue                                                                    | Location                         | Impact                                                    |
-| ---- | ------------------------------------------------------------------------ | -------------------------------- | --------------------------------------------------------- |
-| H-01 | ~~**Notification system disconnected**~~ ✅ RESOLVED Sprint 3            | Backend: notification.service.ts | Auto-triggered on approve/reject/execute/cancel           |
-| H-02 | ~~**Notification UI non-functional**~~ ✅ RESOLVED Sprint 3              | Frontend: AppHeader.tsx          | Bell + dropdown + unread badge + mark-all-read            |
-| H-03 | ~~**Audit trail NOT auto-logged**~~ ✅ RESOLVED Sprint 3                 | Backend: common/interceptors/    | Global AuditTrailInterceptor auto-logs all CUD operations |
-| H-04 | **Approval chain hardcoded** — Tidak dynamic per PRD 6.3 workflow matrix | Backend: approval.service.ts     | Approval chain tidak sesuai spesifikasi per role/module   |
-| H-05 | **No 404/error pages** — No catch-all route                              | Frontend: routes/                | Broken UX saat user navigasi ke URL invalid               |
-| H-06 | **No Error Boundary** — App crash tanpa graceful fallback                | Frontend: App.tsx                | Unhandled errors crash entire app                         |
+| #    | Issue                                    | Location                         | Status                                     |
+| ---- | ---------------------------------------- | -------------------------------- | ------------------------------------------ |
+| H-01 | ~~**Notification system disconnected**~~ | Backend: notification.service.ts | ✅ RESOLVED                                |
+| H-02 | ~~**Notification UI non-functional**~~   | Frontend: AppHeader.tsx          | ✅ RESOLVED                                |
+| H-03 | ~~**Audit trail NOT auto-logged**~~      | Backend: common/interceptors/    | ✅ RESOLVED                                |
+| H-04 | ~~**Approval chain hardcoded**~~         | Backend: approval.service.ts     | ✅ RESOLVED — Dynamic `APPROVAL_MATRIX`    |
+| H-05 | ~~**No 404/error pages**~~               | Frontend: routes/                | ✅ RESOLVED — NotFoundPage + ErrorBoundary |
+| H-06 | ~~**No Error Boundary**~~                | Frontend: App.tsx                | ✅ RESOLVED — ErrorBoundary wrapping App   |
 
-### 🟢 MEDIUM (Enhancement needed)
+### 🟢 MEDIUM (Enhancement needed) — ✅ ALL RESOLVED
 
-| #    | Issue                                                        | Location                          | Impact                                                          |
-| ---- | ------------------------------------------------------------ | --------------------------------- | --------------------------------------------------------------- |
-| M-01 | ~~File upload not implemented~~ ✅ RESOLVED Sprint 4         | Backend + Frontend                | Full upload system with drag-drop UI                            |
-| M-02 | ~~Export Excel/PDF not implemented~~ ✅ RESOLVED Sprint 5    | Backend + Frontend                | Full XLSX/CSV/PDF export for assets, requests, loans, customers |
-| M-03 | ~~QR/Barcode not implemented~~ ✅ RESOLVED Sprint 5          | Backend + Frontend                | QR code generation per asset with display and download          |
-| M-04 | ~~Change password not implemented~~ ✅ RESOLVED Sprint 2     | Backend: auth + Frontend: profile | Change password via ProfilePage                                 |
-| M-05 | ~~Budget management hardcoded~~ ✅ RESOLVED Sprint 5         | Backend: dashboard.service.ts     | Dynamic remaining budget from purchase data                     |
-| M-06 | ~~Import data (Excel) not implemented~~ ✅ RESOLVED Sprint 5 | Backend + Frontend                | Excel/CSV asset import with template and validation             |
-
----
-
-## 4. Sprint Plan — Road to 100% Coverage
-
-### Sprint 1: Critical Fixes (Priority: BLOCKING) — Est. Effort: Medium
-
-**Goal**: Fix semua blocker yang membuat core workflow tidak berfungsi.
-
-| Task                                                                    | Issue Ref  | Effort |
-| ----------------------------------------------------------------------- | ---------- | ------ |
-| 1.1 Wire approval buttons (onClick → hooks) di semua Detail pages       | C-01       | Small  |
-| 1.2 Add rejection dialog (input reason) to all transaction Detail pages | C-01       | Small  |
-| 1.3 Apply RoleProtectedRoute ke semua protected routes                  | C-03       | Small  |
-| 1.4 Create 404 NotFoundPage + Error Boundary                            | H-05, H-06 | Small  |
-
-**Expected Coverage After Sprint 1**: **74%** (+6%)
+| #    | Issue                                   | Location                      | Status      |
+| ---- | --------------------------------------- | ----------------------------- | ----------- |
+| M-01 | ~~File upload not implemented~~         | Backend + Frontend            | ✅ RESOLVED |
+| M-02 | ~~Export Excel/PDF not implemented~~    | Backend + Frontend            | ✅ RESOLVED |
+| M-03 | ~~QR/Barcode not implemented~~          | Backend + Frontend            | ✅ RESOLVED |
+| M-04 | ~~Change password not implemented~~     | Backend + Frontend            | ✅ RESOLVED |
+| M-05 | ~~Budget management hardcoded~~         | Backend: dashboard.service.ts | ✅ RESOLVED |
+| M-06 | ~~Import data (Excel) not implemented~~ | Backend + Frontend            | ✅ RESOLVED |
 
 ---
 
-### Sprint 2: Repair Module + Approval Engine (Priority: HIGH)
+## 4. Sprint Plan — Status Update (16 April 2026)
 
-**Goal**: Complete modul Repair dan perbaiki approval engine.
+### Sprint 1-5: ✅ ALL COMPLETED
 
-| Task                                                                   | Issue Ref | Effort |
-| ---------------------------------------------------------------------- | --------- | ------ |
-| 2.1 Create Repair/AssetRepair Prisma model di transaction.prisma       | C-02      | Small  |
-| 2.2 Implement RepairController + RepairService (DRY dari Loan pattern) | C-02      | Medium |
-| 2.3 Implement dynamic approval chain per PRD 6.3 (3 workflows)         | H-04      | Large  |
-| 2.4 Implement change-password endpoint (backend + frontend)            | M-04      | Small  |
+All sprint tasks from the original plan have been executed. See detailed status in `SPRINT_ANALYSIS_REPORT.md`.
 
-**Expected Coverage After Sprint 2**: **80%** (+6%)
+### Remaining Gaps to 100%
 
----
-
-### Sprint 3: Notification + Audit Trail (Priority: HIGH)
-
-**Goal**: Implement auto-triggered notifications dan audit trail interceptor.
-
-| Task                                                                | Issue Ref | Effort |
-| ------------------------------------------------------------------- | --------- | ------ |
-| 3.1 Create AuditTrailInterceptor — auto-log all CUD operations      | H-03      | Medium |
-| 3.2 Auto-trigger notifications on approval/rejection/status changes | H-01      | Medium |
-| 3.3 Build notification dropdown UI (bell → panel → list)            | H-02      | Medium |
-| 3.4 Notification controller endpoints (list, markRead, markAllRead) | H-01      | Small  |
-
-**Expected Coverage After Sprint 3**: **87%** (+7%)
-
----
-
-### Sprint 4: File Upload + Attachment (Priority: MEDIUM)
-
-**Goal**: Implement file upload system dan wire ke transactions/assets.
-
-| Task                                                                    | Issue Ref | Effort |
-| ----------------------------------------------------------------------- | --------- | ------ |
-| 4.1 Create file upload service (multer/S3) + controller                 | M-01      | Medium |
-| 4.2 Create FileUpload component (drag-drop, preview)                    | M-01      | Medium |
-| 4.3 Wire attachments to transaction forms (request, loan, repair, etc.) | M-01      | Medium |
-| 4.4 Wire attachments to asset detail (photos, documents)                | M-01      | Small  |
-
-**Expected Coverage After Sprint 4**: **92%** (+5%)
-
----
-
-### Sprint 5: Export/Import + QR (Priority: MEDIUM)
-
-**Goal**: Implement data export, import, dan QR code.
-
-| Task                                                 | Issue Ref | Effort |
-| ---------------------------------------------------- | --------- | ------ |
-| 5.1 Implement export Excel (per module list page)    | M-02      | Medium |
-| 5.2 Implement export PDF (detail/report pages)       | M-02      | Medium |
-| 5.3 Implement QR/barcode generation per asset        | M-03      | Medium |
-| 5.4 Implement data import from Excel                 | M-06      | Large  |
-| 5.5 Budget management (remaining budget calculation) | M-05      | Small  |
-
-**Expected Coverage After Sprint 5**: **100%**
+| #   | Task                                        | Priority | Effort | Sprint |
+| --- | ------------------------------------------- | -------- | ------ | ------ |
+| 1   | Asset classification enforcement (logic)    | HIGH     | M      | S1     |
+| 2   | Frontend React.lazy() for route-based split | MEDIUM   | S      | S0     |
+| 3   | Dismantle material recovery (reverse-FIFO)  | MEDIUM   | M      | S3     |
+| 4   | Audit log before/after diff view            | LOW      | M      | S4     |
+| 5   | Barcode generation (Code 128)               | LOW      | S      | S4     |
+| 6   | Frontend component tests setup              | HIGH     | L      | S5     |
+| 7   | Project task progress % calculation         | LOW      | S      | S3     |
+| 8   | Users/Divisions summary charts              | LOW      | S      | S4     |
 
 ---
 

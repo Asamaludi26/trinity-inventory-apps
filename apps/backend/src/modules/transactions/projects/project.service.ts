@@ -124,7 +124,21 @@ export class ProjectService {
     if (!project) {
       throw new NotFoundException('Proyek tidak ditemukan');
     }
-    return project;
+
+    // Calculate task progress percentage
+    const progress = this.calculateProgress(project.tasks);
+
+    return { ...project, progress };
+  }
+
+  /**
+   * Calculate task completion percentage for a project
+   * @returns number 0-100 representing completion percentage
+   */
+  private calculateProgress(tasks: Array<{ status: string }>): number {
+    if (!tasks || tasks.length === 0) return 0;
+    const completed = tasks.filter((t) => t.status === 'COMPLETED').length;
+    return Math.round((completed / tasks.length) * 100);
   }
 
   async create(dto: CreateProjectDto, userId: number) {

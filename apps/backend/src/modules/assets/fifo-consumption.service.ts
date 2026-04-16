@@ -1,6 +1,10 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../../core/database/prisma.service';
-import { TrackingMethod, Prisma } from '../../generated/prisma/client';
+import {
+  TrackingMethod,
+  AssetStatus,
+  Prisma,
+} from '../../generated/prisma/client';
 import { UnitConversionService } from './unit-conversion.service';
 
 /**
@@ -213,6 +217,148 @@ export class FifoConsumptionService {
       count: totalCount,
       measurement: totalMeasurement,
       total: totalCount + totalMeasurement,
+    };
+  }
+
+  /**
+   * Recover material back to stock (reverse-FIFO).
+   * Used when project equipment is dismantled and recovered materials return to stock.
+   * Adds quantity back to the newest CONSUMED asset of the same model (reverse-FIFO),
+   * or creates a new stock entry if none available.
+   *
+   * @param modelId Asset model ID
+   * @param quantityRecovered Quantity to return to stock
+   * @param reference Document reference (e.g., dismantle doc number)
+   * @param userId User performing the recovery
+   * @param tx Optional Prisma transaction client
+   */
+  async recoverMaterial(
+    modelId: number,
+    quantityRecovered: number,
+    reference: string,
+    userId: number,
+    tx?: Prisma.TransactionClient,
+  ): Promise<{ recovered: number; movements: number[] }> {
+    const prismaClient = tx || this.prisma;
+
+    if (quantityRecovered <= 0) {
+      throw new BadRequestException(
+        'Jumlah yang di-recover harus lebih besar dari 0',
+      );
+    }
+
+    const model = await prismaClient.assetModel.findUnique({
+      where: { id: modelId },
+    });
+
+    if (!model) {
+      throw new BadRequestException(
+        `Model aset dengan ID ${modelId} tidak ditemukan`,
+      );
+    }
+
+    let remaining = quantityRecovered;
+    const movementIds: number[] = [];
+
+    // Reverse-FIFO: newest consumed assets first (by createdAt desc)
+    const consumedAssets = await prismaClient.asset.findMany({
+      where: {
+        modelId,
+        status: AssetStatus.CONSUMED,
+        isDeleted: false,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    for (const asset of consumedAssets) {
+      if (remaining <= 0) break;
+
+      const isMeasurement = asset.trackingMethod === TrackingMethod.MEASUREMENT;
+      const maxCapacity = isMeasurement
+        ? asset.currentBalance?.toNumber() || 0
+        : asset.quantity || 0;
+
+      // CONSUMED assets have 0 balance; can receive up to original capacity
+      // We recover into them (set balance back), marking them IN_STORAGE
+      const toRecover = Math.min(remaining, quantityRecovered);
+      remaining -= toRecover;
+
+      await prismaClient.asset.update({
+        where: { id: asset.id },
+        data: {
+          ...(isMeasurement
+            ? { currentBalance: new Prisma.Decimal(toRecover + maxCapacity) }
+            : { quantity: toRecover + maxCapacity }),
+          status: AssetStatus.IN_STORAGE,
+          updatedAt: new Date(),
+        },
+      });
+
+      const movement = await prismaClient.stockMovement.create({
+        data: {
+          assetId: asset.id,
+          type: 'DISMANTLE_RETURN',
+          quantity: toRecover,
+          reference,
+          note: `Recovery material: ${toRecover} ke batch ${asset.code}`,
+          createdById: userId,
+        },
+      });
+
+      movementIds.push(movement.id);
+    }
+
+    // If still remaining, find IN_STORAGE assets of same model and add stock
+    if (remaining > 0) {
+      const storageAssets = await prismaClient.asset.findMany({
+        where: {
+          modelId,
+          status: AssetStatus.IN_STORAGE,
+          isDeleted: false,
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 1,
+      });
+
+      if (storageAssets.length > 0) {
+        const asset = storageAssets[0];
+        const isMeasurement =
+          asset.trackingMethod === TrackingMethod.MEASUREMENT;
+        const currentQty = isMeasurement
+          ? asset.currentBalance?.toNumber() || 0
+          : asset.quantity || 0;
+
+        await prismaClient.asset.update({
+          where: { id: asset.id },
+          data: {
+            ...(isMeasurement
+              ? {
+                  currentBalance: new Prisma.Decimal(currentQty + remaining),
+                }
+              : { quantity: currentQty + remaining }),
+            updatedAt: new Date(),
+          },
+        });
+
+        const movement = await prismaClient.stockMovement.create({
+          data: {
+            assetId: asset.id,
+            type: 'DISMANTLE_RETURN',
+            quantity: remaining,
+            reference,
+            note: `Recovery material: ${remaining} ke batch ${asset.code}`,
+            createdById: userId,
+          },
+        });
+
+        movementIds.push(movement.id);
+        remaining = 0;
+      }
+    }
+
+    return {
+      recovered: quantityRecovered - remaining,
+      movements: movementIds,
     };
   }
 }

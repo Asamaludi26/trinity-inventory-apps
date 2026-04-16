@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Edit, Trash2, QrCode, ArrowDownUp } from 'lucide-react';
+import { ArrowLeft, Edit, Trash2, QrCode, ArrowDownUp, Barcode } from 'lucide-react';
 import { useState } from 'react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,7 @@ import { StatusBadge } from '@/components/ui/status-badge';
 import { Separator } from '@/components/ui/separator';
 import { useAsset, useDeleteAsset, useStockMovements } from '../hooks';
 import { AttachmentSection, QrCodeSection } from '@/components/form';
+import { BarcodeLabel } from '../components/BarcodeLabel';
 import { usePermissions } from '@/hooks/use-permissions';
 import { P } from '@/config/permissions';
 import { toast } from 'sonner';
@@ -42,6 +43,7 @@ export function AssetDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [showQR, setShowQR] = useState(false);
+  const [showBarcode, setShowBarcode] = useState(false);
   const { data: asset, isLoading } = useAsset(id);
   const { data: movements, isLoading: isLoadingMovements } = useStockMovements(id);
   const deleteAsset = useDeleteAsset();
@@ -102,6 +104,10 @@ export function AssetDetailPage() {
             <QrCode className="h-4 w-4" />
             QR
           </Button>
+          <Button variant="outline" size="sm" onClick={() => setShowBarcode(!showBarcode)}>
+            <Barcode className="h-4 w-4" />
+            Barcode
+          </Button>
           <Button variant="outline" onClick={() => navigate('/assets')}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Kembali
@@ -127,6 +133,15 @@ export function AssetDetailPage() {
     >
       {/* QR Code Display */}
       {showQR && id && <QrCodeSection assetId={id} assetCode={asset.code} />}
+
+      {/* Barcode Display */}
+      {showBarcode && (
+        <BarcodeLabel
+          assetCode={asset.code}
+          assetName={asset.name}
+          serialNumber={asset.serialNumber}
+        />
+      )}
 
       <div className="grid gap-6 md:grid-cols-2">
         {/* Informasi Umum */}

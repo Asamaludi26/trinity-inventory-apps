@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, History } from 'lucide-react';
+import { Search, History, ChevronDown, ChevronRight } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -25,6 +25,7 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { useAuditLogs } from '../hooks';
 import { useUsers } from '../hooks';
 import { useDebounce } from '@/hooks/use-debounce';
+import { AuditDiffView } from '../components/AuditDiffView';
 
 const ACTION_LABELS: Record<string, string> = {
   CREATE: 'Buat',
@@ -71,6 +72,7 @@ export function AuditLogPage() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [page, setPage] = useState(1);
+  const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const debouncedSearch = useDebounce(search, 300);
 
   const { data: usersData } = useUsers({ limit: 200 });
@@ -244,24 +246,50 @@ export function AuditLogPage() {
               </TableRow>
             ) : (
               data.data.map((log) => (
-                <TableRow key={log.id}>
-                  <TableCell className="text-xs text-muted-foreground">
-                    {formatDateTime(log.createdAt)}
-                  </TableCell>
-                  <TableCell className="text-sm">
-                    {log.user?.fullName ?? `User #${log.userId}`}
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={ACTION_VARIANTS[log.action] ?? 'outline'}>
-                      {ACTION_LABELS[log.action] ?? log.action}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="font-mono text-xs">{log.entityType}</TableCell>
-                  <TableCell className="font-mono text-xs">{log.entityId}</TableCell>
-                  <TableCell className="text-xs text-muted-foreground">
-                    {log.ipAddress ?? '-'}
-                  </TableCell>
-                </TableRow>
+                <>
+                  <TableRow
+                    key={log.id}
+                    className="cursor-pointer hover:bg-muted/50"
+                    onClick={() => setExpandedRow(expandedRow === log.id ? null : log.id)}
+                  >
+                    <TableCell className="text-xs text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        {log.dataBefore || log.dataAfter ? (
+                          expandedRow === log.id ? (
+                            <ChevronDown className="h-3 w-3" />
+                          ) : (
+                            <ChevronRight className="h-3 w-3" />
+                          )
+                        ) : null}
+                        {formatDateTime(log.createdAt)}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-sm">
+                      {log.user?.fullName ?? `User #${log.userId}`}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={ACTION_VARIANTS[log.action] ?? 'outline'}>
+                        {ACTION_LABELS[log.action] ?? log.action}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="font-mono text-xs">{log.entityType}</TableCell>
+                    <TableCell className="font-mono text-xs">{log.entityId}</TableCell>
+                    <TableCell className="text-xs text-muted-foreground">
+                      {log.ipAddress ?? '-'}
+                    </TableCell>
+                  </TableRow>
+                  {expandedRow === log.id && (log.dataBefore || log.dataAfter) && (
+                    <TableRow key={`${log.id}-diff`}>
+                      <TableCell colSpan={6} className="bg-muted/30 p-4">
+                        <AuditDiffView
+                          dataBefore={log.dataBefore}
+                          dataAfter={log.dataAfter}
+                          action={log.action}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </>
               ))
             )}
           </TableBody>

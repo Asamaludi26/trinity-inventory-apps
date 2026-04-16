@@ -423,6 +423,23 @@ export function ProjectDetailPage() {
                 <span className="text-sm text-muted-foreground">Selesai</span>
                 <span className="text-sm">{formatDate(project.endDate)}</span>
               </div>
+              {project.progress !== undefined && (
+                <>
+                  <Separator />
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Progress Tugas</span>
+                      <span className="text-sm font-medium">{project.progress}%</span>
+                    </div>
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
+                      <div
+                        className="h-full rounded-full bg-primary transition-all"
+                        style={{ width: `${project.progress}%` }}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
             </CardContent>
           </Card>
 

@@ -3,6 +3,7 @@ import {
   NotFoundException,
   ConflictException,
   UnprocessableEntityException,
+  BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../../core/database/prisma.service';
 import { EventsService } from '../../core/events/events.service';
@@ -11,7 +12,12 @@ import { FilterAssetDto } from './dto/filter-asset.dto';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { CreateBatchAssetDto } from './dto/create-batch-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
-import { AssetStatus, Prisma } from '../../generated/prisma/client';
+import {
+  AssetStatus,
+  AssetClassification,
+  TrackingMethod,
+  Prisma,
+} from '../../generated/prisma/client';
 import { AssetStatusMachine } from './asset-status.machine';
 import { FifoConsumptionService } from './fifo-consumption.service';
 
@@ -106,7 +112,68 @@ export class AssetService {
     return asset;
   }
 
+  /**
+   * Validate classification rules:
+   * - ASSET + INDIVIDUAL: quantity=1, serialNumber required
+   * - MATERIAL + COUNT/MEASUREMENT: quantity>0 allowed, serialNumber optional
+   */
+  private validateClassification(dto: CreateAssetDto): void {
+    const classification = dto.classification;
+    const trackingMethod = dto.trackingMethod;
+
+    if (
+      classification === AssetClassification.ASSET ||
+      trackingMethod === TrackingMethod.INDIVIDUAL
+    ) {
+      // INDIVIDUAL assets: quantity must be 1, serial number required
+      if (dto.quantity && dto.quantity !== 1) {
+        throw new BadRequestException(
+          'Aset INDIVIDUAL harus memiliki quantity = 1',
+        );
+      }
+      if (
+        classification === AssetClassification.ASSET &&
+        trackingMethod === TrackingMethod.INDIVIDUAL &&
+        !dto.serialNumber
+      ) {
+        throw new BadRequestException(
+          'Aset INDIVIDUAL wajib memiliki serial number',
+        );
+      }
+      // Force quantity=1 for individual assets
+      dto.quantity = 1;
+    }
+
+    if (classification === AssetClassification.MATERIAL) {
+      // MATERIAL: must have COUNT or MEASUREMENT tracking
+      if (trackingMethod === TrackingMethod.INDIVIDUAL) {
+        throw new BadRequestException(
+          'Material tidak dapat menggunakan tracking method INDIVIDUAL',
+        );
+      }
+      if (
+        trackingMethod === TrackingMethod.COUNT &&
+        (!dto.quantity || dto.quantity < 1)
+      ) {
+        throw new BadRequestException(
+          'Material COUNT harus memiliki quantity minimal 1',
+        );
+      }
+      if (
+        trackingMethod === TrackingMethod.MEASUREMENT &&
+        (!dto.currentBalance || dto.currentBalance <= 0)
+      ) {
+        throw new BadRequestException(
+          'Material MEASUREMENT harus memiliki currentBalance > 0',
+        );
+      }
+    }
+  }
+
   async create(dto: CreateAssetDto, recordedById: number) {
+    // Enforce classification rules
+    this.validateClassification(dto);
+
     const code = dto.code || (await this.generateAssetCode());
     const { note: _note, ...assetData } = dto;
 
@@ -441,6 +508,11 @@ export class AssetService {
       throw new UnprocessableEntityException(
         'Minimal harus ada 1 item dalam batch registrasi',
       );
+    }
+
+    // Validate classification rules for each item
+    for (const item of dto.items) {
+      this.validateClassification(item as CreateAssetDto);
     }
 
     // Validate serial numbers for uniqueness per model before transaction
