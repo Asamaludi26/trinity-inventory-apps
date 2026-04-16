@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
@@ -38,7 +39,7 @@ import {
   useUpdateModel,
   useDeleteModel,
 } from '../hooks';
-import type { AssetType, AssetCategory, AssetModel } from '../types';
+import type { AssetType, AssetCategory, AssetModel, BulkTrackingType } from '../types';
 
 export function ModelsTab() {
   const [search, setSearch] = useState('');
@@ -50,6 +51,11 @@ export function ModelsTab() {
   const [formName, setFormName] = useState('');
   const [formBrand, setFormBrand] = useState('');
   const [formTypeId, setFormTypeId] = useState<string>('');
+  const [formUnit, setFormUnit] = useState('');
+  const [formContainerUnit, setFormContainerUnit] = useState('');
+  const [formContainerSize, setFormContainerSize] = useState('');
+  const [formBulkType, setFormBulkType] = useState<BulkTrackingType | ''>('');
+  const [formInstallationTemplate, setFormInstallationTemplate] = useState(false);
 
   const { data: rawCategories = [] } = useCategories();
   const validCategories: AssetCategory[] = Array.isArray(rawCategories)
@@ -91,6 +97,11 @@ export function ModelsTab() {
     setFormName('');
     setFormBrand('');
     setFormTypeId('');
+    setFormUnit('');
+    setFormContainerUnit('');
+    setFormContainerSize('');
+    setFormBulkType('');
+    setFormInstallationTemplate(false);
     setFormOpen(true);
   };
 
@@ -99,24 +110,34 @@ export function ModelsTab() {
     setFormName(item.name);
     setFormBrand(item.brand);
     setFormTypeId(String(item.typeId));
+    setFormUnit(item.unit ?? '');
+    setFormContainerUnit(item.containerUnit ?? '');
+    setFormContainerSize(item.containerSize != null ? String(item.containerSize) : '');
+    setFormBulkType(item.bulkType ?? '');
+    setFormInstallationTemplate(item.isInstallationTemplate ?? false);
     setFormOpen(true);
   };
 
   const handleSubmit = async () => {
     if (!formName.trim() || !formBrand.trim()) return;
     try {
+      const payload = {
+        name: formName.trim(),
+        brand: formBrand.trim(),
+        ...(formUnit.trim() && { unit: formUnit.trim() }),
+        ...(formContainerUnit.trim() && { containerUnit: formContainerUnit.trim() }),
+        ...(formContainerSize && { containerSize: Number(formContainerSize) }),
+        ...(formBulkType && { bulkType: formBulkType as BulkTrackingType }),
+        isInstallationTemplate: formInstallationTemplate,
+      };
       if (editItem) {
-        await updateModel.mutateAsync({
-          id: editItem.id,
-          data: { name: formName.trim(), brand: formBrand.trim() },
-        });
+        await updateModel.mutateAsync({ id: editItem.id, data: payload });
         toast.success('Model aset berhasil diperbarui');
       } else {
         if (!formTypeId) return;
         await createModel.mutateAsync({
           typeId: Number(formTypeId),
-          name: formName.trim(),
-          brand: formBrand.trim(),
+          ...payload,
         });
         toast.success('Model aset berhasil ditambahkan');
       }
@@ -208,7 +229,9 @@ export function ModelsTab() {
               <TableHead>Brand</TableHead>
               <TableHead>Tipe</TableHead>
               <TableHead>Kategori</TableHead>
-              <TableHead className="text-center">Jumlah Aset</TableHead>
+              <TableHead>Satuan</TableHead>
+              <TableHead className="text-center">Template</TableHead>
+              <TableHead className="text-center">Aset</TableHead>
               <TableHead className="text-right">Aksi</TableHead>
             </TableRow>
           </TableHeader>
@@ -216,7 +239,7 @@ export function ModelsTab() {
             {isLoading ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <TableRow key={i}>
-                  {Array.from({ length: 7 }).map((__, j) => (
+                  {Array.from({ length: 9 }).map((__, j) => (
                     <TableCell key={j}>
                       <Skeleton className="h-4 w-full" />
                     </TableCell>
@@ -225,7 +248,7 @@ export function ModelsTab() {
               ))
             ) : !filtered?.length ? (
               <TableRow>
-                <TableCell colSpan={7}>
+                <TableCell colSpan={9}>
                   <EmptyState
                     icon={<Box className="h-12 w-12" />}
                     title="Belum ada model aset"
@@ -250,6 +273,25 @@ export function ModelsTab() {
                   </TableCell>
                   <TableCell className="text-muted-foreground">
                     {item.type?.category?.name ?? '-'}
+                  </TableCell>
+                  <TableCell>
+                    {item.unit ? (
+                      <span className="text-sm">
+                        {item.unit}
+                        {item.containerUnit && item.containerSize
+                          ? ` (${item.containerSize} ${item.unit}/${item.containerUnit})`
+                          : ''}
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground text-xs">—</span>
+                    )}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {item.isInstallationTemplate ? (
+                      <Badge variant="secondary">Template</Badge>
+                    ) : (
+                      '—'
+                    )}
                   </TableCell>
                   <TableCell className="text-center">{item._count?.assets ?? 0}</TableCell>
                   <TableCell className="text-right">
@@ -277,7 +319,7 @@ export function ModelsTab() {
           if (!open) setEditItem(null);
         }}
       >
-        <DialogContent>
+        <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle>{editItem ? 'Edit Model Aset' : 'Tambah Model Aset'}</DialogTitle>
           </DialogHeader>
@@ -317,6 +359,80 @@ export function ModelsTab() {
                 placeholder="Contoh: Mikrotik, Ubiquiti"
               />
             </div>
+
+            {/* Tipe Bulk */}
+            <div className="flex flex-col gap-2">
+              <Label>Tipe Material Bulk</Label>
+              <Select
+                value={formBulkType || 'none'}
+                onValueChange={(val) =>
+                  setFormBulkType(val === 'none' ? '' : (val as BulkTrackingType))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">Tidak ada (Individual)</SelectItem>
+                  <SelectItem value="COUNT">Hitungan (habis langsung per jumlah)</SelectItem>
+                  <SelectItem value="MEASUREMENT">Pengukuran (habis per ukuran)</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                Khusus material bulk. Tentukan cara penghitungan stok model ini.
+              </p>
+            </div>
+
+            {/* Satuan */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="modelUnit">Satuan Dasar</Label>
+                <Input
+                  id="modelUnit"
+                  value={formUnit}
+                  onChange={(e) => setFormUnit(e.target.value)}
+                  placeholder="pcs, meter, kg"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="containerUnit">Satuan Kemasan</Label>
+                <Input
+                  id="containerUnit"
+                  value={formContainerUnit}
+                  onChange={(e) => setFormContainerUnit(e.target.value)}
+                  placeholder="box, roll, drum"
+                />
+              </div>
+            </div>
+
+            {formContainerUnit.trim() && (
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="containerSize">Isi per Kemasan</Label>
+                <Input
+                  id="containerSize"
+                  type="number"
+                  min={1}
+                  value={formContainerSize}
+                  onChange={(e) => setFormContainerSize(e.target.value)}
+                  placeholder="Contoh: 100 (100 pcs/box)"
+                />
+              </div>
+            )}
+
+            {/* Template Instalasi */}
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="installationTemplate"
+                checked={formInstallationTemplate}
+                onCheckedChange={(checked) => setFormInstallationTemplate(checked === true)}
+              />
+              <Label htmlFor="installationTemplate" className="font-normal cursor-pointer">
+                Template Instalasi
+              </Label>
+            </div>
+            <p className="text-xs text-muted-foreground ml-6 -mt-2">
+              Model ini digunakan sebagai template untuk instalasi pelanggan/proyek.
+            </p>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setFormOpen(false)} disabled={isSubmitting}>

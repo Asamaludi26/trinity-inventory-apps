@@ -368,6 +368,8 @@ export type UserWhereInput = {
   createdRequests?: Prisma.RequestListRelationFilter;
   stockMovements?: Prisma.StockMovementListRelationFilter;
   stockThresholds?: Prisma.StockThresholdListRelationFilter;
+  assetRecordings?: Prisma.AssetRecordingListRelationFilter;
+  assetHistoryChanges?: Prisma.AssetHistoryListRelationFilter;
   division?: Prisma.XOR<
     Prisma.DivisionNullableScalarRelationFilter,
     Prisma.DivisionWhereInput
@@ -412,6 +414,8 @@ export type UserOrderByWithRelationInput = {
   createdRequests?: Prisma.RequestOrderByRelationAggregateInput;
   stockMovements?: Prisma.StockMovementOrderByRelationAggregateInput;
   stockThresholds?: Prisma.StockThresholdOrderByRelationAggregateInput;
+  assetRecordings?: Prisma.AssetRecordingOrderByRelationAggregateInput;
+  assetHistoryChanges?: Prisma.AssetHistoryOrderByRelationAggregateInput;
   division?: Prisma.DivisionOrderByWithRelationInput;
 };
 
@@ -457,6 +461,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     createdRequests?: Prisma.RequestListRelationFilter;
     stockMovements?: Prisma.StockMovementListRelationFilter;
     stockThresholds?: Prisma.StockThresholdListRelationFilter;
+    assetRecordings?: Prisma.AssetRecordingListRelationFilter;
+    assetHistoryChanges?: Prisma.AssetHistoryListRelationFilter;
     division?: Prisma.XOR<
       Prisma.DivisionNullableScalarRelationFilter,
       Prisma.DivisionWhereInput
@@ -571,6 +577,8 @@ export type UserCreateInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -614,6 +622,8 @@ export type UserUncheckedCreateInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserUpdateInput = {
@@ -662,6 +672,8 @@ export type UserUpdateInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -713,6 +725,8 @@ export type UserUncheckedUpdateInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserCreateManyInput = {
@@ -960,6 +974,58 @@ export type UserUpdateOneRequiredWithoutRecordedAssetsNestedInput = {
       Prisma.UserUpdateWithoutRecordedAssetsInput
     >,
     Prisma.UserUncheckedUpdateWithoutRecordedAssetsInput
+  >;
+};
+
+export type UserCreateNestedOneWithoutAssetRecordingsInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutAssetRecordingsInput,
+    Prisma.UserUncheckedCreateWithoutAssetRecordingsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssetRecordingsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutAssetRecordingsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutAssetRecordingsInput,
+    Prisma.UserUncheckedCreateWithoutAssetRecordingsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssetRecordingsInput;
+  upsert?: Prisma.UserUpsertWithoutAssetRecordingsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutAssetRecordingsInput,
+      Prisma.UserUpdateWithoutAssetRecordingsInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutAssetRecordingsInput
+  >;
+};
+
+export type UserCreateNestedOneWithoutAssetHistoryChangesInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutAssetHistoryChangesInput,
+    Prisma.UserUncheckedCreateWithoutAssetHistoryChangesInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssetHistoryChangesInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutAssetHistoryChangesNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutAssetHistoryChangesInput,
+    Prisma.UserUncheckedCreateWithoutAssetHistoryChangesInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssetHistoryChangesInput;
+  upsert?: Prisma.UserUpsertWithoutAssetHistoryChangesInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutAssetHistoryChangesInput,
+      Prisma.UserUpdateWithoutAssetHistoryChangesInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutAssetHistoryChangesInput
   >;
 };
 
@@ -1456,6 +1522,8 @@ export type UserCreateWithoutCurrentAssetsInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -1498,6 +1566,8 @@ export type UserUncheckedCreateWithoutCurrentAssetsInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutCurrentAssetsInput = {
@@ -1545,6 +1615,8 @@ export type UserCreateWithoutRecordedAssetsInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -1587,6 +1659,8 @@ export type UserUncheckedCreateWithoutRecordedAssetsInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutRecordedAssetsInput = {
@@ -1662,6 +1736,8 @@ export type UserUpdateWithoutCurrentAssetsInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -1712,6 +1788,8 @@ export type UserUncheckedUpdateWithoutCurrentAssetsInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserUpsertWithoutRecordedAssetsInput = {
@@ -1779,6 +1857,8 @@ export type UserUpdateWithoutRecordedAssetsInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -1829,6 +1909,436 @@ export type UserUncheckedUpdateWithoutRecordedAssetsInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
+};
+
+export type UserCreateWithoutAssetRecordingsInput = {
+  uuid?: string;
+  employeeId: string;
+  fullName: string;
+  email: string;
+  password: string;
+  role?: $Enums.UserRole;
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  phone?: string | null;
+  avatarUrl?: string | null;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  tokenVersion?: number;
+  lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  mustChangePassword?: boolean;
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
+  createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
+  handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
+  handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+  createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
+};
+
+export type UserUncheckedCreateWithoutAssetRecordingsInput = {
+  id?: number;
+  uuid?: string;
+  employeeId: string;
+  fullName: string;
+  email: string;
+  password: string;
+  role?: $Enums.UserRole;
+  divisionId?: number | null;
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  phone?: string | null;
+  avatarUrl?: string | null;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  tokenVersion?: number;
+  lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  mustChangePassword?: boolean;
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
+  createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
+  handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
+  handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+  createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
+};
+
+export type UserCreateOrConnectWithoutAssetRecordingsInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutAssetRecordingsInput,
+    Prisma.UserUncheckedCreateWithoutAssetRecordingsInput
+  >;
+};
+
+export type UserUpsertWithoutAssetRecordingsInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutAssetRecordingsInput,
+    Prisma.UserUncheckedUpdateWithoutAssetRecordingsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutAssetRecordingsInput,
+    Prisma.UserUncheckedCreateWithoutAssetRecordingsInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutAssetRecordingsInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutAssetRecordingsInput,
+    Prisma.UserUncheckedUpdateWithoutAssetRecordingsInput
+  >;
+};
+
+export type UserUpdateWithoutAssetRecordingsInput = {
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string;
+  employeeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.StringFieldUpdateOperationsInput | string;
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
+  lastLoginAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
+  createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
+  handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
+  handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+  createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutAssetRecordingsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string;
+  employeeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.StringFieldUpdateOperationsInput | string;
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+  divisionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
+  lastLoginAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
+  createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
+  handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
+  handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+  createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
+};
+
+export type UserCreateWithoutAssetHistoryChangesInput = {
+  uuid?: string;
+  employeeId: string;
+  fullName: string;
+  email: string;
+  password: string;
+  role?: $Enums.UserRole;
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  phone?: string | null;
+  avatarUrl?: string | null;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  tokenVersion?: number;
+  lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  mustChangePassword?: boolean;
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput;
+  createdAssetReturns?: Prisma.AssetReturnCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationCreateNestedManyWithoutCreatedByInput;
+  handoversFrom?: Prisma.HandoverCreateNestedManyWithoutFromUserInput;
+  handoversTo?: Prisma.HandoverCreateNestedManyWithoutToUserInput;
+  handoversWitness?: Prisma.HandoverCreateNestedManyWithoutWitnessUserInput;
+  createdLoanRequests?: Prisma.LoanRequestCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+  createdPurchases?: Prisma.PurchaseMasterDataCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
+};
+
+export type UserUncheckedCreateWithoutAssetHistoryChangesInput = {
+  id?: number;
+  uuid?: string;
+  employeeId: string;
+  fullName: string;
+  email: string;
+  password: string;
+  role?: $Enums.UserRole;
+  divisionId?: number | null;
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  phone?: string | null;
+  avatarUrl?: string | null;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  tokenVersion?: number;
+  lastLoginAt?: Date | string | null;
+  failedLoginAttempts?: number;
+  lockedUntil?: Date | string | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  mustChangePassword?: boolean;
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput;
+  createdAssetReturns?: Prisma.AssetReturnUncheckedCreateNestedManyWithoutCreatedByInput;
+  currentAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutCurrentUserInput;
+  recordedAssets?: Prisma.AssetUncheckedCreateNestedManyWithoutRecordedByInput;
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutUploadedByInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedCreateNestedManyWithoutCreatedByInput;
+  handoversFrom?: Prisma.HandoverUncheckedCreateNestedManyWithoutFromUserInput;
+  handoversTo?: Prisma.HandoverUncheckedCreateNestedManyWithoutToUserInput;
+  handoversWitness?: Prisma.HandoverUncheckedCreateNestedManyWithoutWitnessUserInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+  createdPurchases?: Prisma.PurchaseMasterDataUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
+  createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+};
+
+export type UserCreateOrConnectWithoutAssetHistoryChangesInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutAssetHistoryChangesInput,
+    Prisma.UserUncheckedCreateWithoutAssetHistoryChangesInput
+  >;
+};
+
+export type UserUpsertWithoutAssetHistoryChangesInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutAssetHistoryChangesInput,
+    Prisma.UserUncheckedUpdateWithoutAssetHistoryChangesInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutAssetHistoryChangesInput,
+    Prisma.UserUncheckedCreateWithoutAssetHistoryChangesInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutAssetHistoryChangesInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutAssetHistoryChangesInput,
+    Prisma.UserUncheckedUpdateWithoutAssetHistoryChangesInput
+  >;
+};
+
+export type UserUpdateWithoutAssetHistoryChangesInput = {
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string;
+  employeeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.StringFieldUpdateOperationsInput | string;
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
+  lastLoginAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput;
+  createdAssetReturns?: Prisma.AssetReturnUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUpdateManyWithoutCreatedByNestedInput;
+  handoversFrom?: Prisma.HandoverUpdateManyWithoutFromUserNestedInput;
+  handoversTo?: Prisma.HandoverUpdateManyWithoutToUserNestedInput;
+  handoversWitness?: Prisma.HandoverUpdateManyWithoutWitnessUserNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+  createdPurchases?: Prisma.PurchaseMasterDataUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutAssetHistoryChangesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string;
+  employeeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.StringFieldUpdateOperationsInput | string;
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+  divisionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  permissions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number;
+  lastLoginAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number;
+  lockedUntil?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  notificationPrefs?:
+    | Prisma.NullableJsonNullValueInput
+    | runtime.InputJsonValue;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput;
+  createdAssetReturns?: Prisma.AssetReturnUncheckedUpdateManyWithoutCreatedByNestedInput;
+  currentAssets?: Prisma.AssetUncheckedUpdateManyWithoutCurrentUserNestedInput;
+  recordedAssets?: Prisma.AssetUncheckedUpdateManyWithoutRecordedByNestedInput;
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput;
+  createdDepreciations?: Prisma.DepreciationUncheckedUpdateManyWithoutCreatedByNestedInput;
+  handoversFrom?: Prisma.HandoverUncheckedUpdateManyWithoutFromUserNestedInput;
+  handoversTo?: Prisma.HandoverUncheckedUpdateManyWithoutToUserNestedInput;
+  handoversWitness?: Prisma.HandoverUncheckedUpdateManyWithoutWitnessUserNestedInput;
+  createdLoanRequests?: Prisma.LoanRequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+  createdPurchases?: Prisma.PurchaseMasterDataUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
+  createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
 };
 
 export type UserCreateWithoutDivisionInput = {
@@ -1869,6 +2379,8 @@ export type UserCreateWithoutDivisionInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserUncheckedCreateWithoutDivisionInput = {
@@ -1910,6 +2422,8 @@ export type UserUncheckedCreateWithoutDivisionInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutDivisionInput = {
@@ -2019,6 +2533,8 @@ export type UserCreateWithoutCreatedPurchasesInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -2061,6 +2577,8 @@ export type UserUncheckedCreateWithoutCreatedPurchasesInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedPurchasesInput = {
@@ -2136,6 +2654,8 @@ export type UserUpdateWithoutCreatedPurchasesInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -2186,6 +2706,8 @@ export type UserUncheckedUpdateWithoutCreatedPurchasesInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserCreateWithoutCreatedDepreciationsInput = {
@@ -2225,6 +2747,8 @@ export type UserCreateWithoutCreatedDepreciationsInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -2267,6 +2791,8 @@ export type UserUncheckedCreateWithoutCreatedDepreciationsInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedDepreciationsInput = {
@@ -2342,6 +2868,8 @@ export type UserUpdateWithoutCreatedDepreciationsInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -2392,6 +2920,8 @@ export type UserUncheckedUpdateWithoutCreatedDepreciationsInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserCreateWithoutStockThresholdsInput = {
@@ -2431,6 +2961,8 @@ export type UserCreateWithoutStockThresholdsInput = {
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -2473,6 +3005,8 @@ export type UserUncheckedCreateWithoutStockThresholdsInput = {
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutStockThresholdsInput = {
@@ -2548,6 +3082,8 @@ export type UserUpdateWithoutStockThresholdsInput = {
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -2598,6 +3134,8 @@ export type UserUncheckedUpdateWithoutStockThresholdsInput = {
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserCreateWithoutStockMovementsInput = {
@@ -2637,6 +3175,8 @@ export type UserCreateWithoutStockMovementsInput = {
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -2679,6 +3219,8 @@ export type UserUncheckedCreateWithoutStockMovementsInput = {
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutStockMovementsInput = {
@@ -2754,6 +3296,8 @@ export type UserUpdateWithoutStockMovementsInput = {
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -2804,6 +3348,8 @@ export type UserUncheckedUpdateWithoutStockMovementsInput = {
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserCreateWithoutAttachmentsInput = {
@@ -2843,6 +3389,8 @@ export type UserCreateWithoutAttachmentsInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -2885,6 +3433,8 @@ export type UserUncheckedCreateWithoutAttachmentsInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutAttachmentsInput = {
@@ -2960,6 +3510,8 @@ export type UserUpdateWithoutAttachmentsInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -3010,6 +3562,8 @@ export type UserUncheckedUpdateWithoutAttachmentsInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserCreateWithoutActivityLogsInput = {
@@ -3049,6 +3603,8 @@ export type UserCreateWithoutActivityLogsInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -3091,6 +3647,8 @@ export type UserUncheckedCreateWithoutActivityLogsInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutActivityLogsInput = {
@@ -3166,6 +3724,8 @@ export type UserUpdateWithoutActivityLogsInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -3216,6 +3776,8 @@ export type UserUncheckedUpdateWithoutActivityLogsInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserCreateWithoutNotificationsInput = {
@@ -3255,6 +3817,8 @@ export type UserCreateWithoutNotificationsInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -3297,6 +3861,8 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -3372,6 +3938,8 @@ export type UserUpdateWithoutNotificationsInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -3422,6 +3990,8 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserCreateWithoutCreatedRequestsInput = {
@@ -3461,6 +4031,8 @@ export type UserCreateWithoutCreatedRequestsInput = {
   createdRepairs?: Prisma.RepairCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -3503,6 +4075,8 @@ export type UserUncheckedCreateWithoutCreatedRequestsInput = {
   createdRepairs?: Prisma.RepairUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedRequestsInput = {
@@ -3578,6 +4152,8 @@ export type UserUpdateWithoutCreatedRequestsInput = {
   createdRepairs?: Prisma.RepairUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -3628,6 +4204,8 @@ export type UserUncheckedUpdateWithoutCreatedRequestsInput = {
   createdRepairs?: Prisma.RepairUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserCreateWithoutCreatedLoanRequestsInput = {
@@ -3667,6 +4245,8 @@ export type UserCreateWithoutCreatedLoanRequestsInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -3709,6 +4289,8 @@ export type UserUncheckedCreateWithoutCreatedLoanRequestsInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedLoanRequestsInput = {
@@ -3784,6 +4366,8 @@ export type UserUpdateWithoutCreatedLoanRequestsInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -3834,6 +4418,8 @@ export type UserUncheckedUpdateWithoutCreatedLoanRequestsInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserCreateWithoutCreatedAssetReturnsInput = {
@@ -3873,6 +4459,8 @@ export type UserCreateWithoutCreatedAssetReturnsInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -3915,6 +4503,8 @@ export type UserUncheckedCreateWithoutCreatedAssetReturnsInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedAssetReturnsInput = {
@@ -3990,6 +4580,8 @@ export type UserUpdateWithoutCreatedAssetReturnsInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -4040,6 +4632,8 @@ export type UserUncheckedUpdateWithoutCreatedAssetReturnsInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserCreateWithoutHandoversFromInput = {
@@ -4079,6 +4673,8 @@ export type UserCreateWithoutHandoversFromInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -4121,6 +4717,8 @@ export type UserUncheckedCreateWithoutHandoversFromInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutHandoversFromInput = {
@@ -4168,6 +4766,8 @@ export type UserCreateWithoutHandoversToInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -4210,6 +4810,8 @@ export type UserUncheckedCreateWithoutHandoversToInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutHandoversToInput = {
@@ -4257,6 +4859,8 @@ export type UserCreateWithoutHandoversWitnessInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -4299,6 +4903,8 @@ export type UserUncheckedCreateWithoutHandoversWitnessInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutHandoversWitnessInput = {
@@ -4374,6 +4980,8 @@ export type UserUpdateWithoutHandoversFromInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -4424,6 +5032,8 @@ export type UserUncheckedUpdateWithoutHandoversFromInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserUpsertWithoutHandoversToInput = {
@@ -4491,6 +5101,8 @@ export type UserUpdateWithoutHandoversToInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -4541,6 +5153,8 @@ export type UserUncheckedUpdateWithoutHandoversToInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserUpsertWithoutHandoversWitnessInput = {
@@ -4608,6 +5222,8 @@ export type UserUpdateWithoutHandoversWitnessInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -4658,6 +5274,8 @@ export type UserUncheckedUpdateWithoutHandoversWitnessInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserCreateWithoutCreatedRepairsInput = {
@@ -4697,6 +5315,8 @@ export type UserCreateWithoutCreatedRepairsInput = {
   createdRequests?: Prisma.RequestCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryCreateNestedManyWithoutChangedByInput;
   division?: Prisma.DivisionCreateNestedOneWithoutUsersInput;
 };
 
@@ -4739,6 +5359,8 @@ export type UserUncheckedCreateWithoutCreatedRepairsInput = {
   createdRequests?: Prisma.RequestUncheckedCreateNestedManyWithoutCreatedByInput;
   stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutCreatedByInput;
   stockThresholds?: Prisma.StockThresholdUncheckedCreateNestedManyWithoutCreatedByInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedCreateNestedManyWithoutRecordedByInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutChangedByInput;
 };
 
 export type UserCreateOrConnectWithoutCreatedRepairsInput = {
@@ -4814,6 +5436,8 @@ export type UserUpdateWithoutCreatedRepairsInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
   division?: Prisma.DivisionUpdateOneWithoutUsersNestedInput;
 };
 
@@ -4864,6 +5488,8 @@ export type UserUncheckedUpdateWithoutCreatedRepairsInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserCreateManyDivisionInput = {
@@ -4937,6 +5563,8 @@ export type UserUpdateWithoutDivisionInput = {
   createdRequests?: Prisma.RequestUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutDivisionInput = {
@@ -4986,6 +5614,8 @@ export type UserUncheckedUpdateWithoutDivisionInput = {
   createdRequests?: Prisma.RequestUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutCreatedByNestedInput;
   stockThresholds?: Prisma.StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput;
+  assetRecordings?: Prisma.AssetRecordingUncheckedUpdateManyWithoutRecordedByNestedInput;
+  assetHistoryChanges?: Prisma.AssetHistoryUncheckedUpdateManyWithoutChangedByNestedInput;
 };
 
 export type UserUncheckedUpdateManyWithoutDivisionInput = {
@@ -5042,6 +5672,8 @@ export type UserCountOutputType = {
   createdRequests: number;
   stockMovements: number;
   stockThresholds: number;
+  assetRecordings: number;
+  assetHistoryChanges: number;
 };
 
 export type UserCountOutputTypeSelect<
@@ -5070,6 +5702,10 @@ export type UserCountOutputTypeSelect<
   createdRequests?: boolean | UserCountOutputTypeCountCreatedRequestsArgs;
   stockMovements?: boolean | UserCountOutputTypeCountStockMovementsArgs;
   stockThresholds?: boolean | UserCountOutputTypeCountStockThresholdsArgs;
+  assetRecordings?: boolean | UserCountOutputTypeCountAssetRecordingsArgs;
+  assetHistoryChanges?:
+    | boolean
+    | UserCountOutputTypeCountAssetHistoryChangesArgs;
 };
 
 /**
@@ -5245,6 +5881,26 @@ export type UserCountOutputTypeCountStockThresholdsArgs<
   where?: Prisma.StockThresholdWhereInput;
 };
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAssetRecordingsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.AssetRecordingWhereInput;
+};
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAssetHistoryChangesArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.AssetHistoryWhereInput;
+};
+
 export type UserSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -5293,6 +5949,10 @@ export type UserSelect<
     createdRequests?: boolean | Prisma.User$createdRequestsArgs<ExtArgs>;
     stockMovements?: boolean | Prisma.User$stockMovementsArgs<ExtArgs>;
     stockThresholds?: boolean | Prisma.User$stockThresholdsArgs<ExtArgs>;
+    assetRecordings?: boolean | Prisma.User$assetRecordingsArgs<ExtArgs>;
+    assetHistoryChanges?:
+      | boolean
+      | Prisma.User$assetHistoryChangesArgs<ExtArgs>;
     division?: boolean | Prisma.User$divisionArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
   },
@@ -5434,6 +6094,8 @@ export type UserInclude<
   createdRequests?: boolean | Prisma.User$createdRequestsArgs<ExtArgs>;
   stockMovements?: boolean | Prisma.User$stockMovementsArgs<ExtArgs>;
   stockThresholds?: boolean | Prisma.User$stockThresholdsArgs<ExtArgs>;
+  assetRecordings?: boolean | Prisma.User$assetRecordingsArgs<ExtArgs>;
+  assetHistoryChanges?: boolean | Prisma.User$assetHistoryChangesArgs<ExtArgs>;
   division?: boolean | Prisma.User$divisionArgs<ExtArgs>;
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
@@ -5472,6 +6134,8 @@ export type $UserPayload<
     createdRequests: Prisma.$RequestPayload<ExtArgs>[];
     stockMovements: Prisma.$StockMovementPayload<ExtArgs>[];
     stockThresholds: Prisma.$StockThresholdPayload<ExtArgs>[];
+    assetRecordings: Prisma.$AssetRecordingPayload<ExtArgs>[];
+    assetHistoryChanges: Prisma.$AssetHistoryPayload<ExtArgs>[];
     division: Prisma.$DivisionPayload<ExtArgs> | null;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
@@ -6223,6 +6887,30 @@ export interface Prisma__UserClient<
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
         Prisma.$StockThresholdPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  assetRecordings<T extends Prisma.User$assetRecordingsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$assetRecordingsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$AssetRecordingPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  assetHistoryChanges<
+    T extends Prisma.User$assetHistoryChangesArgs<ExtArgs> = {},
+  >(
+    args?: Prisma.Subset<T, Prisma.User$assetHistoryChangesArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$AssetHistoryPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -7238,6 +7926,68 @@ export type User$stockThresholdsArgs<
   distinct?:
     | Prisma.StockThresholdScalarFieldEnum
     | Prisma.StockThresholdScalarFieldEnum[];
+};
+
+/**
+ * User.assetRecordings
+ */
+export type User$assetRecordingsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the AssetRecording
+   */
+  select?: Prisma.AssetRecordingSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the AssetRecording
+   */
+  omit?: Prisma.AssetRecordingOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetRecordingInclude<ExtArgs> | null;
+  where?: Prisma.AssetRecordingWhereInput;
+  orderBy?:
+    | Prisma.AssetRecordingOrderByWithRelationInput
+    | Prisma.AssetRecordingOrderByWithRelationInput[];
+  cursor?: Prisma.AssetRecordingWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.AssetRecordingScalarFieldEnum
+    | Prisma.AssetRecordingScalarFieldEnum[];
+};
+
+/**
+ * User.assetHistoryChanges
+ */
+export type User$assetHistoryChangesArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the AssetHistory
+   */
+  select?: Prisma.AssetHistorySelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the AssetHistory
+   */
+  omit?: Prisma.AssetHistoryOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetHistoryInclude<ExtArgs> | null;
+  where?: Prisma.AssetHistoryWhereInput;
+  orderBy?:
+    | Prisma.AssetHistoryOrderByWithRelationInput
+    | Prisma.AssetHistoryOrderByWithRelationInput[];
+  cursor?: Prisma.AssetHistoryWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.AssetHistoryScalarFieldEnum
+    | Prisma.AssetHistoryScalarFieldEnum[];
 };
 
 /**

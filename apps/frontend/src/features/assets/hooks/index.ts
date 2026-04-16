@@ -6,8 +6,26 @@ export {
 } from './useCategories';
 export { useTypes, useCreateType, useUpdateType, useDeleteType } from './useTypes';
 export { useModels, useCreateModel, useUpdateModel, useDeleteModel } from './useModels';
-export { useAssets, useAsset, useCreateAsset, useUpdateAsset, useDeleteAsset } from './useAssets';
-export { useStock, useUpdateStockThreshold } from './useStock';
+export {
+  useAssets,
+  useAssetsGrouped,
+  useAsset,
+  useAssetHistory,
+  useCreateAsset,
+  useUpdateAsset,
+  useDeleteAsset,
+  useReportDamage,
+  useReportLost,
+} from './useAssets';
+export {
+  useStock,
+  useStockDetailTotal,
+  useStockDetailUsage,
+  useStockHistory,
+  useUpdateStockThreshold,
+  useUpdateThresholdBulk,
+  useRestock,
+} from './useStock';
 export {
   usePurchases,
   usePurchase,

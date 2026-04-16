@@ -413,10 +413,13 @@ type FieldRefInputType<Model, FieldType> = Model extends never
 
 export const ModelName = {
   AssetCategory: 'AssetCategory',
+  CategoryDivision: 'CategoryDivision',
   AssetType: 'AssetType',
   AssetModel: 'AssetModel',
   Asset: 'Asset',
   AssetRegistration: 'AssetRegistration',
+  AssetRecording: 'AssetRecording',
+  AssetHistory: 'AssetHistory',
   User: 'User',
   Division: 'Division',
   Customer: 'Customer',
@@ -471,10 +474,13 @@ export type TypeMap<
   meta: {
     modelProps:
       | 'assetCategory'
+      | 'categoryDivision'
       | 'assetType'
       | 'assetModel'
       | 'asset'
       | 'assetRegistration'
+      | 'assetRecording'
+      | 'assetHistory'
       | 'user'
       | 'division'
       | 'customer'
@@ -581,6 +587,82 @@ export type TypeMap<
           args: Prisma.AssetCategoryCountArgs<ExtArgs>;
           result:
             | runtime.Types.Utils.Optional<Prisma.AssetCategoryCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    CategoryDivision: {
+      payload: Prisma.$CategoryDivisionPayload<ExtArgs>;
+      fields: Prisma.CategoryDivisionFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.CategoryDivisionFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CategoryDivisionPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.CategoryDivisionFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CategoryDivisionPayload>;
+        };
+        findFirst: {
+          args: Prisma.CategoryDivisionFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CategoryDivisionPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.CategoryDivisionFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CategoryDivisionPayload>;
+        };
+        findMany: {
+          args: Prisma.CategoryDivisionFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CategoryDivisionPayload>[];
+        };
+        create: {
+          args: Prisma.CategoryDivisionCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CategoryDivisionPayload>;
+        };
+        createMany: {
+          args: Prisma.CategoryDivisionCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.CategoryDivisionCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CategoryDivisionPayload>[];
+        };
+        delete: {
+          args: Prisma.CategoryDivisionDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CategoryDivisionPayload>;
+        };
+        update: {
+          args: Prisma.CategoryDivisionUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CategoryDivisionPayload>;
+        };
+        deleteMany: {
+          args: Prisma.CategoryDivisionDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.CategoryDivisionUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.CategoryDivisionUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CategoryDivisionPayload>[];
+        };
+        upsert: {
+          args: Prisma.CategoryDivisionUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CategoryDivisionPayload>;
+        };
+        aggregate: {
+          args: Prisma.CategoryDivisionAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCategoryDivision>;
+        };
+        groupBy: {
+          args: Prisma.CategoryDivisionGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.CategoryDivisionGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.CategoryDivisionCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.CategoryDivisionCountAggregateOutputType>
             | number;
         };
       };
@@ -885,6 +967,158 @@ export type TypeMap<
           args: Prisma.AssetRegistrationCountArgs<ExtArgs>;
           result:
             | runtime.Types.Utils.Optional<Prisma.AssetRegistrationCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    AssetRecording: {
+      payload: Prisma.$AssetRecordingPayload<ExtArgs>;
+      fields: Prisma.AssetRecordingFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.AssetRecordingFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetRecordingPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.AssetRecordingFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetRecordingPayload>;
+        };
+        findFirst: {
+          args: Prisma.AssetRecordingFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetRecordingPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.AssetRecordingFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetRecordingPayload>;
+        };
+        findMany: {
+          args: Prisma.AssetRecordingFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetRecordingPayload>[];
+        };
+        create: {
+          args: Prisma.AssetRecordingCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetRecordingPayload>;
+        };
+        createMany: {
+          args: Prisma.AssetRecordingCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.AssetRecordingCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetRecordingPayload>[];
+        };
+        delete: {
+          args: Prisma.AssetRecordingDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetRecordingPayload>;
+        };
+        update: {
+          args: Prisma.AssetRecordingUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetRecordingPayload>;
+        };
+        deleteMany: {
+          args: Prisma.AssetRecordingDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.AssetRecordingUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.AssetRecordingUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetRecordingPayload>[];
+        };
+        upsert: {
+          args: Prisma.AssetRecordingUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetRecordingPayload>;
+        };
+        aggregate: {
+          args: Prisma.AssetRecordingAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAssetRecording>;
+        };
+        groupBy: {
+          args: Prisma.AssetRecordingGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AssetRecordingGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.AssetRecordingCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.AssetRecordingCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    AssetHistory: {
+      payload: Prisma.$AssetHistoryPayload<ExtArgs>;
+      fields: Prisma.AssetHistoryFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.AssetHistoryFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetHistoryPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.AssetHistoryFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetHistoryPayload>;
+        };
+        findFirst: {
+          args: Prisma.AssetHistoryFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetHistoryPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.AssetHistoryFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetHistoryPayload>;
+        };
+        findMany: {
+          args: Prisma.AssetHistoryFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetHistoryPayload>[];
+        };
+        create: {
+          args: Prisma.AssetHistoryCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetHistoryPayload>;
+        };
+        createMany: {
+          args: Prisma.AssetHistoryCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.AssetHistoryCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetHistoryPayload>[];
+        };
+        delete: {
+          args: Prisma.AssetHistoryDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetHistoryPayload>;
+        };
+        update: {
+          args: Prisma.AssetHistoryUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetHistoryPayload>;
+        };
+        deleteMany: {
+          args: Prisma.AssetHistoryDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.AssetHistoryUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.AssetHistoryUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetHistoryPayload>[];
+        };
+        upsert: {
+          args: Prisma.AssetHistoryUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssetHistoryPayload>;
+        };
+        aggregate: {
+          args: Prisma.AssetHistoryAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAssetHistory>;
+        };
+        groupBy: {
+          args: Prisma.AssetHistoryGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AssetHistoryGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.AssetHistoryCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.AssetHistoryCountAggregateOutputType>
             | number;
         };
       };
@@ -3287,6 +3521,9 @@ export type TransactionIsolationLevel =
 export const AssetCategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  defaultClassification: 'defaultClassification',
+  isCustomerInstallable: 'isCustomerInstallable',
+  isProjectAsset: 'isProjectAsset',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -3295,10 +3532,22 @@ export const AssetCategoryScalarFieldEnum = {
 export type AssetCategoryScalarFieldEnum =
   (typeof AssetCategoryScalarFieldEnum)[keyof typeof AssetCategoryScalarFieldEnum];
 
+export const CategoryDivisionScalarFieldEnum = {
+  categoryId: 'categoryId',
+  divisionId: 'divisionId',
+  createdAt: 'createdAt',
+} as const;
+
+export type CategoryDivisionScalarFieldEnum =
+  (typeof CategoryDivisionScalarFieldEnum)[keyof typeof CategoryDivisionScalarFieldEnum];
+
 export const AssetTypeScalarFieldEnum = {
   id: 'id',
   categoryId: 'categoryId',
   name: 'name',
+  classification: 'classification',
+  trackingMethod: 'trackingMethod',
+  unitOfMeasure: 'unitOfMeasure',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -3315,6 +3564,8 @@ export const AssetModelScalarFieldEnum = {
   unit: 'unit',
   containerUnit: 'containerUnit',
   containerSize: 'containerSize',
+  bulkType: 'bulkType',
+  isInstallationTemplate: 'isInstallationTemplate',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -3334,6 +3585,7 @@ export const AssetScalarFieldEnum = {
   classification: 'classification',
   trackingMethod: 'trackingMethod',
   serialNumber: 'serialNumber',
+  macAddress: 'macAddress',
   quantity: 'quantity',
   currentBalance: 'currentBalance',
   purchasePrice: 'purchasePrice',
@@ -3343,10 +3595,16 @@ export const AssetScalarFieldEnum = {
   salvageValue: 'salvageValue',
   status: 'status',
   condition: 'condition',
+  location: 'location',
+  locationDetail: 'locationDetail',
+  locationNote: 'locationNote',
+  recordingSource: 'recordingSource',
+  recordingId: 'recordingId',
   currentUserId: 'currentUserId',
   recordedById: 'recordedById',
   isDeleted: 'isDeleted',
   version: 'version',
+  note: 'note',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 } as const;
@@ -3365,6 +3623,34 @@ export const AssetRegistrationScalarFieldEnum = {
 
 export type AssetRegistrationScalarFieldEnum =
   (typeof AssetRegistrationScalarFieldEnum)[keyof typeof AssetRegistrationScalarFieldEnum];
+
+export const AssetRecordingScalarFieldEnum = {
+  id: 'id',
+  docNumber: 'docNumber',
+  recordedAt: 'recordedAt',
+  recordedById: 'recordedById',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+} as const;
+
+export type AssetRecordingScalarFieldEnum =
+  (typeof AssetRecordingScalarFieldEnum)[keyof typeof AssetRecordingScalarFieldEnum];
+
+export const AssetHistoryScalarFieldEnum = {
+  id: 'id',
+  assetId: 'assetId',
+  action: 'action',
+  field: 'field',
+  oldValue: 'oldValue',
+  newValue: 'newValue',
+  note: 'note',
+  changedById: 'changedById',
+  createdAt: 'createdAt',
+} as const;
+
+export type AssetHistoryScalarFieldEnum =
+  (typeof AssetHistoryScalarFieldEnum)[keyof typeof AssetHistoryScalarFieldEnum];
 
 export const UserScalarFieldEnum = {
   id: 'id',
@@ -3634,6 +3920,7 @@ export const StockThresholdScalarFieldEnum = {
   id: 'id',
   modelId: 'modelId',
   minQuantity: 'minQuantity',
+  warningQuantity: 'warningQuantity',
   createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -3935,6 +4222,18 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<
 >;
 
 /**
+ * Reference to a field of type 'AssetClassification'
+ */
+export type EnumAssetClassificationFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'AssetClassification'>;
+
+/**
+ * Reference to a field of type 'AssetClassification[]'
+ */
+export type ListEnumAssetClassificationFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'AssetClassification[]'>;
+
+/**
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<
@@ -3959,6 +4258,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<
 >;
 
 /**
+ * Reference to a field of type 'TrackingMethod'
+ */
+export type EnumTrackingMethodFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'TrackingMethod'
+>;
+
+/**
+ * Reference to a field of type 'TrackingMethod[]'
+ */
+export type ListEnumTrackingMethodFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'TrackingMethod[]'>;
+
+/**
  * Reference to a field of type 'Decimal'
  */
 export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<
@@ -3975,30 +4288,18 @@ export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<
 >;
 
 /**
- * Reference to a field of type 'AssetClassification'
+ * Reference to a field of type 'BulkTrackingType'
  */
-export type EnumAssetClassificationFieldRefInput<$PrismaModel> =
-  FieldRefInputType<$PrismaModel, 'AssetClassification'>;
-
-/**
- * Reference to a field of type 'AssetClassification[]'
- */
-export type ListEnumAssetClassificationFieldRefInput<$PrismaModel> =
-  FieldRefInputType<$PrismaModel, 'AssetClassification[]'>;
-
-/**
- * Reference to a field of type 'TrackingMethod'
- */
-export type EnumTrackingMethodFieldRefInput<$PrismaModel> = FieldRefInputType<
+export type EnumBulkTrackingTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
   $PrismaModel,
-  'TrackingMethod'
+  'BulkTrackingType'
 >;
 
 /**
- * Reference to a field of type 'TrackingMethod[]'
+ * Reference to a field of type 'BulkTrackingType[]'
  */
-export type ListEnumTrackingMethodFieldRefInput<$PrismaModel> =
-  FieldRefInputType<$PrismaModel, 'TrackingMethod[]'>;
+export type ListEnumBulkTrackingTypeFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'BulkTrackingType[]'>;
 
 /**
  * Reference to a field of type 'DepreciationMethod'
@@ -4041,6 +4342,20 @@ export type EnumAssetConditionFieldRefInput<$PrismaModel> = FieldRefInputType<
  */
 export type ListEnumAssetConditionFieldRefInput<$PrismaModel> =
   FieldRefInputType<$PrismaModel, 'AssetCondition[]'>;
+
+/**
+ * Reference to a field of type 'RecordingSource'
+ */
+export type EnumRecordingSourceFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'RecordingSource'
+>;
+
+/**
+ * Reference to a field of type 'RecordingSource[]'
+ */
+export type ListEnumRecordingSourceFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'RecordingSource[]'>;
 
 /**
  * Reference to a field of type 'UserRole'
@@ -4262,10 +4577,13 @@ export type PrismaClientOptions = (
 };
 export type GlobalOmitConfig = {
   assetCategory?: Prisma.AssetCategoryOmit;
+  categoryDivision?: Prisma.CategoryDivisionOmit;
   assetType?: Prisma.AssetTypeOmit;
   assetModel?: Prisma.AssetModelOmit;
   asset?: Prisma.AssetOmit;
   assetRegistration?: Prisma.AssetRegistrationOmit;
+  assetRecording?: Prisma.AssetRecordingOmit;
+  assetHistory?: Prisma.AssetHistoryOmit;
   user?: Prisma.UserOmit;
   division?: Prisma.DivisionOmit;
   customer?: Prisma.CustomerOmit;

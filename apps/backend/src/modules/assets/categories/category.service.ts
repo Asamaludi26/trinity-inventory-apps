@@ -13,6 +13,14 @@ import { Prisma } from '../../../generated/prisma/client';
 export class CategoryService {
   constructor(private readonly prisma: PrismaService) {}
 
+  private readonly divisionInclude = {
+    divisions: {
+      select: {
+        division: { select: { id: true, name: true, code: true } },
+      },
+    },
+  };
+
   async findAll(query: FilterCategoryDto) {
     const {
       page = 1,
@@ -39,6 +47,7 @@ export class CategoryService {
         take: limit,
         orderBy: { [orderField]: sortOrder },
         include: {
+          ...this.divisionInclude,
           _count: {
             select: {
               types: { where: { isDeleted: false } },
@@ -60,6 +69,7 @@ export class CategoryService {
     const category = await this.prisma.assetCategory.findUnique({
       where: { id, isDeleted: false },
       include: {
+        ...this.divisionInclude,
         types: {
           where: { isDeleted: false },
           include: { _count: { select: { models: true } } },
@@ -75,12 +85,44 @@ export class CategoryService {
   }
 
   async create(dto: CreateCategoryDto) {
-    return this.prisma.assetCategory.create({ data: dto });
+    const { divisionIds, ...data } = dto;
+
+    return this.prisma.assetCategory.create({
+      data: {
+        ...data,
+        ...(divisionIds?.length && {
+          divisions: {
+            create: divisionIds.map((divisionId) => ({ divisionId })),
+          },
+        }),
+      },
+      include: this.divisionInclude,
+    });
   }
 
   async update(id: number, dto: UpdateCategoryDto) {
     await this.findOne(id);
-    return this.prisma.assetCategory.update({ where: { id }, data: dto });
+    const { divisionIds, ...data } = dto;
+
+    return this.prisma.$transaction(async (tx) => {
+      if (divisionIds !== undefined) {
+        await tx.categoryDivision.deleteMany({ where: { categoryId: id } });
+        if (divisionIds.length > 0) {
+          await tx.categoryDivision.createMany({
+            data: divisionIds.map((divisionId) => ({
+              categoryId: id,
+              divisionId,
+            })),
+          });
+        }
+      }
+
+      return tx.assetCategory.update({
+        where: { id },
+        data,
+        include: this.divisionInclude,
+      });
+    });
   }
 
   async remove(id: number) {

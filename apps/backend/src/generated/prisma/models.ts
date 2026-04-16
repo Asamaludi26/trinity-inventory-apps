@@ -8,10 +8,13 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/AssetCategory';
+export type * from './models/CategoryDivision';
 export type * from './models/AssetType';
 export type * from './models/AssetModel';
 export type * from './models/Asset';
 export type * from './models/AssetRegistration';
+export type * from './models/AssetRecording';
+export type * from './models/AssetHistory';
 export type * from './models/User';
 export type * from './models/Division';
 export type * from './models/Customer';

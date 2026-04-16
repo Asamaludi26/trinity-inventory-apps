@@ -31,7 +31,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useCategories, useTypes, useCreateType, useUpdateType, useDeleteType } from '../hooks';
-import type { AssetType, AssetCategory } from '../types';
+import type { AssetType, AssetCategory, AssetClassification, TrackingMethod } from '../types';
 
 export function TypesTab() {
   const [search, setSearch] = useState('');
@@ -41,6 +41,9 @@ export function TypesTab() {
   const [deleteTarget, setDeleteTarget] = useState<AssetType | null>(null);
   const [formName, setFormName] = useState('');
   const [formCategoryId, setFormCategoryId] = useState<string>('');
+  const [formClassification, setFormClassification] = useState<AssetClassification | ''>('');
+  const [formTrackingMethod, setFormTrackingMethod] = useState<TrackingMethod | ''>('');
+  const [formUnitOfMeasure, setFormUnitOfMeasure] = useState('');
 
   const { data: rawCategories = [] } = useCategories();
   const validCategories: AssetCategory[] = Array.isArray(rawCategories)
@@ -65,6 +68,9 @@ export function TypesTab() {
     setEditItem(null);
     setFormName('');
     setFormCategoryId('');
+    setFormClassification('');
+    setFormTrackingMethod('');
+    setFormUnitOfMeasure('');
     setFormOpen(true);
   };
 
@@ -72,20 +78,29 @@ export function TypesTab() {
     setEditItem(item);
     setFormName(item.name);
     setFormCategoryId(String(item.categoryId));
+    setFormClassification(item.classification ?? '');
+    setFormTrackingMethod(item.trackingMethod ?? '');
+    setFormUnitOfMeasure(item.unitOfMeasure ?? '');
     setFormOpen(true);
   };
 
   const handleSubmit = async () => {
     if (!formName.trim()) return;
     try {
+      const payload = {
+        name: formName.trim(),
+        ...(formClassification && { classification: formClassification as AssetClassification }),
+        ...(formTrackingMethod && { trackingMethod: formTrackingMethod as TrackingMethod }),
+        ...(formUnitOfMeasure.trim() && { unitOfMeasure: formUnitOfMeasure.trim() }),
+      };
       if (editItem) {
-        await updateType.mutateAsync({ id: editItem.id, data: { name: formName.trim() } });
+        await updateType.mutateAsync({ id: editItem.id, data: payload });
         toast.success('Tipe aset berhasil diperbarui');
       } else {
         if (!formCategoryId) return;
         await createType.mutateAsync({
           categoryId: Number(formCategoryId),
-          name: formName.trim(),
+          ...payload,
         });
         toast.success('Tipe aset berhasil ditambahkan');
       }
@@ -156,8 +171,11 @@ export function TypesTab() {
               <TableHead className="w-12">#</TableHead>
               <TableHead>Nama Tipe</TableHead>
               <TableHead>Kategori</TableHead>
-              <TableHead className="text-center">Jumlah Model</TableHead>
-              <TableHead className="text-center">Jumlah Aset</TableHead>
+              <TableHead>Klasifikasi</TableHead>
+              <TableHead>Pelacakan</TableHead>
+              <TableHead>Satuan</TableHead>
+              <TableHead className="text-center">Model</TableHead>
+              <TableHead className="text-center">Aset</TableHead>
               <TableHead className="text-right">Aksi</TableHead>
             </TableRow>
           </TableHeader>
@@ -165,7 +183,7 @@ export function TypesTab() {
             {isLoading ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <TableRow key={i}>
-                  {Array.from({ length: 6 }).map((__, j) => (
+                  {Array.from({ length: 9 }).map((__, j) => (
                     <TableCell key={j}>
                       <Skeleton className="h-4 w-full" />
                     </TableCell>
@@ -174,7 +192,7 @@ export function TypesTab() {
               ))
             ) : !filtered?.length ? (
               <TableRow>
-                <TableCell colSpan={6}>
+                <TableCell colSpan={9}>
                   <EmptyState
                     icon={<Tag className="h-12 w-12" />}
                     title="Belum ada tipe aset"
@@ -189,27 +207,56 @@ export function TypesTab() {
                 </TableCell>
               </TableRow>
             ) : (
-              filtered.map((item, idx) => (
-                <TableRow key={item.id}>
-                  <TableCell className="text-muted-foreground">{idx + 1}</TableCell>
-                  <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline">{item.category?.name ?? '-'}</Badge>
-                  </TableCell>
-                  <TableCell className="text-center">{item._count?.models ?? 0}</TableCell>
-                  <TableCell className="text-center">{item._count?.assets ?? 0}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex items-center justify-end gap-1">
-                      <Button variant="ghost" size="icon" onClick={() => handleEdit(item)}>
-                        <Pencil className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="icon" onClick={() => setDeleteTarget(item)}>
-                        <Trash2 className="h-4 w-4 text-destructive" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))
+              filtered.map((item, idx) => {
+                const cls = item.classification ?? item.category?.defaultClassification ?? 'ASSET';
+                const trackingLabel: Record<string, string> = {
+                  INDIVIDUAL: 'Individual',
+                  COUNT: 'Hitungan',
+                  MEASUREMENT: 'Pengukuran',
+                };
+                return (
+                  <TableRow key={item.id}>
+                    <TableCell className="text-muted-foreground">{idx + 1}</TableCell>
+                    <TableCell className="font-medium">{item.name}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline">{item.category?.name ?? '-'}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={cls === 'MATERIAL' ? 'secondary' : 'default'}>
+                        {cls === 'MATERIAL' ? 'Material' : 'Aset'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      {item.trackingMethod ? (
+                        <Badge variant="outline">
+                          {trackingLabel[item.trackingMethod] ?? item.trackingMethod}
+                        </Badge>
+                      ) : (
+                        <span className="text-muted-foreground text-xs">—</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {item.unitOfMeasure ? (
+                        <span className="text-sm">{item.unitOfMeasure}</span>
+                      ) : (
+                        <span className="text-muted-foreground text-xs">—</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-center">{item._count?.models ?? 0}</TableCell>
+                    <TableCell className="text-center">{item._count?.assets ?? 0}</TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex items-center justify-end gap-1">
+                        <Button variant="ghost" size="icon" onClick={() => handleEdit(item)}>
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="icon" onClick={() => setDeleteTarget(item)}>
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
             )}
           </TableBody>
         </Table>
@@ -223,7 +270,7 @@ export function TypesTab() {
           if (!open) setEditItem(null);
         }}
       >
-        <DialogContent>
+        <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle>{editItem ? 'Edit Tipe Aset' : 'Tambah Tipe Aset'}</DialogTitle>
           </DialogHeader>
@@ -252,13 +299,66 @@ export function TypesTab() {
                 value={formName}
                 onChange={(e) => setFormName(e.target.value)}
                 placeholder="Contoh: Router, Switch, Kabel"
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    handleSubmit();
-                  }
-                }}
               />
+            </div>
+
+            {/* Klasifikasi Override */}
+            <div className="flex flex-col gap-2">
+              <Label>Klasifikasi</Label>
+              <Select
+                value={formClassification || 'inherit'}
+                onValueChange={(val) =>
+                  setFormClassification(val === 'inherit' ? '' : (val as AssetClassification))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="inherit">Ikuti Kategori (default)</SelectItem>
+                  <SelectItem value="ASSET">Aset (Individual)</SelectItem>
+                  <SelectItem value="MATERIAL">Material (Habis Pakai)</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                Override klasifikasi dari kategori induk. Kosongkan untuk mengikuti default
+                kategori.
+              </p>
+            </div>
+
+            {/* Metode Pelacakan */}
+            <div className="flex flex-col gap-2">
+              <Label>Metode Pelacakan</Label>
+              <Select
+                value={formTrackingMethod || 'none'}
+                onValueChange={(val) =>
+                  setFormTrackingMethod(val === 'none' ? '' : (val as TrackingMethod))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">Belum ditentukan</SelectItem>
+                  <SelectItem value="INDIVIDUAL">Individual (per unit, serial number)</SelectItem>
+                  <SelectItem value="COUNT">Hitungan (stok per jumlah)</SelectItem>
+                  <SelectItem value="MEASUREMENT">Pengukuran (meter, kg, liter)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Satuan Stok */}
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="unitOfMeasure">Satuan Stok</Label>
+              <Input
+                id="unitOfMeasure"
+                value={formUnitOfMeasure}
+                onChange={(e) => setFormUnitOfMeasure(e.target.value)}
+                placeholder="Contoh: pcs, meter, kg, unit, roll"
+              />
+              <p className="text-xs text-muted-foreground">
+                Satuan dasar untuk penghitungan stok tipe ini.
+              </p>
             </div>
           </div>
           <DialogFooter>

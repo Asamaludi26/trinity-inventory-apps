@@ -4,49 +4,35 @@ Tanggal : 14 April 2026 03:33 WIB
 
 Deskripsi : Dokumen ini ditujukan untuk merencanakan penyempurnaan fitur pada proyek yang sedang dikembangkan. Rencana ini mencakup identifikasi fitur yang akan ditingkatkan, tujuan peningkatan, langkah-langkah implementasi, dan estimasi waktu yang diperlukan untuk menyelesaikan peningkatan tersebut.
 
-# Rencana Perubahan Struktur
-
-## 1. Manajemen
-
-## 1.1 Pusat Aset diganti menjadi Manajemen Aset
-
-Berisikan halaman berikut :
-
-## 1.1.1 Catat Aset diganti menjadi Pencatatan Aset
-
-## 1.1.2 Stok Aset
-
-## 1.1.3 Lokasi Aset (baru)
-
-## 1.1.4 Kategori & Model diganti menjadi Kategori Aset
-
-## 1.1.5 Data Pembelian Aset
-
-## 1.1.6 Data Depresiasi Aset
-
-## 1.2 Manajemen Pelanggan
-
-## 1.2.1
-
-# Rencana Peningkatan Fitur
+# Rencana Peningkatan dan Melengkapkan Fitur
 
 ## 1. Identifikasi Fitur yang Akan Ditingkatkan
 
 ### 1.1 Dashboard
 
-- Dashboard saat ini memiliki keterbatasan dalam menampilkan data dan memberikan akses yang sesuai kepada berbagai peran pengguna. Oleh karena itu, perlu dilakukan peningkatan pada dashboard untuk memberikan pengalaman yang lebih baik bagi pengguna dengan peran yang berbeda.
-- Perlu menambahkan fitur card notifikasi stok aset habis dan hampir habis disertai button pada masing masing model yang relevan dan button global jika dklik button akan menuju halaman request dengan data model tersebut dan prioritas urgent, alokasi inventaris (ini wajib ada di dashboard super admin dan admin Logistik)
-- Perlu ditambahkan fitur untuk menampilkan data pembelian yang sedang diproses, termasuk status pembelian, estimasi waktu kedatangan, dan informasi terkait lainnya. Fitur ini akan membantu admin purchase dalam memantau dan mengelola proses pembelian dengan lebih efektif. Fitur ini juga akan memberikan informasi yang berguna bagi admin logistik untuk merencanakan penerimaan barang dan mengelola stok dengan lebih baik. Fitur ini juga akan memberikan informasi yang berguna bagi leader dan staff untuk memahami status pembelian dan merencanakan pekerjaan mereka sesuai dengan kebutuhan. Fitur ini akan memberikan gambaran yang lebih lengkap tentang proses pembelian dan membantu semua peran dalam organisasi untuk bekerja dengan lebih efisien dan terkoordinasi. Fitur ini akan memberikan manfaat yang signifikan bagi semua peran dalam organisasi, meningkatkan transparansi, dan membantu dalam pengambilan keputusan yang lebih baik terkait dengan proses pembelian dan manajemen stok. Fitur ini akan menjadi bagian penting dari dashboard yang ditingkatkan untuk memberikan pengalaman pengguna yang lebih baik dan mendukung kebutuhan operasional organisasi secara keseluruhan.
-- Perlu ditambahkan fitur untuk menampilkan data proyek yang sedang berjalan, termasuk status proyek, tenggat waktu, dan informasi terkait lainnya. Fitur ini akan membantu leader dalam memantau kemajuan proyek dan mengelola sumber daya dengan lebih efektif. Fitur ini juga akan memberikan informasi yang berguna bagi staff untuk memahami status proyek dan merencanakan pekerjaan mereka sesuai dengan kebutuhan. Fitur ini akan memberikan gambaran yang lebih lengkap tentang proyek yang sedang berjalan dan membantu semua peran dalam organisasi untuk bekerja dengan lebih efisien dan terkoordinasi. Fitur ini akan memberikan manfaat yang signifikan bagi semua peran dalam organisasi, meningkatkan transparansi, dan membantu dalam pengambilan keputusan yang lebih baik terkait dengan manajemen proyek. Fitur ini akan menjadi bagian penting dari dashboard yang ditingkatkan untuk memberikan pengalaman pengguna yang lebih baik dan mendukung kebutuhan operasional organisasi secara keseluruhan.
-- Perlu ditambahkan fitur untuk menampilkan data pelanggan, termasuk informasi kontak, riwayat pembelian, dan preferensi pelanggan. Fitur ini akan membantu admin purchase dalam memahami kebutuhan pelanggan dan merencanakan pembelian dengan lebih baik. Fitur ini juga akan memberikan informasi yang berguna bagi admin logistik untuk merencanakan pengiriman dan mengelola stok dengan lebih baik. Fitur ini juga akan memberikan informasi yang berguna bagi leader dan staff untuk memahami kebutuhan pelanggan dan merencanakan pekerjaan mereka sesuai dengan kebutuhan. Fitur ini akan memberikan gambaran yang lebih lengkap tentang pelanggan dan membantu semua peran dalam organisasi untuk bekerja dengan lebih efisien dan terkoordinasi. Fitur ini akan memberikan manfaat yang signifikan bagi semua peran dalam organisasi, meningkatkan transparansi, dan membantu dalam pengambilan keputusan yang lebih baik terkait dengan manajemen pelanggan. Fitur ini akan menjadi bagian penting dari dashboard yang ditingkatkan untuk memberikan pengalaman pengguna yang lebih baik dan mendukung kebutuhan operasional organisasi secara keseluruhan.
-- Perlu ditambahkan fitur untuk menampilkan data aset, termasuk informasi stok, lokasi, dan status aset. Fitur ini akan membantu admin logistik dalam memantau dan mengelola stok dengan lebih efektif. Fitur ini juga akan memberikan informasi yang berguna bagi admin purchase untuk merencanakan pembelian dengan lebih baik. Fitur ini juga akan memberikan informasi yang berguna bagi leader dan staff untuk memahami status aset dan merencanakan pekerjaan mereka sesuai dengan kebutuhan. Fitur ini akan memberikan gambaran yang lebih lengkap tentang aset dan membantu semua peran dalam organisasi untuk bekerja dengan lebih efisien dan terkoordinasi. Fitur ini akan memberikan manfaat yang signifikan bagi semua peran dalam organisasi, meningkatkan transparansi, dan membantu dalam pengambilan keputusan yang lebih baik terkait dengan manajemen aset. Fitur ini akan menjadi bagian penting dari dashboard yang ditingkatkan untuk memberikan pengalaman pengguna yang lebih baik dan mendukung kebutuhan operasional organisasi secara keseluruhan.
-- Perlu ditambahkan fitur untuk menampilkan berbagai statistik dan metrik yang relevan seperti jumlah pembelian, jumlah proyek, jumlah pelanggan, dan jumlah aset lengkap dengan kategori, tipe dan modelnya.
-- Khusus Super Admin, perlu ditambahkan fitur untuk memantau jumlah akun, divisi dan role yang ada di dalam organisasi, serta memberikan akses penuh ke semua data dan fitur yang tersedia di dashboard.
-- Khusus Super Admin dan Admin Logistik, perlu ditambahkan fitur untuk memantau jumlah aset, stok, dan lokasi penyimpanan, serta memberikan akses penuh ke data terkait manajemen aset. Termasuk fitur kategori & model agar dapat langsung menambah data kategori, tipe dan model langsung dari dashboard.
-- Khusus Super Admin dan Admin Purchase, perlu ditambahkan fitur untuk memantau jumlah pembelian, status pembelian, dan informasi terkait lainnya, serta memberikan akses penuh ke data terkait manajemen pembelian.
-- Perlu menambahkan filter waktu pada setiap statistik dan matrik yang ditampilkan di dashboard untuk memungkinkan pengguna memantau data dalam rentang waktu tertentu, seperti harian, mingguan, bulanan, atau tahunan. Fitur ini akan memberikan fleksibilitas kepada pengguna untuk menganalisis data dengan lebih mendalam dan membuat keputusan yang lebih baik berdasarkan tren dan pola yang muncul dalam data tersebut.
-
 ## 1.2 Pusat Aset
+
+### 1.2.1 Catat Aset
+
+- pada table daftar aset harus memiliki 2 tampilan yaitu grup dan daftar, grup untuk menampilkan aset berdasarkan pencatatan (1 pencatatan memiliki banyak aset dikelompokan dalam 1 grup) sedangkan daftar untuk menampilkan aset secara keseluruhan tanpa dikelompokan berdasarkan pencatatan.
+- pada form pencatatan aset harus memiliki beberapa card yaitu card dokumen (berisikan dokumen terkait pencatatan aset seperti tanggal pencatatan, dicatat oleh, nomor dokumen. semua field otomatis terisi berdasarkan waktu tanggal, user yang mencatat, dan nomor dokumen yang di generate otomatis).
+- card informasi aset (berisikan informasi umum tentang aset seperti kategori, tipe dan model dan field ini merupakan field dropdown yang mengambil data dari Kategori & Model), card detail aset dibagi berdasarkan individual (berisikan informasi detail tentang aset seperti SN, MAC), dan material. material dibagi berdasarkan habis langsung dan habis perlahan, habis langsung berisikan jumlah aset dan satuan ukurnya sedangkan habis perlahan berisikan informasi tentang jumlah aset dan satuan kontainer (misal : hasbal. 1 hasbal = 1000 meter data ini diambil dari Kategori & Model).
+- card informasi pembelian khusu untuk super admin dan admin purchase, yang isinya diambil dari data pembelian aset yang sudah diinputkan pada menu Data Pembelian Aset, atau dari detail realisasi pembelian aset pada request baru. data ini terisi otomatis.
+- card informasi depresiasi khusus untuk super admin dan admin finance, yang isinya diambil dari data depresiasi aset yang sudah diinputkan pada menu Data Depresiasi Aset dan khusus aset individual, data ini terisi otomatis.
+- card informasi lokasi berisikan field lokasi fisik aset, detail lokasi, catatan, pencatatan dari (request, manual).
+- card lampiran berisikan field untuk mengupload file lampiran terkait pencatatan aset seperti foto aset, dokumen pendukung, dll.
+- pada halaman detail aset, terdapat tab informasi umum yang berisikan informasi umum tentang aset seperti kategori, tipe dan model, tab informasi detail yang berisikan informasi detail tentang aset seperti SN, MAC, tab material yang berisikan informasi tentang jumlah aset dan satuan ukurnya dan barcode serta qrcode yang dirender dalam 1 bentuk hingga menjadi label digital yang dapat langsung ditempel ketika diprint, tab pembelian yang berisikan informasi tentang pembelian aset, tab depresiasi yang berisikan informasi tentang depresiasi aset, tab lokasi yang berisikan informasi tentang lokasi fisik aset, detail lokasi, catatan, pencatatan dari (request, manual), dan tab lampiran yang berisikan file lampiran terkait pencatatan aset seperti foto aset, dokumen pendukung, dll. dan tab riwayat yang berisikan informasi tentang riwayat perubahan data aset seperti perubahan lokasi, perubahan status, dll.
+- buat halaman edit dari aset yang sudah dicatat, pastikan api nya sesuai dengan data untuk edit aset tersebut.
+- amankan fitur hapus aset, buat modal konfirmasi hapus aset dan jika aset sudah digunakan atau ada data maka tidak bisa dihapus dan muncul notifikasi bahwa aset tidak bisa dihapus karena sudah digunakan atau ada data yang terkait dengan aset tersebut.
+
+### 1.2.2 Stok Aset
+
+- pada table stok aset disemua tab (gudang utama, gudang divisi dan gudang pribadi), pada kolom total buat modal untuk menampilkan total stok aset yang tersedia secara detail dan juga jumlah dari setiap aset yang tersedia.
+- pada table stok aset disemua tab (gudang utama, gudang divisi dan gudang pribadi), pada kolom digudang menampilkan jumlah stok total yang tersedia.
+- pada table stok aset disemua tab (gudang utama, gudang divisi dan gudang pribadi), pada kolom digunakan menampilkan jumlah stok yang sedang digunakan secara detail dan juga jumlah dari setiap aset yang sedang digunakan.
+- pada table stok aset disemua tab (gudang utama, gudang divisi dan gudang pribadi), tambahkan kolom harga aset (total dari jumlah harga satuan dan khusus untuk super admin dan admin purchase).
+- pada table stok aset disemua tab (gudang utama, gudang divisi dan gudang pribadi), tambahkan kolom aksi yang berisikan tombol untuk restock, riwayat, lapor kerusakan (khusu individual), dan lapor hilang.
+- pada table stok aset disemua tab (gudang utama, gudang divisi dan gudang pribadi), pindahkan kolom treshold ke luar dari table dan jadikan button ketika diklik akan menampilkan modal untuk mengatur treshold aset yang memiliki tab atur semuanya sekaligus dan per item.
 
 ## 1.3 Manajemen Pelanggan
 

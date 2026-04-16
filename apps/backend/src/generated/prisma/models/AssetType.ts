@@ -40,6 +40,9 @@ export type AssetTypeMinAggregateOutputType = {
   id: number | null;
   categoryId: number | null;
   name: string | null;
+  classification: $Enums.AssetClassification | null;
+  trackingMethod: $Enums.TrackingMethod | null;
+  unitOfMeasure: string | null;
   isDeleted: boolean | null;
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -49,6 +52,9 @@ export type AssetTypeMaxAggregateOutputType = {
   id: number | null;
   categoryId: number | null;
   name: string | null;
+  classification: $Enums.AssetClassification | null;
+  trackingMethod: $Enums.TrackingMethod | null;
+  unitOfMeasure: string | null;
   isDeleted: boolean | null;
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -58,6 +64,9 @@ export type AssetTypeCountAggregateOutputType = {
   id: number;
   categoryId: number;
   name: number;
+  classification: number;
+  trackingMethod: number;
+  unitOfMeasure: number;
   isDeleted: number;
   createdAt: number;
   updatedAt: number;
@@ -78,6 +87,9 @@ export type AssetTypeMinAggregateInputType = {
   id?: true;
   categoryId?: true;
   name?: true;
+  classification?: true;
+  trackingMethod?: true;
+  unitOfMeasure?: true;
   isDeleted?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -87,6 +99,9 @@ export type AssetTypeMaxAggregateInputType = {
   id?: true;
   categoryId?: true;
   name?: true;
+  classification?: true;
+  trackingMethod?: true;
+  unitOfMeasure?: true;
   isDeleted?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -96,6 +111,9 @@ export type AssetTypeCountAggregateInputType = {
   id?: true;
   categoryId?: true;
   name?: true;
+  classification?: true;
+  trackingMethod?: true;
+  unitOfMeasure?: true;
   isDeleted?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -199,6 +217,9 @@ export type AssetTypeGroupByOutputType = {
   id: number;
   categoryId: number;
   name: string;
+  classification: $Enums.AssetClassification | null;
+  trackingMethod: $Enums.TrackingMethod | null;
+  unitOfMeasure: string | null;
   isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -229,6 +250,15 @@ export type AssetTypeWhereInput = {
   id?: Prisma.IntFilter<'AssetType'> | number;
   categoryId?: Prisma.IntFilter<'AssetType'> | number;
   name?: Prisma.StringFilter<'AssetType'> | string;
+  classification?:
+    | Prisma.EnumAssetClassificationNullableFilter<'AssetType'>
+    | $Enums.AssetClassification
+    | null;
+  trackingMethod?:
+    | Prisma.EnumTrackingMethodNullableFilter<'AssetType'>
+    | $Enums.TrackingMethod
+    | null;
+  unitOfMeasure?: Prisma.StringNullableFilter<'AssetType'> | string | null;
   isDeleted?: Prisma.BoolFilter<'AssetType'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'AssetType'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'AssetType'> | Date | string;
@@ -244,6 +274,9 @@ export type AssetTypeOrderByWithRelationInput = {
   id?: Prisma.SortOrder;
   categoryId?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
+  classification?: Prisma.SortOrderInput | Prisma.SortOrder;
+  trackingMethod?: Prisma.SortOrderInput | Prisma.SortOrder;
+  unitOfMeasure?: Prisma.SortOrderInput | Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -261,6 +294,15 @@ export type AssetTypeWhereUniqueInput = Prisma.AtLeast<
     NOT?: Prisma.AssetTypeWhereInput | Prisma.AssetTypeWhereInput[];
     categoryId?: Prisma.IntFilter<'AssetType'> | number;
     name?: Prisma.StringFilter<'AssetType'> | string;
+    classification?:
+      | Prisma.EnumAssetClassificationNullableFilter<'AssetType'>
+      | $Enums.AssetClassification
+      | null;
+    trackingMethod?:
+      | Prisma.EnumTrackingMethodNullableFilter<'AssetType'>
+      | $Enums.TrackingMethod
+      | null;
+    unitOfMeasure?: Prisma.StringNullableFilter<'AssetType'> | string | null;
     isDeleted?: Prisma.BoolFilter<'AssetType'> | boolean;
     createdAt?: Prisma.DateTimeFilter<'AssetType'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'AssetType'> | Date | string;
@@ -278,6 +320,9 @@ export type AssetTypeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder;
   categoryId?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
+  classification?: Prisma.SortOrderInput | Prisma.SortOrder;
+  trackingMethod?: Prisma.SortOrderInput | Prisma.SortOrder;
+  unitOfMeasure?: Prisma.SortOrderInput | Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -299,6 +344,18 @@ export type AssetTypeScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<'AssetType'> | number;
   categoryId?: Prisma.IntWithAggregatesFilter<'AssetType'> | number;
   name?: Prisma.StringWithAggregatesFilter<'AssetType'> | string;
+  classification?:
+    | Prisma.EnumAssetClassificationNullableWithAggregatesFilter<'AssetType'>
+    | $Enums.AssetClassification
+    | null;
+  trackingMethod?:
+    | Prisma.EnumTrackingMethodNullableWithAggregatesFilter<'AssetType'>
+    | $Enums.TrackingMethod
+    | null;
+  unitOfMeasure?:
+    | Prisma.StringNullableWithAggregatesFilter<'AssetType'>
+    | string
+    | null;
   isDeleted?: Prisma.BoolWithAggregatesFilter<'AssetType'> | boolean;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<'AssetType'> | Date | string;
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<'AssetType'> | Date | string;
@@ -306,6 +363,9 @@ export type AssetTypeScalarWhereWithAggregatesInput = {
 
 export type AssetTypeCreateInput = {
   name: string;
+  classification?: $Enums.AssetClassification | null;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  unitOfMeasure?: string | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -318,6 +378,9 @@ export type AssetTypeUncheckedCreateInput = {
   id?: number;
   categoryId: number;
   name: string;
+  classification?: $Enums.AssetClassification | null;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  unitOfMeasure?: string | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -327,6 +390,18 @@ export type AssetTypeUncheckedCreateInput = {
 
 export type AssetTypeUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.NullableEnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification
+    | null;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  unitOfMeasure?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -339,6 +414,18 @@ export type AssetTypeUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.NullableEnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification
+    | null;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  unitOfMeasure?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -350,6 +437,9 @@ export type AssetTypeCreateManyInput = {
   id?: number;
   categoryId: number;
   name: string;
+  classification?: $Enums.AssetClassification | null;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  unitOfMeasure?: string | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -357,6 +447,18 @@ export type AssetTypeCreateManyInput = {
 
 export type AssetTypeUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.NullableEnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification
+    | null;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  unitOfMeasure?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -366,6 +468,18 @@ export type AssetTypeUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.NullableEnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification
+    | null;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  unitOfMeasure?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -390,6 +504,9 @@ export type AssetTypeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   categoryId?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
+  classification?: Prisma.SortOrder;
+  trackingMethod?: Prisma.SortOrder;
+  unitOfMeasure?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -404,6 +521,9 @@ export type AssetTypeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   categoryId?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
+  classification?: Prisma.SortOrder;
+  trackingMethod?: Prisma.SortOrder;
+  unitOfMeasure?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -413,6 +533,9 @@ export type AssetTypeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   categoryId?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
+  classification?: Prisma.SortOrder;
+  trackingMethod?: Prisma.SortOrder;
+  unitOfMeasure?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -539,6 +662,18 @@ export type AssetTypeUncheckedUpdateManyWithoutCategoryNestedInput = {
     | Prisma.AssetTypeScalarWhereInput[];
 };
 
+export type NullableEnumAssetClassificationFieldUpdateOperationsInput = {
+  set?: $Enums.AssetClassification | null;
+};
+
+export type NullableEnumTrackingMethodFieldUpdateOperationsInput = {
+  set?: $Enums.TrackingMethod | null;
+};
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null;
+};
+
 export type AssetTypeCreateNestedOneWithoutModelsInput = {
   create?: Prisma.XOR<
     Prisma.AssetTypeCreateWithoutModelsInput,
@@ -595,6 +730,9 @@ export type AssetTypeUpdateOneWithoutAssetsNestedInput = {
 
 export type AssetTypeCreateWithoutCategoryInput = {
   name: string;
+  classification?: $Enums.AssetClassification | null;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  unitOfMeasure?: string | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -605,6 +743,9 @@ export type AssetTypeCreateWithoutCategoryInput = {
 export type AssetTypeUncheckedCreateWithoutCategoryInput = {
   id?: number;
   name: string;
+  classification?: $Enums.AssetClassification | null;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  unitOfMeasure?: string | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -662,6 +803,15 @@ export type AssetTypeScalarWhereInput = {
   id?: Prisma.IntFilter<'AssetType'> | number;
   categoryId?: Prisma.IntFilter<'AssetType'> | number;
   name?: Prisma.StringFilter<'AssetType'> | string;
+  classification?:
+    | Prisma.EnumAssetClassificationNullableFilter<'AssetType'>
+    | $Enums.AssetClassification
+    | null;
+  trackingMethod?:
+    | Prisma.EnumTrackingMethodNullableFilter<'AssetType'>
+    | $Enums.TrackingMethod
+    | null;
+  unitOfMeasure?: Prisma.StringNullableFilter<'AssetType'> | string | null;
   isDeleted?: Prisma.BoolFilter<'AssetType'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'AssetType'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'AssetType'> | Date | string;
@@ -669,6 +819,9 @@ export type AssetTypeScalarWhereInput = {
 
 export type AssetTypeCreateWithoutModelsInput = {
   name: string;
+  classification?: $Enums.AssetClassification | null;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  unitOfMeasure?: string | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -680,6 +833,9 @@ export type AssetTypeUncheckedCreateWithoutModelsInput = {
   id?: number;
   categoryId: number;
   name: string;
+  classification?: $Enums.AssetClassification | null;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  unitOfMeasure?: string | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -716,6 +872,18 @@ export type AssetTypeUpdateToOneWithWhereWithoutModelsInput = {
 
 export type AssetTypeUpdateWithoutModelsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.NullableEnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification
+    | null;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  unitOfMeasure?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -727,6 +895,18 @@ export type AssetTypeUncheckedUpdateWithoutModelsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.NullableEnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification
+    | null;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  unitOfMeasure?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -735,6 +915,9 @@ export type AssetTypeUncheckedUpdateWithoutModelsInput = {
 
 export type AssetTypeCreateWithoutAssetsInput = {
   name: string;
+  classification?: $Enums.AssetClassification | null;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  unitOfMeasure?: string | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -746,6 +929,9 @@ export type AssetTypeUncheckedCreateWithoutAssetsInput = {
   id?: number;
   categoryId: number;
   name: string;
+  classification?: $Enums.AssetClassification | null;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  unitOfMeasure?: string | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -782,6 +968,18 @@ export type AssetTypeUpdateToOneWithWhereWithoutAssetsInput = {
 
 export type AssetTypeUpdateWithoutAssetsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.NullableEnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification
+    | null;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  unitOfMeasure?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -793,6 +991,18 @@ export type AssetTypeUncheckedUpdateWithoutAssetsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.NullableEnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification
+    | null;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  unitOfMeasure?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -802,6 +1012,9 @@ export type AssetTypeUncheckedUpdateWithoutAssetsInput = {
 export type AssetTypeCreateManyCategoryInput = {
   id?: number;
   name: string;
+  classification?: $Enums.AssetClassification | null;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  unitOfMeasure?: string | null;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -809,6 +1022,18 @@ export type AssetTypeCreateManyCategoryInput = {
 
 export type AssetTypeUpdateWithoutCategoryInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.NullableEnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification
+    | null;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  unitOfMeasure?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -819,6 +1044,18 @@ export type AssetTypeUpdateWithoutCategoryInput = {
 export type AssetTypeUncheckedUpdateWithoutCategoryInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.NullableEnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification
+    | null;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  unitOfMeasure?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -829,6 +1066,18 @@ export type AssetTypeUncheckedUpdateWithoutCategoryInput = {
 export type AssetTypeUncheckedUpdateManyWithoutCategoryInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.NullableEnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification
+    | null;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  unitOfMeasure?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -892,6 +1141,9 @@ export type AssetTypeSelect<
     id?: boolean;
     categoryId?: boolean;
     name?: boolean;
+    classification?: boolean;
+    trackingMethod?: boolean;
+    unitOfMeasure?: boolean;
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -911,6 +1163,9 @@ export type AssetTypeSelectCreateManyAndReturn<
     id?: boolean;
     categoryId?: boolean;
     name?: boolean;
+    classification?: boolean;
+    trackingMethod?: boolean;
+    unitOfMeasure?: boolean;
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -927,6 +1182,9 @@ export type AssetTypeSelectUpdateManyAndReturn<
     id?: boolean;
     categoryId?: boolean;
     name?: boolean;
+    classification?: boolean;
+    trackingMethod?: boolean;
+    unitOfMeasure?: boolean;
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -939,6 +1197,9 @@ export type AssetTypeSelectScalar = {
   id?: boolean;
   categoryId?: boolean;
   name?: boolean;
+  classification?: boolean;
+  trackingMethod?: boolean;
+  unitOfMeasure?: boolean;
   isDeleted?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
@@ -948,7 +1209,15 @@ export type AssetTypeOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  'id' | 'categoryId' | 'name' | 'isDeleted' | 'createdAt' | 'updatedAt',
+  | 'id'
+  | 'categoryId'
+  | 'name'
+  | 'classification'
+  | 'trackingMethod'
+  | 'unitOfMeasure'
+  | 'isDeleted'
+  | 'createdAt'
+  | 'updatedAt',
   ExtArgs['result']['assetType']
 >;
 export type AssetTypeInclude<
@@ -988,6 +1257,9 @@ export type $AssetTypePayload<
       id: number;
       categoryId: number;
       name: string;
+      classification: $Enums.AssetClassification | null;
+      trackingMethod: $Enums.TrackingMethod | null;
+      unitOfMeasure: string | null;
       isDeleted: boolean;
       createdAt: Date;
       updatedAt: Date;
@@ -1622,6 +1894,9 @@ export interface AssetTypeFieldRefs {
   readonly id: Prisma.FieldRef<'AssetType', 'Int'>;
   readonly categoryId: Prisma.FieldRef<'AssetType', 'Int'>;
   readonly name: Prisma.FieldRef<'AssetType', 'String'>;
+  readonly classification: Prisma.FieldRef<'AssetType', 'AssetClassification'>;
+  readonly trackingMethod: Prisma.FieldRef<'AssetType', 'TrackingMethod'>;
+  readonly unitOfMeasure: Prisma.FieldRef<'AssetType', 'String'>;
   readonly isDeleted: Prisma.FieldRef<'AssetType', 'Boolean'>;
   readonly createdAt: Prisma.FieldRef<'AssetType', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'AssetType', 'DateTime'>;

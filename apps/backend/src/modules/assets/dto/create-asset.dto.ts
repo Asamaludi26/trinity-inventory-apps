@@ -6,6 +6,7 @@ import {
   IsEnum,
   IsNumber,
   IsPositive,
+  Min,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import {
@@ -13,6 +14,7 @@ import {
   AssetCondition,
   AssetClassification,
   TrackingMethod,
+  RecordingSource,
 } from '../../../generated/prisma/client';
 
 export class CreateAssetDto {
@@ -61,7 +63,7 @@ export class CreateAssetDto {
 
   @IsOptional()
   @Type(() => Number)
-  @IsPositive()
+  @Min(0)
   currentBalance?: number; // For MEASUREMENT materials
 
   @IsOptional()
@@ -75,6 +77,26 @@ export class CreateAssetDto {
   @IsOptional()
   @IsEnum(AssetCondition)
   condition?: AssetCondition;
+
+  @IsOptional()
+  @IsString()
+  macAddress?: string;
+
+  @IsOptional()
+  @IsString()
+  location?: string;
+
+  @IsOptional()
+  @IsString()
+  locationDetail?: string;
+
+  @IsOptional()
+  @IsString()
+  locationNote?: string;
+
+  @IsOptional()
+  @IsEnum(RecordingSource)
+  recordingSource?: RecordingSource;
 
   @IsOptional()
   @IsString()

@@ -37,6 +37,9 @@ export type AssetCategorySumAggregateOutputType = {
 export type AssetCategoryMinAggregateOutputType = {
   id: number | null;
   name: string | null;
+  defaultClassification: $Enums.AssetClassification | null;
+  isCustomerInstallable: boolean | null;
+  isProjectAsset: boolean | null;
   isDeleted: boolean | null;
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -45,6 +48,9 @@ export type AssetCategoryMinAggregateOutputType = {
 export type AssetCategoryMaxAggregateOutputType = {
   id: number | null;
   name: string | null;
+  defaultClassification: $Enums.AssetClassification | null;
+  isCustomerInstallable: boolean | null;
+  isProjectAsset: boolean | null;
   isDeleted: boolean | null;
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -53,6 +59,9 @@ export type AssetCategoryMaxAggregateOutputType = {
 export type AssetCategoryCountAggregateOutputType = {
   id: number;
   name: number;
+  defaultClassification: number;
+  isCustomerInstallable: number;
+  isProjectAsset: number;
   isDeleted: number;
   createdAt: number;
   updatedAt: number;
@@ -70,6 +79,9 @@ export type AssetCategorySumAggregateInputType = {
 export type AssetCategoryMinAggregateInputType = {
   id?: true;
   name?: true;
+  defaultClassification?: true;
+  isCustomerInstallable?: true;
+  isProjectAsset?: true;
   isDeleted?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -78,6 +90,9 @@ export type AssetCategoryMinAggregateInputType = {
 export type AssetCategoryMaxAggregateInputType = {
   id?: true;
   name?: true;
+  defaultClassification?: true;
+  isCustomerInstallable?: true;
+  isProjectAsset?: true;
   isDeleted?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -86,6 +101,9 @@ export type AssetCategoryMaxAggregateInputType = {
 export type AssetCategoryCountAggregateInputType = {
   id?: true;
   name?: true;
+  defaultClassification?: true;
+  isCustomerInstallable?: true;
+  isProjectAsset?: true;
   isDeleted?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -192,6 +210,9 @@ export type AssetCategoryGroupByArgs<
 export type AssetCategoryGroupByOutputType = {
   id: number;
   name: string;
+  defaultClassification: $Enums.AssetClassification;
+  isCustomerInstallable: boolean;
+  isProjectAsset: boolean;
   isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -222,21 +243,31 @@ export type AssetCategoryWhereInput = {
   NOT?: Prisma.AssetCategoryWhereInput | Prisma.AssetCategoryWhereInput[];
   id?: Prisma.IntFilter<'AssetCategory'> | number;
   name?: Prisma.StringFilter<'AssetCategory'> | string;
+  defaultClassification?:
+    | Prisma.EnumAssetClassificationFilter<'AssetCategory'>
+    | $Enums.AssetClassification;
+  isCustomerInstallable?: Prisma.BoolFilter<'AssetCategory'> | boolean;
+  isProjectAsset?: Prisma.BoolFilter<'AssetCategory'> | boolean;
   isDeleted?: Prisma.BoolFilter<'AssetCategory'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'AssetCategory'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'AssetCategory'> | Date | string;
   types?: Prisma.AssetTypeListRelationFilter;
   assets?: Prisma.AssetListRelationFilter;
+  divisions?: Prisma.CategoryDivisionListRelationFilter;
 };
 
 export type AssetCategoryOrderByWithRelationInput = {
   id?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
+  defaultClassification?: Prisma.SortOrder;
+  isCustomerInstallable?: Prisma.SortOrder;
+  isProjectAsset?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   types?: Prisma.AssetTypeOrderByRelationAggregateInput;
   assets?: Prisma.AssetOrderByRelationAggregateInput;
+  divisions?: Prisma.CategoryDivisionOrderByRelationAggregateInput;
 };
 
 export type AssetCategoryWhereUniqueInput = Prisma.AtLeast<
@@ -246,11 +277,17 @@ export type AssetCategoryWhereUniqueInput = Prisma.AtLeast<
     AND?: Prisma.AssetCategoryWhereInput | Prisma.AssetCategoryWhereInput[];
     OR?: Prisma.AssetCategoryWhereInput[];
     NOT?: Prisma.AssetCategoryWhereInput | Prisma.AssetCategoryWhereInput[];
+    defaultClassification?:
+      | Prisma.EnumAssetClassificationFilter<'AssetCategory'>
+      | $Enums.AssetClassification;
+    isCustomerInstallable?: Prisma.BoolFilter<'AssetCategory'> | boolean;
+    isProjectAsset?: Prisma.BoolFilter<'AssetCategory'> | boolean;
     isDeleted?: Prisma.BoolFilter<'AssetCategory'> | boolean;
     createdAt?: Prisma.DateTimeFilter<'AssetCategory'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'AssetCategory'> | Date | string;
     types?: Prisma.AssetTypeListRelationFilter;
     assets?: Prisma.AssetListRelationFilter;
+    divisions?: Prisma.CategoryDivisionListRelationFilter;
   },
   'id' | 'name'
 >;
@@ -258,6 +295,9 @@ export type AssetCategoryWhereUniqueInput = Prisma.AtLeast<
 export type AssetCategoryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
+  defaultClassification?: Prisma.SortOrder;
+  isCustomerInstallable?: Prisma.SortOrder;
+  isProjectAsset?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -278,6 +318,13 @@ export type AssetCategoryScalarWhereWithAggregatesInput = {
     | Prisma.AssetCategoryScalarWhereWithAggregatesInput[];
   id?: Prisma.IntWithAggregatesFilter<'AssetCategory'> | number;
   name?: Prisma.StringWithAggregatesFilter<'AssetCategory'> | string;
+  defaultClassification?:
+    | Prisma.EnumAssetClassificationWithAggregatesFilter<'AssetCategory'>
+    | $Enums.AssetClassification;
+  isCustomerInstallable?:
+    | Prisma.BoolWithAggregatesFilter<'AssetCategory'>
+    | boolean;
+  isProjectAsset?: Prisma.BoolWithAggregatesFilter<'AssetCategory'> | boolean;
   isDeleted?: Prisma.BoolWithAggregatesFilter<'AssetCategory'> | boolean;
   createdAt?:
     | Prisma.DateTimeWithAggregatesFilter<'AssetCategory'>
@@ -291,45 +338,68 @@ export type AssetCategoryScalarWhereWithAggregatesInput = {
 
 export type AssetCategoryCreateInput = {
   name: string;
+  defaultClassification?: $Enums.AssetClassification;
+  isCustomerInstallable?: boolean;
+  isProjectAsset?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   types?: Prisma.AssetTypeCreateNestedManyWithoutCategoryInput;
   assets?: Prisma.AssetCreateNestedManyWithoutCategoryInput;
+  divisions?: Prisma.CategoryDivisionCreateNestedManyWithoutCategoryInput;
 };
 
 export type AssetCategoryUncheckedCreateInput = {
   id?: number;
   name: string;
+  defaultClassification?: $Enums.AssetClassification;
+  isCustomerInstallable?: boolean;
+  isProjectAsset?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   types?: Prisma.AssetTypeUncheckedCreateNestedManyWithoutCategoryInput;
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutCategoryInput;
+  divisions?: Prisma.CategoryDivisionUncheckedCreateNestedManyWithoutCategoryInput;
 };
 
 export type AssetCategoryUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  defaultClassification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  isCustomerInstallable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isProjectAsset?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   types?: Prisma.AssetTypeUpdateManyWithoutCategoryNestedInput;
   assets?: Prisma.AssetUpdateManyWithoutCategoryNestedInput;
+  divisions?: Prisma.CategoryDivisionUpdateManyWithoutCategoryNestedInput;
 };
 
 export type AssetCategoryUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  defaultClassification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  isCustomerInstallable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isProjectAsset?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   types?: Prisma.AssetTypeUncheckedUpdateManyWithoutCategoryNestedInput;
   assets?: Prisma.AssetUncheckedUpdateManyWithoutCategoryNestedInput;
+  divisions?: Prisma.CategoryDivisionUncheckedUpdateManyWithoutCategoryNestedInput;
 };
 
 export type AssetCategoryCreateManyInput = {
   id?: number;
   name: string;
+  defaultClassification?: $Enums.AssetClassification;
+  isCustomerInstallable?: boolean;
+  isProjectAsset?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -337,6 +407,11 @@ export type AssetCategoryCreateManyInput = {
 
 export type AssetCategoryUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  defaultClassification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  isCustomerInstallable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isProjectAsset?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -345,6 +420,11 @@ export type AssetCategoryUpdateManyMutationInput = {
 export type AssetCategoryUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  defaultClassification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  isCustomerInstallable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isProjectAsset?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -353,6 +433,9 @@ export type AssetCategoryUncheckedUpdateManyInput = {
 export type AssetCategoryCountOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
+  defaultClassification?: Prisma.SortOrder;
+  isCustomerInstallable?: Prisma.SortOrder;
+  isProjectAsset?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -365,6 +448,9 @@ export type AssetCategoryAvgOrderByAggregateInput = {
 export type AssetCategoryMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
+  defaultClassification?: Prisma.SortOrder;
+  isCustomerInstallable?: Prisma.SortOrder;
+  isProjectAsset?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -373,6 +459,9 @@ export type AssetCategoryMaxOrderByAggregateInput = {
 export type AssetCategoryMinOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
+  defaultClassification?: Prisma.SortOrder;
+  isCustomerInstallable?: Prisma.SortOrder;
+  isProjectAsset?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -391,6 +480,10 @@ export type StringFieldUpdateOperationsInput = {
   set?: string;
 };
 
+export type EnumAssetClassificationFieldUpdateOperationsInput = {
+  set?: $Enums.AssetClassification;
+};
+
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean;
 };
@@ -405,6 +498,32 @@ export type IntFieldUpdateOperationsInput = {
   decrement?: number;
   multiply?: number;
   divide?: number;
+};
+
+export type AssetCategoryCreateNestedOneWithoutDivisionsInput = {
+  create?: Prisma.XOR<
+    Prisma.AssetCategoryCreateWithoutDivisionsInput,
+    Prisma.AssetCategoryUncheckedCreateWithoutDivisionsInput
+  >;
+  connectOrCreate?: Prisma.AssetCategoryCreateOrConnectWithoutDivisionsInput;
+  connect?: Prisma.AssetCategoryWhereUniqueInput;
+};
+
+export type AssetCategoryUpdateOneRequiredWithoutDivisionsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.AssetCategoryCreateWithoutDivisionsInput,
+    Prisma.AssetCategoryUncheckedCreateWithoutDivisionsInput
+  >;
+  connectOrCreate?: Prisma.AssetCategoryCreateOrConnectWithoutDivisionsInput;
+  upsert?: Prisma.AssetCategoryUpsertWithoutDivisionsInput;
+  connect?: Prisma.AssetCategoryWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.AssetCategoryUpdateToOneWithWhereWithoutDivisionsInput,
+      Prisma.AssetCategoryUpdateWithoutDivisionsInput
+    >,
+    Prisma.AssetCategoryUncheckedUpdateWithoutDivisionsInput
+  >;
 };
 
 export type AssetCategoryCreateNestedOneWithoutTypesInput = {
@@ -459,21 +578,111 @@ export type AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput = {
   >;
 };
 
+export type AssetCategoryCreateWithoutDivisionsInput = {
+  name: string;
+  defaultClassification?: $Enums.AssetClassification;
+  isCustomerInstallable?: boolean;
+  isProjectAsset?: boolean;
+  isDeleted?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  types?: Prisma.AssetTypeCreateNestedManyWithoutCategoryInput;
+  assets?: Prisma.AssetCreateNestedManyWithoutCategoryInput;
+};
+
+export type AssetCategoryUncheckedCreateWithoutDivisionsInput = {
+  id?: number;
+  name: string;
+  defaultClassification?: $Enums.AssetClassification;
+  isCustomerInstallable?: boolean;
+  isProjectAsset?: boolean;
+  isDeleted?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  types?: Prisma.AssetTypeUncheckedCreateNestedManyWithoutCategoryInput;
+  assets?: Prisma.AssetUncheckedCreateNestedManyWithoutCategoryInput;
+};
+
+export type AssetCategoryCreateOrConnectWithoutDivisionsInput = {
+  where: Prisma.AssetCategoryWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.AssetCategoryCreateWithoutDivisionsInput,
+    Prisma.AssetCategoryUncheckedCreateWithoutDivisionsInput
+  >;
+};
+
+export type AssetCategoryUpsertWithoutDivisionsInput = {
+  update: Prisma.XOR<
+    Prisma.AssetCategoryUpdateWithoutDivisionsInput,
+    Prisma.AssetCategoryUncheckedUpdateWithoutDivisionsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.AssetCategoryCreateWithoutDivisionsInput,
+    Prisma.AssetCategoryUncheckedCreateWithoutDivisionsInput
+  >;
+  where?: Prisma.AssetCategoryWhereInput;
+};
+
+export type AssetCategoryUpdateToOneWithWhereWithoutDivisionsInput = {
+  where?: Prisma.AssetCategoryWhereInput;
+  data: Prisma.XOR<
+    Prisma.AssetCategoryUpdateWithoutDivisionsInput,
+    Prisma.AssetCategoryUncheckedUpdateWithoutDivisionsInput
+  >;
+};
+
+export type AssetCategoryUpdateWithoutDivisionsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  defaultClassification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  isCustomerInstallable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isProjectAsset?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  types?: Prisma.AssetTypeUpdateManyWithoutCategoryNestedInput;
+  assets?: Prisma.AssetUpdateManyWithoutCategoryNestedInput;
+};
+
+export type AssetCategoryUncheckedUpdateWithoutDivisionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  defaultClassification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  isCustomerInstallable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isProjectAsset?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  types?: Prisma.AssetTypeUncheckedUpdateManyWithoutCategoryNestedInput;
+  assets?: Prisma.AssetUncheckedUpdateManyWithoutCategoryNestedInput;
+};
+
 export type AssetCategoryCreateWithoutTypesInput = {
   name: string;
+  defaultClassification?: $Enums.AssetClassification;
+  isCustomerInstallable?: boolean;
+  isProjectAsset?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assets?: Prisma.AssetCreateNestedManyWithoutCategoryInput;
+  divisions?: Prisma.CategoryDivisionCreateNestedManyWithoutCategoryInput;
 };
 
 export type AssetCategoryUncheckedCreateWithoutTypesInput = {
   id?: number;
   name: string;
+  defaultClassification?: $Enums.AssetClassification;
+  isCustomerInstallable?: boolean;
+  isProjectAsset?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutCategoryInput;
+  divisions?: Prisma.CategoryDivisionUncheckedCreateNestedManyWithoutCategoryInput;
 };
 
 export type AssetCategoryCreateOrConnectWithoutTypesInput = {
@@ -506,36 +715,56 @@ export type AssetCategoryUpdateToOneWithWhereWithoutTypesInput = {
 
 export type AssetCategoryUpdateWithoutTypesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  defaultClassification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  isCustomerInstallable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isProjectAsset?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assets?: Prisma.AssetUpdateManyWithoutCategoryNestedInput;
+  divisions?: Prisma.CategoryDivisionUpdateManyWithoutCategoryNestedInput;
 };
 
 export type AssetCategoryUncheckedUpdateWithoutTypesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  defaultClassification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  isCustomerInstallable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isProjectAsset?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assets?: Prisma.AssetUncheckedUpdateManyWithoutCategoryNestedInput;
+  divisions?: Prisma.CategoryDivisionUncheckedUpdateManyWithoutCategoryNestedInput;
 };
 
 export type AssetCategoryCreateWithoutAssetsInput = {
   name: string;
+  defaultClassification?: $Enums.AssetClassification;
+  isCustomerInstallable?: boolean;
+  isProjectAsset?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   types?: Prisma.AssetTypeCreateNestedManyWithoutCategoryInput;
+  divisions?: Prisma.CategoryDivisionCreateNestedManyWithoutCategoryInput;
 };
 
 export type AssetCategoryUncheckedCreateWithoutAssetsInput = {
   id?: number;
   name: string;
+  defaultClassification?: $Enums.AssetClassification;
+  isCustomerInstallable?: boolean;
+  isProjectAsset?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   types?: Prisma.AssetTypeUncheckedCreateNestedManyWithoutCategoryInput;
+  divisions?: Prisma.CategoryDivisionUncheckedCreateNestedManyWithoutCategoryInput;
 };
 
 export type AssetCategoryCreateOrConnectWithoutAssetsInput = {
@@ -568,19 +797,31 @@ export type AssetCategoryUpdateToOneWithWhereWithoutAssetsInput = {
 
 export type AssetCategoryUpdateWithoutAssetsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  defaultClassification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  isCustomerInstallable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isProjectAsset?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   types?: Prisma.AssetTypeUpdateManyWithoutCategoryNestedInput;
+  divisions?: Prisma.CategoryDivisionUpdateManyWithoutCategoryNestedInput;
 };
 
 export type AssetCategoryUncheckedUpdateWithoutAssetsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  defaultClassification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  isCustomerInstallable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isProjectAsset?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   types?: Prisma.AssetTypeUncheckedUpdateManyWithoutCategoryNestedInput;
+  divisions?: Prisma.CategoryDivisionUncheckedUpdateManyWithoutCategoryNestedInput;
 };
 
 /**
@@ -590,6 +831,7 @@ export type AssetCategoryUncheckedUpdateWithoutAssetsInput = {
 export type AssetCategoryCountOutputType = {
   types: number;
   assets: number;
+  divisions: number;
 };
 
 export type AssetCategoryCountOutputTypeSelect<
@@ -598,6 +840,7 @@ export type AssetCategoryCountOutputTypeSelect<
 > = {
   types?: boolean | AssetCategoryCountOutputTypeCountTypesArgs;
   assets?: boolean | AssetCategoryCountOutputTypeCountAssetsArgs;
+  divisions?: boolean | AssetCategoryCountOutputTypeCountDivisionsArgs;
 };
 
 /**
@@ -633,6 +876,16 @@ export type AssetCategoryCountOutputTypeCountAssetsArgs<
   where?: Prisma.AssetWhereInput;
 };
 
+/**
+ * AssetCategoryCountOutputType without action
+ */
+export type AssetCategoryCountOutputTypeCountDivisionsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.CategoryDivisionWhereInput;
+};
+
 export type AssetCategorySelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -640,11 +893,15 @@ export type AssetCategorySelect<
   {
     id?: boolean;
     name?: boolean;
+    defaultClassification?: boolean;
+    isCustomerInstallable?: boolean;
+    isProjectAsset?: boolean;
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     types?: boolean | Prisma.AssetCategory$typesArgs<ExtArgs>;
     assets?: boolean | Prisma.AssetCategory$assetsArgs<ExtArgs>;
+    divisions?: boolean | Prisma.AssetCategory$divisionsArgs<ExtArgs>;
     _count?: boolean | Prisma.AssetCategoryCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['assetCategory']
@@ -657,6 +914,9 @@ export type AssetCategorySelectCreateManyAndReturn<
   {
     id?: boolean;
     name?: boolean;
+    defaultClassification?: boolean;
+    isCustomerInstallable?: boolean;
+    isProjectAsset?: boolean;
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -671,6 +931,9 @@ export type AssetCategorySelectUpdateManyAndReturn<
   {
     id?: boolean;
     name?: boolean;
+    defaultClassification?: boolean;
+    isCustomerInstallable?: boolean;
+    isProjectAsset?: boolean;
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -681,6 +944,9 @@ export type AssetCategorySelectUpdateManyAndReturn<
 export type AssetCategorySelectScalar = {
   id?: boolean;
   name?: boolean;
+  defaultClassification?: boolean;
+  isCustomerInstallable?: boolean;
+  isProjectAsset?: boolean;
   isDeleted?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
@@ -690,7 +956,14 @@ export type AssetCategoryOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  'id' | 'name' | 'isDeleted' | 'createdAt' | 'updatedAt',
+  | 'id'
+  | 'name'
+  | 'defaultClassification'
+  | 'isCustomerInstallable'
+  | 'isProjectAsset'
+  | 'isDeleted'
+  | 'createdAt'
+  | 'updatedAt',
   ExtArgs['result']['assetCategory']
 >;
 export type AssetCategoryInclude<
@@ -699,6 +972,7 @@ export type AssetCategoryInclude<
 > = {
   types?: boolean | Prisma.AssetCategory$typesArgs<ExtArgs>;
   assets?: boolean | Prisma.AssetCategory$assetsArgs<ExtArgs>;
+  divisions?: boolean | Prisma.AssetCategory$divisionsArgs<ExtArgs>;
   _count?: boolean | Prisma.AssetCategoryCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type AssetCategoryIncludeCreateManyAndReturn<
@@ -718,11 +992,15 @@ export type $AssetCategoryPayload<
   objects: {
     types: Prisma.$AssetTypePayload<ExtArgs>[];
     assets: Prisma.$AssetPayload<ExtArgs>[];
+    divisions: Prisma.$CategoryDivisionPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
       id: number;
       name: string;
+      defaultClassification: $Enums.AssetClassification;
+      isCustomerInstallable: boolean;
+      isProjectAsset: boolean;
       isDeleted: boolean;
       createdAt: Date;
       updatedAt: Date;
@@ -1307,6 +1585,17 @@ export interface Prisma__AssetCategoryClient<
       >
     | Null
   >;
+  divisions<T extends Prisma.AssetCategory$divisionsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.AssetCategory$divisionsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$CategoryDivisionPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1351,6 +1640,12 @@ export interface Prisma__AssetCategoryClient<
 export interface AssetCategoryFieldRefs {
   readonly id: Prisma.FieldRef<'AssetCategory', 'Int'>;
   readonly name: Prisma.FieldRef<'AssetCategory', 'String'>;
+  readonly defaultClassification: Prisma.FieldRef<
+    'AssetCategory',
+    'AssetClassification'
+  >;
+  readonly isCustomerInstallable: Prisma.FieldRef<'AssetCategory', 'Boolean'>;
+  readonly isProjectAsset: Prisma.FieldRef<'AssetCategory', 'Boolean'>;
   readonly isDeleted: Prisma.FieldRef<'AssetCategory', 'Boolean'>;
   readonly createdAt: Prisma.FieldRef<'AssetCategory', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'AssetCategory', 'DateTime'>;
@@ -1879,6 +2174,37 @@ export type AssetCategory$assetsArgs<
   take?: number;
   skip?: number;
   distinct?: Prisma.AssetScalarFieldEnum | Prisma.AssetScalarFieldEnum[];
+};
+
+/**
+ * AssetCategory.divisions
+ */
+export type AssetCategory$divisionsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the CategoryDivision
+   */
+  select?: Prisma.CategoryDivisionSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the CategoryDivision
+   */
+  omit?: Prisma.CategoryDivisionOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CategoryDivisionInclude<ExtArgs> | null;
+  where?: Prisma.CategoryDivisionWhereInput;
+  orderBy?:
+    | Prisma.CategoryDivisionOrderByWithRelationInput
+    | Prisma.CategoryDivisionOrderByWithRelationInput[];
+  cursor?: Prisma.CategoryDivisionWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.CategoryDivisionScalarFieldEnum
+    | Prisma.CategoryDivisionScalarFieldEnum[];
 };
 
 /**

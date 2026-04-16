@@ -46,6 +46,8 @@ export type AssetModelMinAggregateOutputType = {
   unit: string | null;
   containerUnit: string | null;
   containerSize: runtime.Decimal | null;
+  bulkType: $Enums.BulkTrackingType | null;
+  isInstallationTemplate: boolean | null;
   isDeleted: boolean | null;
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -59,6 +61,8 @@ export type AssetModelMaxAggregateOutputType = {
   unit: string | null;
   containerUnit: string | null;
   containerSize: runtime.Decimal | null;
+  bulkType: $Enums.BulkTrackingType | null;
+  isInstallationTemplate: boolean | null;
   isDeleted: boolean | null;
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -72,6 +76,8 @@ export type AssetModelCountAggregateOutputType = {
   unit: number;
   containerUnit: number;
   containerSize: number;
+  bulkType: number;
+  isInstallationTemplate: number;
   isDeleted: number;
   createdAt: number;
   updatedAt: number;
@@ -98,6 +104,8 @@ export type AssetModelMinAggregateInputType = {
   unit?: true;
   containerUnit?: true;
   containerSize?: true;
+  bulkType?: true;
+  isInstallationTemplate?: true;
   isDeleted?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -111,6 +119,8 @@ export type AssetModelMaxAggregateInputType = {
   unit?: true;
   containerUnit?: true;
   containerSize?: true;
+  bulkType?: true;
+  isInstallationTemplate?: true;
   isDeleted?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -124,6 +134,8 @@ export type AssetModelCountAggregateInputType = {
   unit?: true;
   containerUnit?: true;
   containerSize?: true;
+  bulkType?: true;
+  isInstallationTemplate?: true;
   isDeleted?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -231,6 +243,8 @@ export type AssetModelGroupByOutputType = {
   unit: string | null;
   containerUnit: string | null;
   containerSize: runtime.Decimal | null;
+  bulkType: $Enums.BulkTrackingType | null;
+  isInstallationTemplate: boolean;
   isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -271,6 +285,11 @@ export type AssetModelWhereInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.EnumBulkTrackingTypeNullableFilter<'AssetModel'>
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFilter<'AssetModel'> | boolean;
   isDeleted?: Prisma.BoolFilter<'AssetModel'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'AssetModel'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'AssetModel'> | Date | string;
@@ -299,6 +318,8 @@ export type AssetModelOrderByWithRelationInput = {
   unit?: Prisma.SortOrderInput | Prisma.SortOrder;
   containerUnit?: Prisma.SortOrderInput | Prisma.SortOrder;
   containerSize?: Prisma.SortOrderInput | Prisma.SortOrder;
+  bulkType?: Prisma.SortOrderInput | Prisma.SortOrder;
+  isInstallationTemplate?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -329,6 +350,11 @@ export type AssetModelWhereUniqueInput = Prisma.AtLeast<
       | number
       | string
       | null;
+    bulkType?:
+      | Prisma.EnumBulkTrackingTypeNullableFilter<'AssetModel'>
+      | $Enums.BulkTrackingType
+      | null;
+    isInstallationTemplate?: Prisma.BoolFilter<'AssetModel'> | boolean;
     isDeleted?: Prisma.BoolFilter<'AssetModel'> | boolean;
     createdAt?: Prisma.DateTimeFilter<'AssetModel'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'AssetModel'> | Date | string;
@@ -359,6 +385,8 @@ export type AssetModelOrderByWithAggregationInput = {
   unit?: Prisma.SortOrderInput | Prisma.SortOrder;
   containerUnit?: Prisma.SortOrderInput | Prisma.SortOrder;
   containerSize?: Prisma.SortOrderInput | Prisma.SortOrder;
+  bulkType?: Prisma.SortOrderInput | Prisma.SortOrder;
+  isInstallationTemplate?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -396,6 +424,13 @@ export type AssetModelScalarWhereWithAggregatesInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.EnumBulkTrackingTypeNullableWithAggregatesFilter<'AssetModel'>
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?:
+    | Prisma.BoolWithAggregatesFilter<'AssetModel'>
+    | boolean;
   isDeleted?: Prisma.BoolWithAggregatesFilter<'AssetModel'> | boolean;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<'AssetModel'> | Date | string;
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<'AssetModel'> | Date | string;
@@ -412,6 +447,8 @@ export type AssetModelCreateInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -436,6 +473,8 @@ export type AssetModelUncheckedCreateInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -461,6 +500,11 @@ export type AssetModelUpdateInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -489,6 +533,11 @@ export type AssetModelUncheckedUpdateInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -512,6 +561,8 @@ export type AssetModelCreateManyInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -532,6 +583,11 @@ export type AssetModelUpdateManyMutationInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -554,6 +610,11 @@ export type AssetModelUncheckedUpdateManyInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -583,6 +644,8 @@ export type AssetModelCountOrderByAggregateInput = {
   unit?: Prisma.SortOrder;
   containerUnit?: Prisma.SortOrder;
   containerSize?: Prisma.SortOrder;
+  bulkType?: Prisma.SortOrder;
+  isInstallationTemplate?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -602,6 +665,8 @@ export type AssetModelMaxOrderByAggregateInput = {
   unit?: Prisma.SortOrder;
   containerUnit?: Prisma.SortOrder;
   containerSize?: Prisma.SortOrder;
+  bulkType?: Prisma.SortOrder;
+  isInstallationTemplate?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -615,6 +680,8 @@ export type AssetModelMinOrderByAggregateInput = {
   unit?: Prisma.SortOrder;
   containerUnit?: Prisma.SortOrder;
   containerSize?: Prisma.SortOrder;
+  bulkType?: Prisma.SortOrder;
+  isInstallationTemplate?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -742,16 +809,16 @@ export type AssetModelUncheckedUpdateManyWithoutTypeNestedInput = {
     | Prisma.AssetModelScalarWhereInput[];
 };
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null;
-};
-
 export type NullableDecimalFieldUpdateOperationsInput = {
   set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
   increment?: runtime.Decimal | runtime.DecimalJsLike | number | string;
   decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string;
   multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string;
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+};
+
+export type NullableEnumBulkTrackingTypeFieldUpdateOperationsInput = {
+  set?: $Enums.BulkTrackingType | null;
 };
 
 export type AssetModelCreateNestedOneWithoutAssetsInput = {
@@ -901,6 +968,8 @@ export type AssetModelCreateWithoutTypeInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -923,6 +992,8 @@ export type AssetModelUncheckedCreateWithoutTypeInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -993,6 +1064,11 @@ export type AssetModelScalarWhereInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.EnumBulkTrackingTypeNullableFilter<'AssetModel'>
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFilter<'AssetModel'> | boolean;
   isDeleted?: Prisma.BoolFilter<'AssetModel'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'AssetModel'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'AssetModel'> | Date | string;
@@ -1009,6 +1085,8 @@ export type AssetModelCreateWithoutAssetsInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1032,6 +1110,8 @@ export type AssetModelUncheckedCreateWithoutAssetsInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1084,6 +1164,11 @@ export type AssetModelUpdateWithoutAssetsInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1111,6 +1196,11 @@ export type AssetModelUncheckedUpdateWithoutAssetsInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1131,6 +1221,8 @@ export type AssetModelCreateWithoutInstallationMaterialsInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1154,6 +1246,8 @@ export type AssetModelUncheckedCreateWithoutInstallationMaterialsInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1206,6 +1300,11 @@ export type AssetModelUpdateWithoutInstallationMaterialsInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1233,6 +1332,11 @@ export type AssetModelUncheckedUpdateWithoutInstallationMaterialsInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1253,6 +1357,8 @@ export type AssetModelCreateWithoutMaintenanceMaterialsInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1276,6 +1382,8 @@ export type AssetModelUncheckedCreateWithoutMaintenanceMaterialsInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1328,6 +1436,11 @@ export type AssetModelUpdateWithoutMaintenanceMaterialsInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1355,6 +1468,11 @@ export type AssetModelUncheckedUpdateWithoutMaintenanceMaterialsInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1375,6 +1493,8 @@ export type AssetModelCreateWithoutPurchaseMasterDataInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1398,6 +1518,8 @@ export type AssetModelUncheckedCreateWithoutPurchaseMasterDataInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1450,6 +1572,11 @@ export type AssetModelUpdateWithoutPurchaseMasterDataInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1477,6 +1604,11 @@ export type AssetModelUncheckedUpdateWithoutPurchaseMasterDataInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1497,6 +1629,8 @@ export type AssetModelCreateWithoutStockThresholdInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1520,6 +1654,8 @@ export type AssetModelUncheckedCreateWithoutStockThresholdInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1572,6 +1708,11 @@ export type AssetModelUpdateWithoutStockThresholdInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1599,6 +1740,11 @@ export type AssetModelUncheckedUpdateWithoutStockThresholdInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1620,6 +1766,8 @@ export type AssetModelCreateManyTypeInput = {
     | number
     | string
     | null;
+  bulkType?: $Enums.BulkTrackingType | null;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -1640,6 +1788,11 @@ export type AssetModelUpdateWithoutTypeInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1666,6 +1819,11 @@ export type AssetModelUncheckedUpdateWithoutTypeInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1692,6 +1850,11 @@ export type AssetModelUncheckedUpdateManyWithoutTypeInput = {
     | number
     | string
     | null;
+  bulkType?:
+    | Prisma.NullableEnumBulkTrackingTypeFieldUpdateOperationsInput
+    | $Enums.BulkTrackingType
+    | null;
+  isInstallationTemplate?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1775,6 +1938,8 @@ export type AssetModelSelect<
     unit?: boolean;
     containerUnit?: boolean;
     containerSize?: boolean;
+    bulkType?: boolean;
+    isInstallationTemplate?: boolean;
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -1807,6 +1972,8 @@ export type AssetModelSelectCreateManyAndReturn<
     unit?: boolean;
     containerUnit?: boolean;
     containerSize?: boolean;
+    bulkType?: boolean;
+    isInstallationTemplate?: boolean;
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -1827,6 +1994,8 @@ export type AssetModelSelectUpdateManyAndReturn<
     unit?: boolean;
     containerUnit?: boolean;
     containerSize?: boolean;
+    bulkType?: boolean;
+    isInstallationTemplate?: boolean;
     isDeleted?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -1843,6 +2012,8 @@ export type AssetModelSelectScalar = {
   unit?: boolean;
   containerUnit?: boolean;
   containerSize?: boolean;
+  bulkType?: boolean;
+  isInstallationTemplate?: boolean;
   isDeleted?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
@@ -1859,6 +2030,8 @@ export type AssetModelOmit<
   | 'unit'
   | 'containerUnit'
   | 'containerSize'
+  | 'bulkType'
+  | 'isInstallationTemplate'
   | 'isDeleted'
   | 'createdAt'
   | 'updatedAt',
@@ -1917,6 +2090,8 @@ export type $AssetModelPayload<
       unit: string | null;
       containerUnit: string | null;
       containerSize: runtime.Decimal | null;
+      bulkType: $Enums.BulkTrackingType | null;
+      isInstallationTemplate: boolean;
       isDeleted: boolean;
       createdAt: Date;
       updatedAt: Date;
@@ -2604,6 +2779,8 @@ export interface AssetModelFieldRefs {
   readonly unit: Prisma.FieldRef<'AssetModel', 'String'>;
   readonly containerUnit: Prisma.FieldRef<'AssetModel', 'String'>;
   readonly containerSize: Prisma.FieldRef<'AssetModel', 'Decimal'>;
+  readonly bulkType: Prisma.FieldRef<'AssetModel', 'BulkTrackingType'>;
+  readonly isInstallationTemplate: Prisma.FieldRef<'AssetModel', 'Boolean'>;
   readonly isDeleted: Prisma.FieldRef<'AssetModel', 'Boolean'>;
   readonly createdAt: Prisma.FieldRef<'AssetModel', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'AssetModel', 'DateTime'>;

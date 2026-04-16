@@ -47,6 +47,32 @@ Setiap perubahan dicatat menggunakan format **Keep a Changelog**:
 
 <!-- Changelog entries ditambahkan di bawah baris ini, terbaru di atas -->
 
+### [2025-07-14] — Pusat Aset v2: Enhanced Asset & Stock Management (§1.2.1 & §1.2.2)
+
+#### Added
+
+- **Backend**: `buildStockSummary()` now aggregates `purchasePrice` per model (`totalPrice` field)
+- **Backend**: New endpoints — `getStockDetailTotal`, `getStockDetailUsage`, `getStockHistory`, `restock`, `updateThresholdBulk`, `getAssetHistory`, `reportDamage`, `reportLost`, `safeDelete`, `getAllGrouped`
+- **Frontend Types**: `AssetRecording`, `AssetHistory`, `RecordingSource`, `AssetViewMode`, `AssetGroup`, `StockDetailTotal`, `StockDetailUsageItem`, `StockHistoryItem`; expanded `Asset` & `StockSummary` interfaces
+- **Frontend API**: `assetApi.getAllGrouped()`, `.getHistory()`, `.reportDamage()`, `.reportLost()`; `stockApi.updateThresholdBulk()`, `.getDetailTotal()`, `.getDetailUsage()`, `.getHistory()`, `.restock()`
+- **Frontend Hooks**: `useAssetsGrouped`, `useAssetHistory`, `useReportDamage`, `useReportLost`, `useStockDetailTotal`, `useStockDetailUsage`, `useStockHistory`, `useUpdateThresholdBulk`, `useRestock`
+- **AssetListPage**: Dual view (GROUP/LIST) with toggle, collapsible recording group cards, pagination
+- **AssetFormPage**: Multi-card form (Dokumen, Informasi Aset, Detail Individual, Pembelian, Penyusutan, Lokasi, Lampiran)
+- **AssetDetailPage**: Tabbed layout (Umum, Detail, Pembelian, Penyusutan, Lokasi, Pergerakan, Lampiran, Riwayat) with QR/Barcode, edit/delete actions, permission-gated tabs
+- **StockPage**: Total detail modal (by status/condition/location), usage detail modal, history modal, restock modal, threshold modal (bulk + per-item), report damage/lost modals, action dropdown column, price column (SA/AP only)
+- **Routes**: Added `:id/edit` route for asset editing
+- **Store**: `viewMode` state with `setViewMode` action
+- **Validation**: New fields in `createAssetSchema` — macAddress, location, locationDetail, locationNote, recordingSource, note
+
+#### Changed
+
+- Stock table: removed inline threshold editing, moved to dedicated threshold modal button
+- Stock table: Total & Digunakan columns now clickable with detail modals
+
+#### Agents Involved
+
+- `backend`, `frontend`, `database`, `documentation`
+
 ### [2025-07-04] — Project Material FIFO Consumption + Documentation Sync
 
 #### Added

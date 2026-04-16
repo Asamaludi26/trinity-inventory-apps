@@ -35,6 +35,7 @@ export type AssetAvgAggregateOutputType = {
   purchasePrice: runtime.Decimal | null;
   usefulLifeYears: number | null;
   salvageValue: runtime.Decimal | null;
+  recordingId: number | null;
   currentUserId: number | null;
   recordedById: number | null;
   version: number | null;
@@ -49,6 +50,7 @@ export type AssetSumAggregateOutputType = {
   purchasePrice: runtime.Decimal | null;
   usefulLifeYears: number | null;
   salvageValue: runtime.Decimal | null;
+  recordingId: number | null;
   currentUserId: number | null;
   recordedById: number | null;
   version: number | null;
@@ -65,6 +67,7 @@ export type AssetMinAggregateOutputType = {
   classification: $Enums.AssetClassification | null;
   trackingMethod: $Enums.TrackingMethod | null;
   serialNumber: string | null;
+  macAddress: string | null;
   quantity: number | null;
   currentBalance: runtime.Decimal | null;
   purchasePrice: runtime.Decimal | null;
@@ -74,10 +77,16 @@ export type AssetMinAggregateOutputType = {
   salvageValue: runtime.Decimal | null;
   status: $Enums.AssetStatus | null;
   condition: $Enums.AssetCondition | null;
+  location: string | null;
+  locationDetail: string | null;
+  locationNote: string | null;
+  recordingSource: $Enums.RecordingSource | null;
+  recordingId: number | null;
   currentUserId: number | null;
   recordedById: number | null;
   isDeleted: boolean | null;
   version: number | null;
+  note: string | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -93,6 +102,7 @@ export type AssetMaxAggregateOutputType = {
   classification: $Enums.AssetClassification | null;
   trackingMethod: $Enums.TrackingMethod | null;
   serialNumber: string | null;
+  macAddress: string | null;
   quantity: number | null;
   currentBalance: runtime.Decimal | null;
   purchasePrice: runtime.Decimal | null;
@@ -102,10 +112,16 @@ export type AssetMaxAggregateOutputType = {
   salvageValue: runtime.Decimal | null;
   status: $Enums.AssetStatus | null;
   condition: $Enums.AssetCondition | null;
+  location: string | null;
+  locationDetail: string | null;
+  locationNote: string | null;
+  recordingSource: $Enums.RecordingSource | null;
+  recordingId: number | null;
   currentUserId: number | null;
   recordedById: number | null;
   isDeleted: boolean | null;
   version: number | null;
+  note: string | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -121,6 +137,7 @@ export type AssetCountAggregateOutputType = {
   classification: number;
   trackingMethod: number;
   serialNumber: number;
+  macAddress: number;
   quantity: number;
   currentBalance: number;
   purchasePrice: number;
@@ -130,10 +147,16 @@ export type AssetCountAggregateOutputType = {
   salvageValue: number;
   status: number;
   condition: number;
+  location: number;
+  locationDetail: number;
+  locationNote: number;
+  recordingSource: number;
+  recordingId: number;
   currentUserId: number;
   recordedById: number;
   isDeleted: number;
   version: number;
+  note: number;
   createdAt: number;
   updatedAt: number;
   _all: number;
@@ -148,6 +171,7 @@ export type AssetAvgAggregateInputType = {
   purchasePrice?: true;
   usefulLifeYears?: true;
   salvageValue?: true;
+  recordingId?: true;
   currentUserId?: true;
   recordedById?: true;
   version?: true;
@@ -162,6 +186,7 @@ export type AssetSumAggregateInputType = {
   purchasePrice?: true;
   usefulLifeYears?: true;
   salvageValue?: true;
+  recordingId?: true;
   currentUserId?: true;
   recordedById?: true;
   version?: true;
@@ -178,6 +203,7 @@ export type AssetMinAggregateInputType = {
   classification?: true;
   trackingMethod?: true;
   serialNumber?: true;
+  macAddress?: true;
   quantity?: true;
   currentBalance?: true;
   purchasePrice?: true;
@@ -187,10 +213,16 @@ export type AssetMinAggregateInputType = {
   salvageValue?: true;
   status?: true;
   condition?: true;
+  location?: true;
+  locationDetail?: true;
+  locationNote?: true;
+  recordingSource?: true;
+  recordingId?: true;
   currentUserId?: true;
   recordedById?: true;
   isDeleted?: true;
   version?: true;
+  note?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -206,6 +238,7 @@ export type AssetMaxAggregateInputType = {
   classification?: true;
   trackingMethod?: true;
   serialNumber?: true;
+  macAddress?: true;
   quantity?: true;
   currentBalance?: true;
   purchasePrice?: true;
@@ -215,10 +248,16 @@ export type AssetMaxAggregateInputType = {
   salvageValue?: true;
   status?: true;
   condition?: true;
+  location?: true;
+  locationDetail?: true;
+  locationNote?: true;
+  recordingSource?: true;
+  recordingId?: true;
   currentUserId?: true;
   recordedById?: true;
   isDeleted?: true;
   version?: true;
+  note?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -234,6 +273,7 @@ export type AssetCountAggregateInputType = {
   classification?: true;
   trackingMethod?: true;
   serialNumber?: true;
+  macAddress?: true;
   quantity?: true;
   currentBalance?: true;
   purchasePrice?: true;
@@ -243,10 +283,16 @@ export type AssetCountAggregateInputType = {
   salvageValue?: true;
   status?: true;
   condition?: true;
+  location?: true;
+  locationDetail?: true;
+  locationNote?: true;
+  recordingSource?: true;
+  recordingId?: true;
   currentUserId?: true;
   recordedById?: true;
   isDeleted?: true;
   version?: true;
+  note?: true;
   createdAt?: true;
   updatedAt?: true;
   _all?: true;
@@ -356,6 +402,7 @@ export type AssetGroupByOutputType = {
   classification: $Enums.AssetClassification;
   trackingMethod: $Enums.TrackingMethod | null;
   serialNumber: string | null;
+  macAddress: string | null;
   quantity: number | null;
   currentBalance: runtime.Decimal | null;
   purchasePrice: runtime.Decimal | null;
@@ -365,10 +412,16 @@ export type AssetGroupByOutputType = {
   salvageValue: runtime.Decimal | null;
   status: $Enums.AssetStatus;
   condition: $Enums.AssetCondition;
+  location: string | null;
+  locationDetail: string | null;
+  locationNote: string | null;
+  recordingSource: $Enums.RecordingSource;
+  recordingId: number | null;
   currentUserId: number | null;
   recordedById: number;
   isDeleted: boolean;
   version: number;
+  note: string | null;
   createdAt: Date;
   updatedAt: Date;
   _count: AssetCountAggregateOutputType | null;
@@ -410,6 +463,7 @@ export type AssetWhereInput = {
     | $Enums.TrackingMethod
     | null;
   serialNumber?: Prisma.StringNullableFilter<'Asset'> | string | null;
+  macAddress?: Prisma.StringNullableFilter<'Asset'> | string | null;
   quantity?: Prisma.IntNullableFilter<'Asset'> | number | null;
   currentBalance?:
     | Prisma.DecimalNullableFilter<'Asset'>
@@ -440,10 +494,18 @@ export type AssetWhereInput = {
     | null;
   status?: Prisma.EnumAssetStatusFilter<'Asset'> | $Enums.AssetStatus;
   condition?: Prisma.EnumAssetConditionFilter<'Asset'> | $Enums.AssetCondition;
+  location?: Prisma.StringNullableFilter<'Asset'> | string | null;
+  locationDetail?: Prisma.StringNullableFilter<'Asset'> | string | null;
+  locationNote?: Prisma.StringNullableFilter<'Asset'> | string | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFilter<'Asset'>
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.IntNullableFilter<'Asset'> | number | null;
   currentUserId?: Prisma.IntNullableFilter<'Asset'> | number | null;
   recordedById?: Prisma.IntFilter<'Asset'> | number;
   isDeleted?: Prisma.BoolFilter<'Asset'> | boolean;
   version?: Prisma.IntFilter<'Asset'> | number;
+  note?: Prisma.StringNullableFilter<'Asset'> | string | null;
   createdAt?: Prisma.DateTimeFilter<'Asset'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Asset'> | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemListRelationFilter;
@@ -459,6 +521,10 @@ export type AssetWhereInput = {
     Prisma.AssetModelNullableScalarRelationFilter,
     Prisma.AssetModelWhereInput
   > | null;
+  recording?: Prisma.XOR<
+    Prisma.AssetRecordingNullableScalarRelationFilter,
+    Prisma.AssetRecordingWhereInput
+  > | null;
   recordedBy?: Prisma.XOR<
     Prisma.UserScalarRelationFilter,
     Prisma.UserWhereInput
@@ -467,6 +533,7 @@ export type AssetWhereInput = {
     Prisma.AssetTypeNullableScalarRelationFilter,
     Prisma.AssetTypeWhereInput
   > | null;
+  assetHistory?: Prisma.AssetHistoryListRelationFilter;
   dismantleItems?: Prisma.DismantleItemListRelationFilter;
   handoverItems?: Prisma.HandoverItemListRelationFilter;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentListRelationFilter;
@@ -487,6 +554,7 @@ export type AssetOrderByWithRelationInput = {
   classification?: Prisma.SortOrder;
   trackingMethod?: Prisma.SortOrderInput | Prisma.SortOrder;
   serialNumber?: Prisma.SortOrderInput | Prisma.SortOrder;
+  macAddress?: Prisma.SortOrderInput | Prisma.SortOrder;
   quantity?: Prisma.SortOrderInput | Prisma.SortOrder;
   currentBalance?: Prisma.SortOrderInput | Prisma.SortOrder;
   purchasePrice?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -496,18 +564,26 @@ export type AssetOrderByWithRelationInput = {
   salvageValue?: Prisma.SortOrderInput | Prisma.SortOrder;
   status?: Prisma.SortOrder;
   condition?: Prisma.SortOrder;
+  location?: Prisma.SortOrderInput | Prisma.SortOrder;
+  locationDetail?: Prisma.SortOrderInput | Prisma.SortOrder;
+  locationNote?: Prisma.SortOrderInput | Prisma.SortOrder;
+  recordingSource?: Prisma.SortOrder;
+  recordingId?: Prisma.SortOrderInput | Prisma.SortOrder;
   currentUserId?: Prisma.SortOrderInput | Prisma.SortOrder;
   recordedById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   version?: Prisma.SortOrder;
+  note?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   assetReturnItems?: Prisma.AssetReturnItemOrderByRelationAggregateInput;
   category?: Prisma.AssetCategoryOrderByWithRelationInput;
   currentUser?: Prisma.UserOrderByWithRelationInput;
   model?: Prisma.AssetModelOrderByWithRelationInput;
+  recording?: Prisma.AssetRecordingOrderByWithRelationInput;
   recordedBy?: Prisma.UserOrderByWithRelationInput;
   type?: Prisma.AssetTypeOrderByWithRelationInput;
+  assetHistory?: Prisma.AssetHistoryOrderByRelationAggregateInput;
   dismantleItems?: Prisma.DismantleItemOrderByRelationAggregateInput;
   handoverItems?: Prisma.HandoverItemOrderByRelationAggregateInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentOrderByRelationAggregateInput;
@@ -537,6 +613,7 @@ export type AssetWhereUniqueInput = Prisma.AtLeast<
       | $Enums.TrackingMethod
       | null;
     serialNumber?: Prisma.StringNullableFilter<'Asset'> | string | null;
+    macAddress?: Prisma.StringNullableFilter<'Asset'> | string | null;
     quantity?: Prisma.IntNullableFilter<'Asset'> | number | null;
     currentBalance?:
       | Prisma.DecimalNullableFilter<'Asset'>
@@ -573,10 +650,18 @@ export type AssetWhereUniqueInput = Prisma.AtLeast<
     condition?:
       | Prisma.EnumAssetConditionFilter<'Asset'>
       | $Enums.AssetCondition;
+    location?: Prisma.StringNullableFilter<'Asset'> | string | null;
+    locationDetail?: Prisma.StringNullableFilter<'Asset'> | string | null;
+    locationNote?: Prisma.StringNullableFilter<'Asset'> | string | null;
+    recordingSource?:
+      | Prisma.EnumRecordingSourceFilter<'Asset'>
+      | $Enums.RecordingSource;
+    recordingId?: Prisma.IntNullableFilter<'Asset'> | number | null;
     currentUserId?: Prisma.IntNullableFilter<'Asset'> | number | null;
     recordedById?: Prisma.IntFilter<'Asset'> | number;
     isDeleted?: Prisma.BoolFilter<'Asset'> | boolean;
     version?: Prisma.IntFilter<'Asset'> | number;
+    note?: Prisma.StringNullableFilter<'Asset'> | string | null;
     createdAt?: Prisma.DateTimeFilter<'Asset'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Asset'> | Date | string;
     assetReturnItems?: Prisma.AssetReturnItemListRelationFilter;
@@ -592,6 +677,10 @@ export type AssetWhereUniqueInput = Prisma.AtLeast<
       Prisma.AssetModelNullableScalarRelationFilter,
       Prisma.AssetModelWhereInput
     > | null;
+    recording?: Prisma.XOR<
+      Prisma.AssetRecordingNullableScalarRelationFilter,
+      Prisma.AssetRecordingWhereInput
+    > | null;
     recordedBy?: Prisma.XOR<
       Prisma.UserScalarRelationFilter,
       Prisma.UserWhereInput
@@ -600,6 +689,7 @@ export type AssetWhereUniqueInput = Prisma.AtLeast<
       Prisma.AssetTypeNullableScalarRelationFilter,
       Prisma.AssetTypeWhereInput
     > | null;
+    assetHistory?: Prisma.AssetHistoryListRelationFilter;
     dismantleItems?: Prisma.DismantleItemListRelationFilter;
     handoverItems?: Prisma.HandoverItemListRelationFilter;
     loanAssetAssignments?: Prisma.LoanAssetAssignmentListRelationFilter;
@@ -622,6 +712,7 @@ export type AssetOrderByWithAggregationInput = {
   classification?: Prisma.SortOrder;
   trackingMethod?: Prisma.SortOrderInput | Prisma.SortOrder;
   serialNumber?: Prisma.SortOrderInput | Prisma.SortOrder;
+  macAddress?: Prisma.SortOrderInput | Prisma.SortOrder;
   quantity?: Prisma.SortOrderInput | Prisma.SortOrder;
   currentBalance?: Prisma.SortOrderInput | Prisma.SortOrder;
   purchasePrice?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -631,10 +722,16 @@ export type AssetOrderByWithAggregationInput = {
   salvageValue?: Prisma.SortOrderInput | Prisma.SortOrder;
   status?: Prisma.SortOrder;
   condition?: Prisma.SortOrder;
+  location?: Prisma.SortOrderInput | Prisma.SortOrder;
+  locationDetail?: Prisma.SortOrderInput | Prisma.SortOrder;
+  locationNote?: Prisma.SortOrderInput | Prisma.SortOrder;
+  recordingSource?: Prisma.SortOrder;
+  recordingId?: Prisma.SortOrderInput | Prisma.SortOrder;
   currentUserId?: Prisma.SortOrderInput | Prisma.SortOrder;
   recordedById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   version?: Prisma.SortOrder;
+  note?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   _count?: Prisma.AssetCountOrderByAggregateInput;
@@ -667,6 +764,10 @@ export type AssetScalarWhereWithAggregatesInput = {
     | $Enums.TrackingMethod
     | null;
   serialNumber?:
+    | Prisma.StringNullableWithAggregatesFilter<'Asset'>
+    | string
+    | null;
+  macAddress?:
     | Prisma.StringNullableWithAggregatesFilter<'Asset'>
     | string
     | null;
@@ -711,6 +812,19 @@ export type AssetScalarWhereWithAggregatesInput = {
   condition?:
     | Prisma.EnumAssetConditionWithAggregatesFilter<'Asset'>
     | $Enums.AssetCondition;
+  location?: Prisma.StringNullableWithAggregatesFilter<'Asset'> | string | null;
+  locationDetail?:
+    | Prisma.StringNullableWithAggregatesFilter<'Asset'>
+    | string
+    | null;
+  locationNote?:
+    | Prisma.StringNullableWithAggregatesFilter<'Asset'>
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceWithAggregatesFilter<'Asset'>
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.IntNullableWithAggregatesFilter<'Asset'> | number | null;
   currentUserId?:
     | Prisma.IntNullableWithAggregatesFilter<'Asset'>
     | number
@@ -718,6 +832,7 @@ export type AssetScalarWhereWithAggregatesInput = {
   recordedById?: Prisma.IntWithAggregatesFilter<'Asset'> | number;
   isDeleted?: Prisma.BoolWithAggregatesFilter<'Asset'> | boolean;
   version?: Prisma.IntWithAggregatesFilter<'Asset'> | number;
+  note?: Prisma.StringNullableWithAggregatesFilter<'Asset'> | string | null;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<'Asset'> | Date | string;
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<'Asset'> | Date | string;
 };
@@ -730,6 +845,7 @@ export type AssetCreateInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -754,16 +870,23 @@ export type AssetCreateInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
   currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
   model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
   recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
   type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
@@ -784,6 +907,7 @@ export type AssetUncheckedCreateInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -808,13 +932,20 @@ export type AssetUncheckedCreateInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
@@ -840,6 +971,7 @@ export type AssetUpdateInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -881,16 +1013,31 @@ export type AssetUpdateInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
   currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
   model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
   recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
   type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
@@ -919,6 +1066,7 @@ export type AssetUncheckedUpdateInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -960,13 +1108,28 @@ export type AssetUncheckedUpdateInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
@@ -987,6 +1150,7 @@ export type AssetCreateManyInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -1011,10 +1175,16 @@ export type AssetCreateManyInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -1035,6 +1205,7 @@ export type AssetUpdateManyMutationInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -1076,8 +1247,21 @@ export type AssetUpdateManyMutationInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -1101,6 +1285,7 @@ export type AssetUncheckedUpdateManyInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -1142,10 +1327,24 @@ export type AssetUncheckedUpdateManyInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -1171,6 +1370,7 @@ export type AssetCountOrderByAggregateInput = {
   classification?: Prisma.SortOrder;
   trackingMethod?: Prisma.SortOrder;
   serialNumber?: Prisma.SortOrder;
+  macAddress?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
   currentBalance?: Prisma.SortOrder;
   purchasePrice?: Prisma.SortOrder;
@@ -1180,10 +1380,16 @@ export type AssetCountOrderByAggregateInput = {
   salvageValue?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   condition?: Prisma.SortOrder;
+  location?: Prisma.SortOrder;
+  locationDetail?: Prisma.SortOrder;
+  locationNote?: Prisma.SortOrder;
+  recordingSource?: Prisma.SortOrder;
+  recordingId?: Prisma.SortOrder;
   currentUserId?: Prisma.SortOrder;
   recordedById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   version?: Prisma.SortOrder;
+  note?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -1197,6 +1403,7 @@ export type AssetAvgOrderByAggregateInput = {
   purchasePrice?: Prisma.SortOrder;
   usefulLifeYears?: Prisma.SortOrder;
   salvageValue?: Prisma.SortOrder;
+  recordingId?: Prisma.SortOrder;
   currentUserId?: Prisma.SortOrder;
   recordedById?: Prisma.SortOrder;
   version?: Prisma.SortOrder;
@@ -1213,6 +1420,7 @@ export type AssetMaxOrderByAggregateInput = {
   classification?: Prisma.SortOrder;
   trackingMethod?: Prisma.SortOrder;
   serialNumber?: Prisma.SortOrder;
+  macAddress?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
   currentBalance?: Prisma.SortOrder;
   purchasePrice?: Prisma.SortOrder;
@@ -1222,10 +1430,16 @@ export type AssetMaxOrderByAggregateInput = {
   salvageValue?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   condition?: Prisma.SortOrder;
+  location?: Prisma.SortOrder;
+  locationDetail?: Prisma.SortOrder;
+  locationNote?: Prisma.SortOrder;
+  recordingSource?: Prisma.SortOrder;
+  recordingId?: Prisma.SortOrder;
   currentUserId?: Prisma.SortOrder;
   recordedById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   version?: Prisma.SortOrder;
+  note?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -1241,6 +1455,7 @@ export type AssetMinOrderByAggregateInput = {
   classification?: Prisma.SortOrder;
   trackingMethod?: Prisma.SortOrder;
   serialNumber?: Prisma.SortOrder;
+  macAddress?: Prisma.SortOrder;
   quantity?: Prisma.SortOrder;
   currentBalance?: Prisma.SortOrder;
   purchasePrice?: Prisma.SortOrder;
@@ -1250,10 +1465,16 @@ export type AssetMinOrderByAggregateInput = {
   salvageValue?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   condition?: Prisma.SortOrder;
+  location?: Prisma.SortOrder;
+  locationDetail?: Prisma.SortOrder;
+  locationNote?: Prisma.SortOrder;
+  recordingSource?: Prisma.SortOrder;
+  recordingId?: Prisma.SortOrder;
   currentUserId?: Prisma.SortOrder;
   recordedById?: Prisma.SortOrder;
   isDeleted?: Prisma.SortOrder;
   version?: Prisma.SortOrder;
+  note?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -1267,19 +1488,20 @@ export type AssetSumOrderByAggregateInput = {
   purchasePrice?: Prisma.SortOrder;
   usefulLifeYears?: Prisma.SortOrder;
   salvageValue?: Prisma.SortOrder;
+  recordingId?: Prisma.SortOrder;
   currentUserId?: Prisma.SortOrder;
   recordedById?: Prisma.SortOrder;
   version?: Prisma.SortOrder;
 };
 
-export type AssetNullableScalarRelationFilter = {
-  is?: Prisma.AssetWhereInput | null;
-  isNot?: Prisma.AssetWhereInput | null;
-};
-
 export type AssetScalarRelationFilter = {
   is?: Prisma.AssetWhereInput;
   isNot?: Prisma.AssetWhereInput;
+};
+
+export type AssetNullableScalarRelationFilter = {
+  is?: Prisma.AssetWhereInput | null;
+  isNot?: Prisma.AssetWhereInput | null;
 };
 
 export type AssetCreateNestedManyWithoutCategoryInput = {
@@ -1540,14 +1762,6 @@ export type AssetUncheckedUpdateManyWithoutModelNestedInput = {
   deleteMany?: Prisma.AssetScalarWhereInput | Prisma.AssetScalarWhereInput[];
 };
 
-export type EnumAssetClassificationFieldUpdateOperationsInput = {
-  set?: $Enums.AssetClassification;
-};
-
-export type NullableEnumTrackingMethodFieldUpdateOperationsInput = {
-  set?: $Enums.TrackingMethod | null;
-};
-
 export type NullableIntFieldUpdateOperationsInput = {
   set?: number | null;
   increment?: number;
@@ -1570,6 +1784,122 @@ export type EnumAssetStatusFieldUpdateOperationsInput = {
 
 export type EnumAssetConditionFieldUpdateOperationsInput = {
   set?: $Enums.AssetCondition;
+};
+
+export type EnumRecordingSourceFieldUpdateOperationsInput = {
+  set?: $Enums.RecordingSource;
+};
+
+export type AssetCreateNestedManyWithoutRecordingInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.AssetCreateWithoutRecordingInput,
+        Prisma.AssetUncheckedCreateWithoutRecordingInput
+      >
+    | Prisma.AssetCreateWithoutRecordingInput[]
+    | Prisma.AssetUncheckedCreateWithoutRecordingInput[];
+  connectOrCreate?:
+    | Prisma.AssetCreateOrConnectWithoutRecordingInput
+    | Prisma.AssetCreateOrConnectWithoutRecordingInput[];
+  createMany?: Prisma.AssetCreateManyRecordingInputEnvelope;
+  connect?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[];
+};
+
+export type AssetUncheckedCreateNestedManyWithoutRecordingInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.AssetCreateWithoutRecordingInput,
+        Prisma.AssetUncheckedCreateWithoutRecordingInput
+      >
+    | Prisma.AssetCreateWithoutRecordingInput[]
+    | Prisma.AssetUncheckedCreateWithoutRecordingInput[];
+  connectOrCreate?:
+    | Prisma.AssetCreateOrConnectWithoutRecordingInput
+    | Prisma.AssetCreateOrConnectWithoutRecordingInput[];
+  createMany?: Prisma.AssetCreateManyRecordingInputEnvelope;
+  connect?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[];
+};
+
+export type AssetUpdateManyWithoutRecordingNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.AssetCreateWithoutRecordingInput,
+        Prisma.AssetUncheckedCreateWithoutRecordingInput
+      >
+    | Prisma.AssetCreateWithoutRecordingInput[]
+    | Prisma.AssetUncheckedCreateWithoutRecordingInput[];
+  connectOrCreate?:
+    | Prisma.AssetCreateOrConnectWithoutRecordingInput
+    | Prisma.AssetCreateOrConnectWithoutRecordingInput[];
+  upsert?:
+    | Prisma.AssetUpsertWithWhereUniqueWithoutRecordingInput
+    | Prisma.AssetUpsertWithWhereUniqueWithoutRecordingInput[];
+  createMany?: Prisma.AssetCreateManyRecordingInputEnvelope;
+  set?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[];
+  disconnect?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[];
+  delete?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[];
+  connect?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[];
+  update?:
+    | Prisma.AssetUpdateWithWhereUniqueWithoutRecordingInput
+    | Prisma.AssetUpdateWithWhereUniqueWithoutRecordingInput[];
+  updateMany?:
+    | Prisma.AssetUpdateManyWithWhereWithoutRecordingInput
+    | Prisma.AssetUpdateManyWithWhereWithoutRecordingInput[];
+  deleteMany?: Prisma.AssetScalarWhereInput | Prisma.AssetScalarWhereInput[];
+};
+
+export type AssetUncheckedUpdateManyWithoutRecordingNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.AssetCreateWithoutRecordingInput,
+        Prisma.AssetUncheckedCreateWithoutRecordingInput
+      >
+    | Prisma.AssetCreateWithoutRecordingInput[]
+    | Prisma.AssetUncheckedCreateWithoutRecordingInput[];
+  connectOrCreate?:
+    | Prisma.AssetCreateOrConnectWithoutRecordingInput
+    | Prisma.AssetCreateOrConnectWithoutRecordingInput[];
+  upsert?:
+    | Prisma.AssetUpsertWithWhereUniqueWithoutRecordingInput
+    | Prisma.AssetUpsertWithWhereUniqueWithoutRecordingInput[];
+  createMany?: Prisma.AssetCreateManyRecordingInputEnvelope;
+  set?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[];
+  disconnect?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[];
+  delete?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[];
+  connect?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[];
+  update?:
+    | Prisma.AssetUpdateWithWhereUniqueWithoutRecordingInput
+    | Prisma.AssetUpdateWithWhereUniqueWithoutRecordingInput[];
+  updateMany?:
+    | Prisma.AssetUpdateManyWithWhereWithoutRecordingInput
+    | Prisma.AssetUpdateManyWithWhereWithoutRecordingInput[];
+  deleteMany?: Prisma.AssetScalarWhereInput | Prisma.AssetScalarWhereInput[];
+};
+
+export type AssetCreateNestedOneWithoutAssetHistoryInput = {
+  create?: Prisma.XOR<
+    Prisma.AssetCreateWithoutAssetHistoryInput,
+    Prisma.AssetUncheckedCreateWithoutAssetHistoryInput
+  >;
+  connectOrCreate?: Prisma.AssetCreateOrConnectWithoutAssetHistoryInput;
+  connect?: Prisma.AssetWhereUniqueInput;
+};
+
+export type AssetUpdateOneRequiredWithoutAssetHistoryNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.AssetCreateWithoutAssetHistoryInput,
+    Prisma.AssetUncheckedCreateWithoutAssetHistoryInput
+  >;
+  connectOrCreate?: Prisma.AssetCreateOrConnectWithoutAssetHistoryInput;
+  upsert?: Prisma.AssetUpsertWithoutAssetHistoryInput;
+  connect?: Prisma.AssetWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.AssetUpdateToOneWithWhereWithoutAssetHistoryInput,
+      Prisma.AssetUpdateWithoutAssetHistoryInput
+    >,
+    Prisma.AssetUncheckedUpdateWithoutAssetHistoryInput
+  >;
 };
 
 export type AssetCreateNestedManyWithoutCurrentUserInput = {
@@ -1964,6 +2294,7 @@ export type AssetCreateWithoutCategoryInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -1988,15 +2319,22 @@ export type AssetCreateWithoutCategoryInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
   model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
   recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
   type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
@@ -2016,6 +2354,7 @@ export type AssetUncheckedCreateWithoutCategoryInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -2040,13 +2379,20 @@ export type AssetUncheckedCreateWithoutCategoryInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
@@ -2118,6 +2464,7 @@ export type AssetScalarWhereInput = {
     | $Enums.TrackingMethod
     | null;
   serialNumber?: Prisma.StringNullableFilter<'Asset'> | string | null;
+  macAddress?: Prisma.StringNullableFilter<'Asset'> | string | null;
   quantity?: Prisma.IntNullableFilter<'Asset'> | number | null;
   currentBalance?:
     | Prisma.DecimalNullableFilter<'Asset'>
@@ -2148,10 +2495,18 @@ export type AssetScalarWhereInput = {
     | null;
   status?: Prisma.EnumAssetStatusFilter<'Asset'> | $Enums.AssetStatus;
   condition?: Prisma.EnumAssetConditionFilter<'Asset'> | $Enums.AssetCondition;
+  location?: Prisma.StringNullableFilter<'Asset'> | string | null;
+  locationDetail?: Prisma.StringNullableFilter<'Asset'> | string | null;
+  locationNote?: Prisma.StringNullableFilter<'Asset'> | string | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFilter<'Asset'>
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.IntNullableFilter<'Asset'> | number | null;
   currentUserId?: Prisma.IntNullableFilter<'Asset'> | number | null;
   recordedById?: Prisma.IntFilter<'Asset'> | number;
   isDeleted?: Prisma.BoolFilter<'Asset'> | boolean;
   version?: Prisma.IntFilter<'Asset'> | number;
+  note?: Prisma.StringNullableFilter<'Asset'> | string | null;
   createdAt?: Prisma.DateTimeFilter<'Asset'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Asset'> | Date | string;
 };
@@ -2164,6 +2519,7 @@ export type AssetCreateWithoutTypeInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -2188,15 +2544,22 @@ export type AssetCreateWithoutTypeInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
   currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
   model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
   recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
@@ -2216,6 +2579,7 @@ export type AssetUncheckedCreateWithoutTypeInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -2240,13 +2604,20 @@ export type AssetUncheckedCreateWithoutTypeInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
@@ -2305,6 +2676,7 @@ export type AssetCreateWithoutModelInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -2329,15 +2701,22 @@ export type AssetCreateWithoutModelInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
   currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
   recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
   type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
@@ -2357,6 +2736,7 @@ export type AssetUncheckedCreateWithoutModelInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -2381,13 +2761,20 @@ export type AssetUncheckedCreateWithoutModelInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
@@ -2438,7 +2825,7 @@ export type AssetUpdateManyWithWhereWithoutModelInput = {
   >;
 };
 
-export type AssetCreateWithoutCurrentUserInput = {
+export type AssetCreateWithoutRecordingInput = {
   id?: string;
   code: string;
   name: string;
@@ -2446,6 +2833,7 @@ export type AssetCreateWithoutCurrentUserInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -2470,15 +2858,507 @@ export type AssetCreateWithoutCurrentUserInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
+  category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
+  currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
+  model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
+  type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
+  dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
+  handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
+  loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
+  replacementsAsOld?: Prisma.MaintenanceReplacementCreateNestedManyWithoutOldAssetInput;
+  replacementsAsNew?: Prisma.MaintenanceReplacementCreateNestedManyWithoutNewAssetInput;
+  repairs?: Prisma.RepairCreateNestedManyWithoutAssetInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutAssetInput;
+};
+
+export type AssetUncheckedCreateWithoutRecordingInput = {
+  id?: string;
+  code: string;
+  name: string;
+  categoryId: number;
+  typeId?: number | null;
+  modelId?: number | null;
+  brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  serialNumber?: string | null;
+  macAddress?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchasePrice?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchaseDate?: Date | string | null;
+  depreciationMethod?: $Enums.DepreciationMethod | null;
+  usefulLifeYears?: number | null;
+  salvageValue?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  status?: $Enums.AssetStatus;
+  condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  currentUserId?: number | null;
+  recordedById: number;
+  isDeleted?: boolean;
+  version?: number;
+  note?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
+  dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
+  handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
+  loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
+  replacementsAsOld?: Prisma.MaintenanceReplacementUncheckedCreateNestedManyWithoutOldAssetInput;
+  replacementsAsNew?: Prisma.MaintenanceReplacementUncheckedCreateNestedManyWithoutNewAssetInput;
+  repairs?: Prisma.RepairUncheckedCreateNestedManyWithoutAssetInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutAssetInput;
+};
+
+export type AssetCreateOrConnectWithoutRecordingInput = {
+  where: Prisma.AssetWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.AssetCreateWithoutRecordingInput,
+    Prisma.AssetUncheckedCreateWithoutRecordingInput
+  >;
+};
+
+export type AssetCreateManyRecordingInputEnvelope = {
+  data:
+    | Prisma.AssetCreateManyRecordingInput
+    | Prisma.AssetCreateManyRecordingInput[];
+  skipDuplicates?: boolean;
+};
+
+export type AssetUpsertWithWhereUniqueWithoutRecordingInput = {
+  where: Prisma.AssetWhereUniqueInput;
+  update: Prisma.XOR<
+    Prisma.AssetUpdateWithoutRecordingInput,
+    Prisma.AssetUncheckedUpdateWithoutRecordingInput
+  >;
+  create: Prisma.XOR<
+    Prisma.AssetCreateWithoutRecordingInput,
+    Prisma.AssetUncheckedCreateWithoutRecordingInput
+  >;
+};
+
+export type AssetUpdateWithWhereUniqueWithoutRecordingInput = {
+  where: Prisma.AssetWhereUniqueInput;
+  data: Prisma.XOR<
+    Prisma.AssetUpdateWithoutRecordingInput,
+    Prisma.AssetUncheckedUpdateWithoutRecordingInput
+  >;
+};
+
+export type AssetUpdateManyWithWhereWithoutRecordingInput = {
+  where: Prisma.AssetScalarWhereInput;
+  data: Prisma.XOR<
+    Prisma.AssetUpdateManyMutationInput,
+    Prisma.AssetUncheckedUpdateManyWithoutRecordingInput
+  >;
+};
+
+export type AssetCreateWithoutAssetHistoryInput = {
+  id?: string;
+  code: string;
+  name: string;
+  brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  serialNumber?: string | null;
+  macAddress?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchasePrice?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchaseDate?: Date | string | null;
+  depreciationMethod?: $Enums.DepreciationMethod | null;
+  usefulLifeYears?: number | null;
+  salvageValue?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  status?: $Enums.AssetStatus;
+  condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  isDeleted?: boolean;
+  version?: number;
+  note?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
+  category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
+  currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
+  model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
+  recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
+  type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
+  handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
+  loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
+  replacementsAsOld?: Prisma.MaintenanceReplacementCreateNestedManyWithoutOldAssetInput;
+  replacementsAsNew?: Prisma.MaintenanceReplacementCreateNestedManyWithoutNewAssetInput;
+  repairs?: Prisma.RepairCreateNestedManyWithoutAssetInput;
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutAssetInput;
+};
+
+export type AssetUncheckedCreateWithoutAssetHistoryInput = {
+  id?: string;
+  code: string;
+  name: string;
+  categoryId: number;
+  typeId?: number | null;
+  modelId?: number | null;
+  brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  serialNumber?: string | null;
+  macAddress?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchasePrice?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchaseDate?: Date | string | null;
+  depreciationMethod?: $Enums.DepreciationMethod | null;
+  usefulLifeYears?: number | null;
+  salvageValue?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  status?: $Enums.AssetStatus;
+  condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
+  currentUserId?: number | null;
+  recordedById: number;
+  isDeleted?: boolean;
+  version?: number;
+  note?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
+  handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
+  loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
+  replacementsAsOld?: Prisma.MaintenanceReplacementUncheckedCreateNestedManyWithoutOldAssetInput;
+  replacementsAsNew?: Prisma.MaintenanceReplacementUncheckedCreateNestedManyWithoutNewAssetInput;
+  repairs?: Prisma.RepairUncheckedCreateNestedManyWithoutAssetInput;
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutAssetInput;
+};
+
+export type AssetCreateOrConnectWithoutAssetHistoryInput = {
+  where: Prisma.AssetWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.AssetCreateWithoutAssetHistoryInput,
+    Prisma.AssetUncheckedCreateWithoutAssetHistoryInput
+  >;
+};
+
+export type AssetUpsertWithoutAssetHistoryInput = {
+  update: Prisma.XOR<
+    Prisma.AssetUpdateWithoutAssetHistoryInput,
+    Prisma.AssetUncheckedUpdateWithoutAssetHistoryInput
+  >;
+  create: Prisma.XOR<
+    Prisma.AssetCreateWithoutAssetHistoryInput,
+    Prisma.AssetUncheckedCreateWithoutAssetHistoryInput
+  >;
+  where?: Prisma.AssetWhereInput;
+};
+
+export type AssetUpdateToOneWithWhereWithoutAssetHistoryInput = {
+  where?: Prisma.AssetWhereInput;
+  data: Prisma.XOR<
+    Prisma.AssetUpdateWithoutAssetHistoryInput,
+    Prisma.AssetUncheckedUpdateWithoutAssetHistoryInput
+  >;
+};
+
+export type AssetUpdateWithoutAssetHistoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  code?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  serialNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchasePrice?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchaseDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  depreciationMethod?:
+    | Prisma.NullableEnumDepreciationMethodFieldUpdateOperationsInput
+    | $Enums.DepreciationMethod
+    | null;
+  usefulLifeYears?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  salvageValue?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  status?:
+    | Prisma.EnumAssetStatusFieldUpdateOperationsInput
+    | $Enums.AssetStatus;
+  condition?:
+    | Prisma.EnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
+  category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
+  currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
+  model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
+  recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
+  type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
+  handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
+  loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
+  replacementsAsOld?: Prisma.MaintenanceReplacementUpdateManyWithoutOldAssetNestedInput;
+  replacementsAsNew?: Prisma.MaintenanceReplacementUpdateManyWithoutNewAssetNestedInput;
+  repairs?: Prisma.RepairUpdateManyWithoutAssetNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutAssetNestedInput;
+};
+
+export type AssetUncheckedUpdateWithoutAssetHistoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  code?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  categoryId?: Prisma.IntFieldUpdateOperationsInput | number;
+  typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  serialNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchasePrice?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchaseDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  depreciationMethod?:
+    | Prisma.NullableEnumDepreciationMethodFieldUpdateOperationsInput
+    | $Enums.DepreciationMethod
+    | null;
+  usefulLifeYears?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  salvageValue?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  status?:
+    | Prisma.EnumAssetStatusFieldUpdateOperationsInput
+    | $Enums.AssetStatus;
+  condition?:
+    | Prisma.EnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
+  handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
+  loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
+  replacementsAsOld?: Prisma.MaintenanceReplacementUncheckedUpdateManyWithoutOldAssetNestedInput;
+  replacementsAsNew?: Prisma.MaintenanceReplacementUncheckedUpdateManyWithoutNewAssetNestedInput;
+  repairs?: Prisma.RepairUncheckedUpdateManyWithoutAssetNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutAssetNestedInput;
+};
+
+export type AssetCreateWithoutCurrentUserInput = {
+  id?: string;
+  code: string;
+  name: string;
+  brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  serialNumber?: string | null;
+  macAddress?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchasePrice?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchaseDate?: Date | string | null;
+  depreciationMethod?: $Enums.DepreciationMethod | null;
+  usefulLifeYears?: number | null;
+  salvageValue?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  status?: $Enums.AssetStatus;
+  condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  isDeleted?: boolean;
+  version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
   model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
   recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
   type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
@@ -2499,6 +3379,7 @@ export type AssetUncheckedCreateWithoutCurrentUserInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -2523,12 +3404,19 @@ export type AssetUncheckedCreateWithoutCurrentUserInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
@@ -2561,6 +3449,7 @@ export type AssetCreateWithoutRecordedByInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -2585,15 +3474,22 @@ export type AssetCreateWithoutRecordedByInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
   currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
   model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
   type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
@@ -2614,6 +3510,7 @@ export type AssetUncheckedCreateWithoutRecordedByInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -2638,12 +3535,19 @@ export type AssetUncheckedCreateWithoutRecordedByInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
@@ -2732,6 +3636,7 @@ export type AssetCreateWithoutReplacementsAsOldInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -2756,16 +3661,23 @@ export type AssetCreateWithoutReplacementsAsOldInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
   currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
   model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
   recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
   type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
@@ -2785,6 +3697,7 @@ export type AssetUncheckedCreateWithoutReplacementsAsOldInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -2809,13 +3722,20 @@ export type AssetUncheckedCreateWithoutReplacementsAsOldInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
@@ -2840,6 +3760,7 @@ export type AssetCreateWithoutReplacementsAsNewInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -2864,16 +3785,23 @@ export type AssetCreateWithoutReplacementsAsNewInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
   currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
   model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
   recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
   type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
@@ -2893,6 +3821,7 @@ export type AssetUncheckedCreateWithoutReplacementsAsNewInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -2917,13 +3846,20 @@ export type AssetUncheckedCreateWithoutReplacementsAsNewInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
@@ -2976,6 +3912,7 @@ export type AssetUpdateWithoutReplacementsAsOldInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -3017,16 +3954,31 @@ export type AssetUpdateWithoutReplacementsAsOldInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
   currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
   model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
   recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
   type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
@@ -3054,6 +4006,7 @@ export type AssetUncheckedUpdateWithoutReplacementsAsOldInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -3095,13 +4048,28 @@ export type AssetUncheckedUpdateWithoutReplacementsAsOldInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
@@ -3146,6 +4114,7 @@ export type AssetUpdateWithoutReplacementsAsNewInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -3187,16 +4156,31 @@ export type AssetUpdateWithoutReplacementsAsNewInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
   currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
   model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
   recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
   type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
@@ -3224,6 +4208,7 @@ export type AssetUncheckedUpdateWithoutReplacementsAsNewInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -3265,13 +4250,28 @@ export type AssetUncheckedUpdateWithoutReplacementsAsNewInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
@@ -3288,6 +4288,7 @@ export type AssetCreateWithoutDismantleItemsInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -3312,16 +4313,23 @@ export type AssetCreateWithoutDismantleItemsInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
   currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
   model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
   recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
   type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
   replacementsAsOld?: Prisma.MaintenanceReplacementCreateNestedManyWithoutOldAssetInput;
@@ -3341,6 +4349,7 @@ export type AssetUncheckedCreateWithoutDismantleItemsInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -3365,13 +4374,20 @@ export type AssetUncheckedCreateWithoutDismantleItemsInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
   replacementsAsOld?: Prisma.MaintenanceReplacementUncheckedCreateNestedManyWithoutOldAssetInput;
@@ -3424,6 +4440,7 @@ export type AssetUpdateWithoutDismantleItemsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -3465,16 +4482,31 @@ export type AssetUpdateWithoutDismantleItemsInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
   currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
   model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
   recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
   type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
   replacementsAsOld?: Prisma.MaintenanceReplacementUpdateManyWithoutOldAssetNestedInput;
@@ -3502,6 +4534,7 @@ export type AssetUncheckedUpdateWithoutDismantleItemsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -3543,13 +4576,28 @@ export type AssetUncheckedUpdateWithoutDismantleItemsInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
   replacementsAsOld?: Prisma.MaintenanceReplacementUncheckedUpdateManyWithoutOldAssetNestedInput;
@@ -3566,6 +4614,7 @@ export type AssetCreateWithoutStockMovementsInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -3590,16 +4639,23 @@ export type AssetCreateWithoutStockMovementsInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
   currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
   model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
   recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
   type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
@@ -3619,6 +4675,7 @@ export type AssetUncheckedCreateWithoutStockMovementsInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -3643,13 +4700,20 @@ export type AssetUncheckedCreateWithoutStockMovementsInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
@@ -3702,6 +4766,7 @@ export type AssetUpdateWithoutStockMovementsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -3743,16 +4808,31 @@ export type AssetUpdateWithoutStockMovementsInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
   currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
   model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
   recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
   type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
@@ -3780,6 +4860,7 @@ export type AssetUncheckedUpdateWithoutStockMovementsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -3821,13 +4902,28 @@ export type AssetUncheckedUpdateWithoutStockMovementsInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
@@ -3844,6 +4940,7 @@ export type AssetCreateWithoutLoanAssetAssignmentsInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -3868,16 +4965,23 @@ export type AssetCreateWithoutLoanAssetAssignmentsInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
   currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
   model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
   recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
   type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
   replacementsAsOld?: Prisma.MaintenanceReplacementCreateNestedManyWithoutOldAssetInput;
@@ -3897,6 +5001,7 @@ export type AssetUncheckedCreateWithoutLoanAssetAssignmentsInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -3921,13 +5026,20 @@ export type AssetUncheckedCreateWithoutLoanAssetAssignmentsInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
   replacementsAsOld?: Prisma.MaintenanceReplacementUncheckedCreateNestedManyWithoutOldAssetInput;
@@ -3980,6 +5092,7 @@ export type AssetUpdateWithoutLoanAssetAssignmentsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -4021,16 +5134,31 @@ export type AssetUpdateWithoutLoanAssetAssignmentsInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
   currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
   model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
   recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
   type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
   replacementsAsOld?: Prisma.MaintenanceReplacementUpdateManyWithoutOldAssetNestedInput;
@@ -4058,6 +5186,7 @@ export type AssetUncheckedUpdateWithoutLoanAssetAssignmentsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -4099,13 +5228,28 @@ export type AssetUncheckedUpdateWithoutLoanAssetAssignmentsInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
   replacementsAsOld?: Prisma.MaintenanceReplacementUncheckedUpdateManyWithoutOldAssetNestedInput;
@@ -4122,6 +5266,7 @@ export type AssetCreateWithoutAssetReturnItemsInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -4146,15 +5291,22 @@ export type AssetCreateWithoutAssetReturnItemsInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
   currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
   model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
   recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
   type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
@@ -4175,6 +5327,7 @@ export type AssetUncheckedCreateWithoutAssetReturnItemsInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -4199,12 +5352,19 @@ export type AssetUncheckedCreateWithoutAssetReturnItemsInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
@@ -4258,6 +5418,7 @@ export type AssetUpdateWithoutAssetReturnItemsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -4299,15 +5460,30 @@ export type AssetUpdateWithoutAssetReturnItemsInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
   currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
   model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
   recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
   type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
@@ -4336,6 +5512,7 @@ export type AssetUncheckedUpdateWithoutAssetReturnItemsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -4377,12 +5554,27 @@ export type AssetUncheckedUpdateWithoutAssetReturnItemsInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
@@ -4400,6 +5592,7 @@ export type AssetCreateWithoutHandoverItemsInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -4424,16 +5617,23 @@ export type AssetCreateWithoutHandoverItemsInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
   currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
   model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
   recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
   type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
   replacementsAsOld?: Prisma.MaintenanceReplacementCreateNestedManyWithoutOldAssetInput;
@@ -4453,6 +5653,7 @@ export type AssetUncheckedCreateWithoutHandoverItemsInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -4477,13 +5678,20 @@ export type AssetUncheckedCreateWithoutHandoverItemsInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
   replacementsAsOld?: Prisma.MaintenanceReplacementUncheckedCreateNestedManyWithoutOldAssetInput;
@@ -4536,6 +5744,7 @@ export type AssetUpdateWithoutHandoverItemsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -4577,16 +5786,31 @@ export type AssetUpdateWithoutHandoverItemsInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
   currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
   model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
   recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
   type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
   replacementsAsOld?: Prisma.MaintenanceReplacementUpdateManyWithoutOldAssetNestedInput;
@@ -4614,6 +5838,7 @@ export type AssetUncheckedUpdateWithoutHandoverItemsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -4655,13 +5880,28 @@ export type AssetUncheckedUpdateWithoutHandoverItemsInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
   replacementsAsOld?: Prisma.MaintenanceReplacementUncheckedUpdateManyWithoutOldAssetNestedInput;
@@ -4678,6 +5918,7 @@ export type AssetCreateWithoutRepairsInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -4702,16 +5943,23 @@ export type AssetCreateWithoutRepairsInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemCreateNestedManyWithoutAssetInput;
   category: Prisma.AssetCategoryCreateNestedOneWithoutAssetsInput;
   currentUser?: Prisma.UserCreateNestedOneWithoutCurrentAssetsInput;
   model?: Prisma.AssetModelCreateNestedOneWithoutAssetsInput;
+  recording?: Prisma.AssetRecordingCreateNestedOneWithoutAssetsInput;
   recordedBy: Prisma.UserCreateNestedOneWithoutRecordedAssetsInput;
   type?: Prisma.AssetTypeCreateNestedOneWithoutAssetsInput;
+  assetHistory?: Prisma.AssetHistoryCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentCreateNestedManyWithoutAssetInput;
@@ -4731,6 +5979,7 @@ export type AssetUncheckedCreateWithoutRepairsInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -4755,13 +6004,20 @@ export type AssetUncheckedCreateWithoutRepairsInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedCreateNestedManyWithoutAssetInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedCreateNestedManyWithoutAssetInput;
   dismantleItems?: Prisma.DismantleItemUncheckedCreateNestedManyWithoutAssetInput;
   handoverItems?: Prisma.HandoverItemUncheckedCreateNestedManyWithoutAssetInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedCreateNestedManyWithoutAssetInput;
@@ -4814,6 +6070,7 @@ export type AssetUpdateWithoutRepairsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -4855,16 +6112,31 @@ export type AssetUpdateWithoutRepairsInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
   currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
   model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
   recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
   type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
@@ -4892,6 +6164,7 @@ export type AssetUncheckedUpdateWithoutRepairsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -4933,13 +6206,28 @@ export type AssetUncheckedUpdateWithoutRepairsInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
@@ -4958,6 +6246,7 @@ export type AssetCreateManyCategoryInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -4982,10 +6271,16 @@ export type AssetCreateManyCategoryInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -5006,6 +6301,7 @@ export type AssetUpdateWithoutCategoryInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -5047,15 +6343,30 @@ export type AssetUpdateWithoutCategoryInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
   model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
   recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
   type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
@@ -5083,6 +6394,7 @@ export type AssetUncheckedUpdateWithoutCategoryInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -5124,13 +6436,28 @@ export type AssetUncheckedUpdateWithoutCategoryInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
@@ -5158,6 +6485,7 @@ export type AssetUncheckedUpdateManyWithoutCategoryInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -5199,10 +6527,24 @@ export type AssetUncheckedUpdateManyWithoutCategoryInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -5217,6 +6559,7 @@ export type AssetCreateManyTypeInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -5241,10 +6584,16 @@ export type AssetCreateManyTypeInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -5265,6 +6614,7 @@ export type AssetUpdateWithoutTypeInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -5306,15 +6656,30 @@ export type AssetUpdateWithoutTypeInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
   currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
   model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
   recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
@@ -5342,6 +6707,7 @@ export type AssetUncheckedUpdateWithoutTypeInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -5383,13 +6749,28 @@ export type AssetUncheckedUpdateWithoutTypeInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
@@ -5417,6 +6798,7 @@ export type AssetUncheckedUpdateManyWithoutTypeInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -5458,10 +6840,24 @@ export type AssetUncheckedUpdateManyWithoutTypeInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -5476,6 +6872,7 @@ export type AssetCreateManyModelInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -5500,10 +6897,16 @@ export type AssetCreateManyModelInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -5524,6 +6927,7 @@ export type AssetUpdateWithoutModelInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -5565,15 +6969,30 @@ export type AssetUpdateWithoutModelInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
   currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
   recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
   type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
@@ -5601,6 +7020,7 @@ export type AssetUncheckedUpdateWithoutModelInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -5642,13 +7062,28 @@ export type AssetUncheckedUpdateWithoutModelInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
@@ -5676,6 +7111,7 @@ export type AssetUncheckedUpdateManyWithoutModelInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -5717,10 +7153,337 @@ export type AssetUncheckedUpdateManyWithoutModelInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+
+export type AssetCreateManyRecordingInput = {
+  id?: string;
+  code: string;
+  name: string;
+  categoryId: number;
+  typeId?: number | null;
+  modelId?: number | null;
+  brand: string;
+  classification?: $Enums.AssetClassification;
+  trackingMethod?: $Enums.TrackingMethod | null;
+  serialNumber?: string | null;
+  macAddress?: string | null;
+  quantity?: number | null;
+  currentBalance?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchasePrice?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchaseDate?: Date | string | null;
+  depreciationMethod?: $Enums.DepreciationMethod | null;
+  usefulLifeYears?: number | null;
+  salvageValue?:
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  status?: $Enums.AssetStatus;
+  condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  currentUserId?: number | null;
+  recordedById: number;
+  isDeleted?: boolean;
+  version?: number;
+  note?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+};
+
+export type AssetUpdateWithoutRecordingInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  code?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  serialNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchasePrice?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchaseDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  depreciationMethod?:
+    | Prisma.NullableEnumDepreciationMethodFieldUpdateOperationsInput
+    | $Enums.DepreciationMethod
+    | null;
+  usefulLifeYears?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  salvageValue?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  status?:
+    | Prisma.EnumAssetStatusFieldUpdateOperationsInput
+    | $Enums.AssetStatus;
+  condition?:
+    | Prisma.EnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
+  category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
+  currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
+  model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
+  type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
+  dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
+  handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
+  loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
+  replacementsAsOld?: Prisma.MaintenanceReplacementUpdateManyWithoutOldAssetNestedInput;
+  replacementsAsNew?: Prisma.MaintenanceReplacementUpdateManyWithoutNewAssetNestedInput;
+  repairs?: Prisma.RepairUpdateManyWithoutAssetNestedInput;
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutAssetNestedInput;
+};
+
+export type AssetUncheckedUpdateWithoutRecordingInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  code?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  categoryId?: Prisma.IntFieldUpdateOperationsInput | number;
+  typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  serialNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchasePrice?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchaseDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  depreciationMethod?:
+    | Prisma.NullableEnumDepreciationMethodFieldUpdateOperationsInput
+    | $Enums.DepreciationMethod
+    | null;
+  usefulLifeYears?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  salvageValue?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  status?:
+    | Prisma.EnumAssetStatusFieldUpdateOperationsInput
+    | $Enums.AssetStatus;
+  condition?:
+    | Prisma.EnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
+  dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
+  handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
+  loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
+  replacementsAsOld?: Prisma.MaintenanceReplacementUncheckedUpdateManyWithoutOldAssetNestedInput;
+  replacementsAsNew?: Prisma.MaintenanceReplacementUncheckedUpdateManyWithoutNewAssetNestedInput;
+  repairs?: Prisma.RepairUncheckedUpdateManyWithoutAssetNestedInput;
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutAssetNestedInput;
+};
+
+export type AssetUncheckedUpdateManyWithoutRecordingInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  code?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  categoryId?: Prisma.IntFieldUpdateOperationsInput | number;
+  typeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  modelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  brand?: Prisma.StringFieldUpdateOperationsInput | string;
+  classification?:
+    | Prisma.EnumAssetClassificationFieldUpdateOperationsInput
+    | $Enums.AssetClassification;
+  trackingMethod?:
+    | Prisma.NullableEnumTrackingMethodFieldUpdateOperationsInput
+    | $Enums.TrackingMethod
+    | null;
+  serialNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  currentBalance?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchasePrice?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  purchaseDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  depreciationMethod?:
+    | Prisma.NullableEnumDepreciationMethodFieldUpdateOperationsInput
+    | $Enums.DepreciationMethod
+    | null;
+  usefulLifeYears?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  salvageValue?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  status?:
+    | Prisma.EnumAssetStatusFieldUpdateOperationsInput
+    | $Enums.AssetStatus;
+  condition?:
+    | Prisma.EnumAssetConditionFieldUpdateOperationsInput
+    | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -5736,6 +7499,7 @@ export type AssetCreateManyCurrentUserInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -5760,9 +7524,15 @@ export type AssetCreateManyCurrentUserInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   recordedById: number;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -5778,6 +7548,7 @@ export type AssetCreateManyRecordedByInput = {
   classification?: $Enums.AssetClassification;
   trackingMethod?: $Enums.TrackingMethod | null;
   serialNumber?: string | null;
+  macAddress?: string | null;
   quantity?: number | null;
   currentBalance?:
     | runtime.Decimal
@@ -5802,9 +7573,15 @@ export type AssetCreateManyRecordedByInput = {
     | null;
   status?: $Enums.AssetStatus;
   condition?: $Enums.AssetCondition;
+  location?: string | null;
+  locationDetail?: string | null;
+  locationNote?: string | null;
+  recordingSource?: $Enums.RecordingSource;
+  recordingId?: number | null;
   currentUserId?: number | null;
   isDeleted?: boolean;
   version?: number;
+  note?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -5825,6 +7602,7 @@ export type AssetUpdateWithoutCurrentUserInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -5866,15 +7644,30 @@ export type AssetUpdateWithoutCurrentUserInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
   model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
   recordedBy?: Prisma.UserUpdateOneRequiredWithoutRecordedAssetsNestedInput;
   type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
@@ -5903,6 +7696,7 @@ export type AssetUncheckedUpdateWithoutCurrentUserInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -5944,12 +7738,27 @@ export type AssetUncheckedUpdateWithoutCurrentUserInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
@@ -5978,6 +7787,7 @@ export type AssetUncheckedUpdateManyWithoutCurrentUserInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -6019,9 +7829,23 @@ export type AssetUncheckedUpdateManyWithoutCurrentUserInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   recordedById?: Prisma.IntFieldUpdateOperationsInput | number;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -6042,6 +7866,7 @@ export type AssetUpdateWithoutRecordedByInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -6083,15 +7908,30 @@ export type AssetUpdateWithoutRecordedByInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUpdateManyWithoutAssetNestedInput;
   category?: Prisma.AssetCategoryUpdateOneRequiredWithoutAssetsNestedInput;
   currentUser?: Prisma.UserUpdateOneWithoutCurrentAssetsNestedInput;
   model?: Prisma.AssetModelUpdateOneWithoutAssetsNestedInput;
+  recording?: Prisma.AssetRecordingUpdateOneWithoutAssetsNestedInput;
   type?: Prisma.AssetTypeUpdateOneWithoutAssetsNestedInput;
+  assetHistory?: Prisma.AssetHistoryUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUpdateManyWithoutAssetNestedInput;
@@ -6120,6 +7960,7 @@ export type AssetUncheckedUpdateWithoutRecordedByInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -6161,12 +8002,27 @@ export type AssetUncheckedUpdateWithoutRecordedByInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   assetReturnItems?: Prisma.AssetReturnItemUncheckedUpdateManyWithoutAssetNestedInput;
+  assetHistory?: Prisma.AssetHistoryUncheckedUpdateManyWithoutAssetNestedInput;
   dismantleItems?: Prisma.DismantleItemUncheckedUpdateManyWithoutAssetNestedInput;
   handoverItems?: Prisma.HandoverItemUncheckedUpdateManyWithoutAssetNestedInput;
   loanAssetAssignments?: Prisma.LoanAssetAssignmentUncheckedUpdateManyWithoutAssetNestedInput;
@@ -6195,6 +8051,7 @@ export type AssetUncheckedUpdateManyWithoutRecordedByInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentBalance?:
     | Prisma.NullableDecimalFieldUpdateOperationsInput
@@ -6236,9 +8093,23 @@ export type AssetUncheckedUpdateManyWithoutRecordedByInput = {
   condition?:
     | Prisma.EnumAssetConditionFieldUpdateOperationsInput
     | $Enums.AssetCondition;
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  locationDetail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  locationNote?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recordingSource?:
+    | Prisma.EnumRecordingSourceFieldUpdateOperationsInput
+    | $Enums.RecordingSource;
+  recordingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   currentUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   version?: Prisma.IntFieldUpdateOperationsInput | number;
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -6249,6 +8120,7 @@ export type AssetUncheckedUpdateManyWithoutRecordedByInput = {
 
 export type AssetCountOutputType = {
   assetReturnItems: number;
+  assetHistory: number;
   dismantleItems: number;
   handoverItems: number;
   loanAssetAssignments: number;
@@ -6263,6 +8135,7 @@ export type AssetCountOutputTypeSelect<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   assetReturnItems?: boolean | AssetCountOutputTypeCountAssetReturnItemsArgs;
+  assetHistory?: boolean | AssetCountOutputTypeCountAssetHistoryArgs;
   dismantleItems?: boolean | AssetCountOutputTypeCountDismantleItemsArgs;
   handoverItems?: boolean | AssetCountOutputTypeCountHandoverItemsArgs;
   loanAssetAssignments?:
@@ -6295,6 +8168,16 @@ export type AssetCountOutputTypeCountAssetReturnItemsArgs<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   where?: Prisma.AssetReturnItemWhereInput;
+};
+
+/**
+ * AssetCountOutputType without action
+ */
+export type AssetCountOutputTypeCountAssetHistoryArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.AssetHistoryWhereInput;
 };
 
 /**
@@ -6382,6 +8265,7 @@ export type AssetSelect<
     classification?: boolean;
     trackingMethod?: boolean;
     serialNumber?: boolean;
+    macAddress?: boolean;
     quantity?: boolean;
     currentBalance?: boolean;
     purchasePrice?: boolean;
@@ -6391,18 +8275,26 @@ export type AssetSelect<
     salvageValue?: boolean;
     status?: boolean;
     condition?: boolean;
+    location?: boolean;
+    locationDetail?: boolean;
+    locationNote?: boolean;
+    recordingSource?: boolean;
+    recordingId?: boolean;
     currentUserId?: boolean;
     recordedById?: boolean;
     isDeleted?: boolean;
     version?: boolean;
+    note?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     assetReturnItems?: boolean | Prisma.Asset$assetReturnItemsArgs<ExtArgs>;
     category?: boolean | Prisma.AssetCategoryDefaultArgs<ExtArgs>;
     currentUser?: boolean | Prisma.Asset$currentUserArgs<ExtArgs>;
     model?: boolean | Prisma.Asset$modelArgs<ExtArgs>;
+    recording?: boolean | Prisma.Asset$recordingArgs<ExtArgs>;
     recordedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     type?: boolean | Prisma.Asset$typeArgs<ExtArgs>;
+    assetHistory?: boolean | Prisma.Asset$assetHistoryArgs<ExtArgs>;
     dismantleItems?: boolean | Prisma.Asset$dismantleItemsArgs<ExtArgs>;
     handoverItems?: boolean | Prisma.Asset$handoverItemsArgs<ExtArgs>;
     loanAssetAssignments?:
@@ -6432,6 +8324,7 @@ export type AssetSelectCreateManyAndReturn<
     classification?: boolean;
     trackingMethod?: boolean;
     serialNumber?: boolean;
+    macAddress?: boolean;
     quantity?: boolean;
     currentBalance?: boolean;
     purchasePrice?: boolean;
@@ -6441,15 +8334,22 @@ export type AssetSelectCreateManyAndReturn<
     salvageValue?: boolean;
     status?: boolean;
     condition?: boolean;
+    location?: boolean;
+    locationDetail?: boolean;
+    locationNote?: boolean;
+    recordingSource?: boolean;
+    recordingId?: boolean;
     currentUserId?: boolean;
     recordedById?: boolean;
     isDeleted?: boolean;
     version?: boolean;
+    note?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     category?: boolean | Prisma.AssetCategoryDefaultArgs<ExtArgs>;
     currentUser?: boolean | Prisma.Asset$currentUserArgs<ExtArgs>;
     model?: boolean | Prisma.Asset$modelArgs<ExtArgs>;
+    recording?: boolean | Prisma.Asset$recordingArgs<ExtArgs>;
     recordedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     type?: boolean | Prisma.Asset$typeArgs<ExtArgs>;
   },
@@ -6471,6 +8371,7 @@ export type AssetSelectUpdateManyAndReturn<
     classification?: boolean;
     trackingMethod?: boolean;
     serialNumber?: boolean;
+    macAddress?: boolean;
     quantity?: boolean;
     currentBalance?: boolean;
     purchasePrice?: boolean;
@@ -6480,15 +8381,22 @@ export type AssetSelectUpdateManyAndReturn<
     salvageValue?: boolean;
     status?: boolean;
     condition?: boolean;
+    location?: boolean;
+    locationDetail?: boolean;
+    locationNote?: boolean;
+    recordingSource?: boolean;
+    recordingId?: boolean;
     currentUserId?: boolean;
     recordedById?: boolean;
     isDeleted?: boolean;
     version?: boolean;
+    note?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     category?: boolean | Prisma.AssetCategoryDefaultArgs<ExtArgs>;
     currentUser?: boolean | Prisma.Asset$currentUserArgs<ExtArgs>;
     model?: boolean | Prisma.Asset$modelArgs<ExtArgs>;
+    recording?: boolean | Prisma.Asset$recordingArgs<ExtArgs>;
     recordedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     type?: boolean | Prisma.Asset$typeArgs<ExtArgs>;
   },
@@ -6506,6 +8414,7 @@ export type AssetSelectScalar = {
   classification?: boolean;
   trackingMethod?: boolean;
   serialNumber?: boolean;
+  macAddress?: boolean;
   quantity?: boolean;
   currentBalance?: boolean;
   purchasePrice?: boolean;
@@ -6515,10 +8424,16 @@ export type AssetSelectScalar = {
   salvageValue?: boolean;
   status?: boolean;
   condition?: boolean;
+  location?: boolean;
+  locationDetail?: boolean;
+  locationNote?: boolean;
+  recordingSource?: boolean;
+  recordingId?: boolean;
   currentUserId?: boolean;
   recordedById?: boolean;
   isDeleted?: boolean;
   version?: boolean;
+  note?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
 };
@@ -6537,6 +8452,7 @@ export type AssetOmit<
   | 'classification'
   | 'trackingMethod'
   | 'serialNumber'
+  | 'macAddress'
   | 'quantity'
   | 'currentBalance'
   | 'purchasePrice'
@@ -6546,10 +8462,16 @@ export type AssetOmit<
   | 'salvageValue'
   | 'status'
   | 'condition'
+  | 'location'
+  | 'locationDetail'
+  | 'locationNote'
+  | 'recordingSource'
+  | 'recordingId'
   | 'currentUserId'
   | 'recordedById'
   | 'isDeleted'
   | 'version'
+  | 'note'
   | 'createdAt'
   | 'updatedAt',
   ExtArgs['result']['asset']
@@ -6562,8 +8484,10 @@ export type AssetInclude<
   category?: boolean | Prisma.AssetCategoryDefaultArgs<ExtArgs>;
   currentUser?: boolean | Prisma.Asset$currentUserArgs<ExtArgs>;
   model?: boolean | Prisma.Asset$modelArgs<ExtArgs>;
+  recording?: boolean | Prisma.Asset$recordingArgs<ExtArgs>;
   recordedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   type?: boolean | Prisma.Asset$typeArgs<ExtArgs>;
+  assetHistory?: boolean | Prisma.Asset$assetHistoryArgs<ExtArgs>;
   dismantleItems?: boolean | Prisma.Asset$dismantleItemsArgs<ExtArgs>;
   handoverItems?: boolean | Prisma.Asset$handoverItemsArgs<ExtArgs>;
   loanAssetAssignments?:
@@ -6582,6 +8506,7 @@ export type AssetIncludeCreateManyAndReturn<
   category?: boolean | Prisma.AssetCategoryDefaultArgs<ExtArgs>;
   currentUser?: boolean | Prisma.Asset$currentUserArgs<ExtArgs>;
   model?: boolean | Prisma.Asset$modelArgs<ExtArgs>;
+  recording?: boolean | Prisma.Asset$recordingArgs<ExtArgs>;
   recordedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   type?: boolean | Prisma.Asset$typeArgs<ExtArgs>;
 };
@@ -6592,6 +8517,7 @@ export type AssetIncludeUpdateManyAndReturn<
   category?: boolean | Prisma.AssetCategoryDefaultArgs<ExtArgs>;
   currentUser?: boolean | Prisma.Asset$currentUserArgs<ExtArgs>;
   model?: boolean | Prisma.Asset$modelArgs<ExtArgs>;
+  recording?: boolean | Prisma.Asset$recordingArgs<ExtArgs>;
   recordedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   type?: boolean | Prisma.Asset$typeArgs<ExtArgs>;
 };
@@ -6606,8 +8532,10 @@ export type $AssetPayload<
     category: Prisma.$AssetCategoryPayload<ExtArgs>;
     currentUser: Prisma.$UserPayload<ExtArgs> | null;
     model: Prisma.$AssetModelPayload<ExtArgs> | null;
+    recording: Prisma.$AssetRecordingPayload<ExtArgs> | null;
     recordedBy: Prisma.$UserPayload<ExtArgs>;
     type: Prisma.$AssetTypePayload<ExtArgs> | null;
+    assetHistory: Prisma.$AssetHistoryPayload<ExtArgs>[];
     dismantleItems: Prisma.$DismantleItemPayload<ExtArgs>[];
     handoverItems: Prisma.$HandoverItemPayload<ExtArgs>[];
     loanAssetAssignments: Prisma.$LoanAssetAssignmentPayload<ExtArgs>[];
@@ -6628,6 +8556,7 @@ export type $AssetPayload<
       classification: $Enums.AssetClassification;
       trackingMethod: $Enums.TrackingMethod | null;
       serialNumber: string | null;
+      macAddress: string | null;
       quantity: number | null;
       currentBalance: runtime.Decimal | null;
       purchasePrice: runtime.Decimal | null;
@@ -6637,10 +8566,16 @@ export type $AssetPayload<
       salvageValue: runtime.Decimal | null;
       status: $Enums.AssetStatus;
       condition: $Enums.AssetCondition;
+      location: string | null;
+      locationDetail: string | null;
+      locationNote: string | null;
+      recordingSource: $Enums.RecordingSource;
+      recordingId: number | null;
       currentUserId: number | null;
       recordedById: number;
       isDeleted: boolean;
       version: number;
+      note: string | null;
       createdAt: Date;
       updatedAt: Date;
     },
@@ -7244,6 +9179,19 @@ export interface Prisma__AssetClient<
     ExtArgs,
     GlobalOmitOptions
   >;
+  recording<T extends Prisma.Asset$recordingArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Asset$recordingArgs<ExtArgs>>,
+  ): Prisma.Prisma__AssetRecordingClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$AssetRecordingPayload<ExtArgs>,
+      T,
+      'findUniqueOrThrow',
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
   recordedBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>,
   ): Prisma.Prisma__UserClient<
@@ -7270,6 +9218,17 @@ export interface Prisma__AssetClient<
     null,
     ExtArgs,
     GlobalOmitOptions
+  >;
+  assetHistory<T extends Prisma.Asset$assetHistoryArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Asset$assetHistoryArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$AssetHistoryPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
   >;
   dismantleItems<T extends Prisma.Asset$dismantleItemsArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.Asset$dismantleItemsArgs<ExtArgs>>,
@@ -7402,6 +9361,7 @@ export interface AssetFieldRefs {
   readonly classification: Prisma.FieldRef<'Asset', 'AssetClassification'>;
   readonly trackingMethod: Prisma.FieldRef<'Asset', 'TrackingMethod'>;
   readonly serialNumber: Prisma.FieldRef<'Asset', 'String'>;
+  readonly macAddress: Prisma.FieldRef<'Asset', 'String'>;
   readonly quantity: Prisma.FieldRef<'Asset', 'Int'>;
   readonly currentBalance: Prisma.FieldRef<'Asset', 'Decimal'>;
   readonly purchasePrice: Prisma.FieldRef<'Asset', 'Decimal'>;
@@ -7411,10 +9371,16 @@ export interface AssetFieldRefs {
   readonly salvageValue: Prisma.FieldRef<'Asset', 'Decimal'>;
   readonly status: Prisma.FieldRef<'Asset', 'AssetStatus'>;
   readonly condition: Prisma.FieldRef<'Asset', 'AssetCondition'>;
+  readonly location: Prisma.FieldRef<'Asset', 'String'>;
+  readonly locationDetail: Prisma.FieldRef<'Asset', 'String'>;
+  readonly locationNote: Prisma.FieldRef<'Asset', 'String'>;
+  readonly recordingSource: Prisma.FieldRef<'Asset', 'RecordingSource'>;
+  readonly recordingId: Prisma.FieldRef<'Asset', 'Int'>;
   readonly currentUserId: Prisma.FieldRef<'Asset', 'Int'>;
   readonly recordedById: Prisma.FieldRef<'Asset', 'Int'>;
   readonly isDeleted: Prisma.FieldRef<'Asset', 'Boolean'>;
   readonly version: Prisma.FieldRef<'Asset', 'Int'>;
+  readonly note: Prisma.FieldRef<'Asset', 'String'>;
   readonly createdAt: Prisma.FieldRef<'Asset', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'Asset', 'DateTime'>;
 }
@@ -7946,6 +9912,28 @@ export type Asset$modelArgs<
 };
 
 /**
+ * Asset.recording
+ */
+export type Asset$recordingArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the AssetRecording
+   */
+  select?: Prisma.AssetRecordingSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the AssetRecording
+   */
+  omit?: Prisma.AssetRecordingOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetRecordingInclude<ExtArgs> | null;
+  where?: Prisma.AssetRecordingWhereInput;
+};
+
+/**
  * Asset.type
  */
 export type Asset$typeArgs<
@@ -7965,6 +9953,37 @@ export type Asset$typeArgs<
    */
   include?: Prisma.AssetTypeInclude<ExtArgs> | null;
   where?: Prisma.AssetTypeWhereInput;
+};
+
+/**
+ * Asset.assetHistory
+ */
+export type Asset$assetHistoryArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the AssetHistory
+   */
+  select?: Prisma.AssetHistorySelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the AssetHistory
+   */
+  omit?: Prisma.AssetHistoryOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetHistoryInclude<ExtArgs> | null;
+  where?: Prisma.AssetHistoryWhereInput;
+  orderBy?:
+    | Prisma.AssetHistoryOrderByWithRelationInput
+    | Prisma.AssetHistoryOrderByWithRelationInput[];
+  cursor?: Prisma.AssetHistoryWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.AssetHistoryScalarFieldEnum
+    | Prisma.AssetHistoryScalarFieldEnum[];
 };
 
 /**

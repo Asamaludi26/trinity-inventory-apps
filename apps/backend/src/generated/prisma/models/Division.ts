@@ -261,6 +261,7 @@ export type DivisionWhereInput = {
   createdAt?: Prisma.DateTimeFilter<'Division'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Division'> | Date | string;
   users?: Prisma.UserListRelationFilter;
+  categories?: Prisma.CategoryDivisionListRelationFilter;
 };
 
 export type DivisionOrderByWithRelationInput = {
@@ -275,6 +276,7 @@ export type DivisionOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   users?: Prisma.UserOrderByRelationAggregateInput;
+  categories?: Prisma.CategoryDivisionOrderByRelationAggregateInput;
 };
 
 export type DivisionWhereUniqueInput = Prisma.AtLeast<
@@ -293,6 +295,7 @@ export type DivisionWhereUniqueInput = Prisma.AtLeast<
     createdAt?: Prisma.DateTimeFilter<'Division'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Division'> | Date | string;
     users?: Prisma.UserListRelationFilter;
+    categories?: Prisma.CategoryDivisionListRelationFilter;
   },
   'id' | 'uuid' | 'name' | 'code'
 >;
@@ -349,6 +352,7 @@ export type DivisionCreateInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   users?: Prisma.UserCreateNestedManyWithoutDivisionInput;
+  categories?: Prisma.CategoryDivisionCreateNestedManyWithoutDivisionInput;
 };
 
 export type DivisionUncheckedCreateInput = {
@@ -363,6 +367,7 @@ export type DivisionUncheckedCreateInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   users?: Prisma.UserUncheckedCreateNestedManyWithoutDivisionInput;
+  categories?: Prisma.CategoryDivisionUncheckedCreateNestedManyWithoutDivisionInput;
 };
 
 export type DivisionUpdateInput = {
@@ -376,6 +381,7 @@ export type DivisionUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   users?: Prisma.UserUpdateManyWithoutDivisionNestedInput;
+  categories?: Prisma.CategoryDivisionUpdateManyWithoutDivisionNestedInput;
 };
 
 export type DivisionUncheckedUpdateInput = {
@@ -390,6 +396,7 @@ export type DivisionUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   users?: Prisma.UserUncheckedUpdateManyWithoutDivisionNestedInput;
+  categories?: Prisma.CategoryDivisionUncheckedUpdateManyWithoutDivisionNestedInput;
 };
 
 export type DivisionCreateManyInput = {
@@ -428,6 +435,11 @@ export type DivisionUncheckedUpdateManyInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+
+export type DivisionScalarRelationFilter = {
+  is?: Prisma.DivisionWhereInput;
+  isNot?: Prisma.DivisionWhereInput;
 };
 
 export type DivisionNullableScalarRelationFilter = {
@@ -482,6 +494,32 @@ export type DivisionSumOrderByAggregateInput = {
   id?: Prisma.SortOrder;
 };
 
+export type DivisionCreateNestedOneWithoutCategoriesInput = {
+  create?: Prisma.XOR<
+    Prisma.DivisionCreateWithoutCategoriesInput,
+    Prisma.DivisionUncheckedCreateWithoutCategoriesInput
+  >;
+  connectOrCreate?: Prisma.DivisionCreateOrConnectWithoutCategoriesInput;
+  connect?: Prisma.DivisionWhereUniqueInput;
+};
+
+export type DivisionUpdateOneRequiredWithoutCategoriesNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.DivisionCreateWithoutCategoriesInput,
+    Prisma.DivisionUncheckedCreateWithoutCategoriesInput
+  >;
+  connectOrCreate?: Prisma.DivisionCreateOrConnectWithoutCategoriesInput;
+  upsert?: Prisma.DivisionUpsertWithoutCategoriesInput;
+  connect?: Prisma.DivisionWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.DivisionUpdateToOneWithWhereWithoutCategoriesInput,
+      Prisma.DivisionUpdateWithoutCategoriesInput
+    >,
+    Prisma.DivisionUncheckedUpdateWithoutCategoriesInput
+  >;
+};
+
 export type DivisionCreateNestedOneWithoutUsersInput = {
   create?: Prisma.XOR<
     Prisma.DivisionCreateWithoutUsersInput,
@@ -510,6 +548,88 @@ export type DivisionUpdateOneWithoutUsersNestedInput = {
   >;
 };
 
+export type DivisionCreateWithoutCategoriesInput = {
+  uuid?: string;
+  name: string;
+  code: string;
+  description?: string | null;
+  canDoFieldwork?: boolean;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  users?: Prisma.UserCreateNestedManyWithoutDivisionInput;
+};
+
+export type DivisionUncheckedCreateWithoutCategoriesInput = {
+  id?: number;
+  uuid?: string;
+  name: string;
+  code: string;
+  description?: string | null;
+  canDoFieldwork?: boolean;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutDivisionInput;
+};
+
+export type DivisionCreateOrConnectWithoutCategoriesInput = {
+  where: Prisma.DivisionWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.DivisionCreateWithoutCategoriesInput,
+    Prisma.DivisionUncheckedCreateWithoutCategoriesInput
+  >;
+};
+
+export type DivisionUpsertWithoutCategoriesInput = {
+  update: Prisma.XOR<
+    Prisma.DivisionUpdateWithoutCategoriesInput,
+    Prisma.DivisionUncheckedUpdateWithoutCategoriesInput
+  >;
+  create: Prisma.XOR<
+    Prisma.DivisionCreateWithoutCategoriesInput,
+    Prisma.DivisionUncheckedCreateWithoutCategoriesInput
+  >;
+  where?: Prisma.DivisionWhereInput;
+};
+
+export type DivisionUpdateToOneWithWhereWithoutCategoriesInput = {
+  where?: Prisma.DivisionWhereInput;
+  data: Prisma.XOR<
+    Prisma.DivisionUpdateWithoutCategoriesInput,
+    Prisma.DivisionUncheckedUpdateWithoutCategoriesInput
+  >;
+};
+
+export type DivisionUpdateWithoutCategoriesInput = {
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  code?: Prisma.StringFieldUpdateOperationsInput | string;
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  canDoFieldwork?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  users?: Prisma.UserUpdateManyWithoutDivisionNestedInput;
+};
+
+export type DivisionUncheckedUpdateWithoutCategoriesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  code?: Prisma.StringFieldUpdateOperationsInput | string;
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  canDoFieldwork?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  users?: Prisma.UserUncheckedUpdateManyWithoutDivisionNestedInput;
+};
+
 export type DivisionCreateWithoutUsersInput = {
   uuid?: string;
   name: string;
@@ -520,6 +640,7 @@ export type DivisionCreateWithoutUsersInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  categories?: Prisma.CategoryDivisionCreateNestedManyWithoutDivisionInput;
 };
 
 export type DivisionUncheckedCreateWithoutUsersInput = {
@@ -533,6 +654,7 @@ export type DivisionUncheckedCreateWithoutUsersInput = {
   isDeleted?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  categories?: Prisma.CategoryDivisionUncheckedCreateNestedManyWithoutDivisionInput;
 };
 
 export type DivisionCreateOrConnectWithoutUsersInput = {
@@ -573,6 +695,7 @@ export type DivisionUpdateWithoutUsersInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  categories?: Prisma.CategoryDivisionUpdateManyWithoutDivisionNestedInput;
 };
 
 export type DivisionUncheckedUpdateWithoutUsersInput = {
@@ -586,6 +709,7 @@ export type DivisionUncheckedUpdateWithoutUsersInput = {
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  categories?: Prisma.CategoryDivisionUncheckedUpdateManyWithoutDivisionNestedInput;
 };
 
 /**
@@ -594,6 +718,7 @@ export type DivisionUncheckedUpdateWithoutUsersInput = {
 
 export type DivisionCountOutputType = {
   users: number;
+  categories: number;
 };
 
 export type DivisionCountOutputTypeSelect<
@@ -601,6 +726,7 @@ export type DivisionCountOutputTypeSelect<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   users?: boolean | DivisionCountOutputTypeCountUsersArgs;
+  categories?: boolean | DivisionCountOutputTypeCountCategoriesArgs;
 };
 
 /**
@@ -626,6 +752,16 @@ export type DivisionCountOutputTypeCountUsersArgs<
   where?: Prisma.UserWhereInput;
 };
 
+/**
+ * DivisionCountOutputType without action
+ */
+export type DivisionCountOutputTypeCountCategoriesArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.CategoryDivisionWhereInput;
+};
+
 export type DivisionSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -642,6 +778,7 @@ export type DivisionSelect<
     createdAt?: boolean;
     updatedAt?: boolean;
     users?: boolean | Prisma.Division$usersArgs<ExtArgs>;
+    categories?: boolean | Prisma.Division$categoriesArgs<ExtArgs>;
     _count?: boolean | Prisma.DivisionCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['division']
@@ -719,6 +856,7 @@ export type DivisionInclude<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   users?: boolean | Prisma.Division$usersArgs<ExtArgs>;
+  categories?: boolean | Prisma.Division$categoriesArgs<ExtArgs>;
   _count?: boolean | Prisma.DivisionCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type DivisionIncludeCreateManyAndReturn<
@@ -737,6 +875,7 @@ export type $DivisionPayload<
   name: 'Division';
   objects: {
     users: Prisma.$UserPayload<ExtArgs>[];
+    categories: Prisma.$CategoryDivisionPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1311,6 +1450,17 @@ export interface Prisma__DivisionClient<
       >
     | Null
   >;
+  categories<T extends Prisma.Division$categoriesArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Division$categoriesArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$CategoryDivisionPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1847,6 +1997,37 @@ export type Division$usersArgs<
   take?: number;
   skip?: number;
   distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[];
+};
+
+/**
+ * Division.categories
+ */
+export type Division$categoriesArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the CategoryDivision
+   */
+  select?: Prisma.CategoryDivisionSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the CategoryDivision
+   */
+  omit?: Prisma.CategoryDivisionOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CategoryDivisionInclude<ExtArgs> | null;
+  where?: Prisma.CategoryDivisionWhereInput;
+  orderBy?:
+    | Prisma.CategoryDivisionOrderByWithRelationInput
+    | Prisma.CategoryDivisionOrderByWithRelationInput[];
+  cursor?: Prisma.CategoryDivisionWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.CategoryDivisionScalarFieldEnum
+    | Prisma.CategoryDivisionScalarFieldEnum[];
 };
 
 /**

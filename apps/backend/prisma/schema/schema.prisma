@@ -8,14 +8,15 @@ datasource db {
 }
 
 model StockThreshold {
-  id          Int        @id @default(autoincrement())
-  modelId     Int        @unique @map("model_id")
-  minQuantity Int        @map("min_quantity")
-  createdById Int        @map("created_by_id")
-  createdAt   DateTime   @default(now()) @map("created_at")
-  updatedAt   DateTime   @updatedAt @map("updated_at")
-  createdBy   User       @relation("StockThresholdCreatedBy", fields: [createdById], references: [id])
-  model       AssetModel @relation(fields: [modelId], references: [id])
+  id              Int        @id @default(autoincrement())
+  modelId         Int        @unique @map("model_id")
+  minQuantity     Int        @map("min_quantity")
+  warningQuantity Int?       @map("warning_quantity") // Yellow warning level (above min, below safe)
+  createdById     Int        @map("created_by_id")
+  createdAt       DateTime   @default(now()) @map("created_at")
+  updatedAt       DateTime   @updatedAt @map("updated_at")
+  createdBy       User       @relation("StockThresholdCreatedBy", fields: [createdById], references: [id])
+  model           AssetModel @relation(fields: [modelId], references: [id])
 
   @@map("stock_thresholds")
 }
@@ -119,6 +120,11 @@ enum AssetClassification {
 
 enum TrackingMethod {
   INDIVIDUAL
+  COUNT
+  MEASUREMENT
+}
+
+enum BulkTrackingType {
   COUNT
   MEASUREMENT
 }

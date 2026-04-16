@@ -804,6 +804,105 @@ async function main() {
     },
   ];
 
+  // ── Asset Recordings ──────────────────────────────────────────
+  // Group assets by recording batch (one recording per purchase date batch)
+  const recordingsData = [
+    {
+      docNumber: 'REC-20260115-0001',
+      recordedAt: new Date('2026-01-15T09:00:00'),
+      recordedById: adminLogistik.id,
+      note: 'Pencatatan batch laptop Lenovo ThinkPad X1 Carbon Gen 11 (5 unit)',
+      assetCodes: [
+        'AS-2026-0115-0001',
+        'AS-2026-0115-0002',
+        'AS-2026-0115-0003',
+        'AS-2026-0115-0004',
+        'AS-2026-0115-0005',
+      ],
+    },
+    {
+      docNumber: 'REC-20260201-0001',
+      recordedAt: new Date('2026-02-01T10:00:00'),
+      recordedById: adminLogistik.id,
+      note: 'Pencatatan batch MacBook Pro 14" (3 unit)',
+      assetCodes: [
+        'AS-2026-0201-0001',
+        'AS-2026-0201-0002',
+        'AS-2026-0201-0003',
+      ],
+    },
+    {
+      docNumber: 'REC-20260120-0001',
+      recordedAt: new Date('2026-01-20T08:30:00'),
+      recordedById: adminLogistik.id,
+      note: 'Pencatatan batch router MikroTik hAP ac3 (3 unit)',
+      assetCodes: [
+        'AS-2026-0120-0001',
+        'AS-2026-0120-0002',
+        'AS-2026-0120-0003',
+      ],
+    },
+    {
+      docNumber: 'REC-20260301-0001',
+      recordedAt: new Date('2026-03-01T11:00:00'),
+      recordedById: adminLogistik.id,
+      note: 'Pencatatan batch switch Cisco Catalyst 1000-24T (2 unit)',
+      assetCodes: ['AS-2026-0301-0001', 'AS-2026-0301-0002'],
+    },
+    {
+      docNumber: 'REC-20260110-0001',
+      recordedAt: new Date('2026-01-10T09:30:00'),
+      recordedById: adminLogistik.id,
+      note: 'Pencatatan batch crimping tool Panduit (2 unit)',
+      assetCodes: ['AS-2026-0110-0001', 'AS-2026-0110-0002'],
+    },
+    {
+      docNumber: 'REC-20260215-0001',
+      recordedAt: new Date('2026-02-15T13:00:00'),
+      recordedById: adminLogistik.id,
+      note: 'Pencatatan batch fusion splicer Fujikura 90S (2 unit)',
+      assetCodes: ['AS-2026-0215-0001', 'AS-2026-0215-0002'],
+    },
+    {
+      docNumber: 'REC-20260125-0001',
+      recordedAt: new Date('2026-01-25T14:00:00'),
+      recordedById: adminLogistik.id,
+      note: 'Pencatatan batch power meter Joinwit OPM-50 (2 unit) & router RB5009',
+      assetCodes: ['AS-2026-0125-0001', 'AS-2026-0125-0002'],
+    },
+  ];
+
+  // Create recordings first, then create assets linked to them
+  const recordingMap: Record<string, number> = {};
+  for (const rec of recordingsData) {
+    const existing = await prisma.assetRecording.findUnique({
+      where: { docNumber: rec.docNumber },
+    });
+    if (existing) {
+      recordingMap[rec.docNumber] = existing.id;
+    } else {
+      const created = await prisma.assetRecording.create({
+        data: {
+          docNumber: rec.docNumber,
+          recordedAt: rec.recordedAt,
+          recordedById: rec.recordedById,
+          note: rec.note,
+        },
+      });
+      recordingMap[rec.docNumber] = created.id;
+    }
+  }
+  console.log('✅ Asset recordings seeded (7 recordings)');
+
+  // Build asset→recording lookup
+  const assetCodeToRecording: Record<string, number> = {};
+  for (const rec of recordingsData) {
+    const recId = recordingMap[rec.docNumber];
+    for (const code of rec.assetCodes) {
+      assetCodeToRecording[code] = recId;
+    }
+  }
+
   const assetMap: Record<string, string> = {};
 
   for (const a of assetsData) {
@@ -813,6 +912,13 @@ async function main() {
     const existing = await prisma.asset.findUnique({ where: { code: a.code } });
     if (existing) {
       assetMap[a.code] = existing.id;
+      // Link existing asset to recording if not already linked
+      if (!existing.recordingId && assetCodeToRecording[a.code]) {
+        await prisma.asset.update({
+          where: { id: existing.id },
+          data: { recordingId: assetCodeToRecording[a.code] },
+        });
+      }
       continue;
     }
 
@@ -835,10 +941,15 @@ async function main() {
         condition: a.condition,
         currentUserId: a.userId,
         recordedById: adminLogistik.id,
+        recordingId: assetCodeToRecording[a.code] ?? null,
+        location: a.status === AssetStatus.IN_STORAGE ? 'Gudang Utama' : null,
+        locationDetail: a.status === AssetStatus.IN_STORAGE ? 'Rak A' : null,
+        recordingSource: 'MANUAL',
       },
     });
     assetMap[a.code] = asset.id;
 
+    // Create stock movement
     await prisma.stockMovement.create({
       data: {
         assetId: asset.id,
@@ -849,8 +960,26 @@ async function main() {
         createdById: adminLogistik.id,
       },
     });
+
+    // Create initial asset history entry
+    await prisma.assetHistory.create({
+      data: {
+        assetId: asset.id,
+        action: 'CREATE',
+        field: null,
+        oldValue: null,
+        newValue: JSON.stringify({
+          code: a.code,
+          name: a.name,
+          status: a.status,
+          condition: a.condition,
+        }),
+        note: 'Pencatatan awal dari seed data',
+        changedById: adminLogistik.id,
+      },
+    });
   }
-  console.log('✅ Assets & stock movements seeded (20 assets)');
+  console.log('✅ Assets, stock movements & history seeded (20 assets)');
 
   // ============================================================
   // 6. STOCK THRESHOLDS (PRD 6.1 — Stok Aset, BR-02)
@@ -1631,7 +1760,8 @@ async function main() {
   console.log('   - 16 Users (5 main + 6 UAT test accounts + 5 additional)');
   console.log('   - 3 Asset Categories → 9 Types → 11 Models');
   console.log('   - 11 Purchase records + 8 Depreciation records');
-  console.log('   - 20 Assets + Stock movements');
+  console.log('   - 7 Asset Recordings (pencatatan)');
+  console.log('   - 20 Assets + Stock movements + History entries');
   console.log('   - 6 Stock thresholds');
   console.log('   - 3 Customers');
   console.log('   - 3 Requests (Permintaan Baru)');

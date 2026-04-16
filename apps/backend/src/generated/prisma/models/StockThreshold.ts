@@ -30,6 +30,7 @@ export type StockThresholdAvgAggregateOutputType = {
   id: number | null;
   modelId: number | null;
   minQuantity: number | null;
+  warningQuantity: number | null;
   createdById: number | null;
 };
 
@@ -37,6 +38,7 @@ export type StockThresholdSumAggregateOutputType = {
   id: number | null;
   modelId: number | null;
   minQuantity: number | null;
+  warningQuantity: number | null;
   createdById: number | null;
 };
 
@@ -44,6 +46,7 @@ export type StockThresholdMinAggregateOutputType = {
   id: number | null;
   modelId: number | null;
   minQuantity: number | null;
+  warningQuantity: number | null;
   createdById: number | null;
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -53,6 +56,7 @@ export type StockThresholdMaxAggregateOutputType = {
   id: number | null;
   modelId: number | null;
   minQuantity: number | null;
+  warningQuantity: number | null;
   createdById: number | null;
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -62,6 +66,7 @@ export type StockThresholdCountAggregateOutputType = {
   id: number;
   modelId: number;
   minQuantity: number;
+  warningQuantity: number;
   createdById: number;
   createdAt: number;
   updatedAt: number;
@@ -72,6 +77,7 @@ export type StockThresholdAvgAggregateInputType = {
   id?: true;
   modelId?: true;
   minQuantity?: true;
+  warningQuantity?: true;
   createdById?: true;
 };
 
@@ -79,6 +85,7 @@ export type StockThresholdSumAggregateInputType = {
   id?: true;
   modelId?: true;
   minQuantity?: true;
+  warningQuantity?: true;
   createdById?: true;
 };
 
@@ -86,6 +93,7 @@ export type StockThresholdMinAggregateInputType = {
   id?: true;
   modelId?: true;
   minQuantity?: true;
+  warningQuantity?: true;
   createdById?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -95,6 +103,7 @@ export type StockThresholdMaxAggregateInputType = {
   id?: true;
   modelId?: true;
   minQuantity?: true;
+  warningQuantity?: true;
   createdById?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -104,6 +113,7 @@ export type StockThresholdCountAggregateInputType = {
   id?: true;
   modelId?: true;
   minQuantity?: true;
+  warningQuantity?: true;
   createdById?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -211,6 +221,7 @@ export type StockThresholdGroupByOutputType = {
   id: number;
   modelId: number;
   minQuantity: number;
+  warningQuantity: number | null;
   createdById: number;
   createdAt: Date;
   updatedAt: Date;
@@ -242,6 +253,7 @@ export type StockThresholdWhereInput = {
   id?: Prisma.IntFilter<'StockThreshold'> | number;
   modelId?: Prisma.IntFilter<'StockThreshold'> | number;
   minQuantity?: Prisma.IntFilter<'StockThreshold'> | number;
+  warningQuantity?: Prisma.IntNullableFilter<'StockThreshold'> | number | null;
   createdById?: Prisma.IntFilter<'StockThreshold'> | number;
   createdAt?: Prisma.DateTimeFilter<'StockThreshold'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'StockThreshold'> | Date | string;
@@ -259,6 +271,7 @@ export type StockThresholdOrderByWithRelationInput = {
   id?: Prisma.SortOrder;
   modelId?: Prisma.SortOrder;
   minQuantity?: Prisma.SortOrder;
+  warningQuantity?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -274,6 +287,10 @@ export type StockThresholdWhereUniqueInput = Prisma.AtLeast<
     OR?: Prisma.StockThresholdWhereInput[];
     NOT?: Prisma.StockThresholdWhereInput | Prisma.StockThresholdWhereInput[];
     minQuantity?: Prisma.IntFilter<'StockThreshold'> | number;
+    warningQuantity?:
+      | Prisma.IntNullableFilter<'StockThreshold'>
+      | number
+      | null;
     createdById?: Prisma.IntFilter<'StockThreshold'> | number;
     createdAt?: Prisma.DateTimeFilter<'StockThreshold'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'StockThreshold'> | Date | string;
@@ -293,6 +310,7 @@ export type StockThresholdOrderByWithAggregationInput = {
   id?: Prisma.SortOrder;
   modelId?: Prisma.SortOrder;
   minQuantity?: Prisma.SortOrder;
+  warningQuantity?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -314,6 +332,10 @@ export type StockThresholdScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<'StockThreshold'> | number;
   modelId?: Prisma.IntWithAggregatesFilter<'StockThreshold'> | number;
   minQuantity?: Prisma.IntWithAggregatesFilter<'StockThreshold'> | number;
+  warningQuantity?:
+    | Prisma.IntNullableWithAggregatesFilter<'StockThreshold'>
+    | number
+    | null;
   createdById?: Prisma.IntWithAggregatesFilter<'StockThreshold'> | number;
   createdAt?:
     | Prisma.DateTimeWithAggregatesFilter<'StockThreshold'>
@@ -327,6 +349,7 @@ export type StockThresholdScalarWhereWithAggregatesInput = {
 
 export type StockThresholdCreateInput = {
   minQuantity: number;
+  warningQuantity?: number | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   createdBy: Prisma.UserCreateNestedOneWithoutStockThresholdsInput;
@@ -337,6 +360,7 @@ export type StockThresholdUncheckedCreateInput = {
   id?: number;
   modelId: number;
   minQuantity: number;
+  warningQuantity?: number | null;
   createdById: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -344,6 +368,10 @@ export type StockThresholdUncheckedCreateInput = {
 
 export type StockThresholdUpdateInput = {
   minQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  warningQuantity?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   createdBy?: Prisma.UserUpdateOneRequiredWithoutStockThresholdsNestedInput;
@@ -354,6 +382,10 @@ export type StockThresholdUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   modelId?: Prisma.IntFieldUpdateOperationsInput | number;
   minQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  warningQuantity?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -363,6 +395,7 @@ export type StockThresholdCreateManyInput = {
   id?: number;
   modelId: number;
   minQuantity: number;
+  warningQuantity?: number | null;
   createdById: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -370,6 +403,10 @@ export type StockThresholdCreateManyInput = {
 
 export type StockThresholdUpdateManyMutationInput = {
   minQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  warningQuantity?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -378,6 +415,10 @@ export type StockThresholdUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   modelId?: Prisma.IntFieldUpdateOperationsInput | number;
   minQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  warningQuantity?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -402,6 +443,7 @@ export type StockThresholdCountOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   modelId?: Prisma.SortOrder;
   minQuantity?: Prisma.SortOrder;
+  warningQuantity?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -411,6 +453,7 @@ export type StockThresholdAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   modelId?: Prisma.SortOrder;
   minQuantity?: Prisma.SortOrder;
+  warningQuantity?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
 };
 
@@ -418,6 +461,7 @@ export type StockThresholdMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   modelId?: Prisma.SortOrder;
   minQuantity?: Prisma.SortOrder;
+  warningQuantity?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -427,6 +471,7 @@ export type StockThresholdMinOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   modelId?: Prisma.SortOrder;
   minQuantity?: Prisma.SortOrder;
+  warningQuantity?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -436,6 +481,7 @@ export type StockThresholdSumOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   modelId?: Prisma.SortOrder;
   minQuantity?: Prisma.SortOrder;
+  warningQuantity?: Prisma.SortOrder;
   createdById?: Prisma.SortOrder;
 };
 
@@ -607,6 +653,7 @@ export type StockThresholdUncheckedUpdateManyWithoutCreatedByNestedInput = {
 
 export type StockThresholdCreateWithoutModelInput = {
   minQuantity: number;
+  warningQuantity?: number | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   createdBy: Prisma.UserCreateNestedOneWithoutStockThresholdsInput;
@@ -615,6 +662,7 @@ export type StockThresholdCreateWithoutModelInput = {
 export type StockThresholdUncheckedCreateWithoutModelInput = {
   id?: number;
   minQuantity: number;
+  warningQuantity?: number | null;
   createdById: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -650,6 +698,10 @@ export type StockThresholdUpdateToOneWithWhereWithoutModelInput = {
 
 export type StockThresholdUpdateWithoutModelInput = {
   minQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  warningQuantity?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   createdBy?: Prisma.UserUpdateOneRequiredWithoutStockThresholdsNestedInput;
@@ -658,6 +710,10 @@ export type StockThresholdUpdateWithoutModelInput = {
 export type StockThresholdUncheckedUpdateWithoutModelInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   minQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  warningQuantity?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
   createdById?: Prisma.IntFieldUpdateOperationsInput | number;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -665,6 +721,7 @@ export type StockThresholdUncheckedUpdateWithoutModelInput = {
 
 export type StockThresholdCreateWithoutCreatedByInput = {
   minQuantity: number;
+  warningQuantity?: number | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   model: Prisma.AssetModelCreateNestedOneWithoutStockThresholdInput;
@@ -674,6 +731,7 @@ export type StockThresholdUncheckedCreateWithoutCreatedByInput = {
   id?: number;
   modelId: number;
   minQuantity: number;
+  warningQuantity?: number | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -732,6 +790,7 @@ export type StockThresholdScalarWhereInput = {
   id?: Prisma.IntFilter<'StockThreshold'> | number;
   modelId?: Prisma.IntFilter<'StockThreshold'> | number;
   minQuantity?: Prisma.IntFilter<'StockThreshold'> | number;
+  warningQuantity?: Prisma.IntNullableFilter<'StockThreshold'> | number | null;
   createdById?: Prisma.IntFilter<'StockThreshold'> | number;
   createdAt?: Prisma.DateTimeFilter<'StockThreshold'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'StockThreshold'> | Date | string;
@@ -741,12 +800,17 @@ export type StockThresholdCreateManyCreatedByInput = {
   id?: number;
   modelId: number;
   minQuantity: number;
+  warningQuantity?: number | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
 
 export type StockThresholdUpdateWithoutCreatedByInput = {
   minQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  warningQuantity?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   model?: Prisma.AssetModelUpdateOneRequiredWithoutStockThresholdNestedInput;
@@ -756,6 +820,10 @@ export type StockThresholdUncheckedUpdateWithoutCreatedByInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   modelId?: Prisma.IntFieldUpdateOperationsInput | number;
   minQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  warningQuantity?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -764,6 +832,10 @@ export type StockThresholdUncheckedUpdateManyWithoutCreatedByInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   modelId?: Prisma.IntFieldUpdateOperationsInput | number;
   minQuantity?: Prisma.IntFieldUpdateOperationsInput | number;
+  warningQuantity?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -776,6 +848,7 @@ export type StockThresholdSelect<
     id?: boolean;
     modelId?: boolean;
     minQuantity?: boolean;
+    warningQuantity?: boolean;
     createdById?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -793,6 +866,7 @@ export type StockThresholdSelectCreateManyAndReturn<
     id?: boolean;
     modelId?: boolean;
     minQuantity?: boolean;
+    warningQuantity?: boolean;
     createdById?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -810,6 +884,7 @@ export type StockThresholdSelectUpdateManyAndReturn<
     id?: boolean;
     modelId?: boolean;
     minQuantity?: boolean;
+    warningQuantity?: boolean;
     createdById?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -823,6 +898,7 @@ export type StockThresholdSelectScalar = {
   id?: boolean;
   modelId?: boolean;
   minQuantity?: boolean;
+  warningQuantity?: boolean;
   createdById?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
@@ -832,7 +908,13 @@ export type StockThresholdOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  'id' | 'modelId' | 'minQuantity' | 'createdById' | 'createdAt' | 'updatedAt',
+  | 'id'
+  | 'modelId'
+  | 'minQuantity'
+  | 'warningQuantity'
+  | 'createdById'
+  | 'createdAt'
+  | 'updatedAt',
   ExtArgs['result']['stockThreshold']
 >;
 export type StockThresholdInclude<
@@ -871,6 +953,7 @@ export type $StockThresholdPayload<
       id: number;
       modelId: number;
       minQuantity: number;
+      warningQuantity: number | null;
       createdById: number;
       createdAt: Date;
       updatedAt: Date;
@@ -1509,6 +1592,7 @@ export interface StockThresholdFieldRefs {
   readonly id: Prisma.FieldRef<'StockThreshold', 'Int'>;
   readonly modelId: Prisma.FieldRef<'StockThreshold', 'Int'>;
   readonly minQuantity: Prisma.FieldRef<'StockThreshold', 'Int'>;
+  readonly warningQuantity: Prisma.FieldRef<'StockThreshold', 'Int'>;
   readonly createdById: Prisma.FieldRef<'StockThreshold', 'Int'>;
   readonly createdAt: Prisma.FieldRef<'StockThreshold', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'StockThreshold', 'DateTime'>;

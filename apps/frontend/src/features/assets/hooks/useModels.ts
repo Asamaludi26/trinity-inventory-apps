@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { modelApi } from '../api/assets.api';
+import type { BulkTrackingType } from '../types';
 
 const MODELS_KEY = ['assets', 'models'];
 
@@ -13,8 +14,16 @@ export function useModels(typeId?: number) {
 export function useCreateModel() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: { typeId: number; name: string; brand: string }) =>
-      modelApi.create(data).then((res) => res.data.data),
+    mutationFn: (data: {
+      typeId: number;
+      name: string;
+      brand: string;
+      unit?: string;
+      containerUnit?: string;
+      containerSize?: number;
+      bulkType?: BulkTrackingType;
+      isInstallationTemplate?: boolean;
+    }) => modelApi.create(data).then((res) => res.data.data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: MODELS_KEY });
     },
@@ -24,8 +33,21 @@ export function useCreateModel() {
 export function useUpdateModel() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: { name?: string; brand?: string } }) =>
-      modelApi.update(id, data).then((res) => res.data.data),
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: number;
+      data: {
+        name?: string;
+        brand?: string;
+        unit?: string | null;
+        containerUnit?: string | null;
+        containerSize?: number | null;
+        bulkType?: BulkTrackingType | null;
+        isInstallationTemplate?: boolean;
+      };
+    }) => modelApi.update(id, data).then((res) => res.data.data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: MODELS_KEY });
     },

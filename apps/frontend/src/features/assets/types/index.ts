@@ -10,12 +10,20 @@ import type {
 // Category → Type → Model Hierarchy
 // ================================
 
+export interface CategoryDivision {
+  division: { id: number; name: string; code: string };
+}
+
 export interface AssetCategory {
   id: number;
   name: string;
+  defaultClassification: AssetClassification;
+  isCustomerInstallable: boolean;
+  isProjectAsset: boolean;
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
+  divisions?: CategoryDivision[];
   _count?: { types: number; assets: number };
 }
 
@@ -23,18 +31,28 @@ export interface AssetType {
   id: number;
   categoryId: number;
   name: string;
+  classification: AssetClassification | null;
+  trackingMethod: TrackingMethod | null;
+  unitOfMeasure: string | null;
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
-  category?: AssetCategory;
+  category?: Pick<AssetCategory, 'id' | 'name' | 'defaultClassification'>;
   _count?: { models: number; assets: number };
 }
+
+export type BulkTrackingType = 'COUNT' | 'MEASUREMENT';
 
 export interface AssetModel {
   id: number;
   typeId: number;
   name: string;
   brand: string;
+  unit: string | null;
+  containerUnit: string | null;
+  containerSize: string | null;
+  bulkType: BulkTrackingType | null;
+  isInstallationTemplate: boolean;
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
@@ -46,6 +64,26 @@ export interface AssetModel {
 // Core Asset
 // ================================
 
+export interface AssetRecording {
+  id: number;
+  docNumber: string;
+  recordedAt: string;
+  recordedBy?: UserSummary;
+  note: string | null;
+}
+
+export interface AssetHistory {
+  id: number;
+  assetId: string;
+  action: string;
+  field: string | null;
+  oldValue: string | null;
+  newValue: string | null;
+  note: string | null;
+  changedBy?: UserSummary;
+  createdAt: string;
+}
+
 export interface Asset {
   id: string;
   code: string;
@@ -54,7 +92,12 @@ export interface Asset {
   typeId: number | null;
   modelId: number | null;
   brand: string;
+  classification: AssetClassification;
+  trackingMethod: TrackingMethod | null;
   serialNumber: string | null;
+  macAddress: string | null;
+  quantity: number | null;
+  currentBalance: string | null;
   purchasePrice: string | null;
   purchaseDate: string | null;
   depreciationMethod: DepreciationMethod | null;
@@ -62,8 +105,14 @@ export interface Asset {
   salvageValue: string | null;
   status: AssetStatus;
   condition: AssetCondition;
+  location: string | null;
+  locationDetail: string | null;
+  locationNote: string | null;
+  recordingSource: RecordingSource;
+  recordingId: number | null;
   currentUserId: number | null;
   recordedById: number;
+  note: string | null;
   isDeleted: boolean;
   version: number;
   createdAt: string;
@@ -73,7 +122,10 @@ export interface Asset {
   model?: AssetModel;
   currentUser?: UserSummary;
   recordedBy?: UserSummary;
+  recording?: AssetRecording;
 }
+
+export type RecordingSource = 'REQUEST' | 'MANUAL';
 
 // ================================
 // Purchase & Depreciation (F-03)
@@ -121,6 +173,7 @@ export interface StockThreshold {
   id: number;
   modelId: number;
   minQuantity: number;
+  warningQuantity: number | null;
   model?: AssetModel;
 }
 
@@ -135,11 +188,15 @@ export interface StockSummary {
   inUse: number;
   underRepair: number;
   threshold: number;
+  warningQuantity?: number;
+  totalPrice?: number;
 }
 
 // ================================
 // Filter Params
 // ================================
+
+export type AssetViewMode = 'group' | 'list';
 
 export interface AssetFilterParams extends PaginationParams {
   categoryId?: number;
@@ -147,6 +204,45 @@ export interface AssetFilterParams extends PaginationParams {
   modelId?: number;
   status?: AssetStatus;
   condition?: AssetCondition;
+  view?: AssetViewMode;
+}
+
+export interface AssetGroup {
+  recording: {
+    id: number | null;
+    docNumber: string;
+    recordedAt: string;
+    recordedBy: UserSummary | null;
+    note: string | null;
+  };
+  assets: Asset[];
+  assetCount: number;
+}
+
+export interface StockDetailTotal {
+  model: { id: number; name: string; brand: string };
+  byStatus: { status: AssetStatus; count: number }[];
+  byLocation: { location: string; count: number }[];
+  byCondition: { condition: AssetCondition; count: number }[];
+}
+
+export interface StockDetailUsageItem {
+  id: string;
+  code: string;
+  name: string;
+  serialNumber: string | null;
+  currentUser?: { id: number; fullName: string; employeeId: string | null };
+}
+
+export interface StockHistoryItem {
+  id: string;
+  type: MovementType;
+  quantity: number;
+  reference: string | null;
+  note: string | null;
+  createdAt: string;
+  asset?: { id: string; code: string; name: string };
+  createdBy?: UserSummary;
 }
 
 export interface StockFilterParams extends PaginationParams {

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { AssetStatus, AssetCondition } from '@/types';
+import type { AssetViewMode } from '../types';
 
 interface AssetFilterState {
   categoryId: number | undefined;
@@ -8,12 +9,14 @@ interface AssetFilterState {
   status: AssetStatus | undefined;
   condition: AssetCondition | undefined;
   search: string;
+  viewMode: AssetViewMode;
   setCategoryId: (id: number | undefined) => void;
   setTypeId: (id: number | undefined) => void;
   setModelId: (id: number | undefined) => void;
   setStatus: (status: AssetStatus | undefined) => void;
   setCondition: (condition: AssetCondition | undefined) => void;
   setSearch: (search: string) => void;
+  setViewMode: (mode: AssetViewMode) => void;
   resetFilters: () => void;
 }
 
@@ -24,6 +27,7 @@ const initialState = {
   status: undefined,
   condition: undefined,
   search: '',
+  viewMode: 'list' as AssetViewMode,
 };
 
 export const useAssetFilterStore = create<AssetFilterState>((set) => ({
@@ -34,5 +38,6 @@ export const useAssetFilterStore = create<AssetFilterState>((set) => ({
   setStatus: (status) => set({ status }),
   setCondition: (condition) => set({ condition }),
   setSearch: (search) => set({ search }),
+  setViewMode: (viewMode) => set({ viewMode }),
   resetFilters: () => set(initialState),
 }));

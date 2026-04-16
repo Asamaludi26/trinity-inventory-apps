@@ -55,10 +55,13 @@ export const AnyNull = runtime.AnyNull;
 
 export const ModelName = {
   AssetCategory: 'AssetCategory',
+  CategoryDivision: 'CategoryDivision',
   AssetType: 'AssetType',
   AssetModel: 'AssetModel',
   Asset: 'Asset',
   AssetRegistration: 'AssetRegistration',
+  AssetRecording: 'AssetRecording',
+  AssetHistory: 'AssetHistory',
   User: 'User',
   Division: 'Division',
   Customer: 'Customer',
@@ -111,6 +114,9 @@ export type TransactionIsolationLevel =
 export const AssetCategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  defaultClassification: 'defaultClassification',
+  isCustomerInstallable: 'isCustomerInstallable',
+  isProjectAsset: 'isProjectAsset',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -119,10 +125,22 @@ export const AssetCategoryScalarFieldEnum = {
 export type AssetCategoryScalarFieldEnum =
   (typeof AssetCategoryScalarFieldEnum)[keyof typeof AssetCategoryScalarFieldEnum];
 
+export const CategoryDivisionScalarFieldEnum = {
+  categoryId: 'categoryId',
+  divisionId: 'divisionId',
+  createdAt: 'createdAt',
+} as const;
+
+export type CategoryDivisionScalarFieldEnum =
+  (typeof CategoryDivisionScalarFieldEnum)[keyof typeof CategoryDivisionScalarFieldEnum];
+
 export const AssetTypeScalarFieldEnum = {
   id: 'id',
   categoryId: 'categoryId',
   name: 'name',
+  classification: 'classification',
+  trackingMethod: 'trackingMethod',
+  unitOfMeasure: 'unitOfMeasure',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -139,6 +157,8 @@ export const AssetModelScalarFieldEnum = {
   unit: 'unit',
   containerUnit: 'containerUnit',
   containerSize: 'containerSize',
+  bulkType: 'bulkType',
+  isInstallationTemplate: 'isInstallationTemplate',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -158,6 +178,7 @@ export const AssetScalarFieldEnum = {
   classification: 'classification',
   trackingMethod: 'trackingMethod',
   serialNumber: 'serialNumber',
+  macAddress: 'macAddress',
   quantity: 'quantity',
   currentBalance: 'currentBalance',
   purchasePrice: 'purchasePrice',
@@ -167,10 +188,16 @@ export const AssetScalarFieldEnum = {
   salvageValue: 'salvageValue',
   status: 'status',
   condition: 'condition',
+  location: 'location',
+  locationDetail: 'locationDetail',
+  locationNote: 'locationNote',
+  recordingSource: 'recordingSource',
+  recordingId: 'recordingId',
   currentUserId: 'currentUserId',
   recordedById: 'recordedById',
   isDeleted: 'isDeleted',
   version: 'version',
+  note: 'note',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 } as const;
@@ -189,6 +216,34 @@ export const AssetRegistrationScalarFieldEnum = {
 
 export type AssetRegistrationScalarFieldEnum =
   (typeof AssetRegistrationScalarFieldEnum)[keyof typeof AssetRegistrationScalarFieldEnum];
+
+export const AssetRecordingScalarFieldEnum = {
+  id: 'id',
+  docNumber: 'docNumber',
+  recordedAt: 'recordedAt',
+  recordedById: 'recordedById',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+} as const;
+
+export type AssetRecordingScalarFieldEnum =
+  (typeof AssetRecordingScalarFieldEnum)[keyof typeof AssetRecordingScalarFieldEnum];
+
+export const AssetHistoryScalarFieldEnum = {
+  id: 'id',
+  assetId: 'assetId',
+  action: 'action',
+  field: 'field',
+  oldValue: 'oldValue',
+  newValue: 'newValue',
+  note: 'note',
+  changedById: 'changedById',
+  createdAt: 'createdAt',
+} as const;
+
+export type AssetHistoryScalarFieldEnum =
+  (typeof AssetHistoryScalarFieldEnum)[keyof typeof AssetHistoryScalarFieldEnum];
 
 export const UserScalarFieldEnum = {
   id: 'id',
@@ -458,6 +513,7 @@ export const StockThresholdScalarFieldEnum = {
   id: 'id',
   modelId: 'modelId',
   minQuantity: 'minQuantity',
+  warningQuantity: 'warningQuantity',
   createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',

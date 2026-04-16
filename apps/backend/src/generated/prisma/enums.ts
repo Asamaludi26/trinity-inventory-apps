@@ -8,6 +8,14 @@
  * 🟢 You can import this file directly.
  */
 
+export const RecordingSource = {
+  REQUEST: 'REQUEST',
+  MANUAL: 'MANUAL',
+} as const;
+
+export type RecordingSource =
+  (typeof RecordingSource)[keyof typeof RecordingSource];
+
 export const UserRole = {
   SUPERADMIN: 'SUPERADMIN',
   ADMIN_LOGISTIK: 'ADMIN_LOGISTIK',
@@ -59,6 +67,14 @@ export const TrackingMethod = {
 
 export type TrackingMethod =
   (typeof TrackingMethod)[keyof typeof TrackingMethod];
+
+export const BulkTrackingType = {
+  COUNT: 'COUNT',
+  MEASUREMENT: 'MEASUREMENT',
+} as const;
+
+export type BulkTrackingType =
+  (typeof BulkTrackingType)[keyof typeof BulkTrackingType];
 
 export const DepreciationMethod = {
   STRAIGHT_LINE: 'STRAIGHT_LINE',

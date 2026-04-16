@@ -1,17 +1,35 @@
 import { z } from 'zod';
 
+/** Preprocess: convert string/empty to number or null (for optional fields) */
+const toNumberOrNull = (val: unknown) => {
+  if (val === '' || val === undefined || val === null) return null;
+  const num = Number(val);
+  return Number.isNaN(num) ? val : num;
+};
+
+/** Preprocess: convert string/empty to number or undefined (for required fields) */
+const toNumberOrUndefined = (val: unknown) => {
+  if (val === '' || val === undefined || val === null) return undefined;
+  const num = Number(val);
+  return Number.isNaN(num) ? val : num;
+};
+
 /**
  * Asset Creation & Update Schema
  * Supports both ASSET (individual tracking) and MATERIAL (count-based) classifications
  */
 export const createAssetSchema = z.object({
-  code: z.string().min(1, 'Kode aset wajib diisi'),
+  code: z.string().optional().default(''),
   name: z.string().min(1, 'Nama aset wajib diisi'),
-  categoryId: z.number().int().positive('Kategori wajib dipilih'),
-  typeId: z.number().int().positive('Tipe wajib dipilih').nullable(),
-  modelId: z.number().int().positive('Model wajib dipilih').nullable(),
+  categoryId: z.preprocess(
+    toNumberOrUndefined,
+    z.number({ required_error: 'Kategori wajib dipilih' }).int().positive('Kategori wajib dipilih'),
+  ),
+  typeId: z.preprocess(toNumberOrNull, z.number().int().positive().nullable()),
+  modelId: z.preprocess(toNumberOrNull, z.number().int().positive().nullable()),
   brand: z.string().min(1, 'Merek wajib diisi'),
   serialNumber: z.string().optional().nullable(),
+  macAddress: z.string().max(17, 'MAC Address maksimal 17 karakter').optional().nullable(),
   purchasePrice: z
     .string()
     .optional()
@@ -20,14 +38,12 @@ export const createAssetSchema = z.object({
       if (!val) return true;
       return !Number.isNaN(Number(val)) && Number(val) >= 0;
     }, 'Harga pembelian harus angka positif'),
-  purchaseDate: z.string().datetime().optional().nullable(),
+  purchaseDate: z.string().optional().nullable(),
   depreciationMethod: z.enum(['STRAIGHT_LINE', 'DECLINING_BALANCE']).optional().nullable(),
-  usefulLifeYears: z
-    .number()
-    .int()
-    .positive('Tahun masa hidup harus positif')
-    .optional()
-    .nullable(),
+  usefulLifeYears: z.preprocess(
+    toNumberOrNull,
+    z.number().int().positive('Tahun masa hidup harus positif').nullable(),
+  ),
   salvageValue: z
     .string()
     .optional()
@@ -38,8 +54,8 @@ export const createAssetSchema = z.object({
     }, 'Nilai sisa harus angka positif'),
   classification: z.enum(['ASSET', 'MATERIAL']),
   trackingMethod: z.enum(['INDIVIDUAL', 'COUNT', 'MEASUREMENT']),
-  quantity: z.number().int().positive('Jumlah harus positif'),
-  currentBalance: z.number().int().nonnegative('Saldo awal tidak boleh negatif'),
+  quantity: z.coerce.number().int().positive('Jumlah harus positif'),
+  currentBalance: z.coerce.number().int().nonnegative('Saldo awal tidak boleh negatif'),
   status: z.enum([
     'IN_STORAGE',
     'IN_USE',
@@ -52,7 +68,12 @@ export const createAssetSchema = z.object({
     'CONSUMED',
   ]),
   condition: z.enum(['NEW', 'GOOD', 'FAIR', 'POOR', 'BROKEN']),
-  currentUserId: z.number().int().optional().nullable(),
+  currentUserId: z.preprocess(toNumberOrNull, z.number().int().nullable().optional()),
+  location: z.string().max(255).optional().nullable(),
+  locationDetail: z.string().max(500).optional().nullable(),
+  locationNote: z.string().optional().nullable(),
+  recordingSource: z.enum(['REQUEST', 'MANUAL']).optional(),
+  note: z.string().optional().nullable(),
 });
 
 export type CreateAssetFormData = z.infer<typeof createAssetSchema>;

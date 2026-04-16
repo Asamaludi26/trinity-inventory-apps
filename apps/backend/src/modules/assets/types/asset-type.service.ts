@@ -36,7 +36,9 @@ export class AssetTypeService {
         take: limit,
         orderBy: { [sortBy === 'name' ? 'name' : 'createdAt']: sortOrder },
         include: {
-          category: { select: { id: true, name: true } },
+          category: {
+            select: { id: true, name: true, defaultClassification: true },
+          },
           _count: {
             select: {
               models: { where: { isDeleted: false } },
@@ -58,7 +60,9 @@ export class AssetTypeService {
     const type = await this.prisma.assetType.findUnique({
       where: { id, isDeleted: false },
       include: {
-        category: { select: { id: true, name: true } },
+        category: {
+          select: { id: true, name: true, defaultClassification: true },
+        },
         models: { where: { isDeleted: false } },
       },
     });
@@ -69,7 +73,11 @@ export class AssetTypeService {
   async create(dto: CreateAssetTypeDto) {
     return this.prisma.assetType.create({
       data: dto,
-      include: { category: { select: { id: true, name: true } } },
+      include: {
+        category: {
+          select: { id: true, name: true, defaultClassification: true },
+        },
+      },
     });
   }
 
@@ -78,7 +86,11 @@ export class AssetTypeService {
     return this.prisma.assetType.update({
       where: { id },
       data: dto,
-      include: { category: { select: { id: true, name: true } } },
+      include: {
+        category: {
+          select: { id: true, name: true, defaultClassification: true },
+        },
+      },
     });
   }
 

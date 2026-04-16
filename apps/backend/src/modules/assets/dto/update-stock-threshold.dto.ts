@@ -1,5 +1,5 @@
-import { IsInt, Min } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsInt, IsOptional, Min } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateStockThresholdDto {
   @ApiProperty({
@@ -9,4 +9,13 @@ export class UpdateStockThresholdDto {
   @IsInt()
   @Min(0)
   minQuantity: number;
+
+  @ApiPropertyOptional({
+    description: 'Jumlah warning stok sebelum mencapai minimum',
+    minimum: 0,
+  })
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  warningQuantity?: number;
 }

@@ -8,10 +8,14 @@ import {
 import { PrismaService } from '../../core/database/prisma.service';
 import { EventsService } from '../../core/events/events.service';
 import { NotificationService } from '../../core/notifications/notification.service';
-import { FilterAssetDto } from './dto/filter-asset.dto';
+import { QueryAssetDto, AssetViewMode } from './dto/query-asset.dto';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { CreateBatchAssetDto } from './dto/create-batch-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
+import { ReportDamageDto } from './dto/report-damage.dto';
+import { ReportLostDto } from './dto/report-lost.dto';
+import { RestockDto } from './dto/restock.dto';
+import { ThresholdBulkDto } from './dto/threshold-bulk.dto';
 import {
   AssetStatus,
   AssetClassification,
@@ -30,7 +34,7 @@ export class AssetService {
     private readonly notificationService: NotificationService,
   ) {}
 
-  async findAll(query: FilterAssetDto) {
+  async findAll(query: QueryAssetDto) {
     const {
       page = 1,
       limit = 20,
@@ -42,6 +46,7 @@ export class AssetService {
       categoryId,
       typeId,
       modelId,
+      view,
     } = query;
 
     const where: Prisma.AssetWhereInput = {
@@ -71,6 +76,11 @@ export class AssetService {
       ? sortBy
       : 'createdAt';
 
+    // Group view: group assets by recordingId
+    if (view === AssetViewMode.GROUP) {
+      return this.findAllGrouped(where, page, limit, orderField, sortOrder);
+    }
+
     const [data, total] = await Promise.all([
       this.prisma.asset.findMany({
         where,
@@ -81,11 +91,100 @@ export class AssetService {
           type: { select: { id: true, name: true } },
           model: { select: { id: true, name: true, brand: true } },
           currentUser: { select: { id: true, fullName: true } },
+          recording: {
+            select: { id: true, docNumber: true, recordedAt: true },
+          },
         },
         orderBy: { [orderField]: sortOrder },
       }),
       this.prisma.asset.count({ where }),
     ]);
+
+    return {
+      data,
+      meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
+    };
+  }
+
+  /**
+   * Group view: groups assets by AssetRecording (docNumber).
+   * Assets without recording are grouped as "Tanpa Pencatatan".
+   */
+  private async findAllGrouped(
+    where: Prisma.AssetWhereInput,
+    page: number,
+    limit: number,
+    orderField: string,
+    sortOrder: string,
+  ) {
+    // Get all assets matching filter (we paginate groups, not individual assets)
+    const assets = await this.prisma.asset.findMany({
+      where,
+      include: {
+        category: { select: { id: true, name: true } },
+        type: { select: { id: true, name: true } },
+        model: { select: { id: true, name: true, brand: true } },
+        currentUser: { select: { id: true, fullName: true } },
+        recording: {
+          select: {
+            id: true,
+            docNumber: true,
+            recordedAt: true,
+            recordedBy: { select: { id: true, fullName: true } },
+            note: true,
+          },
+        },
+      },
+      orderBy: { [orderField]: sortOrder },
+    });
+
+    // Group by recordingId
+    const groups = new Map<
+      string,
+      {
+        recording: {
+          id: number | null;
+          docNumber: string;
+          recordedAt: string;
+          recordedBy: { id: number; fullName: string } | null;
+          note: string | null;
+        };
+        assets: typeof assets;
+        assetCount: number;
+      }
+    >();
+
+    for (const asset of assets) {
+      const key = asset.recordingId ? String(asset.recordingId) : 'unrecorded';
+      if (!groups.has(key)) {
+        groups.set(key, {
+          recording: asset.recording
+            ? {
+                id: asset.recording.id,
+                docNumber: asset.recording.docNumber,
+                recordedAt: asset.recording.recordedAt.toISOString(),
+                recordedBy: asset.recording.recordedBy,
+                note: asset.recording.note,
+              }
+            : {
+                id: null,
+                docNumber: 'Tanpa Pencatatan',
+                recordedAt: asset.createdAt.toISOString(),
+                recordedBy: null,
+                note: null,
+              },
+          assets: [],
+          assetCount: 0,
+        });
+      }
+      const group = groups.get(key)!;
+      group.assets.push(asset);
+      group.assetCount++;
+    }
+
+    const allGroups = Array.from(groups.values());
+    const total = allGroups.length;
+    const data = allGroups.slice((page - 1) * limit, page * limit);
 
     return {
       data,
@@ -326,7 +425,10 @@ export class AssetService {
    * Example: AS-2026-0414-0001
    * Uses collision detection with retry loop
    */
-  private async generateAssetCode(): Promise<string> {
+  private async generateAssetCode(
+    client?: Prisma.TransactionClient,
+  ): Promise<string> {
+    const db = client || this.prisma;
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -335,7 +437,7 @@ export class AssetService {
     const prefix = `AS-${today}-`;
 
     for (let attempt = 0; attempt < 5; attempt++) {
-      const lastAsset = await this.prisma.asset.findFirst({
+      const lastAsset = await db.asset.findFirst({
         where: { code: { startsWith: prefix } },
         orderBy: { code: 'desc' },
         select: { code: true },
@@ -347,7 +449,7 @@ export class AssetService {
       const code = `${prefix}${String(nextNum).padStart(4, '0')}`;
 
       // Check if code already exists (collision detection)
-      const exists = await this.prisma.asset.findUnique({
+      const exists = await db.asset.findUnique({
         where: { code },
       });
 
@@ -387,7 +489,29 @@ export class AssetService {
   }
 
   async remove(id: string) {
-    await this.findOne(id);
+    const asset = await this.findOne(id);
+
+    // Safe delete: check active relations
+    const [handoverItems, loanAssignments, activeRepairs] = await Promise.all([
+      this.prisma.handoverItem.count({ where: { assetId: id } }),
+      this.prisma.loanAssetAssignment.count({ where: { assetId: id } }),
+      this.prisma.repair.count({
+        where: { assetId: id, status: { in: ['PENDING', 'IN_PROGRESS'] } },
+      }),
+    ]);
+
+    const blockers: string[] = [];
+    if (handoverItems > 0) blockers.push(`${handoverItems} serah terima`);
+    if (loanAssignments > 0)
+      blockers.push(`${loanAssignments} peminjaman aktif`);
+    if (activeRepairs > 0) blockers.push(`${activeRepairs} perbaikan aktif`);
+
+    if (blockers.length > 0) {
+      throw new ConflictException(
+        `Aset "${asset.name}" tidak dapat dihapus karena memiliki relasi aktif: ${blockers.join(', ')}`,
+      );
+    }
+
     await this.prisma.asset.update({
       where: { id },
       data: { isDeleted: true },
@@ -420,11 +544,24 @@ export class AssetService {
     limit: number,
     search?: string,
   ) {
-    const stockData = await this.prisma.asset.groupBy({
-      by: ['modelId', 'status'],
-      where,
-      _count: { id: true },
-    });
+    const [stockData, priceData] = await Promise.all([
+      this.prisma.asset.groupBy({
+        by: ['modelId', 'status'],
+        where,
+        _count: { id: true },
+      }),
+      this.prisma.asset.groupBy({
+        by: ['modelId'],
+        where,
+        _sum: { purchasePrice: true },
+      }),
+    ]);
+
+    const priceMap = new Map(
+      priceData
+        .filter((r) => r.modelId !== null)
+        .map((r) => [r.modelId!, Number(r._sum.purchasePrice ?? 0)]),
+    );
 
     const summaryMap = new Map<
       number,
@@ -481,6 +618,7 @@ export class AssetService {
         inUse: counts.inUse,
         underRepair: counts.underRepair,
         threshold: thresholdMap.get(modelId) ?? 0,
+        totalPrice: priceMap.get(modelId) ?? 0,
       };
     });
 
@@ -550,6 +688,7 @@ export class AssetService {
   async updateStockThreshold(
     modelId: number,
     minQuantity: number,
+    warningQuantity: number | undefined,
     userId: number,
   ) {
     const model = await this.prisma.assetModel.findUnique({
@@ -561,10 +700,29 @@ export class AssetService {
       );
     }
 
+    const updateData: { minQuantity: number; warningQuantity?: number } = {
+      minQuantity,
+    };
+    const createData: {
+      modelId: number;
+      minQuantity: number;
+      warningQuantity?: number;
+      createdById: number;
+    } = {
+      modelId,
+      minQuantity,
+      createdById: userId,
+    };
+
+    if (warningQuantity !== undefined) {
+      updateData.warningQuantity = warningQuantity;
+      createData.warningQuantity = warningQuantity;
+    }
+
     await this.prisma.stockThreshold.upsert({
       where: { modelId },
-      update: { minQuantity },
-      create: { modelId, minQuantity, createdById: userId },
+      update: updateData,
+      create: createData,
     });
 
     return null;
@@ -614,7 +772,7 @@ export class AssetService {
       const modelIds = new Set<number>();
 
       for (const item of dto.items) {
-        const code = item.code || (await this.generateAssetCode());
+        const code = item.code || (await this.generateAssetCode(tx));
         const { note: _note, ...assetData } = item;
 
         // Create asset
@@ -714,6 +872,348 @@ export class AssetService {
     const nextNum = lastAsset ? parseInt(lastAsset.code.slice(-4), 10) + 1 : 1;
 
     return `${prefix}${String(nextNum).padStart(4, '0')}`;
+  }
+
+  // ─── Stock Detail & History ───────────────────────────────────
+
+  async getStockDetailTotal(modelId: number) {
+    const model = await this.prisma.assetModel.findUnique({
+      where: { id: modelId },
+      select: { id: true, name: true, brand: true },
+    });
+    if (!model) {
+      throw new NotFoundException(
+        `Model aset dengan id ${modelId} tidak ditemukan`,
+      );
+    }
+
+    const byStatus = await this.prisma.asset.groupBy({
+      by: ['status'],
+      where: { modelId, isDeleted: false },
+      _count: { id: true },
+    });
+
+    const byLocation = await this.prisma.asset.groupBy({
+      by: ['location'],
+      where: { modelId, isDeleted: false },
+      _count: { id: true },
+    });
+
+    const byCondition = await this.prisma.asset.groupBy({
+      by: ['condition'],
+      where: { modelId, isDeleted: false },
+      _count: { id: true },
+    });
+
+    return {
+      model,
+      byStatus: byStatus.map((r) => ({ status: r.status, count: r._count.id })),
+      byLocation: byLocation.map((r) => ({
+        location: r.location ?? 'Tidak diketahui',
+        count: r._count.id,
+      })),
+      byCondition: byCondition.map((r) => ({
+        condition: r.condition,
+        count: r._count.id,
+      })),
+    };
+  }
+
+  async getStockDetailUsage(modelId: number, page = 1, limit = 20) {
+    const where: Prisma.AssetWhereInput = {
+      modelId,
+      isDeleted: false,
+      status: AssetStatus.IN_USE,
+    };
+
+    const [data, total] = await Promise.all([
+      this.prisma.asset.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        include: {
+          currentUser: {
+            select: { id: true, fullName: true, employeeId: true },
+          },
+        },
+        orderBy: { updatedAt: 'desc' },
+      }),
+      this.prisma.asset.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
+    };
+  }
+
+  async getStockHistory(modelId: number, page = 1, limit = 20) {
+    const assetIds = await this.prisma.asset
+      .findMany({
+        where: { modelId, isDeleted: false },
+        select: { id: true },
+      })
+      .then((a) => a.map((x) => x.id));
+
+    const where: Prisma.StockMovementWhereInput = {
+      assetId: { in: assetIds },
+    };
+
+    const [data, total] = await Promise.all([
+      this.prisma.stockMovement.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        include: {
+          asset: { select: { id: true, code: true, name: true } },
+          createdBy: { select: { id: true, fullName: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.stockMovement.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
+    };
+  }
+
+  async restock(modelId: number, dto: RestockDto, userId: number) {
+    const model = await this.prisma.assetModel.findUnique({
+      where: { id: modelId },
+      include: { type: true },
+    });
+    if (!model) {
+      throw new NotFoundException(
+        `Model aset dengan id ${modelId} tidak ditemukan`,
+      );
+    }
+
+    const result = await this.prisma.$transaction(async (tx) => {
+      const assets: { id: string; code: string }[] = [];
+
+      for (let i = 0; i < dto.quantity; i++) {
+        const code = await this.generateAssetCode(tx);
+        const asset = await tx.asset.create({
+          data: {
+            code,
+            name: model.name,
+            brand: model.brand,
+            categoryId: model.type.categoryId,
+            typeId: model.typeId,
+            modelId,
+            classification: AssetClassification.ASSET,
+            trackingMethod: TrackingMethod.INDIVIDUAL,
+            status: AssetStatus.IN_STORAGE,
+            recordedById: userId,
+          },
+          select: { id: true, code: true },
+        });
+
+        await tx.stockMovement.create({
+          data: {
+            assetId: asset.id,
+            type: 'NEW_STOCK',
+            quantity: 1,
+            reference: code,
+            note: dto.note || `Restock: ${model.name} (sumber: ${dto.source})`,
+            createdById: userId,
+          },
+        });
+
+        assets.push(asset);
+      }
+
+      return assets;
+    });
+
+    await this.checkAndNotifyThreshold(modelId, userId);
+
+    return { restockedCount: result.length, assets: result };
+  }
+
+  async updateThresholdBulk(dto: ThresholdBulkDto, userId: number) {
+    await this.prisma.$transaction(async (tx) => {
+      for (const item of dto.items) {
+        const model = await tx.assetModel.findUnique({
+          where: { id: item.modelId },
+        });
+        if (!model) {
+          throw new NotFoundException(
+            `Model aset dengan id ${item.modelId} tidak ditemukan`,
+          );
+        }
+
+        await tx.stockThreshold.upsert({
+          where: { modelId: item.modelId },
+          update: {
+            minQuantity: item.minQuantity,
+            warningQuantity: item.warningQuantity,
+          },
+          create: {
+            modelId: item.modelId,
+            minQuantity: item.minQuantity,
+            warningQuantity: item.warningQuantity,
+            createdById: userId,
+          },
+        });
+      }
+    });
+
+    return null;
+  }
+
+  // ─── Asset History ──────────────────────────────────────────
+
+  async getAssetHistory(assetId: string, page = 1, limit = 20) {
+    await this.findOne(assetId);
+
+    const where: Prisma.AssetHistoryWhereInput = { assetId };
+
+    const [data, total] = await Promise.all([
+      this.prisma.assetHistory.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        include: {
+          changedBy: { select: { id: true, fullName: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.assetHistory.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
+    };
+  }
+
+  // ─── Report Damage / Lost ──────────────────────────────────
+
+  async reportDamage(assetId: string, dto: ReportDamageDto, userId: number) {
+    const asset = await this.findOne(assetId);
+
+    AssetStatusMachine.validateTransition(
+      asset.status,
+      AssetStatus.UNDER_REPAIR,
+    );
+
+    return this.prisma.$transaction(async (tx) => {
+      // Update asset status
+      await tx.asset.updateMany({
+        where: { id: assetId, version: asset.version },
+        data: {
+          status: AssetStatus.UNDER_REPAIR,
+          condition: dto.condition,
+          version: { increment: 1 },
+          updatedAt: new Date(),
+        },
+      });
+
+      // Create repair record
+      const repairCode = `RPR-${Date.now()}`;
+      const repair = await tx.repair.create({
+        data: {
+          code: repairCode,
+          assetId,
+          category: 'REPAIR',
+          condition: dto.condition,
+          issueDescription: dto.issueDescription,
+          status: 'PENDING',
+          createdById: userId,
+        },
+      });
+
+      // Create asset history
+      await tx.assetHistory.create({
+        data: {
+          assetId,
+          action: 'REPORT_DAMAGE',
+          field: 'status',
+          oldValue: asset.status,
+          newValue: AssetStatus.UNDER_REPAIR,
+          note: dto.note ?? dto.issueDescription,
+          changedById: userId,
+        },
+      });
+
+      await tx.activityLog.create({
+        data: {
+          userId,
+          action: 'UPDATE',
+          entityType: 'Asset',
+          entityId: assetId,
+          dataBefore: { status: asset.status } as any,
+          dataAfter: {
+            status: AssetStatus.UNDER_REPAIR,
+            repairId: repair.id,
+          } as any,
+        },
+      });
+
+      return repair;
+    });
+  }
+
+  async reportLost(assetId: string, dto: ReportLostDto, userId: number) {
+    const asset = await this.findOne(assetId);
+
+    AssetStatusMachine.validateTransition(asset.status, AssetStatus.LOST);
+
+    return this.prisma.$transaction(async (tx) => {
+      await tx.asset.updateMany({
+        where: { id: assetId, version: asset.version },
+        data: {
+          status: AssetStatus.LOST,
+          version: { increment: 1 },
+          updatedAt: new Date(),
+        },
+      });
+
+      const lostCode = `RPR-${Date.now()}`;
+      const repair = await tx.repair.create({
+        data: {
+          code: lostCode,
+          assetId,
+          category: 'LOST',
+          condition: 'BROKEN',
+          issueDescription: dto.issueDescription,
+          status: 'PENDING',
+          createdById: userId,
+        },
+      });
+
+      await tx.assetHistory.create({
+        data: {
+          assetId,
+          action: 'REPORT_LOST',
+          field: 'status',
+          oldValue: asset.status,
+          newValue: AssetStatus.LOST,
+          note: dto.note ?? dto.issueDescription,
+          changedById: userId,
+        },
+      });
+
+      await tx.activityLog.create({
+        data: {
+          userId,
+          action: 'UPDATE',
+          entityType: 'Asset',
+          entityId: assetId,
+          dataBefore: { status: asset.status } as any,
+          dataAfter: { status: AssetStatus.LOST, repairId: repair.id } as any,
+        },
+      });
+
+      if (asset.modelId) {
+        // Check threshold outside tx handled after return
+      }
+
+      return repair;
+    });
   }
 
   /**

@@ -48,7 +48,12 @@ export class AssetModelService {
             select: {
               id: true,
               name: true,
-              category: { select: { id: true, name: true } },
+              classification: true,
+              trackingMethod: true,
+              unitOfMeasure: true,
+              category: {
+                select: { id: true, name: true, defaultClassification: true },
+              },
             },
           },
           _count: {
@@ -73,7 +78,12 @@ export class AssetModelService {
           select: {
             id: true,
             name: true,
-            category: { select: { id: true, name: true } },
+            classification: true,
+            trackingMethod: true,
+            unitOfMeasure: true,
+            category: {
+              select: { id: true, name: true, defaultClassification: true },
+            },
           },
         },
         purchaseMasterData: true,
@@ -92,7 +102,18 @@ export class AssetModelService {
     return this.prisma.assetModel.create({
       data: dto,
       include: {
-        type: { select: { id: true, name: true } },
+        type: {
+          select: {
+            id: true,
+            name: true,
+            classification: true,
+            trackingMethod: true,
+            unitOfMeasure: true,
+            category: {
+              select: { id: true, name: true, defaultClassification: true },
+            },
+          },
+        },
       },
     });
   }
@@ -103,7 +124,18 @@ export class AssetModelService {
       where: { id },
       data: dto,
       include: {
-        type: { select: { id: true, name: true } },
+        type: {
+          select: {
+            id: true,
+            name: true,
+            classification: true,
+            trackingMethod: true,
+            unitOfMeasure: true,
+            category: {
+              select: { id: true, name: true, defaultClassification: true },
+            },
+          },
+        },
       },
     });
   }

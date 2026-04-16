@@ -36,6 +36,8 @@ model User {
   createdRequests      Request[]            @relation("RequestCreatedBy")
   stockMovements       StockMovement[]      @relation("StockMovementCreatedBy")
   stockThresholds      StockThreshold[]     @relation("StockThresholdCreatedBy")
+  assetRecordings      AssetRecording[]     @relation("RecordingRecordedBy")
+  assetHistoryChanges  AssetHistory[]       @relation("AssetHistoryChangedBy")
   division             Division?            @relation(fields: [divisionId], references: [id])
 
   @@index([role])
@@ -45,17 +47,18 @@ model User {
 }
 
 model Division {
-  id             Int      @id @default(autoincrement())
-  uuid           String   @unique @default(uuid())
-  name           String   @unique @db.VarChar(255)
-  code           String   @unique @db.VarChar(10)
+  id             Int                @id @default(autoincrement())
+  uuid           String             @unique @default(uuid())
+  name           String             @unique @db.VarChar(255)
+  code           String             @unique @db.VarChar(10)
   description    String?
-  canDoFieldwork Boolean  @default(false) @map("can_do_fieldwork")
-  isActive       Boolean  @default(true) @map("is_active")
-  isDeleted      Boolean  @default(false) @map("is_deleted")
-  createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @updatedAt @map("updated_at")
+  canDoFieldwork Boolean            @default(false) @map("can_do_fieldwork")
+  isActive       Boolean            @default(true) @map("is_active")
+  isDeleted      Boolean            @default(false) @map("is_deleted")
+  createdAt      DateTime           @default(now()) @map("created_at")
+  updatedAt      DateTime           @updatedAt @map("updated_at")
   users          User[]
+  categories     CategoryDivision[]
 
   @@map("divisions")
 }

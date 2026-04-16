@@ -1,25 +1,44 @@
 model AssetCategory {
-  id        Int         @id @default(autoincrement())
-  name      String      @unique @db.VarChar(255)
-  isDeleted Boolean     @default(false) @map("is_deleted")
-  createdAt DateTime    @default(now()) @map("created_at")
-  updatedAt DateTime    @updatedAt @map("updated_at")
-  types     AssetType[]
-  assets    Asset[]
+  id                    Int                   @id @default(autoincrement())
+  name                  String                @unique @db.VarChar(255)
+  defaultClassification AssetClassification   @default(ASSET) @map("default_classification")
+  isCustomerInstallable Boolean               @default(false) @map("is_customer_installable")
+  isProjectAsset        Boolean               @default(false) @map("is_project_asset")
+  isDeleted             Boolean               @default(false) @map("is_deleted")
+  createdAt             DateTime              @default(now()) @map("created_at")
+  updatedAt             DateTime              @updatedAt @map("updated_at")
+  types                 AssetType[]
+  assets                Asset[]
+  divisions             CategoryDivision[]
 
   @@map("asset_categories")
 }
 
+model CategoryDivision {
+  categoryId Int      @map("category_id")
+  divisionId Int      @map("division_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  category   AssetCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  division   Division      @relation(fields: [divisionId], references: [id], onDelete: Cascade)
+
+  @@id([categoryId, divisionId])
+  @@index([divisionId])
+  @@map("category_divisions")
+}
+
 model AssetType {
-  id         Int           @id @default(autoincrement())
-  categoryId Int           @map("category_id")
-  name       String        @db.VarChar(255)
-  isDeleted  Boolean       @default(false) @map("is_deleted")
-  createdAt  DateTime      @default(now()) @map("created_at")
-  updatedAt  DateTime      @updatedAt @map("updated_at")
-  models     AssetModel[]
-  category   AssetCategory @relation(fields: [categoryId], references: [id])
-  assets     Asset[]
+  id             Int                  @id @default(autoincrement())
+  categoryId     Int                  @map("category_id")
+  name           String               @db.VarChar(255)
+  classification AssetClassification? // Override parent category's defaultClassification
+  trackingMethod TrackingMethod?      @map("tracking_method") // INDIVIDUAL or BULK
+  unitOfMeasure  String?              @map("unit_of_measure") @db.VarChar(20) // meter, pcs, unit
+  isDeleted      Boolean              @default(false) @map("is_deleted")
+  createdAt      DateTime             @default(now()) @map("created_at")
+  updatedAt      DateTime             @updatedAt @map("updated_at")
+  models         AssetModel[]
+  category       AssetCategory        @relation(fields: [categoryId], references: [id])
+  assets         Asset[]
 
   @@unique([categoryId, name])
   @@index([name])
@@ -27,22 +46,24 @@ model AssetType {
 }
 
 model AssetModel {
-  id                    Int                    @id @default(autoincrement())
-  typeId                Int                    @map("type_id")
-  name                  String                 @db.VarChar(255)
-  brand                 String                 @db.VarChar(255)
-  unit                  String?                @db.VarChar(20)  // Base unit: pcs, meter, kg, liter
-  containerUnit         String?                @map("container_unit") @db.VarChar(20) // Container: box, roll, drum
-  containerSize         Decimal?               @map("container_size") @db.Decimal(15, 2) // How many base units per container
-  isDeleted             Boolean                @default(false) @map("is_deleted")
-  createdAt             DateTime               @default(now()) @map("created_at")
-  updatedAt             DateTime               @updatedAt @map("updated_at")
-  type                  AssetType              @relation(fields: [typeId], references: [id])
-  assets                Asset[]
-  installationMaterials InstallationMaterial[]
-  maintenanceMaterials  MaintenanceMaterial[]
-  purchaseMasterData    PurchaseMasterData?
-  stockThreshold        StockThreshold?
+  id                     Int                    @id @default(autoincrement())
+  typeId                 Int                    @map("type_id")
+  name                   String                 @db.VarChar(255)
+  brand                  String                 @db.VarChar(255)
+  unit                   String?                @db.VarChar(20)  // Base unit: pcs, meter, kg, liter
+  containerUnit          String?                @map("container_unit") @db.VarChar(20) // Container: box, roll, drum
+  containerSize          Decimal?               @map("container_size") @db.Decimal(15, 2) // How many base units per container
+  bulkType               BulkTrackingType?      @map("bulk_type") // COUNT or MEASUREMENT (for BULK materials)
+  isInstallationTemplate Boolean                @default(false) @map("is_installation_template")
+  isDeleted              Boolean                @default(false) @map("is_deleted")
+  createdAt              DateTime               @default(now()) @map("created_at")
+  updatedAt              DateTime               @updatedAt @map("updated_at")
+  type                   AssetType              @relation(fields: [typeId], references: [id])
+  assets                 Asset[]
+  installationMaterials  InstallationMaterial[]
+  maintenanceMaterials   MaintenanceMaterial[]
+  purchaseMasterData     PurchaseMasterData?
+  stockThreshold         StockThreshold?
 
   @@unique([typeId, name, brand])
   @@index([brand])
@@ -61,6 +82,7 @@ model Asset {
   classification       AssetClassification   @default(ASSET) // ASSET or MATERIAL
   trackingMethod       TrackingMethod?       // INDIVIDUAL, COUNT, or MEASUREMENT
   serialNumber         String?               @map("serial_number") @db.VarChar(255)
+  macAddress           String?               @map("mac_address") @db.VarChar(17) // MAC address for network assets
   quantity             Int?                  // For COUNT materials
   currentBalance       Decimal?              @map("current_balance") @db.Decimal(15, 2) // For MEASUREMENT materials
   purchasePrice        Decimal?              @map("purchase_price") @db.Decimal(15, 2)
@@ -70,18 +92,26 @@ model Asset {
   salvageValue         Decimal?              @map("salvage_value") @db.Decimal(15, 2)
   status               AssetStatus           @default(IN_STORAGE)
   condition            AssetCondition        @default(NEW)
+  location             String?               @db.VarChar(255) // Lokasi fisik aset
+  locationDetail       String?               @map("location_detail") @db.VarChar(500) // Detail lokasi
+  locationNote         String?               @map("location_note") // Catatan lokasi
+  recordingSource      RecordingSource       @default(MANUAL) @map("recording_source") // Sumber pencatatan
+  recordingId          Int?                  @map("recording_id")
   currentUserId        Int?                  @map("current_user_id")
   recordedById         Int                   @map("recorded_by_id")
   isDeleted            Boolean               @default(false) @map("is_deleted")
   version              Int                   @default(1)
+  note                 String?               // Catatan aset
   createdAt            DateTime              @default(now()) @map("created_at")
   updatedAt            DateTime              @updatedAt @map("updated_at")
   assetReturnItems     AssetReturnItem[]
   category             AssetCategory         @relation(fields: [categoryId], references: [id])
   currentUser          User?                 @relation("AssetCurrentUser", fields: [currentUserId], references: [id])
   model                AssetModel?           @relation(fields: [modelId], references: [id])
+  recording            AssetRecording?       @relation(fields: [recordingId], references: [id])
   recordedBy           User                  @relation("AssetRecordedBy", fields: [recordedById], references: [id])
   type                 AssetType?            @relation(fields: [typeId], references: [id])
+  assetHistory         AssetHistory[]
   dismantleItems       DismantleItem[]
   handoverItems        HandoverItem[]
   loanAssetAssignments LoanAssetAssignment[]
@@ -98,6 +128,7 @@ model Asset {
   @@index([code])
   @@index([isDeleted, status])
   @@index([createdAt])
+  @@index([recordingId])
   @@map("assets")
 }
 
@@ -112,4 +143,46 @@ model AssetRegistration {
 
   @@index([requestId])
   @@map("asset_registrations")
+}
+
+// Pencatatan aset — groups multiple assets in 1 recording document
+model AssetRecording {
+  id          Int      @id @default(autoincrement())
+  docNumber   String   @unique @map("doc_number") @db.VarChar(50) // REC-YYYYMMDD-XXXX
+  recordedAt  DateTime @default(now()) @map("recorded_at")
+  recordedById Int     @map("recorded_by_id")
+  note        String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  recordedBy  User     @relation("RecordingRecordedBy", fields: [recordedById], references: [id])
+  assets      Asset[]
+
+  @@index([docNumber])
+  @@index([recordedAt])
+  @@map("asset_recordings")
+}
+
+// Riwayat perubahan aset — tracks field-level changes
+model AssetHistory {
+  id          Int      @id @default(autoincrement())
+  assetId     String   @map("asset_id")
+  action      String   @db.VarChar(50) // CREATE, UPDATE, STATUS_CHANGE, LOCATION_CHANGE, etc.
+  field       String?  @db.VarChar(100) // Which field changed
+  oldValue    String?  @map("old_value") // Previous value (stringified)
+  newValue    String?  @map("new_value") // New value (stringified)
+  note        String?
+  changedById Int      @map("changed_by_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  asset       Asset    @relation(fields: [assetId], references: [id])
+  changedBy   User     @relation("AssetHistoryChangedBy", fields: [changedById], references: [id])
+
+  @@index([assetId])
+  @@index([assetId, createdAt])
+  @@index([action])
+  @@map("asset_history")
+}
+
+enum RecordingSource {
+  REQUEST
+  MANUAL
 }

@@ -22,6 +22,11 @@ export * from './enums';
  */
 export type AssetCategory = Prisma.AssetCategoryModel;
 /**
+ * Model CategoryDivision
+ *
+ */
+export type CategoryDivision = Prisma.CategoryDivisionModel;
+/**
  * Model AssetType
  *
  */
@@ -41,6 +46,16 @@ export type Asset = Prisma.AssetModel;
  *
  */
 export type AssetRegistration = Prisma.AssetRegistrationModel;
+/**
+ * Model AssetRecording
+ *
+ */
+export type AssetRecording = Prisma.AssetRecordingModel;
+/**
+ * Model AssetHistory
+ *
+ */
+export type AssetHistory = Prisma.AssetHistoryModel;
 /**
  * Model User
  *
